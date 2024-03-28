@@ -19,3 +19,15 @@
     width: calc(100% - 40px);
     margin: 10px 20px 20px 20px;
 }
+
+.container-inner > div .button-wrap {
+    padding-top: 20px;
+}
+
+.container-inner > div .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+}
+

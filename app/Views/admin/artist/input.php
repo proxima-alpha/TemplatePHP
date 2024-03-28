@@ -30,7 +30,8 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('소개') ?></p>
-                    <textarea name="description"><?= $data['introduction'] ?></textarea>
+                    <textarea name="description" onkeydown="resizeInputPopupTextarea(this)"
+                              onkeyup="resizeInputPopupTextarea(this)"><?= $data['introduction'] ?></textarea>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('프로필 이미지') ?></p>
@@ -50,10 +51,10 @@ $identifier = $shortid->generate();
                         <?php } ?>
                         <div class="upload-item-add"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                            <label for="${key}-file" class="button"></label>
-                            <input type="file" name="file" multiple id="${key}-file"
-                                   onchange="onFileUpload(this, 'artist_profile', 'artist_profile', 'image', generateOnDragFinished('artist_profile'));"
-                                   accept="${accept}"/>
+                            <label for="artist_profile-file" class="button"></label>
+                            <input type="file" name="file" multiple id="artist_profile-file"
+                                   onchange="onFileUpload(this, 'artist_profile', 'artist_profile', 'image',  generateOnFileUploaded('artist_profile'));"
+                                   accept="video/*;image/png;image/jpg"/>
                         </div>
                     </div>
                 </div>

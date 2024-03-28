@@ -536,19 +536,3 @@ function confirmInputPopupDelete(key, id) {
         error: getErrorCallback(className),
     });
 }
-
-/**
- * textarea 자동 높이 조절 기능
- * @param obj
- */
-function resizeInputPopupTextarea(obj) {
-    //todo check in mobile
-    let maxHeight = 80;
-    if (obj.innerHeight < maxHeight) {
-        obj.style.height = "1px";
-        let height = 5 + obj.scrollHeight;
-        obj.style.height = `${height}px`;
-    } else {
-        obj.style.height = `${maxHeight}px`;
-    }
-}

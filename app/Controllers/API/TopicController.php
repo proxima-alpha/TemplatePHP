@@ -2,6 +2,7 @@
 
 namespace API;
 
+use App\Helpers\QueryHelper;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
@@ -83,8 +84,7 @@ class TopicController extends CustomFileController
                     $queries = [];
                     foreach ($data['files'] as $index => $file_id) {
                         // 이미지에 topic_id 할당하면서 priority 를 설정 해 준다
-                        $queries[] = "UPDATE custom_file SET identifier = NULL, topic_id = '" . $inserted_row_id . "', priority = " . $index + 1
-                            . " WHERE id = '" . $file_id . "' AND identifier = '" . $data['identifier'] . "'";
+                        $queries[] = QueryHelper::getFileAllocation($file_id, $data['identifier'], 'topic_id', $inserted_row_id, $index);
                     }
                     BaseModel::transaction($this->db, $queries);
 

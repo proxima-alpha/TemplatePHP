@@ -1,25 +1,25 @@
-.topic-wrap input, .topic-wrap textarea {
+.container-inner > div input, .container-inner > div textarea {
     border: none;
     width: 100%;
     margin: 0;
 }
 
-.topic-wrap .row .column.title {
+.container-inner > div .row .column.title {
     width: 100%;
 }
 
-.topic-wrap .text-wrap .content {
+.container-inner > div .text-wrap .content {
     min-height: 400px;
     padding: 20px;
     font-size: 18px;
     font-weight: 200;
 }
 
-.topic-wrap .button-wrap {
+.container-inner > div .button-wrap {
     padding-top: 20px;
 }
 
-.topic-wrap .button-wrap .button {
+.container-inner > div .button-wrap .button {
     min-width: 100px;
     padding: 10px 20px;
     margin: 0 10px;

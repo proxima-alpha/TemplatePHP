@@ -99,6 +99,22 @@ function parseInputToData($inputs) {
     return data;
 }
 
+/**
+ * textarea 자동 높이 조절 기능
+ * @param obj
+ */
+function resizeInputPopupTextarea(obj) {
+    //todo check in mobile
+    let maxHeight = 80;
+    if ((obj.innerHeight === undefined && obj.scrollHeight >= maxHeight) || obj.innerHeight < maxHeight) {
+        obj.style.height = "1px";
+        let height = 5 + obj.scrollHeight;
+        obj.style.height = `${height}px`;
+    } else {
+        obj.style.height = `${maxHeight}px`;
+    }
+}
+
 let isRequestRunning = false;
 
 async function apiRequest(input) {
@@ -250,14 +266,10 @@ async function loadStyleFile(path, selector) {
  */
 function logout() {
     apiRequest({
-        type: 'POST',
-        url: `/api/user/logout`,
-        dataType: 'json',
-        success: function (response, status, request) {
+        type: 'POST', url: `/api/user/logout`, dataType: 'json', success: function (response, status, request) {
             if (!response.success) return;
             location.reload();
-        },
-        error: function (response, status, error) {
+        }, error: function (response, status, error) {
         },
     });
 }
@@ -281,8 +293,7 @@ function clickClientNavigation(element, link) {
     }
     let $lnb = $(element).parent().find('.lnb');
 
-    if (element.classList.contains('gnb-menu') &&
-        $lnb.length > 0 && $lnb.children().length > 0) {
+    if (element.classList.contains('gnb-menu') && $lnb.length > 0 && $lnb.children().length > 0) {
         if ($lnb.hasClass('opened')) {
             $lnb.removeClass('opened');
         } else {

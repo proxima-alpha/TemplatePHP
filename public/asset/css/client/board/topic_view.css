@@ -2,33 +2,33 @@
     padding-bottom: 60px;
 }
 
-.topic-wrap .row.link {
+.container-inner > div .row.link {
     width: 100%;
     padding: 0 5px;
 }
 
-.topic-wrap .row.link a {
+.container-inner > div .row.link a {
     height: 30px;
     line-height: 30px;
     vertical-align: middle;
 }
 
-.topic-wrap .row.user a * {
+.container-inner > div .row.user a * {
     font-size: 18px;
     vertical-align: middle;
 }
 
-.topic-wrap .row .column.title {
+.container-inner > div .row .column.title {
     width: calc(100% - 180px);
 }
 
-.topic-wrap .row .column.created-at {
+.container-inner > div .row .column.created-at {
     width: 180px;
     font-size: 16px;
     text-align: right;
 }
 
-.topic-wrap .text-wrap .content {
+.container-inner > div .text-wrap .content {
     min-height: 250px;
     padding: 20px;
     font-size: 18px;
@@ -36,7 +36,7 @@
     white-space: pre-wrap;
 }
 
-.topic-wrap .control-button-wrap {
+.container-inner > div .control-button-wrap {
     line-height: 20px;
     position: absolute;
     bottom: 10px;
