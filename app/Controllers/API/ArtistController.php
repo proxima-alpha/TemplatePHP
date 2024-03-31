@@ -9,13 +9,14 @@ use Models\ArtistModel;
 use Models\BaseModel;
 use Models\CodeArtistModel;
 
-class ArtistController extends BaseApiController
+class ArtistController extends CustomFileController
 {
     protected CodeArtistModel $codeArtistModel;
     protected ArtistModel $artistModel;
 
     public function __construct()
     {
+        $this->db = db_connect();
         $this->codeArtistModel = model('Models\CodeArtistModel');
         $this->artistModel = model('Models\ArtistModel');
     }
@@ -71,7 +72,9 @@ class ArtistController extends BaseApiController
                     $queries = [];
                     foreach ($data['files'] as $index => $file_id) {
                         $queries[] = QueryHelper::getFileAllocation($file_id, $data['identifier'], 'artist_id', $inserted_row_id, $index);
-
+                    }
+                    foreach ($data['profile_id'] as $index => $file_id) {
+                        $queries[] = QueryHelper::getFileAllocation($file_id, $data['identifier'], 'artist_id', $inserted_row_id, $index);
                     }
                     BaseModel::transaction($this->db, $queries);
 

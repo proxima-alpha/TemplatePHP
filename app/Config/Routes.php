@@ -90,9 +90,9 @@ $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
  * API Routes
  */
 $targets = 'topic|event|main|main_relation|event|user_profile|artist_profile|artist_preview';
-$routes->post('/api/file/(' . $targets . ')/(image|video)/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
-$routes->post('/api/file/(' . $targets . '|all)/(image|video|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
-$routes->post('/api/file/(' . $targets . ')/(image|video)/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
+$routes->post('/api/file/(' . $targets . ')/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
+$routes->post('/api/file/(' . $targets . '|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
+$routes->post('/api/file/(' . $targets . ')/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/([0-9]+)', [\API\CustomFileController::class, 'deleteFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);

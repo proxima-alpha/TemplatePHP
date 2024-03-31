@@ -35,7 +35,7 @@ let files = {
     },
 };
 
-function deleteImageFile(id, key = 'topic', callback) {
+function deleteUploadedSlickFile(id, key = 'topic', callback) {
     let index = files.get(key).indexOf(id);
     if (index < 0) return;
     if (callback && typeof callback === 'function') {
@@ -58,12 +58,28 @@ function deleteImageFile(id, key = 'topic', callback) {
     // });
 }
 
+function deleteUploadedImageFile(target, id, accept) {
+    let index = files.get(target).indexOf(id);
+    console.log(accept)
+    if (index < 0) return;
+    files.splice(target, index);
+
+    let $container = $(`.uploader.${target}`);
+    $container.empty();
+    $container.append(`
+    <div class="upload-item-add"
+         style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
+        <label for="${target}-file" class="button"></label>
+        <input type="file" name="file" multiple id="${target}-file"
+               onchange="onFileUpload(this, '${target}');"
+               accept="${accept}"/>
+    </div>`);
+}
+
 //todo make callback
 function onFileUpload(
     element,
-    uploader_key = 'topic',
     target = 'topic',
-    type = 'image',
     callback) {
     if (element.files.length == 0) return;
     let form = new FormData();
@@ -73,14 +89,13 @@ function onFileUpload(
     }
 
     const identifier = default_identifier;
-    files.setIdentifier(uploader_key, identifier);
+    files.setIdentifier(target, identifier);
 
-    form.append('uploader_key', uploader_key);
     form.append('target', target)
 
     apiRequest({
         type: 'POST',
-        url: `/api/file/${target}/${type}/upload/${identifier}`,
+        url: `/api/file/${target}/upload/${identifier}`,
         data: form,
         processData: false,
         contentType: false,
@@ -94,31 +109,46 @@ function onFileUpload(
             let data = response.data;
             let file_id = data.id;
             let mime_type = data.mime_type;
+            let type = data.type;
 
-            files.push(uploader_key, file_id.toString());
+            files.push(target, file_id.toString());
 
             if (callback && typeof callback == 'function') {
                 callback(target, type, file_id.toString(), mime_type);
             } else {
-                if (type == 'image') {
-                    let $slick = $('.slick.uploader');
-                    let index = $slick.attr('total') - 1;
-                    $slick.addCustomSlickItem(index,
+                let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
+                let option = type == 'video' ? `background-size: cover;` : `background-size: contain;`
+                let $uploader = $(`.uploader.${target}`);
+
+                if ($uploader.attr('class').includes('slick')) {
+                    let index = $uploader.attr('total') - 1;
+                    $uploader.addCustomSlickItem(index,
                         `<div class="slick-item draggable-item upload-item" draggable="true"
-                         style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
+                        style="background: url('${file_url}') no-repeat center;font-size: 0;${option}">
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
-                            <a href="javascript:deleteImageFile('${file_id}')"
+                            <a href="javascript:deleteUploadedSlickFile('${file_id}', '${target}')"
                                class="button delete-image black">
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>
                         </div>
                     </div>`);
 
-                    $slick.initDraggable({
-                        onDragFinished: generateOnDragFinished(uploader_key),
+                    $uploader.initDraggable({
+                        onDragFinished: generateOnDragFinished(target),
                     });
+                } else {
+                    $uploader.empty();
+                    $uploader.append(`
+                    <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0;${option}">
+                        <div class="upload-item-hover">
+                            <a href="javascript:deleteUploadedImageFile('${target}', '${file_id}', 'image/png,image/jpg')"
+                               class="button delete-image black">
+                                <img src="/asset/images/icon/cancel_white.png"/>
+                            </a>
+                        </div>
+                    </div>`);
                 }
             }
             // reset input file
@@ -134,11 +164,11 @@ function onFileUpload(
     });
 }
 
-function dropEditingFiles(target = 'topic', type = 'image', callback) {
+function dropEditingFiles(target = 'topic', callback) {
     if (isEmpty(default_identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/file/${target}/${type}/refresh/${default_identifier}`,
+        url: `/api/file/${target}/refresh/${default_identifier}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
@@ -153,14 +183,14 @@ function dropEditingFiles(target = 'topic', type = 'image', callback) {
     });
 }
 
-function confirmEditFiles(uploader_key, target = 'topic', type = 'image', callback) {
-    const identifier = files.getIdentifier(uploader_key);
+function confirmEditFiles(target = 'topic', callback) {
+    const identifier = files.getIdentifier(target);
     if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/file/${target}/${type}/confirm/${identifier}`,
+        url: `/api/file/${target}/confirm/${identifier}`,
         data: {
-            files: files.get(uploader_key),
+            files: files.get(target),
         },
         dataType: 'json',
         success: function (response, status, request) {
@@ -176,7 +206,7 @@ function confirmEditFiles(uploader_key, target = 'topic', type = 'image', callba
     });
 }
 
-function generateOnDragFinished(uploader_key) {
+function generateOnDragFinished(target) {
     return async (from, to) => {
         function getInputValue(parent) {
             let elements = parent.getElementsByTagName('input');
@@ -191,14 +221,14 @@ function generateOnDragFinished(uploader_key) {
             return false;
         }
 
-        let fromIndex = files.get(uploader_key).indexOf(fromId);
-        let toIndex = files.get(uploader_key).indexOf(toId);
+        let fromIndex = files.get(target).indexOf(fromId);
+        let toIndex = files.get(target).indexOf(toId);
         if (fromIndex < 0 || toIndex < 0) {
             throw Error("can't find id value in temporary stored array");
             return false;
         }
-        files.set(uploader_key, fromIndex, toId);
-        files.set(uploader_key, toIndex, fromId);
+        files.set(target, fromIndex, toId);
+        files.set(target, toIndex, fromId);
 
         let temp = from.style.background;
         from.style.background = to.style.background;
@@ -238,5 +268,5 @@ function generateOnDragFinished(uploader_key) {
 // };
 
 window.onbeforeunload = function () {
-    dropEditingFiles('all', 'all')
+    dropEditingFiles('all')
 }

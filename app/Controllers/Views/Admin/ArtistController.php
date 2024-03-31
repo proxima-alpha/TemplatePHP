@@ -6,7 +6,6 @@ use App\Helpers\Utils;
 use Exception;
 use Models\ArtistModel;
 use Models\CodeArtistModel;
-use Models\UserModel;
 
 class ArtistController extends BaseAdminController
 {
@@ -31,8 +30,6 @@ class ArtistController extends BaseAdminController
         $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
-            $codes = $this->codeArtistModel->get();
-            $data['codes'] = $codes;
             $result = $this->artistModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
@@ -56,6 +53,7 @@ class ArtistController extends BaseAdminController
             . view('/admin/artist/table', $data)
             . parent::loadFooter();
     }
+
     /**
      * /admin/artist/create
      * @return string
@@ -64,6 +62,8 @@ class ArtistController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
+            $codes = $this->codeArtistModel->get();
+            $data['code_artists'] = $codes;
             $data = array_merge($data, [
                 'type' => 'create'
             ]);

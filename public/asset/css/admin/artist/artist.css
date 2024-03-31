@@ -1,5 +1,5 @@
-.uploader.profile .upload-item-add,
-.uploader.profile .upload-item {
+.uploader.artist_profile .upload-item-add,
+.uploader.artist_profile .upload-item {
     width: 200px;
     height: 200px;
     line-height: 200px;
@@ -29,5 +29,9 @@
     padding: 10px 20px;
     margin: 0 10px;
     font-size: 18px;
+}
+
+.form-wrap .input-wrap.inline .input-title {
+    width: auto;
 }
 

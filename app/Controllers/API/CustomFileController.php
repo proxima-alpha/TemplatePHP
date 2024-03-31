@@ -30,28 +30,19 @@ class CustomFileController extends BaseApiController
      * @param null $identifier
      * @return ResponseInterface
      */
-    public function uploadFile($target, $type, $identifier = null): ResponseInterface
+    public function uploadFile($target, $identifier = null): ResponseInterface
     {
         $body = $this->request->getPost();
         $response = [
             'success' => false,
         ];
         try {
-            $validationRules = match ($type) {
-                'image' => $this->validate([
-                    'file' => [
-                        'uploaded[file]',
-                        'mime_in[file,image/png,image/jpg,image/jpeg,image/gif]',
-                        'max_size[file,4096]',
-                    ],
-                ]),
-                default => $this->validate([
-                    'file' => [
-                        'uploaded[file]',
-                        'max_size[file,102400]',
-                    ],
-                ]),
-            };
+            $validationRules = $this->validate([
+                'file' => [
+                    'uploaded[file]',
+                    'max_size[file,102400]',
+                ],
+            ]);
             if ($validationRules) {
                 $shortid = ShortId::create();
                 $file = $this->request->getFile('file');
@@ -64,15 +55,12 @@ class CustomFileController extends BaseApiController
                 if (!isset($mime_type)) {
                     throw new Exception($file->getErrorString() . '(' . $file->getError() . ')');
                 }
-                $uploadedType;
+                $uploadedType = null;
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
                 } else if (str_starts_with($mime_type, 'video')) {
                     $uploadedType = 'video';
                 } else {
-                    throw new Exception("not allowed mime type");
-                }
-                if ($type != $uploadedType) {
                     throw new Exception("not allowed mime type");
                 }
                 $symbolic_path = 'uploads/images/' . date("Y-m-d") . '/' . $shortid->generate();
@@ -109,7 +97,7 @@ class CustomFileController extends BaseApiController
 //                // saving data as blob have data loss
 //                $data = file_get_contents($file->getPath() . "/" . $file->getFilename());
                 $data = [
-                    'type' => $type,
+                    'type' => $uploadedType,
                     'file_name' => $file_name,
                     'thumb_file_name' => $thumb_file_name,
                     'width' => $width,
@@ -130,7 +118,7 @@ class CustomFileController extends BaseApiController
                     $response['data'] = [
                         'id' => $inserted_row_id,
                         'mime_type' => $mime_type,
-                        'uploader_key' => $body['uploader_key'] ?? null
+                        'type' => $uploadedType,
                     ];
                 }
             } else {
@@ -180,7 +168,7 @@ class CustomFileController extends BaseApiController
      * @param $identifier
      * @return ResponseInterface
      */
-    public function refreshFile($target, $type, $identifier): ResponseInterface
+    public function refreshFile($target, $identifier): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -189,10 +177,6 @@ class CustomFileController extends BaseApiController
             if (strlen($identifier) == 0) throw new Exception('wrong path parameter');
             $conditionQuery = "";
             $conditionPrefix = "";
-            if ($type != 'all') {
-                $conditionQuery .= "type = '" . $type . "'";
-                $conditionPrefix = " AND ";
-            }
             if ($target != 'all') {
                 $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
                 $conditionPrefix = " AND ";
@@ -227,7 +211,7 @@ class CustomFileController extends BaseApiController
      * @param $identifier
      * @return ResponseInterface
      */
-    public function confirmFile($target, $type, $identifier): ResponseInterface
+    public function confirmFile($target, $identifier): ResponseInterface
     {
         $data = $this->request->getPost();
         if (!isset($data['files'])) {
@@ -245,10 +229,6 @@ class CustomFileController extends BaseApiController
                 // 이미지에 priority 를 설정 해 준다
                 $conditionQuery = "";
                 $conditionPrefix = "";
-                if ($type != 'all') {
-                    $conditionQuery .= "type = '" . $type . "'";
-                    $conditionPrefix = " AND ";
-                }
                 if ($target != 'all') {
                     $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
                     $conditionPrefix = " AND ";
@@ -262,10 +242,6 @@ class CustomFileController extends BaseApiController
 
             $conditionQuery = "";
             $conditionPrefix = "";
-            if ($type != 'all') {
-                $conditionQuery .= "type = '" . $type . "'";
-                $conditionPrefix = " AND ";
-            }
             if ($target != 'all') {
                 $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
                 $conditionPrefix = " AND ";

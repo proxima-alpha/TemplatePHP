@@ -4,7 +4,9 @@
     font-size: 0;
 }
 
-.form-wrap .input-wrap *:not(.info-text-wrap) {
+.form-wrap .input-wrap p:not(.info-text-wrap),
+.form-wrap .input-wrap input:not(.info-text-wrap),
+.form-wrap .input-wrap textarea:not(.info-text-wrap) {
     display: block;
     line-height: 30px;
     font-size: 18px;
@@ -35,7 +37,11 @@
     color: #000;
 }
 
-.form-wrap .input-wrap.inline * {
+.form-wrap .input-wrap.inline {
+    display: block;
+}
+
+body .form-wrap .input-wrap.inline * {
     vertical-align: top;
     display: inline-block;
 }

@@ -69,26 +69,22 @@ function cancelSettingFileEdit(key) {
 
 function confirmSettingFileEdit(key) {
     let target;
-    let type;
     switch (key) {
         case 'favicon':
         case 'open_graph':
         case 'logo':
         case 'footer_logo':
             target = key
-            type = 'image';
             break;
         case 'main_video':
             target = 'main'
-            type = 'video';
             break;
         case 'main_image':
             target = 'main'
-            type = 'image';
             break;
     }
-    if (isEmpty(target) || isEmpty(type)) return;
-    confirmEditFiles(key, target, type, function () {
+    if (isEmpty(target)) return;
+    confirmEditFiles(key, target, function () {
         apiRequest({
             type: 'GET',
             url: `/api/graphic-setting/get/all`,
@@ -169,7 +165,7 @@ function deleteSettingFile(key, id) {
          style="background: url('${icon_url}') no-repeat center; font-size: 0;">
         <label for="${key}-file" class="button"></label>
         <input type="file" name="file" multiple id="${key}-file"
-               onchange="onFileUpload(this, '${key}', '${target}', '${type}', generateOnSettingFileUploaded('${key}'));"
+               onchange="onFileUpload(this, '${key}', '${target}', generateOnSettingFileUploaded('${key}'));"
                accept="${accept}"/>
     </div>`);
 }
@@ -216,7 +212,7 @@ function refreshSettingFile() {
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
-                            <a href="javascript:deleteImageFile('${file_id}', 'main_image')"
+                            <a href="javascript:deleteUploadedSlickFile('${file_id}', 'main_image')"
                                class="button delete-image black">
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>

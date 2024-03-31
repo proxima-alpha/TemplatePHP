@@ -41,7 +41,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="slider-box">
                 <div class="slider-wrap">
-                    <div class="slick uploader">
+                    <div class="slick uploader topic">
                         <?php if (isset($data['files'])) {
                             foreach ($data['files'] as $index => $file) { ?>
                                 <div class="slick-item draggable-item upload-item" draggable="true"
@@ -49,7 +49,7 @@ $identifier = $shortid->generate();
                                     Slider #<?= $file['id'] ?>
                                     <input hidden type="text" name="id" value="<?= $file['id'] ?>">
                                     <div class="upload-item-hover">
-                                        <a href="javascript:deleteImageFile('<?= $file['id'] ?>')"
+                                        <a href="javascript:deleteUploadedSlickFile('<?= $file['id'] ?>')"
                                            class="button delete-image black">
                                             <img src="/asset/images/icon/cancel_white.png"/>
                                         </a>
@@ -62,7 +62,7 @@ $identifier = $shortid->generate();
                             <label for="file" class="button"></label>
                             <input type="file" name="file" multiple id="file"
                                    onchange="onFileUpload(this);"
-                                   accept="image/*"/>
+                                   accept="video/*,image/png,image/jpg"/>
                         </div>
                     </div>
                 </div>
