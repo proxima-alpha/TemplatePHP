@@ -78,9 +78,9 @@ class BoardController extends BaseClientController
         } else if ($board['type'] == 'table') {
             $css = [
                 '/common/table',
-                '/client/board/table',
+                '/client/topic/table',
             ];
-            $view = '/client/board/table';
+            $view = '/client/topic/table';
         }
         return parent::loadHeader([
                 'css' => $css,
@@ -125,9 +125,9 @@ class BoardController extends BaseClientController
         }
         return parent::loadHeader([
                 'css' => [
-                    '/client/board/topic',
+                    '/client/topic/common',
                     '/common/uploader_slider_box',
-                    '/client/board/topic_view',
+                    '/client/topic/view',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -137,7 +137,7 @@ class BoardController extends BaseClientController
                     '/common/topic_view',
                 ],
             ])
-            . view('/client/board/topic_view', $data)
+            . view('/client/topic/view', $data)
             . parent::loadFooter();
     }
 
@@ -172,8 +172,8 @@ class BoardController extends BaseClientController
                 'css' => [
                     '/common/uploader',
                     '/common/uploader_slider_box',
-                    '/client/board/topic',
-                    '/client/board/topic_input',
+                    '/client/topic/common',
+                    '/client/topic/input',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -183,7 +183,7 @@ class BoardController extends BaseClientController
                     '/common/topic',
                 ],
             ])
-            . view('/client/board/topic_input', $data)
+            . view('/client/topic/input', $data)
             . parent::loadFooter();
     }
 
@@ -214,8 +214,8 @@ class BoardController extends BaseClientController
                 'css' => [
                     '/common/uploader',
                     '/common/uploader_slider_box',
-                    '/client/board/topic',
-                    '/client/board/topic_input',
+                    '/client/topic/common',
+                    '/client/topic/input',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -225,7 +225,7 @@ class BoardController extends BaseClientController
                     '/common/topic',
                 ],
             ])
-            . view('/client/board/topic_input', $data)
+            . view('/client/topic/input', $data)
             . parent::loadFooter();
     }
 

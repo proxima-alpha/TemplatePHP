@@ -20,30 +20,14 @@
                 <?php if (isset($data['profile_id'])) { ?>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('프로필 이미지') ?></p>
-                        <div class="uploader artist_profile">
-                            <div class="upload-item button"
-                                 style="background: url('/file/<?= $data['profile_id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
-                                 onclick="openImagePopup(<?= $data['profile_id'] ?>)">
-                                Slider #<?= $data['profile_id'] ?>
-                            </div>
-                        </div>
+                        <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null, 'view') ?>
                     </div>
                 <?php } ?>
             </div>
             <?php if (isset($data['files']) && sizeof($data['files']) > 0) { ?>
                 <div class="slider-box">
                     <p class="title"><?= lang('샘플 영상') ?></p>
-                    <div class="slider-wrap">
-                        <div class="slick">
-                            <?php foreach ($data['files'] as $index => $file) { ?>
-                                <div class="slick-item button"
-                                     style="background: url('<?=$file['type'] == 'image' ? '/file/'.$file['id'] : '/file/'.$file['id'].'/thumbnail'?>') no-repeat center; background-size: cover; font-size: 0;"
-                                     onclick="openImagePopup(<?= $file['id'] ?>, '<?=$file['type']?>', '<?=$file['mime_type']?>')">
-                                    Slider #<?= $file['id'] ?>
-                                </div>
-                            <?php } ?>
-                        </div>
-                    </div>
+                    <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['files'] ?? null, 'view') ?>
                 </div>
             <?php }
             if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>

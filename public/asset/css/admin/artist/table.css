@@ -1,43 +1,11 @@
-
-.table-wrap .column.username {
+.table-wrap .column.code {
     width: 20%;
 }
-
-.table-wrap .column.type {
-    width: 15%;
-}
-
 .table-wrap .column.name {
-    width: 15%;
-}
-
-.table-wrap .column.email {
-    width: 30%;
+    width: 40%;
 }
 
 .table-wrap .column.created-at {
-    width: 20%;
+    width: 40%;
     text-align: right;
-}
-
-@media (max-width: 840px) {
-    .table-wrap .column.type {
-        width: 20%;
-    }
-
-    .table-wrap .column.username {
-        width: 40%;
-    }
-
-    .table-wrap .column.name {
-        width: 40%;
-    }
-
-    .table-wrap .column.email {
-        display: none;
-    }
-
-    .table-wrap .column.created-at {
-        display: none;
-    }
 }

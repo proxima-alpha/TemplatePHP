@@ -88,7 +88,6 @@ class SettingController extends BaseAdminController
                     '/common/table',
                     '/common/table_combination',
                     '/admin/setting',
-                    '/admin/code_reward_request',
                 ],
                 'js' => [
                     '/admin/popup_input',

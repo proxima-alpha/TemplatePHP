@@ -78,7 +78,7 @@ class ArtistController extends BaseAdminController
                 'css' => [
                     '/common/uploader_slider_box',
                     '/common/input',
-                    '/admin/artist/artist',
+                    '/admin/artist/common',
                     '/admin/artist/view',
                 ],
                 'js' => [
@@ -116,7 +116,7 @@ class ArtistController extends BaseAdminController
                     '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/input',
-                    '/admin/artist/artist',
+                    '/admin/artist/common',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -152,7 +152,7 @@ class ArtistController extends BaseAdminController
                     '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/input',
-                    '/admin/artist/artist',
+                    '/admin/artist/common',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',

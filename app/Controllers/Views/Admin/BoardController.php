@@ -103,10 +103,10 @@ class BoardController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
-                    '/admin/board/table',
+                    '/admin/topic/table',
                 ],
             ])
-            . view('/admin/board/table', $data)
+            . view('/admin/topic/table', $data)
             . parent::loadFooter();
     }
 
@@ -147,8 +147,8 @@ class BoardController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/uploader_slider_box',
-                    '/admin/board/topic',
-                    '/admin/board/topic_view',
+                    '/admin/topic/common',
+                    '/admin/topic/view',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -158,7 +158,7 @@ class BoardController extends BaseAdminController
                     '/common/topic_view',
                 ],
             ])
-            . view('/admin/board/topic_view', $data)
+            . view('/admin/topic/view', $data)
             . parent::loadFooter();
     }
 
@@ -193,8 +193,8 @@ class BoardController extends BaseAdminController
                 'css' => [
                     '/common/uploader',
                     '/common/uploader_slider_box',
-                    '/admin/board/topic',
-                    '/admin/board/topic_input',
+                    '/admin/topic/common',
+                    '/admin/topic/input',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -204,7 +204,7 @@ class BoardController extends BaseAdminController
                     '/common/topic',
                 ],
             ])
-            . view('/admin/board/topic_input', $data)
+            . view('/admin/topic/input', $data)
             . parent::loadFooter();
     }
 
@@ -235,8 +235,8 @@ class BoardController extends BaseAdminController
                 'css' => [
                     '/common/uploader',
                     '/common/uploader_slider_box',
-                    '/admin/board/topic',
-                    '/admin/board/topic_input',
+                    '/admin/topic/common',
+                    '/admin/topic/input',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -246,7 +246,7 @@ class BoardController extends BaseAdminController
                     '/common/topic',
                 ],
             ])
-            . view('/admin/board/topic_input', $data)
+            . view('/admin/topic/input', $data)
             . parent::loadFooter();
     }
 

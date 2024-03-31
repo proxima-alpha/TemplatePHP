@@ -1,7 +1,7 @@
 <?php
 
 ?>
-<div class="container-inner">
+<div class="container-inner code-artist">
     <div class="container-wrap">
         <h4 class="page-sub-title">
             <?= lang('아티스트 분류 설정') ?>

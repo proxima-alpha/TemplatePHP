@@ -40,32 +40,7 @@ $identifier = $shortid->generate();
                 <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>
             <div class="slider-box">
-                <div class="slider-wrap">
-                    <div class="slick uploader topic">
-                        <?php if (isset($data['files'])) {
-                            foreach ($data['files'] as $index => $file) { ?>
-                                <div class="slick-item draggable-item upload-item" draggable="true"
-                                     style="background: url('/file/<?= $file['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                    Slider #<?= $file['id'] ?>
-                                    <input hidden type="text" name="id" value="<?= $file['id'] ?>">
-                                    <div class="upload-item-hover">
-                                        <a href="javascript:deleteUploadedSlickFile('<?= $file['id'] ?>')"
-                                           class="button delete-image black">
-                                            <img src="/asset/images/icon/cancel_white.png"/>
-                                        </a>
-                                    </div>
-                                </div>
-                            <?php }
-                        } ?>
-                        <div class="slick-item upload-item-add"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                            <label for="file" class="button"></label>
-                            <input type="file" name="file" multiple id="file"
-                                   onchange="onFileUpload(this);"
-                                   accept="video/*,image/png,image/jpg"/>
-                        </div>
-                    </div>
-                </div>
+                <?= \App\Helpers\HtmlHelper::getSlickUploader('topic', $data['files'] ?? null) ?>
             </div>
             <div class="info-text-wrap">
                 <?= lang('Service.message_info_drag') ?>

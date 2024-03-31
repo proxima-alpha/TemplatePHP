@@ -18,17 +18,7 @@
                 <div class="content"><?= $data['content'] ?></div>
             </div>
             <div class="slider-box">
-                <div class="slider-wrap">
-                    <div class="slick">
-                        <?php foreach ($data['files'] as $index => $file) { ?>
-                            <div class="slick-item button"
-                                 style="background: url('/file/<?= $file['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
-                                 onclick="openImagePopup(<?= $file['id'] ?>)">
-                                Slider #<?= $file['id'] ?>
-                            </div>
-                        <?php } ?>
-                    </div>
-                </div>
+                <?= \App\Helpers\HtmlHelper::getSlickUploader('topic', $data['files'] ?? null, 'view') ?>
             </div>
             <?php if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>
                 <div class="control-button-wrap">

@@ -124,9 +124,9 @@ final class HtmlHelper
             $prefix = '';
             foreach ($params as $key => $value) {
                 if ($key == $pagination_key) {
-                    $param_string .= $prefix. $key . "=" . $number;
+                    $param_string .= $prefix . $key . "=" . $number;
                 } else {
-                    $param_string .= $prefix. $key . "=" . $value;
+                    $param_string .= $prefix . $key . "=" . $value;
                 }
                 $prefix = "&";
             }
@@ -134,5 +134,102 @@ final class HtmlHelper
         } else {
             return $pagination_link . "/" . $number;
         }
+    }
+
+    public static function getImageUploader($key, $file_id, $view_mode = 'input'): string
+    {
+        $html = '<div class="uploader ' . $key . '">';
+        if ($view_mode == 'input') {
+            if (isset($file_id)) {
+                $html .=
+                    '<div class="upload-item"
+                         style="background: url(\'/file/' . $file_id . '\') no-repeat center;font-size: 0;background-size: cover;">
+                        <div class="upload-item-hover">
+                            <a href="javascript:deleteUploadedImageFile(\'' . $key . '\',\'' . $file_id . '\',\'image/png,image/jpg\')"
+                               class="button delete-image black">
+                                <img src="/asset/images/icon/cancel_white.png"/>
+                            </a>
+                        </div>
+                    </div>';
+            } else {
+                $html .=
+                    '<div class="upload-item-add"
+                         style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
+                        <label for="artist_profile-file" class="button"></label>
+                        <input type="file" name="file" multiple id="artist_profile-file"
+                               onchange="onFileUpload(this, \'' . $key . '\');"
+                               accept="image/png,image/jpg"/>
+                    </div>';
+            }
+        } else {
+            if (isset($file_id)) {
+                $html .=
+                    '<div class="upload-item button"
+                        style="background: url(\'/file/' . $file_id . '\') no-repeat center;font-size: 0;background-size: cover;"
+                        onclick="openImagePopup(\'' . $file_id . '\')">
+                        Slider #' . $file_id . '
+                    </div>';
+            } else {
+                return '';
+            }
+        }
+        $html .= '</div>';
+        return $html;
+    }
+
+    public static function getSlickUploader($key, $files, $view_mode = 'input'): string
+    {
+        $html = '';
+        if ($view_mode == 'input') {
+            $html .= '<div class="slider-wrap">
+                    <div class="slick uploader ' . $key . '">';
+            if (isset($files)) {
+                foreach ($files as $index => $file) {
+                    $url = $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail';
+                    $html .=
+                        '<div class="slick-item draggable-item upload-item" draggable="true"
+                            style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;">
+                            Slider #' . $file['id'] . '
+                            <input hidden type="text" name="id" value="' . $file['id'] . '">
+                            <div class="upload-item-hover">
+                                <a href="javascript:deleteUploadedSlickFile(' . $file['id'] . ', \'' . $key . '\')"
+                                   class="button delete-image black">
+                                    <img src="/asset/images/icon/cancel_white.png"/>
+                                </a>
+                            </div>
+                        </div>';
+                }
+            }
+            $html .=
+                '<div class="slick-item upload-item-add"
+                     style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
+                    <label for="artist_preview-file" class="button"></label>
+                    <input type="file" name="file" multiple id="artist_preview-file"
+                           onchange="onFileUpload(this, \'' . $key . '\');"
+                           accept="video/*,image/png,image/jpg"/>
+                </div>';
+            $html .=
+                '</div>
+            </div>';
+        } else {
+            $html .=
+                '<div class="slider-wrap">
+                        <div class="slick">';
+            if (isset($files)) {
+                foreach ($files as $index => $file) {
+                    $url = $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail';
+                    $html .=
+                        '<div class="slick-item button"
+                            style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
+                            onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                            Slider # ' . $file['id'] . ' 
+                        </div>';
+                }
+            }
+        $html .=
+            '</div>
+        </div>';
+        }
+        return $html;
     }
 }

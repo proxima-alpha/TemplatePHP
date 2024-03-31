@@ -41,3 +41,12 @@
 .form-wrap .input-wrap.inline .input-title {
     width: auto;
 }
+
+@media (max-width: 840px) {
+    .form-wrap .input-wrap {
+        padding: 0 15px;
+    }
+    .slider-box .title {
+        margin-left: 15px;
+    }
+}

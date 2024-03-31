@@ -1,25 +1,65 @@
-.setting .table-wrap .column.code {
+.setting .column.code {
     width: 20%;
 }
 
-.setting .table-wrap .column.name {
+.setting .column.name {
     width: 30%;
 }
 
-.setting .table-wrap .column.value {
+.setting .column.value {
     width: 50%;
 }
 
+.setting .column.code {
+    width: 20%;
+}
+
+.setting .column.name {
+    width: 30%;
+}
+
+.code-reward-request .column.code {
+    width: 30%;
+}
+
+.code-reward-request .column.name {
+    width: 50%;
+}
+
+.code-reward-request .column.is_active {
+    width: 20%;
+}
+
+.code-reward-request .column.code {
+    width: 30%;
+}
+
+.code-reward-request .column.name {
+    width: 50%;
+}
+
+.code-reward-request .column.is_active {
+    width: 20%;
+}
+
+.code-artist .code {
+    width: 20%;
+}
+
+.code-artist .name {
+    width: 80%;
+}
+
 @media (max-width: 840px) {
-    .setting .table-wrap .column.code {
+    .setting .column.code {
         width: 30%;
     }
 
-    .setting .table-wrap .column.name {
+    .setting .column.name {
         width: 70%;
     }
 
-    .setting .table-wrap .column.value {
+    .setting .column.value {
         display: none;
     }
 }

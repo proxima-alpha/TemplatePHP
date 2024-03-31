@@ -48,57 +48,12 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('프로필 이미지') ?></p>
-                    <div class="uploader artist_profile">
-                        <?php if (isset($data['profile_id'])) { ?>
-                            <div class="upload-item"
-                                 style="background: url('/file/<?= $data['profile_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
-                                <div class="upload-item-hover">
-                                    <a href="javascript:deleteUploadedImageFile('artist_profile','<?= $data['profile_id'] ?>','image/png,image/jpg')"
-                                       class="button delete-image black">
-                                        <img src="/asset/images/icon/cancel_white.png"/>
-                                    </a>
-                                </div>
-                            </div>
-                        <?php } else { ?>
-                            <div class="upload-item-add"
-                                 style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                                <label for="artist_profile-file" class="button"></label>
-                                <input type="file" name="file" multiple id="artist_profile-file"
-                                       onchange="onFileUpload(this, 'artist_profile');"
-                                       accept="image/png,image/jpg"/>
-                            </div>
-                        <?php } ?>
-                    </div>
+                    <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null) ?>
                 </div>
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('샘플 영상') ?></p>
-                <div class="slider-wrap">
-                    <div class="slick uploader artist_preview">
-                        <?php if (isset($data['files'])) {
-                            foreach ($data['files'] as $index => $file) { ?>
-                                <div class="slick-item draggable-item upload-item" draggable="true"
-                                     style="background: url('<?= $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail' ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                    Slider #<?= $file['id'] ?>
-                                    <input hidden type="text" name="id" value="<?= $file['id'] ?>">
-                                    <div class="upload-item-hover">
-                                        <a href="javascript:deleteUploadedSlickFile('<?= $file['id'] ?>', 'artist_preview')"
-                                           class="button delete-image black">
-                                            <img src="/asset/images/icon/cancel_white.png"/>
-                                        </a>
-                                    </div>
-                                </div>
-                            <?php }
-                        } ?>
-                        <div class="slick-item upload-item-add"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                            <label for="artist_preview-file" class="button"></label>
-                            <input type="file" name="file" multiple id="artist_preview-file"
-                                   onchange="onFileUpload(this, 'artist_preview');"
-                                   accept="video/*,image/png,image/jpg"/>
-                        </div>
-                    </div>
-                </div>
+                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['files'] ?? null) ?>
             </div>
             <div class="info-text-wrap">
                 <?= lang('Service.message_info_drag') ?>
