@@ -13,14 +13,14 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['files'])) {
     foreach ($data['files'] as $index => $item) { ?>
-    files.push('preview', '<?=$item['id']?>');
+    files.push('artist_preview', '<?=$item['id']?>');
     <?php }
     }
     if (isset($data['profile_id'])) {?>
-    files.push('profile', '<?=$data['profile_id']?>');
+    files.push('artist_profile', '<?=$data['profile_id']?>');
     <?php }?>
 </script>
-<div class="container-inner topic-input-container">
+<div class="container-inner">
     <div class="container-wrap">
         <div class="artist-wrap">
             <div class="form-wrap line-after">
@@ -30,8 +30,7 @@ $identifier = $shortid->generate();
                     <select class="editable" name="code_artist_id" value="<?= $code_artist_id ?? '' ?>">`
                         <?php
                         if (isset($code_artists)) {
-                            foreach ($code_artists as $item) {
-                                \App\Helpers\ServerLogger::log($item); ?>
+                            foreach ($code_artists as $item) { ?>
                                 <option value="<?= $item['id'] ?>"
                                     <?= isset($code_artist_id) && $item['id'] == $code_artist_id ? 'selected' : '' ?>><?= $item['name'] ?></option>
                             <?php }
@@ -52,24 +51,23 @@ $identifier = $shortid->generate();
                     <div class="uploader artist_profile">
                         <?php if (isset($data['profile_id'])) { ?>
                             <div class="upload-item"
-                                 style="background: url('/file/<?= $data['profile_id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
-                                Profile #<?= $data['profile_id'] ?>
-                                <input hidden type="text" name="id" value="<?= $data['profile_id'] ?>">
+                                 style="background: url('/file/<?= $data['profile_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
                                 <div class="upload-item-hover">
-                                    <a href="javascript:deleteUploadedSlickFile('<?= $data['profile_id'] ?>')"
+                                    <a href="javascript:deleteUploadedImageFile('artist_profile','<?= $data['profile_id'] ?>','image/png,image/jpg')"
                                        class="button delete-image black">
                                         <img src="/asset/images/icon/cancel_white.png"/>
                                     </a>
                                 </div>
                             </div>
+                        <?php } else { ?>
+                            <div class="upload-item-add"
+                                 style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
+                                <label for="artist_profile-file" class="button"></label>
+                                <input type="file" name="file" multiple id="artist_profile-file"
+                                       onchange="onFileUpload(this, 'artist_profile');"
+                                       accept="image/png,image/jpg"/>
+                            </div>
                         <?php } ?>
-                        <div class="upload-item-add"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                            <label for="artist_profile-file" class="button"></label>
-                            <input type="file" name="file" multiple id="artist_profile-file"
-                                   onchange="onFileUpload(this, 'artist_profile');"
-                                   accept="image/png,image/jpg"/>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -80,7 +78,7 @@ $identifier = $shortid->generate();
                         <?php if (isset($data['files'])) {
                             foreach ($data['files'] as $index => $file) { ?>
                                 <div class="slick-item draggable-item upload-item" draggable="true"
-                                     style="background: url('/file/<?= $file['id'] . $file['type'] == 'video' ? '/thumbnail' : '' ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                     style="background: url('<?= $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail' ?>') no-repeat center; background-size: cover; font-size: 0;">
                                     Slider #<?= $file['id'] ?>
                                     <input hidden type="text" name="id" value="<?= $file['id'] ?>">
                                     <div class="upload-item-hover">
@@ -106,14 +104,14 @@ $identifier = $shortid->generate();
                 <?= lang('Service.message_info_drag') ?>
             </div>
             <div class="button-wrap">
-                <a href="<?= $type == 'create' ? 'javascript:confirmCreateArtist()' : 'javascript:confirmCreateArtist(' . $data['id'] . ')' ?>"
+                <a href="<?= $type == 'create' ? 'javascript:confirmCreateArtist()' : 'javascript:confirmEditArtist(' . $data['id'] . ')' ?>"
                    class="button confirm black"><?= lang('Service.confirm') ?></a>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    function confirmCreateArtist(id) {
+    function confirmEditArtist(id) {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
         data['files'] = files.get('artist_preview');
         data['profile_id'] = files.get('artist_profile');

@@ -188,7 +188,8 @@ class BaseApiController extends BaseController
         }
     }
 
-    #[NoReturn] protected function handleException(Exception $e) {
+    #[NoReturn] protected function handleException(Exception $e)
+    {
         switch ($e->getMessage()) {
             case 'wrongTimeFormat' :
                 $response = Services::response();

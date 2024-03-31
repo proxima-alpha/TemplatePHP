@@ -1,3 +1,7 @@
+.container-inner  {
+    min-height: auto;
+}
+
 .container-inner > div {
     min-height: 400px;
 }

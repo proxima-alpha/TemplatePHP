@@ -50,7 +50,7 @@ class CategoryModel extends BasePriorityModel
             $values = array_merge($values, $set['values']);
             $query .= " ".$set['query'];
         }
-        $query .= " ORDER BY priority ASC";
+        $query .= " ORDER BY " . $this->table . ".priority ASC";
         if(isset($limit)) {
             $query.= " LIMIT ".$limit['offset'].", ".$limit['value'];
         }

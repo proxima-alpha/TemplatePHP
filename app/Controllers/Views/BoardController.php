@@ -132,6 +132,7 @@ class BoardController extends BaseClientController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
+                    '/common/delete',
                     '/common/topic',
                     '/common/topic_view',
                 ],

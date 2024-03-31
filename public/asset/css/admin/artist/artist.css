@@ -1,3 +1,10 @@
+.container-inner  {
+    min-height: auto;
+}
+.container-inner > div {
+    min-height: 400px;
+}
+
 .uploader.artist_profile .upload-item-add,
 .uploader.artist_profile .upload-item {
     width: 200px;
@@ -34,4 +41,3 @@
 .form-wrap .input-wrap.inline .input-title {
     width: auto;
 }
-

@@ -101,7 +101,7 @@ function openPopup(input, callback) {
  */
 function closePopup(className) {
     let $parent;
-    if(!className) {
+    if (!className) {
         $parent = $(`.popup-wrap`);
     } else {
         $parent = $(`.${className}`)
@@ -301,7 +301,7 @@ function openUserPopup(user_id) {
     });
 }
 
-function openImagePopup(image_id) {
+function openImagePopup(id, type = 'image', mime_type) {
     let className = 'popup-image-detail';
     let style = `
     <style>
@@ -309,10 +309,18 @@ function openImagePopup(image_id) {
         width: 100%;
     }
     </style>`
-    let html = `
-        <div class="image-wrap">
-            <img src='/file/${image_id}'/>
+    let html;
+    if (type == 'image') {
+        html = `<div class="image-wrap">
+            <img src='/file/${id}'/>
         </div>`;
+    } else if (type == 'video') {
+        html = `<div class="image-wrap">
+        <video controls>
+            <source src="/file/${id}" type="${mime_type}">
+        </video>
+        </div>`;
+    }
     openPopup({
         className: className,
         style: style,

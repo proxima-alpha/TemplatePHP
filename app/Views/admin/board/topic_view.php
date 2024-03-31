@@ -40,7 +40,7 @@
                         </a>
                     <?php } ?>
                     <?php if ($is_admin) { ?>
-                        <a href="javascript:openTopicPopupDelete(<?= $data['id'] ?>)"
+                        <a href="javascript:openPopupDelete('/api/topic/delete/<?= $data['id'] ?>')"
                            class="button under-line delete">
                             <img src="/asset/images/icon/delete.png"/>
                             <span><?= lang('Service.delete') ?></span>

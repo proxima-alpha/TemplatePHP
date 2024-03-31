@@ -141,7 +141,7 @@ function onFileUpload(
                 } else {
                     $uploader.empty();
                     $uploader.append(`
-                    <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0;${option}">
+                    <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0;background-size: cover;">
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedImageFile('${target}', '${file_id}', 'image/png,image/jpg')"
                                class="button delete-image black">

@@ -23,6 +23,7 @@ class ArtistModel extends BaseModel
     /**
      * select 문을 호출하는 기능
      * artist_code 를 조인하기 위해서 override
+     * @return array
      * @throws Exception
      */
     public function get($condition = null, $limit = null): array
@@ -34,7 +35,7 @@ class ArtistModel extends BaseModel
             $values = array_merge($values, $set['values']);
             $query .= " " . $set['query'];
         }
-        $query .= " ORDER BY priority ASC";
+        $query .= " ORDER BY " . $this->table . ".created_at DESC";
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
@@ -52,11 +53,7 @@ class ArtistModel extends BaseModel
      */
     public function getPaginated($pagination, $condition = null): array
     {
-        $total = $this->builder()
-            ->select('artist.*, code_artist.name as code_name')
-            ->join('code_artist', 'code_artist.id = artist.code_artist_id')
-            ->getWhere($condition)
-            ->getNumRows();
+        $total = $this->builder()->getWhere($condition)->getNumRows();
         $per_page = $pagination['per_page'];
         $total_page = (int)($total / $per_page) + ($total % $per_page == 0 ? 0 : 1);
         $page = $pagination['page'] == 'last' ? $total_page : $pagination['page'];

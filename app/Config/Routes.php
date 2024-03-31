@@ -73,7 +73,7 @@ $routes->addRedirect('/admin/user', '/admin/user/1');
 $routes->get('/admin/artist/([0-9]+)', [\Views\Admin\ArtistController::class, 'index']);
 $routes->addRedirect('/admin/artist', '/admin/artist/1');
 $routes->get('/admin/artist/create', [\Views\Admin\ArtistController::class, 'createArtist']);
-$routes->get('/admin/artist/([0-9]+)', [\Views\Admin\ArtistController::class, 'getArtist']);
+$routes->get('/admin/artist/([0-9]+)/view', [\Views\Admin\ArtistController::class, 'getArtist']);
 $routes->get('/admin/artist/([0-9]+)/edit', [\Views\Admin\ArtistController::class, 'editArtist']);
 
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);

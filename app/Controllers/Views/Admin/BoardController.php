@@ -153,6 +153,7 @@ class BoardController extends BaseAdminController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
+                    '/common/delete',
                     '/common/topic',
                     '/common/topic_view',
                 ],
