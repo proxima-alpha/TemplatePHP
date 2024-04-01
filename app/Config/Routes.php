@@ -47,9 +47,6 @@ $routes->addRedirect('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/board/$1/1');
 $routes->get('/board/([a-zA-Z][a-zA-Z0-9\-\_]*)/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/([0-9]+)', [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/([0-9]+)/edit', [\Views\BoardController::class, 'editTopic']);
-$routes->get('/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)/([0-9]+)', [\Views\ReservationController::class, 'getBoard']);
-$routes->addRedirect('/reservation-board/([a-zA-Z][a-zA-Z0-9\-\_]*)', '/reservation-board/$1/1');
-$routes->get('/reservation/([0-9]+)', [\Views\ReservationController::class, 'getReservation']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/category');
@@ -75,6 +72,12 @@ $routes->addRedirect('/admin/artist', '/admin/artist/1');
 $routes->get('/admin/artist/create', [\Views\Admin\ArtistController::class, 'createArtist']);
 $routes->get('/admin/artist/([0-9]+)/view', [\Views\Admin\ArtistController::class, 'getArtist']);
 $routes->get('/admin/artist/([0-9]+)/edit', [\Views\Admin\ArtistController::class, 'editArtist']);
+
+$routes->get('/admin/project/([0-9]+)', [\Views\Admin\ProjectController::class, 'index']);
+$routes->addRedirect('/admin/project', '/admin/project/1');
+$routes->get('/admin/project/create', [\Views\Admin\ProjectController::class, 'create']);
+$routes->get('/admin/project/([0-9]+)/view', [\Views\Admin\ProjectController::class, 'get']);
+$routes->get('/admin/project/([0-9]+)/edit', [\Views\Admin\ProjectController::class, 'edit']);
 
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
@@ -140,10 +143,11 @@ $routes->post('/api/code/reward-request/create', [\API\CodeController::class, 'c
 $routes->post('/api/code/reward-request/update/([0-9]+)', [\API\CodeController::class, 'updateCodeRewardRequest']);
 $routes->delete('/api/code/reward-request/delete/([0-9]+)', [\API\CodeController::class, 'deleteCodeRewardRequest']);
 
-$routes->get('/api/artist/get/([0-9]+)', [\API\ArtistController::class, 'getArtist']);
-$routes->post('/api/artist/create', [\API\ArtistController::class, 'createArtist']);
-$routes->post('/api/artist/update/([0-9]+)', [\API\ArtistController::class, 'updateArtist']);
-$routes->delete('/api/artist/delete/([0-9]+)', [\API\ArtistController::class, 'deleteArtist']);
+$routes->get('/api/artist', [\API\ArtistController::class, 'index']);
+$routes->get('/api/artist/get/([0-9]+)', [\API\ArtistController::class, 'get']);
+$routes->post('/api/artist/create', [\API\ArtistController::class, 'create']);
+$routes->post('/api/artist/update/([0-9]+)', [\API\ArtistController::class, 'update']);
+$routes->delete('/api/artist/delete/([0-9]+)', [\API\ArtistController::class, 'delete']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 

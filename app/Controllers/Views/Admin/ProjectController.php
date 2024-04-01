@@ -4,23 +4,17 @@ namespace Views\Admin;
 
 use App\Helpers\Utils;
 use Exception;
-use Models\ArtistModel;
-use Models\CodeArtistModel;
-use Models\CustomFileModel;
+use Models\ProjectModel;
 
-class ArtistController extends BaseAdminController
+class ProjectController extends BaseAdminController
 {
-    protected CodeArtistModel $codeArtistModel;
-    protected ArtistModel $artistModel;
-    protected CustomFileModel $customFileModel;
+    protected ProjectModel $projectModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->isRestricted = true;
-        $this->artistModel = model('Models\ArtistModel');
-        $this->codeArtistModel = model('Models\CodeArtistModel');
-        $this->customFileModel = model('Models\CustomFileModel');
+        $this->projectModel = model('Models\ProjectModel');
     }
 
     /**
@@ -33,7 +27,7 @@ class ArtistController extends BaseAdminController
         $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
-            $result = $this->artistModel->getPaginated([
+            $result = $this->projectModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
             ], [
@@ -41,7 +35,7 @@ class ArtistController extends BaseAdminController
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
-                'pagination_link' => '/admin/artist',
+                'pagination_link' => '/admin/project',
             ]);
         } catch (Exception $e) {
             //todo(log)
@@ -50,12 +44,12 @@ class ArtistController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/table',
-                    '/admin/artist/table',
+                    '/admin/project/table',
                 ],
                 'js' => [
                 ],
             ])
-            . view('/admin/artist/table', $data)
+            . view('/admin/project/table', $data)
             . parent::loadFooter();
     }
 
@@ -64,7 +58,7 @@ class ArtistController extends BaseAdminController
      * @param $id
      * @return string
      */
-    public function getArtist($id): string
+    public function get($id): string
     {
         $data = $this->getViewData();
         try {
@@ -76,11 +70,10 @@ class ArtistController extends BaseAdminController
 
         return parent::loadHeader([
                 'css' => [
-                    '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/input',
-                    '/admin/artist/common',
-                    '/admin/artist/view',
+                    '/admin/project/common',
+                    '/admin/project/view',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -89,7 +82,7 @@ class ArtistController extends BaseAdminController
                     '/common/artist',
                 ],
             ])
-            . view('/admin/artist/view', $data)
+            . view('/admin/project/view', $data)
             . parent::loadFooter();
     }
 
@@ -98,7 +91,7 @@ class ArtistController extends BaseAdminController
      * @param $id
      * @return string
      */
-    public function editArtist($id = 1): string
+    public function edit($id = 1): string
     {
         $data = $this->getViewData();
         try {
@@ -117,7 +110,7 @@ class ArtistController extends BaseAdminController
                     '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/input',
-                    '/admin/artist/common',
+                    '/admin/project/common',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -127,7 +120,7 @@ class ArtistController extends BaseAdminController
                     '/common/artist',
                 ],
             ])
-            . view('/admin/artist/input', $data)
+            . view('/admin/project/input', $data)
             . parent::loadFooter();
     }
 
@@ -135,12 +128,10 @@ class ArtistController extends BaseAdminController
      * /admin/artist/create
      * @return string
      */
-    public function createArtist(): string
+    public function create(): string
     {
         $data = $this->getViewData();
         try {
-            $codes = $this->codeArtistModel->get();
-            $data['code_artists'] = $codes;
             $data = array_merge($data, [
                 'type' => 'create'
             ]);
@@ -153,17 +144,19 @@ class ArtistController extends BaseAdminController
                     '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/input',
-                    '/admin/artist/common',
+                    '/admin/project/common',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
+                    '/module/calendar',
                     '/module/draggable',
                     '/module/image_uploader',
                     '/common/artist',
+                    '/admin/project_input',
                 ],
             ])
-            . view('/admin/artist/input', $data)
+            . view('/admin/project/input', $data)
             . parent::loadFooter();
     }
 

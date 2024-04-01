@@ -1,0 +1,11 @@
+.table-wrap .column.code {
+    width: 20%;
+}
+.table-wrap .column.name {
+    width: 40%;
+}
+
+.table-wrap .column.created-at {
+    width: 40%;
+    text-align: right;
+}

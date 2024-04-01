@@ -12,15 +12,15 @@ class CustomFileModel extends BasePriorityModel
         'type',
         'target',
         'path',
-        'identifier',
         'path',
         'symbolic_path',
         'file_name',
         'thumb_file_name',
         'mime_type',
-        'priority',
         'width',
         'height',
+        'identifier',
+        'priority',
         'created_at',
     ];
 

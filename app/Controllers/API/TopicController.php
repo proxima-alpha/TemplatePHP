@@ -84,7 +84,7 @@ class TopicController extends CustomFileController
                     $queries = [];
                     foreach ($data['files'] as $index => $file_id) {
                         // 이미지에 topic_id 할당하면서 priority 를 설정 해 준다
-                        $queries[] = QueryHelper::getFileAllocation($file_id, $data['identifier'], 'topic_id', $inserted_row_id, $index);
+                        $queries[] = QueryHelper::getFileAllocation('topic_id', $inserted_row_id, $file_id, $data['identifier'], $index);
                     }
                     BaseModel::transaction($this->db, $queries);
 
@@ -138,8 +138,7 @@ class TopicController extends CustomFileController
             $prefix = '';
             foreach ($data['files'] as $index => $file_id) {
                 // 이미지에 topic_id 할당하면서 priority 설정 해 준다
-                $queries[] = "UPDATE custom_file SET identifier = NULL, topic_id = '" . $id . "', priority = " . $index + 1
-                    . " WHERE (id = '" . $file_id . "' AND topic_id = '" . $id . "') OR (id = '" . $file_id . "' AND identifier = '" . $data['identifier'] . "')";
+                $queries[] = QueryHelper::getFileIndexUpdate('topic_id', $id, $file_id, $data['identifier'], $index);
                 $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }

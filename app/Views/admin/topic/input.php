@@ -41,9 +41,9 @@ $identifier = $shortid->generate();
             </div>
             <div class="slider-box">
                 <?= \App\Helpers\HtmlHelper::getSlickUploader('topic', $data['files'] ?? null) ?>
-            </div>
-            <div class="info-text-wrap">
-                <?= lang('Service.message_info_drag') ?>
+                <div class="info-text-wrap">
+                    <?= lang('Service.message_info_drag') ?>
+                </div>
             </div>
             <div class="button-wrap">
                 <a href="<?= $type == 'create' ? 'javascript:confirmCreateTopic()' : 'javascript:confirmEditTopic(' . $data['id'] . ')' ?>"

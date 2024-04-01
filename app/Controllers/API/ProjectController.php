@@ -3,14 +3,13 @@
 namespace API;
 
 use App\Helpers\QueryHelper;
-use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\ArtistModel;
 use Models\BaseModel;
 use Models\CodeArtistModel;
 
-class ArtistController extends CustomFileController
+class ProjectController extends CustomFileController
 {
     protected CodeArtistModel $codeArtistModel;
     protected ArtistModel $artistModel;
@@ -23,39 +22,11 @@ class ArtistController extends CustomFileController
     }
 
     /**
-     * [get] /api/artist
-     * @return ResponseInterface
-     */
-    public function index(): ResponseInterface
-    {
-        $queryParams = $this->request->getGet();
-        $page = $queryParams['page'];
-        if ($queryParams['page'] != 'last') {
-            $page = Utils::toInt($queryParams['page']);
-        }
-
-        try {
-            $result = $this->artistModel->getPaginated([
-                'per_page' => 10,
-                'page' => $page,
-            ], [
-                'is_deleted' => 0,
-            ]);
-            $response['success'] = true;
-            $response['data'] = $result;
-        } catch (Exception $e) {
-            //todo(log)
-            $response['message'] = $e->getMessage();
-        }
-        return $this->response->setJSON($response);
-    }
-
-    /**
      * [get] /api/artist/get/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function get($id): ResponseInterface
+    public function getArtist($id): ResponseInterface
     {
         return $this->typicallyFind($this->artistModel, $id);
     }
@@ -64,7 +35,7 @@ class ArtistController extends CustomFileController
      * [post] /api/artist/create
      * @return ResponseInterface
      */
-    public function create(): ResponseInterface
+    public function createArtist(): ResponseInterface
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
@@ -126,7 +97,7 @@ class ArtistController extends CustomFileController
      * @param $id
      * @return ResponseInterface
      */
-    public function update($id): ResponseInterface
+    public function updateArtist($id): ResponseInterface
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
@@ -177,7 +148,7 @@ class ArtistController extends CustomFileController
      * @param $id
      * @return ResponseInterface
      */
-    public function delete($id): ResponseInterface
+    public function deleteArtist($id): ResponseInterface
     {
         $this->checkAdmin();
         $body = [

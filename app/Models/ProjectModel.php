@@ -2,14 +2,14 @@
 
 namespace Models;
 
-class EventModel extends BaseModel
+class ProjectModel extends BaseModel
 {
-    protected $table = 'event';
+    protected $table = 'project';
     protected $allowedFields = [
         'id',
-        'event_date_fragment_id',
+        'project_date_fragment_id',
         'artist_group_id',
-        'background_id',
+        'title_image_id',
         'status',
         'start_date',
         'end_date',

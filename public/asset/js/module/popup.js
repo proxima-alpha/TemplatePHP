@@ -327,3 +327,45 @@ function openImagePopup(id, type = 'image', mime_type) {
         html: html,
     })
 }
+
+async function openPopupMessage(message) {
+    let className = `popup-message`;
+    let style = `
+        <style>
+        .${className} .popup {
+            width: 500px;
+        }
+
+        .${className} .popup-inner .error-message-wrap {
+            padding: 20px 0;
+        }
+
+        .${className} .popup-inner .button-wrap {
+            margin-top: 20px;
+        }
+
+        .${className} .popup-inner .button-wrap .button {
+            min-width: 100px;
+            padding: 10px 20px;
+            margin: 0 10px;
+        }
+        
+        @media (max-width: 840px) {
+            .${className} .popup {
+                width: calc(100% - 20px);
+            }
+        }
+        </style>`;
+    let html = `
+    <div class="error-message-wrap">
+        <div>${message}</div>
+    </div>
+    <div class="button-wrap controls">
+        <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('확인')}</a>
+    </div>`;
+    openPopup({
+        className: className,
+        style: style,
+        html: html,
+    })
+}

@@ -100,7 +100,7 @@ jQuery.prototype.initCalendar = function (option) {
     let cellMargin = 10;
     if ($parent.width() != 0 && $parent.width() < cellSize * 7) {
         cellSize = Math.floor($parent.width() / 7 * 100) / 100;
-        cellMargin = Math.floor(cellSize/20);
+        cellMargin = Math.floor(cellSize / 20);
         NumberPosition = Math.floor(cellSize / 10);
     }
     let innerCellSize = cellSize - cellMargin * 2;
@@ -449,6 +449,10 @@ function setCalendarStyle($view, selectable = true) {
  * @param $cell
  */
 function selectCalendarCell($parent, $cell, year, month, isStyled = true) {
+    let $input = $parent.find('input[type=hidden]');
+    if ($input != undefined) {
+        $input.remove();
+    }
     let day = $cell.find('span.calendar-number')[0].innerHTML;
     let value = year.toString().padStart(4, '0') + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
     $parent.append('<input type="hidden" name="date" value="' + value + '">')
@@ -472,11 +476,6 @@ function selectCalendarCell($parent, $cell, year, month, isStyled = true) {
             $liSelected.removeClass('selected')
         }
         $cell.addClass('selected');
-    }
-
-    let $input = $parent.find('input[type=hidden]');
-    if ($input != undefined) {
-        $input.remove();
     }
 }
 

@@ -3,6 +3,7 @@
  */
 
 let adminNavigationTimeoutId;
+
 /**
  * navigation 관련 위치를 refresh 시키는 기능
  * 전체 경우에 대한 position 값을 적어두고 위치 변화 필요할 때마다
@@ -10,50 +11,50 @@ let adminNavigationTimeoutId;
  */
 function refreshNavigationPosition() {
     let size = isMobile() ? '200px' : '150px';
-    let gnbWrap = $('.gnb-wrap');
-    let gnb = $('.gnb');
+    let $gnbWrap = $('.gnb-wrap');
+    let $gnb = $('.gnb');
 
-    gnbWrap.css({
+    $gnbWrap.css({
         'animation-duration': '',
         'animation-name': '',
     })
-    gnb.css({
+    $gnb.css({
         'animation-duration': '',
         'animation-name': '',
     })
-    if (gnbWrap.hasClass('fixed')) {
+    if ($gnbWrap.hasClass('fixed')) {
         // fixed
-        gnbWrap.css({
+        $gnbWrap.css({
             'position': '',
             'top': '',
         })
-        if (gnbWrap.hasClass('closed')) {
-            gnbWrap.css({
+        if ($gnbWrap.hasClass('closed')) {
+            $gnbWrap.css({
                 'left': `-${size}`,
             })
         } else {
-            gnbWrap.css({
+            $gnbWrap.css({
                 'left': '',
             })
         }
-        gnb.css({
+        $gnb.css({
             'left': '',
             'z-index': '',
         })
     } else {
         // absolute
-        gnbWrap.css({
+        $gnbWrap.css({
             'position': 'absolute',
             'left': `-${size}`,
             'top': '0',
         })
-        if (gnbWrap.hasClass('closed')) {
-            gnb.css({
+        if ($gnbWrap.hasClass('closed')) {
+            $gnb.css({
                 'left': size,
                 'z-index': '-5',
             })
         } else {
-            gnb.css({
+            $gnb.css({
                 'left': '',
                 'z-index': '',
             })
@@ -69,9 +70,9 @@ function setNavigationAbsolute() {
     if ($('.gnb-wrap.fixed').length == 0) {
         return;
     }
-    let gnbWrap = $('.gnb-wrap.fixed');
-    gnbWrap.removeClass('fixed')
-    gnbWrap.addClass('absolute')
+    let $gnbWrap = $('.gnb-wrap.fixed');
+    $gnbWrap.removeClass('fixed')
+    $gnbWrap.addClass('absolute')
     refreshNavigationPosition();
 
     // remove close button
@@ -87,10 +88,10 @@ function returnNavigationAbsolute() {
     if ($('.gnb-wrap.absolute').length == 0) {
         return;
     }
-    let gnbWrap = $('.gnb-wrap.absolute');
-    gnbWrap.removeClass('absolute')
-    gnbWrap.addClass('fixed')
-    gnbWrap.css({
+    let $gnbWrap = $('.gnb-wrap.absolute');
+    $gnbWrap.removeClass('absolute')
+    $gnbWrap.addClass('fixed')
+    $gnbWrap.css({
         'position': '',
         'top': '',
     })
@@ -107,9 +108,9 @@ function returnNavigationAbsolute() {
 /**
  * html 쪽에서 호출하는 navigation 제어 기능 - 닫기
  */
-function closeNavigation() {
-    let gnbWrap = $('.gnb-wrap');
-    let gnb = $('.gnb');
+function closeNavigation(seconds = 0.2) {
+    let $gnbWrap = $('.gnb-wrap');
+    let $gnb = $('.gnb');
     if (adminNavigationTimeoutId) {
         clearTimeout(adminNavigationTimeoutId);
         adminNavigationTimeoutId = undefined;
@@ -118,25 +119,25 @@ function closeNavigation() {
     refreshNavigationPosition();
 
     // navigation slide animation
-    if (gnbWrap.hasClass('fixed')) {
-        gnbWrap.css({
+    if ($gnbWrap.hasClass('fixed')) {
+        $gnbWrap.css({
             'animation-duration': '0.2s',
-            'animation-name': isMobile()? 'gnbMobileFixedSlideLeft':'gnbFixedSlideLeft',
+            'animation-name': isMobile() ? 'gnbMobileFixedSlideLeft' : 'gnbFixedSlideLeft',
         })
     } else {
-        gnb.css({
+        $gnb.css({
             'animation-duration': '0.2s',
-            'animation-name': isMobile()? 'gnbMobileAbsoluteSlideRight':'gnbAbsoluteSlideRight',
+            'animation-name': isMobile() ? 'gnbMobileAbsoluteSlideRight' : 'gnbAbsoluteSlideRight',
         })
     }
     adminNavigationTimeoutId = setTimeout(function () {
-        gnbWrap.addClass('closed')
+        $gnbWrap.addClass('closed')
         clearTimeout(adminNavigationTimeoutId);
         adminNavigationTimeoutId = undefined;
     }, 200);
 
 
-        // menu button animation
+    // menu button animation
     $('.button.menu span.middle').css({
         opacity: 1
     })
@@ -158,22 +159,22 @@ function closeNavigation() {
  * html 쪽에서 호출하는 navigation 제어 기능 - 열기
  */
 function openNavigation() {
-    let gnbWrap = $('.gnb-wrap');
-    let gnb = $('.gnb');
-    gnbWrap.removeClass('closed')
+    let $gnbWrap = $('.gnb-wrap');
+    let $gnb = $('.gnb');
+    $gnbWrap.removeClass('closed')
     document.cookie = 'is-admin-navigation-closed=0; path=/;';
     refreshNavigationPosition();
 
     // navigation slide animation
-    if (gnbWrap.hasClass('fixed')) {
-        gnbWrap.css({
+    if ($gnbWrap.hasClass('fixed')) {
+        $gnbWrap.css({
             'animation-duration': '0.2s',
-            'animation-name': isMobile()? 'gnbMobileFixedSlideRight':'gnbFixedSlideRight',
+            'animation-name': isMobile() ? 'gnbMobileFixedSlideRight' : 'gnbFixedSlideRight',
         })
     } else {
-        gnb.css({
+        $gnb.css({
             'animation-duration': '0.2s',
-            'animation-name': isMobile()? 'gnbMobileAbsoluteSlideLeft':'gnbAbsoluteSlideLeft',
+            'animation-name': isMobile() ? 'gnbMobileAbsoluteSlideLeft' : 'gnbAbsoluteSlideLeft',
         })
     }
 
@@ -206,4 +207,10 @@ $(document).ready(function () {
     if (window.innerWidth > 1500) {
         setNavigationAbsolute();
     }
+    $('.gnb li a').on('click', (e) => {
+        let $gnbWrap = $('.gnb-wrap');
+        if (!$gnbWrap.attr('class').includes('closed')) {
+            closeNavigation();
+        }
+    });
 })

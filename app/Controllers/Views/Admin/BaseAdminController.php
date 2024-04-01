@@ -37,6 +37,14 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/category',
             ],
             [
+                'name' => lang('Service.artist'),
+                'link' => '/admin/artist',
+            ],
+            [
+                'name' => lang('프로젝트'),
+                'link' => '/admin/project',
+            ],
+            [
                 'name' => lang('Service.board'),
                 'link' => '/admin/board',
             ],
@@ -47,10 +55,6 @@ class BaseAdminController extends BaseViewController
             [
                 'name' => lang('Service.user'),
                 'link' => '/admin/user',
-            ],
-            [
-                'name' => lang('Service.artist'),
-                'link' => '/admin/artist',
             ],
             [
                 'name' => lang('Service.graphic_setting'),

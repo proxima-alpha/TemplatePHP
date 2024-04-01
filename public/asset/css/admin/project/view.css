@@ -1,0 +1,18 @@
+.page-inner, .container-inner {
+    padding-bottom: 60px;
+}
+
+.container-inner > div .control-button-wrap {
+    line-height: 20px;
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+}
+
+.container-wrap .line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+}

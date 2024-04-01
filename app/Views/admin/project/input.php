@@ -3,8 +3,8 @@
 use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
-    $data['name'] = '';
-    $data['introduction'] = '';
+    $data['title'] = '';
+    $data['content'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
@@ -16,8 +16,8 @@ $identifier = $shortid->generate();
     files.push('artist_preview', '<?=$item['id']?>');
     <?php }
     }
-    if (isset($data['profile_id'])) {?>
-    files.push('artist_profile', '<?=$data['profile_id']?>');
+    if (isset($data['title_image_id'])) {?>
+    files.push('project_title', '<?=$data['title_image_id']?>');
     <?php }?>
 </script>
 <div class="container-inner">
@@ -25,55 +25,72 @@ $identifier = $shortid->generate();
         <div class="artist-wrap">
             <div class="form-wrap line-after">
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
-                <div class="input-wrap inline">
-                    <p class="input-title"><?= lang('아티스트 타입') ?></p>
-                    <select class="editable" name="code_artist_id" value="<?= $code_artist_id ?? '' ?>">`
-                        <?php
-                        if (isset($code_artists)) {
-                            foreach ($code_artists as $item) { ?>
-                                <option value="<?= $item['id'] ?>"
-                                    <?= isset($code_artist_id) && $item['id'] == $code_artist_id ? 'selected' : '' ?>><?= $item['name'] ?></option>
-                            <?php }
-                        } ?>
-                    </select>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('제목') ?></p>
+                    <input type="name" name="name" class="editable under-line" value="<?= $data['title'] ?>"/>
                 </div>
                 <div class="input-wrap">
-                    <p class="input-title"><?= lang('Service.name') ?></p>
-                    <input type="name" name="name" class="editable under-line" value="<?= $data['name'] ?>"/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('소개') ?></p>
+                    <p class="input-title"><?= lang('내용') ?></p>
                     <textarea class="editable" name="introduction" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)"><?= $data['introduction'] ?></textarea>
+                              onkeyup="resizeInputPopupTextarea(this)"><?= $data['content'] ?></textarea>
+                </div>
+                <div class="input-wrap calendar">
+                    <p class="input-title"><?= lang('시작일') ?></p>
+                    <a class="button" href="javascript:openCalendarPopup('start_date')">
+                        <input name="start_date" readonly>
+                    </a>
+                </div>
+                <div class="input-wrap calendar">
+                    <p class="input-title"><?= lang('마감일') ?></p>
+                    <a class="button" href="javascript:openCalendarPopup('end_date')">
+                        <input name="end_date" readonly>
+                    </a>
                 </div>
                 <div class="input-wrap">
-                    <p class="input-title"><?= lang('프로필 이미지') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null) ?>
+                    <p class="input-title"><?= lang('아티스트 추가') ?></p>
+                    <a class="button" href="javascript:searchArtist('artist_id')">
+                        <input name="artist_id" readonly>
+                    </a>
                 </div>
-            </div>
-            <div class="slider-box">
-                <p class="title"><?= lang('샘플 영상') ?></p>
-                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['files'] ?? null) ?>
-                <div class="info-text-wrap">
-                    <?= lang('Service.message_info_drag') ?>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('타이틀 이미지') ?></p>
+                    <?= \App\Helpers\HtmlHelper::getImageUploader('project_title', $data['title_image_id'] ?? null) ?>
                 </div>
             </div>
             <div class="button-wrap">
-                <a href="<?= $type == 'create' ? 'javascript:confirmCreateArtist()' : 'javascript:confirmEditArtist(' . $data['id'] . ')' ?>"
+                <a href="<?= $type == 'create' ? 'javascript:confirmCreateProject()' : 'javascript:confirmEditProject(' . $data['id'] . ')' ?>"
                    class="button confirm black"><?= lang('Service.confirm') ?></a>
             </div>
         </div>
     </div>
 </div>
 <script type="text/javascript">
-    function confirmEditArtist(id) {
+    function confirmCalendarSelect(className, target) {
+        let data = parseInputToData($(`.${className} input, .${className} textarea`))
+
+        $(`.form-wrap input[name=${target}]`).val(data['date'])
+        closePopup(className);
+    }
+
+    function confirmArtistSearch(className, target) {
+        let data = parseInputToData($(`.${className} input, .${className} textarea`))
+
+        if (data['artist_id']) {
+            $(`.form-wrap input[name=${target}]`).val(data['artist_id'])
+            closePopup(className);
+        } else {
+            openPopupMessage(lang('아티스트를 선택해주세요'))
+        }
+    }
+
+    function confirmEditProject(id) {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
         data['files'] = files.get('artist_preview');
         data['profile_id'] = files.get('artist_profile');
 
         apiRequest({
             type: 'POST',
-            url: `/api/artist/update/${id}`,
+            url: `/api/project/update/${id}`,
             data: data,
             dataType: 'json',
             success: function (response, status, request) {
@@ -89,7 +106,7 @@ $identifier = $shortid->generate();
         });
     }
 
-    function confirmCreateArtist() {
+    function confirmCreateProject() {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
         data['files'] = files.get('artist_preview');
         data['profile_id'] = files.get('artist_profile');
@@ -98,7 +115,7 @@ $identifier = $shortid->generate();
 
         apiRequest({
             type: 'POST',
-            url: `/api/artist/create`,
+            url: `/api/project/create`,
             data: data,
             dataType: 'json',
             success: function (response, status, request) {

@@ -138,7 +138,7 @@ final class HtmlHelper
 
     public static function getImageUploader($key, $file_id, $view_mode = 'input'): string
     {
-        $html = '<div class="uploader ' . $key . '">';
+        $html = '<div class="uploader image ' . $key . '">';
         if ($view_mode == 'input') {
             if (isset($file_id)) {
                 $html .=

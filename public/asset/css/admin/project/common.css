@@ -1,6 +1,7 @@
-.container-inner  {
+.container-inner {
     min-height: auto;
 }
+
 .container-inner > div {
     min-height: 400px;
 }
@@ -15,8 +16,25 @@
 .form-wrap .input-wrap input:not([type=checkbox]),
 .form-wrap .input-wrap textarea {
     width: calc(100% - 40px);
-    margin: 10px 20px 20px 20px;
+    margin: 10px 10px 20px 10px;
 }
+
+/*날짜 선택 버튼*/
+.form-wrap .input-wrap.calendar {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.form-wrap .input-wrap.calendar a {
+    width: 100%;
+}
+
+.form-wrap .input-wrap.calendar input {
+    width: calc(100% - 40px);
+    cursor: pointer;
+}
+
 
 .container-inner > div .button-wrap {
     padding-top: 20px;
@@ -33,10 +51,22 @@
     width: auto;
 }
 
+.popup-artist-search .pages{
+    height: 50px;
+    line-height: 50px;
+}
+.popup-artist-search.popup-wrap .popup-box.has-control-button .popup-inner {
+    padding: 20px 20px 45px 20px;
+}
+.popup-artist-search .selected {
+    background-color: #efefef;
+}
+
 @media (max-width: 840px) {
     .form-wrap .input-wrap {
         padding: 0 15px;
     }
+
     .slider-box .title {
         margin-left: 15px;
     }

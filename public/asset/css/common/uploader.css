@@ -1,3 +1,13 @@
+.uploader.image .upload-item-add,
+.uploader.image .upload-item {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    margin: 10px;
+}
+
+
 .uploader .upload-item-add input[type="file"] {
     position: absolute;
     width: 0;
