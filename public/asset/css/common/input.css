@@ -5,7 +5,7 @@
 }
 
 .form-wrap .input-wrap p,
-.form-wrap .input-wrap input,
+.form-wrap .input-wrap input:not([hidden]),
 .form-wrap .input-wrap textarea,
 .form-wrap .input-wrap select{
     display: block;

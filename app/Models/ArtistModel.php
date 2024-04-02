@@ -10,6 +10,7 @@ class ArtistModel extends BaseModel
         'code_artist_id',
         'profile_id',
         'name',
+        'job',
         'introduction',
         'password',
         'is_public',

@@ -10,7 +10,7 @@
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.name') ?></p>
-                    <input type="name" name="name" class="editable under-line" value="<?= $data['name'] ?>" readonly/>
+                    <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>" readonly/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('소개') ?></p>

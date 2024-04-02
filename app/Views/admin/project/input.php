@@ -16,46 +16,63 @@ $identifier = $shortid->generate();
     files.push('artist_preview', '<?=$item['id']?>');
     <?php }
     }
-    if (isset($data['title_image_id'])) {?>
-    files.push('project_title', '<?=$data['title_image_id']?>');
+    if (isset($data['project_image_id'])) {?>
+    files.push('project', '<?=$data['project_image_id']?>');
     <?php }?>
 </script>
 <div class="container-inner">
     <div class="container-wrap">
-        <div class="artist-wrap">
-            <div class="form-wrap line-after">
+        <div class="project-wrap">
+            <div class="form-wrap project">
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('제목') ?></p>
-                    <input type="name" name="name" class="editable under-line" value="<?= $data['title'] ?>"/>
+                    <input type="text" name="title" class="editable under-line" value="<?= $data['title'] ?>"/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('내용') ?></p>
-                    <textarea class="editable" name="introduction" onkeydown="resizeInputPopupTextarea(this)"
+                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
                               onkeyup="resizeInputPopupTextarea(this)"><?= $data['content'] ?></textarea>
                 </div>
+                <div class="line"></div>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('타이틀 이미지') ?></p>
+                    <?= \App\Helpers\HtmlHelper::getImageUploader('project', $data['project_image_id'] ?? null) ?>
+                </div>
+                <div class="line"></div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('시작일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('start_date')">
-                        <input name="start_date" readonly>
+                        <input class="editable" name="start_date" readonly>
                     </a>
                 </div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('마감일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('end_date')">
-                        <input name="end_date" readonly>
+                        <input class="editable" name="end_date" readonly>
                     </a>
                 </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('아티스트 추가') ?></p>
-                    <a class="button" href="javascript:searchArtist('artist_id')">
-                        <input name="artist_id" readonly>
-                    </a>
+            </div>
+            <div class="form-wrap extra">
+                <div class="line black"></div>
+                <div class="input-wrap artist">
+                    <p class="input-title"><?= lang('아티스트') ?></p>
+                    <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', []) ?>
+                    <div class="button-wrap">
+                        <a class="button" href="javascript:searchArtist('artist_id')">
+                        </a>
+                    </div>
                 </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('타이틀 이미지') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getImageUploader('project_title', $data['title_image_id'] ?? null) ?>
+                <div class="line black"></div>
+                <div class="input-wrap reward">
+                    <p class="input-title"><?= lang('가격 및 리워드') ?></p>
+                    <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', []) ?>
+                    <div class="button-wrap">
+                        <a class="button" href="javascript:addRewardForm('reward')">
+                        </a>
+                    </div>
                 </div>
+                <div class="line black"></div>
             </div>
             <div class="button-wrap">
                 <a href="<?= $type == 'create' ? 'javascript:confirmCreateProject()' : 'javascript:confirmEditProject(' . $data['id'] . ')' ?>"
@@ -72,21 +89,108 @@ $identifier = $shortid->generate();
         closePopup(className);
     }
 
+    function removeRowDraggableItem(target, index, id) {
+        if (id) {
+            let index = files.get(target).indexOf(id);
+            if (index >= 0) files.splice(target, index);
+        }
+        $(`.row-uploader.${target} .index-${index}`).remove();
+    }
+
     function confirmArtistSearch(className, target) {
         let data = parseInputToData($(`.${className} input, .${className} textarea`))
+        const artist_id = data['artist_id']
+        if (artist_id) {
+            if (files.get(target).indexOf(artist_id) >= 0) {
+                openPopupMessage(lang('이미 선택된 아티스트입니다'))
+                return;
+            }
+            files.push(target, artist_id);
+            apiRequest({
+                type: 'GET',
+                url: `/api/artist/get/${data['artist_id']}`,
+                data: data,
+                dataType: 'json',
+                success: function (response, status, request) {
+                    if (!response.success) {
+                        openPopupErrors('popup-error', response, status, request);
+                        return;
+                    }
 
-        if (data['artist_id']) {
-            $(`.form-wrap input[name=${target}]`).val(data['artist_id'])
+                    const data = response.data
+                    let file_url = `/file/${data['profile_id']}`
+                    let $container = $(`.row-uploader.${target}`);
+
+                    const index = $container.find('.row-uploader-item').length
+
+                    $container.append(
+                        `<div class="draggable-item row-uploader-item index-${index}" draggable="true">
+                            <input hidden type="text" name="id" value="${data['id']}">
+                            <div class="profile" style=" background: url('${file_url}'); background-size: cover; font-size: 0;"></div>
+                            <div class="info-wrap">
+                                <p class="name">${data['name']}</p>
+                                <p>${data['job']}</p>
+                                <p>${data['introduction']}</p>
+                            </div>
+                            <div class="upload-item-hover">
+                                <a href="javascript:removeRowDraggableItem('${target}', '${index}', '${data['id']}')"
+                                   class="button delete-image black">
+                                    <img src="/asset/images/icon/cancel_white.png"/>
+                                </a>
+                            </div>
+                        </div>`);
+
+                    $container.initDraggable({
+                        onDragFinished: generateOnDragFinished(target),
+                    });
+                },
+                error: function (response, status, error) {
+                    openPopupErrors('popup-error', response, status, error);
+                },
+            });
             closePopup(className);
         } else {
             openPopupMessage(lang('아티스트를 선택해주세요'))
         }
     }
 
+    function addRewardForm(target) {
+        let $container = $(`.row-uploader.${target}`);
+        const index = $container.find('.row-uploader-item').length
+        $container.append(`
+            <div class="draggable-item row-uploader-item index-${index}" draggable="true">
+                <div class="input-wrap price">
+                   <p class="input-title">${lang('가격')}</p>
+                   <input type="number" name="price" class="editable under-line" value=""/>
+                   <p class="description">KRW</p>
+               </div>
+               <div class="input-wrap">
+                   <p class="input-title">${lang('리워드')}</p>
+                   <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
+                             onkeyup="resizeInputPopupTextarea(this)"></textarea>
+               </div>
+               <div class="column">
+                   <div class="input-wrap">
+                       <p class="input-title">${lang('재고')}</p>
+                       <input type="number" name="total_count" class="editable under-line" value="title"/>
+                   </div>
+                   <div class="input-wrap">
+                       <p class="input-title">${lang('구매가능한 수량')}</p>
+                       <input type="number" name="limited_count" class="editable under-line" value="title"/>
+                   </div>
+               </div>
+
+                <a href="javascript:removeRowDraggableItem('${target}', '${index}')"
+                   class="button delete-image">
+                    <img src="/asset/images/icon/cancel.png"/>
+                </a>
+            </div>`);
+    }
+
     function confirmEditProject(id) {
-        let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['files'] = files.get('artist_preview');
-        data['profile_id'] = files.get('artist_profile');
+        let data = parseInputToData($(`.project-wrap .form-wrap .editable`))
+        data['artist_id'] = files.get('artist_id');
+        data['project_image_id'] = files.get('project');
 
         apiRequest({
             type: 'POST',
@@ -107,11 +211,21 @@ $identifier = $shortid->generate();
     }
 
     function confirmCreateProject() {
-        let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['files'] = files.get('artist_preview');
-        data['profile_id'] = files.get('artist_profile');
+        let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
+        data['artist_id'] = files.get('artist_id');
+        data['project_image_id'] = files.get('project');
 
-        console.log(data)
+        let rewards = [];
+        let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
+        for (let i = 0; i < $rewards.length; ++i) {
+            const $reward = $rewards.eq(i);
+            const rewardData = parseInputToData($reward.find('.editable'))
+            console.log($reward.find('.editable'))
+            if (Object.keys(rewardData).length > 0) {
+                rewards.push(rewardData);
+            }
+        }
+        data['rewards'] = rewards;
 
         apiRequest({
             type: 'POST',

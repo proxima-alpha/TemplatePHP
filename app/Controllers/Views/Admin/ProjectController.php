@@ -142,9 +142,10 @@ class ProjectController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/uploader',
-                    '/common/uploader_slider_box',
+                    '/common/row-uploader-item',
                     '/common/input',
                     '/admin/project/common',
+                    '/admin/project/input',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',

@@ -4,6 +4,7 @@ use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
     $data['name'] = '';
+    $data['job'] = '';
     $data['introduction'] = '';
 }
 $shortid = ShortId::create();
@@ -39,7 +40,11 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.name') ?></p>
-                    <input type="name" name="name" class="editable under-line" value="<?= $data['name'] ?>"/>
+                    <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>"/>
+                </div>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('직업') ?></p>
+                    <input type="text" name="job" class="editable under-line" value="<?= $data['job'] ?>"/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('소개') ?></p>

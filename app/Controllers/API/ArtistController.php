@@ -93,8 +93,10 @@ class ArtistController extends CustomFileController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
+                $this->db->transBegin();
                 $inserted_row_id = $this->artistModel->insert($data);
                 if (!$inserted_row_id) {
+                    $this->db->transRollback();
                     $response['messages'] = $this->artistModel->errors();
                 } else {
                     // image priority
@@ -110,10 +112,12 @@ class ArtistController extends CustomFileController
                     // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
                     $conditionQuery = "identifier = '" . $data['identifier'] . "'";
                     $this->handleFileDelete($conditionQuery);
+                    $this->db->transCommit();
                     $response['success'] = true;
                 }
             } catch (Exception $e) {
                 //todo(log)
+                $this->db->transRollback();
                 $response['message'] = $e->getMessage();
             }
         }

@@ -212,7 +212,7 @@ function refreshSettingFile() {
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('${file_id}', 'main_image')"
+                            <a href="javascript:deleteUploadedSlickFile('main_image', '${file_id}')"
                                class="button delete-image black">
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>

@@ -162,7 +162,8 @@ class BaseModel extends Model
 //        ];
 //    }
 
-    protected function createIfNotExist($condition, $data) {
+    protected function createIfNotExist($condition, $data)
+    {
         $result = $this->builder()->getWhere($condition)->getResultArray();
         if (count($result) == 0) {
             try {

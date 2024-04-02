@@ -5,20 +5,20 @@ namespace API;
 use App\Helpers\QueryHelper;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
-use Models\ArtistModel;
 use Models\BaseModel;
-use Models\CodeArtistModel;
+use Models\ProjectModel;
+use Models\RewardModel;
 
 class ProjectController extends CustomFileController
 {
-    protected CodeArtistModel $codeArtistModel;
-    protected ArtistModel $artistModel;
+    protected ProjectModel $projectModel;
+    protected RewardModel $rewardModel;
 
     public function __construct()
     {
         $this->db = db_connect();
-        $this->codeArtistModel = model('Models\CodeArtistModel');
-        $this->artistModel = model('Models\ArtistModel');
+        $this->projectModel = model('Models\ProjectModel');
+        $this->rewardModel = model('Models\RewardModel');
     }
 
     /**
@@ -35,56 +35,84 @@ class ProjectController extends CustomFileController
      * [post] /api/artist/create
      * @return ResponseInterface
      */
-    public function createArtist(): ResponseInterface
+    public function create(): ResponseInterface
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
-        if (!isset($data['files'])) {
-            $data['files'] = [];
-        }
         $validationRules = [
-            'code_artist_id' => [
-                'label' => 'Code Artist',
+            'artist_id' => [
+                'label' => 'Artist',
                 'rules' => 'required',
             ],
-            'name' => [
-                'label' => 'Name',
+            'rewards' => [
+                'label' => 'Reward',
+                'rules' => 'required',
+            ],
+            'title' => [
+                'label' => 'Title',
                 'rules' => 'required|min_length[1]',
             ],
-            'introduction' => [
-                'label' => 'Introduction',
+            'content' => [
+                'label' => 'Content',
                 'rules' => 'required|min_length[1]',
+            ],
+            'start_date' => [
+                'label' => 'Start Date',
+                'rules' => 'required',
             ],
         ];
 
         $response = [
             'success' => false,
         ];
+
         if ($validationRules != null && !$this->validate($validationRules)) {
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $inserted_row_id = $this->artistModel->insert($data);
-                if (!$inserted_row_id) {
-                    $response['messages'] = $this->artistModel->errors();
-                } else {
-                    // image priority
-                    $queries = [];
-                    foreach ($data['files'] as $index => $file_id) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'],  $index);
+                // 날짜 체크
+                if (isset($data['end_date'])) {
+                    $startTimeRaw = strtotime($data['start_date']);
+                    $endTimeRaw = strtotime($data['end_date']);
+                    if ($startTimeRaw > $endTimeRaw)
+                        throw new Exception('End Date should be later than Start Date.');
+                }
+
+
+                if (isset($data['project_image_id'])) {
+                    if (sizeof($data['project_image_id']) > 0) {
+                        $data['project_image_id'] = $data['project_image_id'][0];
+                    } else {
+                        $data['project_image_id'] = null;
                     }
-                    foreach ($data['profile_id'] as $index => $file_id) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
+                }
+                $this->db->transBegin();
+                $inserted_row_id = $this->projectModel->insert($data);
+
+                if (!$inserted_row_id) {
+                    $this->db->transRollback();
+                    $response['messages'] = $this->projectModel->errors();
+                } else {
+                    foreach ($data['rewards'] as $reward) {
+                        $reward['project_id'] = $inserted_row_id;
+                        if (isset($reward['id'])) {
+                            $this->rewardModel->update($reward['id'], $reward);
+                        } else {
+                            $this->rewardModel->insert($reward);
+                        }
+                    }
+                    $queries = [];
+                    $queries[] = QueryHelper::getGroupCreate($data['artist_id'], $inserted_row_id);
+                    if (isset($data['project_image_id'])) {
+                        $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "'";
                     }
                     BaseModel::transaction($this->db, $queries);
-
-                    // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
-                    $conditionQuery = "identifier = '" . $data['identifier'] . "'";
-                    $this->handleFileDelete($conditionQuery);
+                    $this->db->transCommit();
                     $response['success'] = true;
                 }
             } catch (Exception $e) {
                 //todo(log)
+                $this->db->transRollback();
                 $response['message'] = $e->getMessage();
             }
         }

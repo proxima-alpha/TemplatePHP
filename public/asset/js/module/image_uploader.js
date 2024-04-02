@@ -35,8 +35,8 @@ let files = {
     },
 };
 
-function deleteUploadedSlickFile(id, key = 'topic', callback) {
-    let index = files.get(key).indexOf(id);
+function deleteUploadedSlickFile(target = 'topic', id, callback) {
+    let index = files.get(target).indexOf(id);
     if (index < 0) return;
     if (callback && typeof callback === 'function') {
         callback();
@@ -44,7 +44,7 @@ function deleteUploadedSlickFile(id, key = 'topic', callback) {
         let $slick = $('.slick.uploader');
         $slick.removeCustomSlickItem(index)
     }
-    files.splice(key, index);
+    files.splice(target, index);
     // apiRequest({
     //     type: 'DELETE',
     //     url: `/api/file/delete/${id}`,
@@ -60,7 +60,6 @@ function deleteUploadedSlickFile(id, key = 'topic', callback) {
 
 function deleteUploadedImageFile(target, id, accept) {
     let index = files.get(target).indexOf(id);
-    console.log(accept)
     if (index < 0) return;
     files.splice(target, index);
 
@@ -128,7 +127,7 @@ function onFileUpload(
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('${file_id}', '${target}')"
+                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
                                class="button delete-image black">
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>

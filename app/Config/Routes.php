@@ -92,7 +92,7 @@ $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
 /**
  * API Routes
  */
-$targets = 'topic|event|main|main_relation|event|user_profile|artist_profile|artist_preview';
+$targets = 'topic|main|main_video|project|user_profile|artist_profile|artist_preview';
 $routes->post('/api/file/(' . $targets . ')/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
 $routes->post('/api/file/(' . $targets . '|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
 $routes->post('/api/file/(' . $targets . ')/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
@@ -148,6 +148,11 @@ $routes->get('/api/artist/get/([0-9]+)', [\API\ArtistController::class, 'get']);
 $routes->post('/api/artist/create', [\API\ArtistController::class, 'create']);
 $routes->post('/api/artist/update/([0-9]+)', [\API\ArtistController::class, 'update']);
 $routes->delete('/api/artist/delete/([0-9]+)', [\API\ArtistController::class, 'delete']);
+
+$routes->get('/api/project/get/([0-9]+)', [\API\ProjectController::class, 'get']);
+$routes->post('/api/project/create', [\API\ProjectController::class, 'create']);
+$routes->post('/api/project/update/([0-9]+)', [\API\ProjectController::class, 'update']);
+$routes->delete('/api/project/delete/([0-9]+)', [\API\ProjectController::class, 'delete']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 

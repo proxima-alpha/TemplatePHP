@@ -1,0 +1,36 @@
+
+.row-uploader-item {
+    width: calc(100% - 40px);
+    height: 250px;
+    box-sizing: border-box;
+    line-height: 250px;
+    margin: 10px;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #bbb;
+}
+
+.row-uploader-item > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.row-uploader-item .profile {
+    width: 220px;
+    height: 220px;
+}
+
+.row-uploader-item .info-wrap {
+    width: calc(100% - 240px);
+    height: 220px;
+    margin-left: 20px;
+    overflow: hidden;
+}
+
+.row-uploader-item .info-wrap p {
+    padding-top: 5px;
+}
+
+.row-uploader-item .info-wrap .name {
+    font-weight: 600;
+}

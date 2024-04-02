@@ -25,4 +25,13 @@ $(document).ready(function () {
             // topic view page doesn't need initDraggable
         }
     })
+    let $rowUploader = $('.row-uploader');
+    try {
+        $rowUploader.initDraggable({
+            onDragFinished: generateOnDragFinished('artist_id'),
+        });
+    } catch (e) {
+        // do nothing
+        // topic view page doesn't need initDraggable
+    }
 });

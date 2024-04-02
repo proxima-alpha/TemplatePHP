@@ -17,8 +17,8 @@
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column title"><?= lang('제목') ?></span>
                             <span class="column status"><?= lang('상태') ?></span>
+                            <span class="column title"><?= lang('제목') ?></span>
                             <span class="column start-date"><?= lang('시작일') ?></span>
                             <span class="column end-date"><?= lang('종료일') ?></span>
                             <span class="column created-at"><?= lang('Service.created_at') ?></span>
@@ -28,8 +28,8 @@
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
                                 <a href="/admin/artist/<?= $item['id'] ?>/view" class="button row-button">
-                                    <span class="column title"><?= $item['title'] ?></span>
                                     <span class="column status"><?= $item['status'] ?></span>
+                                    <span class="column title"><?= $item['title'] ?></span>
                                     <span class="column start-date"><?= $item['start_date'] ?></span>
                                     <span class="column end-date"><?= $item['end_date'] ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>

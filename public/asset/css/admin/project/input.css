@@ -1,0 +1,127 @@
+/*날짜 선택 버튼*/
+.form-wrap .input-wrap.calendar {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.form-wrap .input-wrap.calendar a {
+    width: 100%;
+}
+
+.form-wrap .input-wrap.calendar input {
+    width: calc(100% - 40px);
+    cursor: pointer;
+}
+
+.container-inner > div .button-wrap {
+    padding-top: 20px;
+}
+
+.container-inner > div .artist .button-wrap,
+.container-inner > div .reward .button-wrap {
+    padding-top: 0;
+}
+
+.container-inner > div .button-wrap .button {
+    min-width: 100px;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 18px;
+}
+
+/*팝업 커스텀*/
+.popup-artist-search .pages {
+    height: 50px;
+    line-height: 50px;
+}
+
+.popup-artist-search.popup-wrap .popup-box.has-control-button .popup-inner {
+    padding: 20px 20px 45px 20px;
+}
+
+.popup-artist-search .selected {
+    background-color: #efefef;
+}
+
+/*row uploader 커스텀*/
+.form-wrap .input-wrap.artist > .button-wrap,
+.form-wrap .input-wrap.reward > .button-wrap {
+    text-align: center;
+}
+
+.form-wrap .input-wrap.artist > .button-wrap .button,
+.form-wrap .input-wrap.reward > .button-wrap .button {
+    width: 100px;
+    height: 100px;
+    background: url('/asset/images/icon/plus@2x.png') no-repeat center;
+}
+
+.form-wrap .row-uploader .row-uploader-item {
+    position: relative;
+}
+
+.form-wrap .row-uploader .upload-item-hover {
+    display: none;
+    background: rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.form-wrap .row-uploader .row-uploader-item:hover .upload-item-hover {
+    display: inline-block;
+}
+
+.form-wrap .row-uploader .button.delete-image {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+}
+
+.form-wrap .row-uploader.reward .button.delete-image {
+    top: 10px;
+    right: 10px;
+}
+
+.form-wrap .row-uploader .button.delete-image * {
+    vertical-align: middle;
+}
+
+.row-uploader.reward .row-uploader-item {
+    height: auto;
+    line-height: normal;
+}
+
+.row-uploader.reward .row-uploader-item input,
+.row-uploader.reward .row-uploader-item textarea {
+    width: calc(100% - 40px);
+    margin: 5px 10px 10px 10px;
+}
+
+.row-uploader.reward .row-uploader-item .input-wrap.price input {
+    width: 250px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.row-uploader.reward .row-uploader-item .input-wrap.price .description {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+.row-uploader.reward .row-uploader-item > div {
+    width: 100%;
+}
+
+.row-uploader.reward .row-uploader-item .column > div {
+    width: calc(50% - 30px);
+    display: inline-block;
+}

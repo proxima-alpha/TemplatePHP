@@ -155,8 +155,8 @@ final class HtmlHelper
                 $html .=
                     '<div class="upload-item-add"
                          style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
-                        <label for="artist_profile-file" class="button"></label>
-                        <input type="file" name="file" multiple id="artist_profile-file"
+                        <label for="' . $key . '-file" class="button"></label>
+                        <input type="file" name="file" multiple id="' . $key . '-file"
                                onchange="onFileUpload(this, \'' . $key . '\');"
                                accept="image/png,image/jpg"/>
                     </div>';
@@ -181,7 +181,8 @@ final class HtmlHelper
     {
         $html = '';
         if ($view_mode == 'input') {
-            $html .= '<div class="slider-wrap">
+            $html .=
+                '<div class="slider-wrap">
                     <div class="slick uploader ' . $key . '">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
@@ -192,7 +193,7 @@ final class HtmlHelper
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <div class="upload-item-hover">
-                                <a href="javascript:deleteUploadedSlickFile(' . $file['id'] . ', \'' . $key . '\')"
+                                <a href="javascript:deleteUploadedSlickFile( \'' . $key . '\', ' . $file['id'] . ')"
                                    class="button delete-image black">
                                     <img src="/asset/images/icon/cancel_white.png"/>
                                 </a>
@@ -226,10 +227,75 @@ final class HtmlHelper
                         </div>';
                 }
             }
-        $html .=
-            '</div>
+            $html .=
+                '</div>
         </div>';
         }
+        return $html;
+    }
+
+    public static function getRowUploaderArtist($target, $items): string
+    {
+        $html = '';
+        $html .=
+            '<div class="row-uploader ' . $target . '">';
+        foreach ($items as $index => $item) {
+            $url = '/file/' . $items['profile_id'];
+            $html .=
+                '<div class="draggable-item row-uploader-item" draggable="true">
+                    <input hidden type="text" name="id" value="' . $item['id'] . '">
+                    <div class="profile" style=" background: url(\'' . $url . '\'); background-size: cover; font-size: 0;"></div>
+                    <div class="info-wrap">
+                        <p class="name">' . $item['name'] . '</p>
+                        <p>' . $item['job'] . '</p>
+                        <p>' . $item['introduction'] . '</p>
+                    </div>
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteUploadedSlickFile( \'' . $target . '\', ' . $item['id'] . ')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
+                    </div>
+                </div>';
+        }
+        $html .=
+            '</div>';
+        return $html;
+    }
+
+    public static function getRowUploaderReward($target, $items): string
+    {
+        $html = '<div class="row-uploader ' . $target . '">';
+        foreach ($items as $index => $item) {
+            $html .=
+                '<div class="draggable-item row-uploader-item" draggable="true">';
+            if (isset($item['id'])) {
+                $html .= '<input hidden type="text" name="id" value="' . $item['id'] . '">';
+            }
+            $html .= '
+                <div class="input-wrap price">
+                    <p class="input-title">' . lang('가격') . '</p>
+                    <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '"/>
+                    <p class="description">KRW</p>
+                </div>
+                <div class="input-wrap">
+                    <p class="input-title">' . lang('리워드') . '</p>
+                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
+                              onkeyup="resizeInputPopupTextarea(this)">' . $item['content'] . '</textarea>
+                </div>
+                <div class="column">
+                    <div class="input-wrap">
+                        <p class="input-title">' . lang('재고') . '</p>
+                        <input type="number" name="total_count" class="editable under-line" value="' . $item['total_count'] . '"/>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title">' . lang('구매가능한 수량') . '</p>
+                        <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '"/>
+                    </div>
+                </div>';
+            $html .= '</div>';
+        }
+        $html .= '</div>';
         return $html;
     }
 }

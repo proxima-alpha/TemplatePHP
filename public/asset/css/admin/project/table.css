@@ -1,11 +1,18 @@
-.table-wrap .column.code {
+.table-wrap .column.title {
+    width: 30%;
+}
+.table-wrap .column.status {
+    width: 10%;
+}
+
+.table-wrap .column.start-date {
     width: 20%;
 }
-.table-wrap .column.name {
-    width: 40%;
+.table-wrap .column.end-date {
+    width: 20%;
 }
 
 .table-wrap .column.created-at {
-    width: 40%;
+    width: 20%;
     text-align: right;
 }
