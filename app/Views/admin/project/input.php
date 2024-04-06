@@ -11,9 +11,9 @@ $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
-    <?php if (isset($data['files'])) {
-    foreach ($data['files'] as $index => $item) { ?>
-    files.push('artist_preview', '<?=$item['id']?>');
+    <?php if (isset($data['artists'])) {
+    foreach ($data['artists'] as $index => $item) { ?>
+    files.push('artist_id', '<?=$item['id']?>');
     <?php }
     }
     if (isset($data['project_image_id'])) {?>
@@ -43,13 +43,13 @@ $identifier = $shortid->generate();
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('시작일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('start_date')">
-                        <input class="editable" name="start_date" readonly>
+                        <input class="editable" name="start_date" value="<?= $data['start_date'] ?? null ?>" readonly>
                     </a>
                 </div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('마감일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('end_date')">
-                        <input class="editable" name="end_date" readonly>
+                        <input class="editable" name="end_date" value="<?= $data['end_date'] ?? null ?>" readonly>
                     </a>
                 </div>
             </div>
@@ -57,7 +57,7 @@ $identifier = $shortid->generate();
                 <div class="line black"></div>
                 <div class="input-wrap artist">
                     <p class="input-title"><?= lang('아티스트') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', []) ?>
+                    <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', $data['artists'] ?? []) ?>
                     <div class="button-wrap">
                         <a class="button" href="javascript:searchArtist('artist_id')">
                         </a>
@@ -66,7 +66,7 @@ $identifier = $shortid->generate();
                 <div class="line black"></div>
                 <div class="input-wrap reward">
                     <p class="input-title"><?= lang('가격 및 리워드') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', []) ?>
+                    <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', $data['rewards'] ?? []) ?>
                     <div class="button-wrap">
                         <a class="button" href="javascript:addRewardForm('reward')">
                         </a>
@@ -189,8 +189,20 @@ $identifier = $shortid->generate();
 
     function confirmEditProject(id) {
         let data = parseInputToData($(`.project-wrap .form-wrap .editable`))
-        data['artist_id'] = files.get('artist_id');
+        data['artists'] = files.get('artist_id');
         data['project_image_id'] = files.get('project');
+
+        let rewards = [];
+        let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
+        for (let i = 0; i < $rewards.length; ++i) {
+            const $reward = $rewards.eq(i);
+            const rewardData = parseInputToData($reward.find('.editable'))
+            console.log($reward.find('.editable'))
+            if (Object.keys(rewardData).length > 0) {
+                rewards.push(rewardData);
+            }
+        }
+        data['rewards'] = rewards;
 
         apiRequest({
             type: 'POST',
@@ -212,7 +224,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateProject() {
         let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
-        data['artist_id'] = files.get('artist_id');
+        data['artists'] = files.get('artist_id');
         data['project_image_id'] = files.get('project');
 
         let rewards = [];

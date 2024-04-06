@@ -269,6 +269,7 @@ class CustomFileController extends BaseApiController
      */
     protected function handleFileDelete($conditionQuery): void
     {
+        if ($conditionQuery == null || $conditionQuery == "") return;
         // 업로드 하였으나 할당되지 않은 이미지, 할당되어 있으나 할당을 제거할 이미지들에 대하여 정리
         // 삭제할 파일들 정보 미리 가져옴
         $files = BaseModel::transaction($this->db, [

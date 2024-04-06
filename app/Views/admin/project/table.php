@@ -27,7 +27,7 @@
                     <ul>
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
-                                <a href="/admin/artist/<?= $item['id'] ?>/view" class="button row-button">
+                                <a href="/admin/project/<?= $item['id'] ?>/view" class="button row-button">
                                     <span class="column status"><?= $item['status'] ?></span>
                                     <span class="column title"><?= $item['title'] ?></span>
                                     <span class="column start-date"><?= $item['start_date'] ?></span>

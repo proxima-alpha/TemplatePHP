@@ -23,6 +23,44 @@
     width: auto;
 }
 
+.form-wrap .input-wrap.calendar {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.row-uploader.reward .row-uploader-item {
+    height: auto;
+    line-height: normal;
+}
+
+.row-uploader.reward .row-uploader-item input,
+.row-uploader.reward .row-uploader-item textarea {
+    width: calc(100% - 40px);
+    margin: 5px 10px 10px 10px;
+}
+
+.row-uploader.reward .row-uploader-item .input-wrap.price input {
+    width: 250px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.row-uploader.reward .row-uploader-item .input-wrap.price .description {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 400;
+}
+
+.row-uploader.reward .row-uploader-item > div {
+    width: 100%;
+}
+
+.row-uploader.reward .row-uploader-item .column > div {
+    width: calc(50% - 30px);
+    display: inline-block;
+}
+
 @media (max-width: 840px) {
     .form-wrap .input-wrap {
         padding: 0 15px;

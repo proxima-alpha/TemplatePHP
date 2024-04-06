@@ -28,6 +28,7 @@ class QueryHelper
     }
     static function getRewardCreate($artist_ids, $project_id)
     {
+        if(sizeof($artist_ids) == 0) return '';
         $query = "INSERT INTO artist_group(artist_id, project_id) VALUES";
         $prefix = '';
         foreach ($artist_ids as $artist_id) {

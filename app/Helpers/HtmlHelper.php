@@ -234,16 +234,17 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getRowUploaderArtist($target, $items): string
+    public static function getRowUploaderArtist($target, $items, $view_mode = 'input'): string
     {
         $html = '';
         $html .=
             '<div class="row-uploader ' . $target . '">';
-        foreach ($items as $index => $item) {
-            $url = '/file/' . $items['profile_id'];
-            $html .=
-                '<div class="draggable-item row-uploader-item" draggable="true">
-                    <input hidden type="text" name="id" value="' . $item['id'] . '">
+        if ($view_mode == 'input') {
+            foreach ($items as $index => $item) {
+                $url = '/file/' . $item['profile_id'];
+                $html .=
+                    '<div class="draggable-item row-uploader-item" draggable="true">
+                    <input hidden class="editable" type="text" name="id" value="' . $item['id'] . '">
                     <div class="profile" style=" background: url(\'' . $url . '\'); background-size: cover; font-size: 0;"></div>
                     <div class="info-wrap">
                         <p class="name">' . $item['name'] . '</p>
@@ -257,22 +258,38 @@ final class HtmlHelper
                         </a>
                     </div>
                 </div>';
+            }
+        } else {
+            foreach ($items as $index => $item) {
+                $url = '/file/' . $item['profile_id'];
+                $html .=
+                    '<div class="row-uploader-item">
+                    <input hidden type="text" name="id" value="' . $item['id'] . '">
+                    <div class="profile" style=" background: url(\'' . $url . '\'); background-size: cover; font-size: 0;"></div>
+                    <div class="info-wrap">
+                        <p class="name">' . $item['name'] . '</p>
+                        <p>' . $item['job'] . '</p>
+                        <p>' . $item['introduction'] . '</p>
+                    </div>
+                </div>';
+            }
         }
         $html .=
             '</div>';
         return $html;
     }
 
-    public static function getRowUploaderReward($target, $items): string
+    public static function getRowUploaderReward($target, $items, $view_mode = 'input'): string
     {
         $html = '<div class="row-uploader ' . $target . '">';
-        foreach ($items as $index => $item) {
-            $html .=
-                '<div class="draggable-item row-uploader-item" draggable="true">';
-            if (isset($item['id'])) {
-                $html .= '<input hidden type="text" name="id" value="' . $item['id'] . '">';
-            }
-            $html .= '
+        if ($view_mode == 'input') {
+            foreach ($items as $index => $item) {
+                $html .=
+                    '<div class="draggable-item row-uploader-item" draggable="true">';
+                if (isset($item['id'])) {
+                    $html .= '<input hidden class="editable" type="text" name="id" value="' . $item['id'] . '">';
+                }
+                $html .= '
                 <div class="input-wrap price">
                     <p class="input-title">' . lang('가격') . '</p>
                     <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '"/>
@@ -293,7 +310,38 @@ final class HtmlHelper
                         <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '"/>
                     </div>
                 </div>';
-            $html .= '</div>';
+                $html .= '</div>';
+            }
+        } else {
+            foreach ($items as $index => $item) {
+                $html .=
+                    '<div class="row-uploader-item">';
+                if (isset($item['id'])) {
+                    $html .= '<input hidden type="text" name="id" value="' . $item['id'] . '">';
+                }
+                $html .= '
+                <div class="input-wrap price">
+                    <p class="input-title">' . lang('가격') . '</p>
+                    <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '" readonly/>
+                    <p class="description">KRW</p>
+                </div>
+                <div class="input-wrap">
+                    <p class="input-title">' . lang('리워드') . '</p>
+                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
+                              onkeyup="resizeInputPopupTextarea(this)" readonly>' . $item['content'] . '</textarea>
+                </div>
+                <div class="column">
+                    <div class="input-wrap">
+                        <p class="input-title">' . lang('재고') . '</p>
+                        <input type="number" name="total_count" class="editable under-line" value="' . $item['total_count'] . '"  readonly/>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title">' . lang('구매가능한 수량') . '</p>
+                        <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '"  readonly/>
+                    </div>
+                </div>';
+                $html .= '</div>';
+            }
         }
         $html .= '</div>';
         return $html;

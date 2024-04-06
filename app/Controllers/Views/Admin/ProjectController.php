@@ -4,17 +4,23 @@ namespace Views\Admin;
 
 use App\Helpers\Utils;
 use Exception;
+use Models\ArtistGroupModel;
 use Models\ProjectModel;
+use Models\RewardModel;
 
 class ProjectController extends BaseAdminController
 {
     protected ProjectModel $projectModel;
+    protected RewardModel $rewardModel;
+    protected ArtistGroupModel $artistGroupModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->isRestricted = true;
         $this->projectModel = model('Models\ProjectModel');
+        $this->rewardModel = model('Models\RewardModel');
+        $this->artistGroupModel = model('Models\ArtistGroupModel');
     }
 
     /**
@@ -62,7 +68,7 @@ class ProjectController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $data = array_merge($data, $this->getArtistData($id));
+            $data = array_merge($data, $this->getProjectData($id));
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
@@ -70,10 +76,11 @@ class ProjectController extends BaseAdminController
 
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader',
                     '/common/uploader_slider_box',
+                    '/common/row_uploader_item',
                     '/common/input',
                     '/admin/project/common',
-                    '/admin/project/view',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
@@ -95,9 +102,7 @@ class ProjectController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $codes = $this->codeArtistModel->get();
-            $data['code_artists'] = $codes;
-            $data = array_merge($data, $this->getArtistData($id));
+            $data = array_merge($data, $this->getProjectData($id));
             $data = array_merge($data, [
                 'type' => 'edit'
             ]);
@@ -108,16 +113,19 @@ class ProjectController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/uploader',
-                    '/common/uploader_slider_box',
+                    '/common/row_uploader_item',
                     '/common/input',
                     '/admin/project/common',
+                    '/admin/project/input',
                 ],
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
+                    '/module/calendar',
                     '/module/draggable',
                     '/module/image_uploader',
                     '/common/artist',
+                    '/admin/project_input',
                 ],
             ])
             . view('/admin/project/input', $data)
@@ -142,7 +150,7 @@ class ProjectController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/uploader',
-                    '/common/row-uploader-item',
+                    '/common/row_uploader_item',
                     '/common/input',
                     '/admin/project/common',
                     '/admin/project/input',
@@ -165,15 +173,17 @@ class ProjectController extends BaseAdminController
      * artist 조회시 필요한 데이터 불러오는 기능
      * @throws Exception
      */
-    private function getArtistData($id): array
+    private function getProjectData($id): array
     {
         $result = [];
-        $artists = $this->artistModel->get(['id' => $id, 'is_deleted' => 0]);
-        if (sizeof($artists) != 1) throw new Exception('deleted');
-        $artist = $artists[0];
-        $files = $this->customFileModel->get(['artist_id' => $id, 'target' => 'artist_preview']);
-        $artist['files'] = $files;
-        $result['data'] = $artist;
+        $projects = $this->projectModel->get(['id' => $id, 'is_deleted' => 0]);
+        if (sizeof($projects) != 1) throw new Exception('deleted');
+        $project = $projects[0];
+        $artists = $this->artistGroupModel->getArtists($id);
+        $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+        $project['artists'] = $artists;
+        $project['rewards'] = $rewards;
+        $result['data'] = $project;
         return $result;
     }
 }

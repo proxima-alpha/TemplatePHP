@@ -12,6 +12,7 @@ class RewardModel extends BaseModel
         'total_count',
         'price',
         'limited_count',
+        'is_deleted',
         'priority',
         'created_at',
         'updated_at',
