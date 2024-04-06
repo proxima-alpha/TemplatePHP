@@ -18,23 +18,12 @@ class QueryHelper
 
     static function getGroupCreate($artist_ids, $project_id)
     {
-        $query = "INSERT INTO artist_group(artist_id, project_id) VALUES";
+        $query = "REPLACE INTO artist_group(artist_id, project_id) VALUES";
         $prefix = '';
         foreach ($artist_ids as $artist_id) {
-            $query .= $prefix."('" . $artist_id . "','" . $project_id . "')";
+            $query .= $prefix . "('" . $artist_id . "','" . $project_id . "')";
             $prefix = ',';
         }
-        return $query.';';
-    }
-    static function getRewardCreate($artist_ids, $project_id)
-    {
-        if(sizeof($artist_ids) == 0) return '';
-        $query = "INSERT INTO artist_group(artist_id, project_id) VALUES";
-        $prefix = '';
-        foreach ($artist_ids as $artist_id) {
-            $query .= $prefix."('" . $artist_id . "','" . $project_id . "')";
-            $prefix = ',';
-        }
-        return $query;
+        return $query . ';';
     }
 }

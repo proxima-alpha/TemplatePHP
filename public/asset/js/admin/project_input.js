@@ -189,3 +189,16 @@ function cancelArtistSearch(className, target) {
 function confirmArtistSearch(className, target) {
     closePopup(className);
 }
+
+function deleteUploadedArtistFile(target = 'topic', id) {
+    let index = files.get(target).indexOf(id.toString());
+    if (index < 0) return;
+    const $uploader = $(`.row-uploader.${target}`)
+    const $inputs = $uploader.find('input[name="id"]');
+    for(let i= 0; i< $inputs.length; ++i) {
+        if($inputs.eq(i).val() == id) {
+            files.splice(target, index);
+            $inputs.eq(i).parent().remove();
+        }
+    }
+}

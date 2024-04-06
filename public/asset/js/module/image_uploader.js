@@ -35,15 +35,11 @@ let files = {
     },
 };
 
-function deleteUploadedSlickFile(target = 'topic', id, callback) {
-    let index = files.get(target).indexOf(id);
+function deleteUploadedSlickFile(target = 'topic', id) {
+    let index = files.get(target).indexOf(id.toString());
     if (index < 0) return;
-    if (callback && typeof callback === 'function') {
-        callback();
-    } else {
-        let $slick = $('.slick.uploader');
-        $slick.removeCustomSlickItem(index)
-    }
+    let $slick = $('.slick.uploader');
+    $slick.removeCustomSlickItem(index)
     files.splice(target, index);
     // apiRequest({
     //     type: 'DELETE',

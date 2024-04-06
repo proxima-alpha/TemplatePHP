@@ -94,6 +94,7 @@ class ArtistController extends CustomFileController
         } else {
             try {
                 $this->db->transBegin();
+                if (isset($data['id'])) unset($data['id']);
                 $inserted_row_id = $this->artistModel->insert($data);
                 if (!$inserted_row_id) {
                     $this->db->transRollback();
@@ -134,6 +135,7 @@ class ArtistController extends CustomFileController
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
+        if (isset($data['id'])) unset($data['id']);
         if (!isset($data['profile_id']) || sizeof($data['profile_id']) == 0) {
             $data['profile_id'] = null;
         } else {

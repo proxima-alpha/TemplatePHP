@@ -124,7 +124,7 @@ class ProjectController extends BaseAdminController
                     '/module/calendar',
                     '/module/draggable',
                     '/module/image_uploader',
-                    '/common/artist',
+                    '/common/project',
                     '/admin/project_input',
                 ],
             ])
@@ -161,7 +161,7 @@ class ProjectController extends BaseAdminController
                     '/module/calendar',
                     '/module/draggable',
                     '/module/image_uploader',
-                    '/common/artist',
+                    '/common/project',
                     '/admin/project_input',
                 ],
             ])

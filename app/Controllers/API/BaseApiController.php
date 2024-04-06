@@ -88,6 +88,7 @@ class BaseApiController extends BaseController
                 if ($doAdditionalCheck != null && is_callable($doAdditionalCheck)) {
                     $doAdditionalCheck($model, $data);
                 }
+                if (isset($data['id'])) unset($data['id']);
                 if (!$model->insert($data)) {
                     $response['messages'] = $model->errors();
                 } else {
@@ -122,6 +123,7 @@ class BaseApiController extends BaseController
                 $response['messages'] = $this->validator->getErrors();
             } else {
                 try {
+                    if (isset($data['id'])) unset($data['id']);
                     $model->update($id, $data);
                     if ($doAfterUpdate != null && is_callable($doAfterUpdate)) {
                         $doAfterUpdate($model, $data);

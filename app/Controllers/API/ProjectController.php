@@ -81,6 +81,7 @@ class ProjectController extends CustomFileController
                         throw new Exception('End Date should be later than Start Date.');
                 }
 
+                if (isset($data['id'])) unset($data['id']);
                 if (isset($data['project_image_id'])) {
                     if (sizeof($data['project_image_id']) > 0) {
                         $data['project_image_id'] = $data['project_image_id'][0];
@@ -88,6 +89,10 @@ class ProjectController extends CustomFileController
                         $data['project_image_id'] = null;
                     }
                 }
+                if (isset($data['artists'])) {
+                    $data['artists'] = array_unique($data['artists']);
+                }
+
                 $this->db->transBegin();
                 $inserted_row_id = $this->projectModel->insert($data);
 
@@ -106,7 +111,7 @@ class ProjectController extends CustomFileController
                     $queries = [];
                     $queries[] = QueryHelper::getGroupCreate($data['artists'], $inserted_row_id);
                     if (isset($data['project_image_id'])) {
-                        $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "'";
+                        $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
                     }
                     BaseModel::transaction($this->db, $queries);
                     $this->db->transCommit();
@@ -131,8 +136,12 @@ class ProjectController extends CustomFileController
      */
     public function update($id): ResponseInterface
     {
+        $response = [
+            'success' => false,
+        ];
         $this->checkAdmin();
         $data = $this->request->getPost();
+        if (isset($data['id'])) unset($data['id']);
         if (isset($data['project_image_id'])) {
             if (sizeof($data['project_image_id']) > 0) {
                 $data['project_image_id'] = $data['project_image_id'][0];
@@ -140,14 +149,17 @@ class ProjectController extends CustomFileController
                 $data['project_image_id'] = null;
             }
         }
+        if (isset($data['artists'])) {
+            $data['artists'] = array_unique($data['artists']);
+        }
 
+        $previousData = $this->projectModel->getLatest(['id' => $id]);
         if (strlen($id) == 0) {
             $response['message'] = "field 'id' should not be empty.";
         } else {
             try {
-
-                $previousData = $this->projectModel->getLatest(['id' => $id]);
-                $result = $this->projectModel->update($id, $data);
+                $this->db->transBegin();
+                $this->projectModel->update($id, $data);
                 $queries = [];
                 // reward 제거
                 $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
@@ -169,20 +181,21 @@ class ProjectController extends CustomFileController
                 if ($selectorQuery != '') {
                     $queries[] = "UPDATE reward SET is_deleted= 0 WHERE id NOT IN(" . $selectorQuery . ")";
                 }
-                foreach ($data['rewards'] as $newReward) {
+                foreach ($data['rewards'] as $index => $newReward) {
                     $newReward['project_id'] = $id;
+                    $newReward['priority'] = $index + 1;
                     if (isset($newReward['id'])) {
-                        $this->rewardModel->update($newReward['id'], $newReward);
+                        $this->rewardModel->update($newReward);
                     } else {
                         $this->rewardModel->insert($newReward);
                     }
                 }
 
-                $queries[] = "DELETE FROM artist_group WHERE project_id = '" . $id . "'";
+                $queries[] = "DELETE FROM artist_group WHERE project_id = '" . $id . "';";
                 $queries[] = QueryHelper::getGroupCreate($data['artists'], $id);
-
+//
                 if (isset($data['project_image_id'])) {
-                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = " . $data['project_image_id'];
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
                 }
                 BaseModel::transaction($this->db, $queries);
                 $conditionQuery = "identifier = '" . $data['identifier'] . "'";
@@ -191,14 +204,11 @@ class ProjectController extends CustomFileController
                     $conditionQuery .= " OR id = " . $previousData['project_image_id'];
                 }
                 $this->handleFileDelete($conditionQuery);
-
+                $this->db->transCommit();
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();
-                $response = [
-                    'success' => false,
-                ];
                 $response['message'] = $e->getMessage();
             }
         }

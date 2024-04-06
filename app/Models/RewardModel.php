@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class RewardModel extends BaseModel
+class RewardModel extends BasePriorityModel
 {
     protected $table = 'reward';
     protected $allowedFields = [

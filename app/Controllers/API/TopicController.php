@@ -77,6 +77,7 @@ class TopicController extends CustomFileController
         } else {
             try {
                 $this->db->transBegin();
+                if (isset($data['id'])) unset($data['id']);
                 $inserted_row_id = $this->topicModel->insert($data);
                 if (!$inserted_row_id) {
                     $this->db->transRollback();
@@ -148,7 +149,7 @@ class TopicController extends CustomFileController
             }
             BaseModel::transaction($this->db, $queries);
 
-            $conditionQuery;
+            $conditionQuery = '';
             if (sizeof($data['files']) > 0) {
                 $conditionQuery = "topic_id = " . $id . " AND id NOT IN(" . $selectorQuery . ")" .
                     " OR identifier = '" . $data['identifier'] . "'";

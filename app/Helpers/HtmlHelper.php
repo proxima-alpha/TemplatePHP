@@ -252,7 +252,7 @@ final class HtmlHelper
                         <p>' . $item['introduction'] . '</p>
                     </div>
                     <div class="upload-item-hover">
-                        <a href="javascript:deleteUploadedSlickFile( \'' . $target . '\', ' . $item['id'] . ')"
+                        <a href="javascript:deleteUploadedArtistFile( \'' . $target . '\', ' . $item['id'] . ')"
                            class="button delete-image black">
                             <img src="/asset/images/icon/cancel_white.png"/>
                         </a>
