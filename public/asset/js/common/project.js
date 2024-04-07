@@ -10,7 +10,6 @@ $(document).ready(function () {
     try {
         $('.row-uploader.reward').initDraggable({
             onDragFinished: async (from, to) => {
-                console.log(from, to)
                 let temp = from.style.background;
                 from.style.background = to.style.background;
                 to.style.background = temp;

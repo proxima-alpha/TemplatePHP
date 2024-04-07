@@ -231,7 +231,6 @@ async function openInputPopup(id, key = 'default') {
                     css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
                     if (initContainer[key].getCssFiles) {
                         const files = initContainer[key].getCssFiles();
-                        console.log(files)
                         for (let file of files) {
                             css += await loadStyleFile(file, "." + className);
                         }
@@ -320,7 +319,6 @@ async function openInputPopupCreate(key = 'default') {
             css += await loadStyleFile('/asset/css/common/popup/input.css', "." + className);
             if (initContainer[key].getCssFiles) {
                 const files = initContainer[key].getCssFiles();
-                console.log(files)
                 for (let file of files) {
                     css += await loadStyleFile(file, "." + className);
                 }
@@ -507,7 +505,6 @@ function confirmInputPopupCreate(key = 'default') {
     const className = `${key}-popup-create`;
     if (!initContainer[key].getCreateUrl) return;
     let data = parseInputToData($(`.${className} .editable`))
-    console.log(data)
 
     $(`.${className} .error-message-wrap`).empty();
     apiRequest({

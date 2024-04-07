@@ -99,8 +99,6 @@ $identifier = $shortid->generate();
         data['previews'] = files.get('artist_preview');
         data['profile_id'] = files.get('artist_profile');
 
-        console.log(data)
-
         apiRequest({
             type: 'POST',
             url: `/api/artist/create`,

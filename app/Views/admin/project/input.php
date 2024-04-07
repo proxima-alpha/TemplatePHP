@@ -197,7 +197,6 @@ $identifier = $shortid->generate();
         for (let i = 0; i < $rewards.length; ++i) {
             const $reward = $rewards.eq(i);
             const rewardData = parseInputToData($reward.find('.editable'))
-            console.log($reward.find('.editable'))
             if (Object.keys(rewardData).length > 0) {
                 rewards.push(rewardData);
             }
@@ -232,7 +231,6 @@ $identifier = $shortid->generate();
         for (let i = 0; i < $rewards.length; ++i) {
             const $reward = $rewards.eq(i);
             const rewardData = parseInputToData($reward.find('.editable'))
-            console.log($reward.find('.editable'))
             if (Object.keys(rewardData).length > 0) {
                 rewards.push(rewardData);
             }
