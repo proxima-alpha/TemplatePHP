@@ -18,10 +18,10 @@ class QueryHelper
 
     static function getGroupCreate($artist_ids, $project_id)
     {
-        $query = "REPLACE INTO artist_group(artist_id, project_id) VALUES";
+        $query = "REPLACE INTO artist_group(artist_id, project_id, priority) VALUES";
         $prefix = '';
-        foreach ($artist_ids as $artist_id) {
-            $query .= $prefix . "('" . $artist_id . "','" . $project_id . "')";
+        foreach ($artist_ids as $index => $artist_id) {
+            $query .= $prefix . "('" . $artist_id . "','" . $project_id . "', '" . ($index + 1) . "')";
             $prefix = ',';
         }
         return $query . ';';

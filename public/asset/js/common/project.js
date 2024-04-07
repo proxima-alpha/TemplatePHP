@@ -1,7 +1,7 @@
 $(document).ready(function () {
     try {
-        $('.row-uploader.artists').initDraggable({
-            onDragFinished: generateOnDragFinished('artists'),
+        $('.row-uploader.artist_id').initDraggable({
+            onDragFinished: generateOnDragFinished('artist_id'),
         });
     } catch (e) {
         // do nothing

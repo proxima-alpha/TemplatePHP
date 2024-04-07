@@ -185,7 +185,7 @@ class ProjectController extends CustomFileController
                     $newReward['project_id'] = $id;
                     $newReward['priority'] = $index + 1;
                     if (isset($newReward['id'])) {
-                        $this->rewardModel->update($newReward);
+                        $this->rewardModel->update($newReward['id'], $newReward);
                     } else {
                         $this->rewardModel->insert($newReward);
                     }
@@ -208,6 +208,7 @@ class ProjectController extends CustomFileController
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
+//                ServerLogger::log($e);
                 $this->db->transRollback();
                 $response['message'] = $e->getMessage();
             }

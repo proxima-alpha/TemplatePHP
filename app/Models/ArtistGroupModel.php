@@ -9,6 +9,7 @@ class ArtistGroupModel extends BaseModel
         'id',
         'artist_id',
         'project_id',
+        'priority',
         'created_at',
     ];
 
@@ -20,8 +21,7 @@ class ArtistGroupModel extends BaseModel
             " LEFT JOIN artist ON artist.id = artist_group.artist_id" .
             " LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id" .
             " WHERE project.id = " . $project_id . " AND project.is_deleted = 0 AND artist.is_deleted = 0" .
-            " ORDER BY artist.created_at DESC";
-//        ServerLogger::log();
+            " ORDER BY artist_group.priority ASC";
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,
