@@ -68,9 +68,6 @@ class ArtistController extends CustomFileController
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
-        if (!isset($data['files'])) {
-            $data['files'] = [];
-        }
         $validationRules = [
             'code_artist_id' => [
                 'label' => 'Code Artist',
@@ -95,6 +92,11 @@ class ArtistController extends CustomFileController
             try {
                 $this->db->transBegin();
                 if (isset($data['id'])) unset($data['id']);
+                if (!isset($data['profile_id']) || sizeof($data['profile_id']) == 0) {
+                    $data['profile_id'] = null;
+                } else {
+                    $data['profile_id'] = $data['profile_id'][0];
+                }
                 $inserted_row_id = $this->artistModel->insert($data);
                 if (!$inserted_row_id) {
                     $this->db->transRollback();
@@ -102,8 +104,8 @@ class ArtistController extends CustomFileController
                 } else {
                     // image priority
                     $queries = [];
-                    foreach ($data['files'] as $index => $file_id) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'],  $index);
+                    foreach ($data['previews'] as $index => $file_id) {
+                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
                     }
                     foreach ($data['profile_id'] as $index => $file_id) {
                         $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
@@ -141,11 +143,14 @@ class ArtistController extends CustomFileController
         } else {
             $data['profile_id'] = $data['profile_id'][0];
         }
+        if (!isset($data['previews'])) {
+            $data['previews'] = [];
+        }
         return $this->typicallyUpdate($this->artistModel, $id, $data, null, function ($model, $data) use ($id) {
             $queries = [];
             $selectorQuery = '';
             $prefix = '';
-            foreach ($data['files'] as $index => $file_id) {
+            foreach ($data['previews'] as $index => $file_id) {
                 // 이미지에 artist_id 할당하면서 priority 설정 해 준다
                 $queries[] = QueryHelper::getFileIndexUpdate('artist_id', $id, $file_id, $data['identifier'], $index);
                 $selectorQuery .= $prefix . $file_id;
@@ -161,12 +166,12 @@ class ArtistController extends CustomFileController
             BaseModel::transaction($this->db, $queries);
 
             $conditionQuery = "";
-            if (sizeof($data['files']) > 0) {
+            if (sizeof($data['previews']) > 0) {
                 $conditionQuery = "(artist_id = " . $id . " AND target = 'artist_preview' AND id NOT IN(" . $selectorQuery . "))" .
                     " OR identifier = '" . $data['identifier'] . "'";
             } else {
                 // files 가 없는 경우 할당된 모든 이미지를 검색해 삭제해 주면 됨
-                $conditionQuery = "(artist_id = " . $id . "AND target = 'artist_preview')" .
+                $conditionQuery = "(artist_id = " . $id . " AND target = 'artist_preview')" .
                     " OR identifier = '" . $data['identifier'] . "'";
             }
             if (isset($data['profile_id'])) {

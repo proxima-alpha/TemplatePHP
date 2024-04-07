@@ -30,7 +30,7 @@ let files = {
     getIdentifier(key) {
         return this.identifiers[key];
     },
-    setIdentifier(key, index, value) {
+    setIdentifier(key, value) {
         this.identifiers[key] = value;
     },
 };
@@ -180,10 +180,9 @@ function dropEditingFiles(target = 'topic', callback) {
 
 function confirmEditFiles(target = 'topic', callback) {
     const identifier = files.getIdentifier(target);
-    if (isEmpty(identifier)) return;
     apiRequest({
         type: 'POST',
-        url: `/api/file/${target}/confirm/${identifier}`,
+        url: `/api/file/${target}/confirm${identifier ?`/${identifier}` : ''}`,
         data: {
             files: files.get(target),
         },

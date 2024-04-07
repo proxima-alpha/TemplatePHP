@@ -12,8 +12,8 @@ $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
-    <?php if (isset($data['files'])) {
-    foreach ($data['files'] as $index => $item) { ?>
+    <?php if (isset($data['previews'])) {
+    foreach ($data['previews'] as $index => $item) { ?>
     files.push('artist_preview', '<?=$item['id']?>');
     <?php }
     }
@@ -58,7 +58,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('샘플 영상') ?></p>
-                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['files'] ?? null) ?>
+                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null) ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>
@@ -73,7 +73,7 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     function confirmEditArtist(id) {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['files'] = files.get('artist_preview');
+        data['previews'] = files.get('artist_preview');
         data['profile_id'] = files.get('artist_profile');
 
         apiRequest({
@@ -96,7 +96,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateArtist() {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['files'] = files.get('artist_preview');
+        data['previews'] = files.get('artist_preview');
         data['profile_id'] = files.get('artist_profile');
 
         console.log(data)

@@ -5,7 +5,6 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\CustomFileModel;
-use Models\SettingModel;
 
 class GraphicSettingController extends BaseApiController
 {
@@ -55,10 +54,12 @@ class GraphicSettingController extends BaseApiController
                 }
             }
 
+            if (!isset($data)) $data = [];
+
             // priority 때문에 따로조회
             $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
             $data = array_merge($data, [
-                'main_image' => $images,
+                'main' => $images,
             ]);
             $response['success'] = true;
             $response['data'] = $data;

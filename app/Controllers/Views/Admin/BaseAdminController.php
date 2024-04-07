@@ -57,7 +57,7 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/user',
             ],
             [
-                'name' => lang('Service.graphic_setting'),
+                'name' => lang('Service.main_page_setting'),
                 'link' => '/admin/graphic-setting',
             ],
             [

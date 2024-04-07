@@ -2,7 +2,6 @@
 
 namespace API;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
@@ -196,7 +195,6 @@ class CustomFileController extends BaseApiController
             $response['success'] = true;
         } catch (Exception $e) {
             //todo(log)
-            ServerLogger::log($e->getMessage());
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);
@@ -211,7 +209,7 @@ class CustomFileController extends BaseApiController
      * @param $identifier
      * @return ResponseInterface
      */
-    public function confirmFile($target, $identifier): ResponseInterface
+    public function confirmFile($target, $identifier = null): ResponseInterface
     {
         $data = $this->request->getPost();
         if (!isset($data['files'])) {
@@ -221,7 +219,7 @@ class CustomFileController extends BaseApiController
             'success' => false,
         ];
         try {
-            if (strlen($identifier) == 0) throw new Exception('wrong path parameter');
+//            if (strlen($identifier) == 0) throw new Exception('wrong path parameter');
             $queries = [];
             $selectorQuery = '';
             $prefix = '';
@@ -233,8 +231,10 @@ class CustomFileController extends BaseApiController
                     $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
                     $conditionPrefix = " AND ";
                 }
-                $queries[] = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
-                    . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . ") OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
+                if (isset($identifier)) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
+                        . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . ") OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
+                }
                 $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }
@@ -244,12 +244,11 @@ class CustomFileController extends BaseApiController
             $conditionPrefix = "";
             if ($target != 'all') {
                 $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
-                $conditionPrefix = " AND ";
             }
             if (sizeof($data['files']) > 0) {
-                $conditionQuery .= " AND id NOT IN(" . $selectorQuery . ")" .
-                    " OR identifier = '" . $identifier . "'";
-            } else {
+                $conditionQuery .= " AND id NOT IN(" . $selectorQuery . ")";
+            }
+            if (isset($identifier)) {
                 $conditionQuery .= " OR identifier = '" . $identifier . "'";
             }
             $this->handleFileDelete($conditionQuery);

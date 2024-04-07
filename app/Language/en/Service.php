@@ -95,7 +95,7 @@ return [
     "reservation" => "Reservation",
     "user" => "User",
     "location" => "Location",
-    "graphic_setting" => "Graphic Setting",
+    "main_page_setting" => "Main Page Setting",
     "setting" => "Setting",
     "admin_title" => "Admin Page",
     "favicon" => "Favicon",

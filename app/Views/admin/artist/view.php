@@ -24,10 +24,10 @@
                     </div>
                 <?php } ?>
             </div>
-            <?php if (isset($data['files']) && sizeof($data['files']) > 0) { ?>
+            <?php if (isset($data['previews']) && sizeof($data['previews']) > 0) { ?>
                 <div class="slider-box">
                     <p class="title"><?= lang('샘플 영상') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['files'] ?? null, 'view') ?>
+                    <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null, 'view') ?>
                 </div>
             <?php }
             if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>

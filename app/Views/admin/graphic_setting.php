@@ -19,18 +19,18 @@ $identifier = $shortid->generate();
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            <?= lang('Service.graphic_setting') ?>
+            <?= lang('Service.main_page_setting') ?>
         </h3>
-        <div class="content-box main_image">
+        <div class="content-box main">
             <h4 class="page-sub-title">
                 <?= lang('Service.main_image') ?>
             </h4>
-            <div class="content-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main_image'] ?? null)) { ?>
+            <div class="content-wrap slider-box">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main'] ?? null)) { ?>
                     <div class="content-wrap-inner slider-wrap lines-horizontal">
                         <div class="slick-wrap">
                             <div class="slick">
-                                <?php foreach ($graphic_settings['main_image'] as $index => $item) { ?>
+                                <?php foreach ($graphic_settings['main'] as $index => $item) { ?>
                                     <div class="slick-item button"
                                          style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
                                          onclick="openImagePopup(<?= $item['id'] ?>)">
@@ -43,7 +43,7 @@ $identifier = $shortid->generate();
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
-                <a href="javascript:editSettingFile('main_image');"
+                <a href="javascript:editSettingFile('main');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>

@@ -96,7 +96,7 @@ return [
     "reservation" => "예약",
     "user" => "사용자",
     "location" => "지도",
-    "graphic_setting" => "그래픽 설정",
+    "main_page_setting" => "메인 화면 설정",
     "setting" => "설정",
     "admin_title" => "관리자 페이지",
     "favicon" => "파비콘",

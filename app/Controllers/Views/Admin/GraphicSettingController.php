@@ -27,7 +27,7 @@ class GraphicSettingController extends BaseAdminController
             $graphic_settings = [];
             $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
             $graphic_settings = array_merge($graphic_settings, [
-                'main_image' => $images,
+                'main' => $images,
             ]);
             $data = array_merge($data, [
                 'graphic_settings' => $graphic_settings,
@@ -38,6 +38,8 @@ class GraphicSettingController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/common/uploader',
+                    '/common/uploader_slider_box',
                     '/admin/graphic_setting',
                 ],
                 'js' => [
