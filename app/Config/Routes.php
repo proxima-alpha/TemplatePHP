@@ -92,7 +92,7 @@ $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
 /**
  * API Routes
  */
-$targets = 'topic|main|main_video|project|user_profile|artist_profile|artist_preview';
+$targets = 'topic|main|relation|project|user_profile|artist_profile|artist_preview';
 $routes->post('/api/file/(' . $targets . ')/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
 $routes->post('/api/file/(' . $targets . '|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
 $routes->post('/api/file/(' . $targets . ')/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);

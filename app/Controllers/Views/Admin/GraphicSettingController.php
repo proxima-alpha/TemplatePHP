@@ -25,9 +25,11 @@ class GraphicSettingController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $graphic_settings = [];
-            $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
+            $images = $this->customFileModel->get(['target' => 'main']);
+            $relations = $this->customFileModel->get(['target' => 'relation']);
             $graphic_settings = array_merge($graphic_settings, [
                 'main' => $images,
+                'relation' => $relations
             ]);
             $data = array_merge($data, [
                 'graphic_settings' => $graphic_settings,

@@ -1,30 +1,43 @@
 let default_identifier = '';
 let files = {
     ids: {},
+    types: {},
     identifiers: {},
     checkEmpty(key) {
         if (!this.ids[key]) {
             this.ids[key] = [];
+            this.types[key] = [];
         }
     },
     get(key) {
         this.checkEmpty(key);
         return this.ids[key];
     },
+    getType(key) {
+        this.checkEmpty(key);
+        return this.types[key];
+    },
     set(key, index, value) {
         this.checkEmpty(key);
+        const valueIndex = this.ids[key].indexOf(value);
         this.ids[key][index] = value;
+        const tempType = this.types[key][index];
+        this.types[key][index] = this.types[key][valueIndex];
+        this.types[key][valueIndex] = tempType;
     },
-    push(key, value) {
+    push(key, value, type = 'image') {
         this.checkEmpty(key);
         this.ids[key].push(value);
+        this.types[key].push(type);
     },
     splice(key, index) {
         this.checkEmpty(key);
         this.ids[key].splice(index, 1);
+        this.types[key].splice(index, 1);
     },
     clear() {
         this.ids = {};
+        this.types = {};
         this.identifiers = {};
     },
     getIdentifier(key) {
@@ -38,7 +51,7 @@ let files = {
 function deleteUploadedSlickFile(target = 'topic', id) {
     let index = files.get(target).indexOf(id.toString());
     if (index < 0) return;
-    let $slick = $('.slick.uploader');
+    let $slick = $(`.${target} .slick.uploader`);
     $slick.removeCustomSlickItem(index)
     files.splice(target, index);
     // apiRequest({
@@ -109,7 +122,7 @@ function onFileUpload(
             files.push(target, file_id.toString());
 
             if (callback && typeof callback == 'function') {
-                callback(target, type, file_id.toString(), mime_type);
+                callback(target, file_id.toString(), type);
             } else {
                 let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
                 let option = type == 'video' ? `background-size: cover;` : `background-size: contain;`
@@ -182,7 +195,7 @@ function confirmEditFiles(target = 'topic', callback) {
     const identifier = files.getIdentifier(target);
     apiRequest({
         type: 'POST',
-        url: `/api/file/${target}/confirm${identifier ?`/${identifier}` : ''}`,
+        url: `/api/file/${target}/confirm${identifier ? `/${identifier}` : ''}`,
         data: {
             files: files.get(target),
         },

@@ -11,7 +11,7 @@ $identifier = $shortid->generate();
     if (isset($graphic_settings)) {
     foreach ($graphic_settings as $key => $graphic_setting) {
     foreach ($graphic_setting as $index => $item) { ?>
-    files.push('<?=$key?>', '<?=$item['id']?>');
+    files.push('<?=$key?>', '<?=$item['id']?>', '<?=$item['type']?>');
     <?php }
     }
     }?>
@@ -27,19 +27,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main'] ?? null)) { ?>
-                    <div class="content-wrap-inner slider-wrap lines-horizontal">
-                        <div class="slick-wrap">
-                            <div class="slick">
-                                <?php foreach ($graphic_settings['main'] as $index => $item) { ?>
-                                    <div class="slick-item button"
-                                         style="background: url('/file/<?= $item['id'] ?>') no-repeat center; background-size: cover; font-size: 0;"
-                                         onclick="openImagePopup(<?= $item['id'] ?>)">
-                                        Slider #<?= $item['id'] ?>
-                                    </div>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
+                    <?= \App\Helpers\HtmlHelper::getSlickView($graphic_settings['main']); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -50,10 +38,24 @@ $identifier = $shortid->generate();
                 </a>
             </div>
         </div>
-        <!--        <div class="button-wrap">-->
-        <!--            <a href="#"-->
-        <!--               class="button confirm black">Confirm</a>-->
-        <!--        </div>-->
+        <div class="content-box relation">
+            <h4 class="page-sub-title">
+                <?= lang('릴레이션') ?>
+            </h4>
+            <div class="content-wrap slider-box">
+
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['relation'] ?? null)) { ?>
+                    <?= \App\Helpers\HtmlHelper::getSlickView($graphic_settings['relation']); ?>
+                <?php } ?>
+            </div>
+            <div class="control-button-wrap">
+                <a href="javascript:editSettingFile('relation');"
+                   class="button under-line edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span><?= lang('Service.edit') ?></span>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 <?= \App\Helpers\HtmlHelper::setTranslations(['message_info_drag']) ?>

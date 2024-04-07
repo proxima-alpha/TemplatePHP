@@ -231,10 +231,12 @@ class CustomFileController extends BaseApiController
                     $conditionQuery .= $conditionPrefix . "target = '" . $target . "'";
                     $conditionPrefix = " AND ";
                 }
+                $query = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
+                    . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . ")";
                 if (isset($identifier)) {
-                    $queries[] = "UPDATE custom_file SET identifier = NULL, priority = " . $index + 1
-                        . " WHERE (id = '" . $file_id . "' AND " . $conditionQuery . ") OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
+                    $query .= " OR (id = '" . $file_id . "' AND identifier = '" . $identifier . "')";
                 }
+                $queries[] = $query;
                 $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }

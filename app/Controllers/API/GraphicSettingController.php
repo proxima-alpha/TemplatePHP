@@ -57,9 +57,11 @@ class GraphicSettingController extends BaseApiController
             if (!isset($data)) $data = [];
 
             // priority 때문에 따로조회
-            $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
+            $images = $this->customFileModel->get(['target' => 'main']);
+            $relations = $this->customFileModel->get(['target' => 'relation']);
             $data = array_merge($data, [
                 'main' => $images,
+                'relation' => $relations
             ]);
             $response['success'] = true;
             $response['data'] = $data;

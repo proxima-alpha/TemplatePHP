@@ -234,6 +234,31 @@ final class HtmlHelper
         return $html;
     }
 
+    public static function getSlickView($files): string
+    {
+        $html =
+            '<div class="content-wrap-inner slider-wrap lines-horizontal">
+                <div class="slider-wrap">
+                    <div class="slick">';
+        if (isset($files)) {
+            foreach ($files as $index => $file) {
+                $url = $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail';
+                $html .=
+                    '<div class="slick-item button"
+                        style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
+                        onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                        Slider # ' . $file['id'] . ' 
+                    </div>';
+            }
+        }
+        $html .=
+            '
+            </div>
+        </div>
+    </div>';
+        return $html;
+    }
+
     public static function getRowUploaderArtist($target, $items, $view_mode = 'input'): string
     {
         $html = '';

@@ -9,28 +9,22 @@ $(document).ready(function () {
     })
 });
 
-function getTypeFromTarget(target) {
-    let type;
+function getAcceptFromTarget(target) {
+    let accept;
     switch (target) {
-        case 'favicon':
-        case 'open_graph':
-        case 'logo':
-        case 'footer_logo':
-            type = 'image';
-            break;
-        case 'main_video':
-            type = 'video';
-            break;
         case 'main':
-            type = 'image';
+            accept = 'image/png,image/jpg';
+            break;
+        case 'relation':
+            accept = 'video/*';
             break;
     }
-    return type;
+    return accept;
 }
 
 function editSettingFile(target) {
-    let type = getTypeFromTarget(target);
-    if (isEmpty(target) || isEmpty(type)) return;
+    let accept = getAcceptFromTarget(target);
+    if (isEmpty(target) || isEmpty(accept)) return;
     let $parent = $(`.content-box.${target}`)
     let $container = $parent.find(`.content-wrap`);
     $container.empty()
@@ -41,12 +35,31 @@ function editSettingFile(target) {
 }
 
 function cancelSettingFileEdit(target) {
-    let type = getTypeFromTarget(target);
-    if (isEmpty(target) || isEmpty(type)) return;
+    let accept = getAcceptFromTarget(target);
+    if (isEmpty(target) || isEmpty(accept)) return;
     dropEditingFiles(target, function () {
-        let $parent = $(`.content-box.${target}`)
-        $parent.removeClass('editing')
-        refreshSettingFile()
+        apiRequest({
+            type: 'GET',
+            url: `/api/graphic-setting/get/all`,
+            dataType: 'json',
+            success: function (response, status, request) {
+                if (!response.success) return;
+                let data = response.data;
+                let $parent = $(`.content-box.${target}`)
+                $parent.removeClass('editing')
+
+                files.clear();
+                for (let target in data) {
+                    let array = data[target]
+                    for (let i in array) {
+                        files.push(target, array[i]['id'], array[i]['type']);
+                    }
+                }
+                refreshSettingFile()
+            },
+            error: function (response, status, error) {
+            },
+        });
     });
 }
 
@@ -67,7 +80,7 @@ function confirmSettingFileEdit(target) {
                 for (let target in data) {
                     let array = data[target]
                     for (let i in array) {
-                        files.push(target, array[i]['id']);
+                        files.push(target, array[i]['id'], array[i]['type']);
                     }
                 }
                 refreshSettingFile()
@@ -79,14 +92,14 @@ function confirmSettingFileEdit(target) {
     });
 }
 
-function generateOnSettingFileUploaded(target) {
-    return (target, file_id, mime_type) => {
-        files.push(target, file_id);
+function generateOnSettingFileUploaded() {
+    return (target, file_id, type) => {
+        files.push(target, file_id, type);
         let $parent = $(`.content-box.${target}`)
         let $container = $parent.find(`.content-wrap-inner`);
         $container.empty();
 
-        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
+        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
         let option = type == 'video' ? `background-size: cover;` : `background-size: contain;`
         $container.append(`
         <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0;${option}">
@@ -101,8 +114,8 @@ function generateOnSettingFileUploaded(target) {
 }
 
 function deleteSettingFile(target, id) {
-    let type = getTypeFromTarget(target);
-    if (isEmpty(target) || isEmpty(type)) return;
+    let accept = getAcceptFromTarget(target);
+    if (isEmpty(target) || isEmpty(accept)) return;
 
     let index = files.get(target).indexOf(id);
     if (index < 0) return;
@@ -112,29 +125,27 @@ function deleteSettingFile(target, id) {
     let $container = $parent.find(`.content-wrap-inner`);
     $container.empty();
 
-    let icon_url = type == 'video' ? '/asset/images/icon/plus_circle_big.png' : '/asset/images/icon/plus_circle_big_gray.png';
-    let accept = type == 'video' ? 'video/*' : 'image/png';
     $container.append(`
     <div class="upload-item-add"
-         style="background: url('${icon_url}') no-repeat center; font-size: 0;">
+         style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
         <label for="${target}-file" class="button"></label>
         <input type="file" name="file" multiple id="${target}-file"
-               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded('${target}'));"
+               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
                accept="${accept}"/>
     </div>`);
 }
 
 function refreshSettingFile() {
     let refresh = (target) => {
-        let type = getTypeFromTarget(target);
-        if (isEmpty(target) || isEmpty(type)) return;
+        let accept = getAcceptFromTarget(target);
+        if (isEmpty(target) || isEmpty(accept)) return;
         let $parent = $(`.content-box.${target}`)
         if ($parent.length == 0) return;
         let $container = $parent.find(`.content-wrap`);
         $container.empty()
 
         if ($parent.hasClass('editing')) {
-            if (target == 'main') {
+            if (target == 'main' || target == 'relation') {
                 let html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick-wrap">`;
@@ -143,13 +154,15 @@ function refreshSettingFile() {
 
                 for (let i in files.get(target)) {
                     let file_id = files.get(target)[i];
+                    let type = files.getType(target)[i];
+                    let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
                     html += `
                     <div class="slick-item draggable-item upload-item" draggable="true"
-                         style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;">
+                         style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('main', '${file_id}')"
+                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
                                class="button delete-image black">
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>
@@ -161,39 +174,38 @@ function refreshSettingFile() {
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="image-file" class="button"></label>
                             <input type="file" name="file" multiple id="image-file"
-                                   onchange="onFileUpload(this, 'main');"
-                                   accept="image/*"/>
+                                   onchange="onFileUpload(this, '${target}');"
+                                   accept="${accept}"/>
                         </div>
                     </div>
                     </div>
                 </div>`;
                 $container.append(html);
 
-                let $slick = $('.slider-wrap .slick');
+                let $slick = $container.find('.slick');
                 $slick.setCustomSlick(isMobile(), {
                     infinite: false,
                     autoplay: false,
                     draggable: false,
                 });
                 $container.find('.slick').initDraggable({
-                    onDragFinished: generateOnDragFinished('main')
+                    onDragFinished: generateOnDragFinished(target)
                 });
             } else {
                 let html = `<div class="content-wrap-inner lines-horizontal">`;
                 if (files.get(target).length == 0) {
-                    let icon_url = type == 'video' ? '/asset/images/icon/plus_circle_big.png' : '/asset/images/icon/plus_circle_big_gray.png';
-                    let accept = type == 'video' ? 'video/*' : 'image/png';
                     html += `
                     <div class="upload-item-add"
-                         style="background: url('${icon_url}') no-repeat center; font-size: 0;">
+                         style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                         <label for="${target}-file" class="button"></label>
                         <input type="file" name="file" multiple id="${target}-file"
-                               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded('${target}'));"
+                               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
                                accept="${accept}"/>
                     </div>`;
                 } else {
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
+                        let type = files.getType(target)[i];
                         let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
                         let option = target == 'open_graph' || target == 'main_video' ? `background-size: cover;` : `background-size: contain;`
                         html += `
@@ -224,8 +236,8 @@ function refreshSettingFile() {
                 <img src="/asset/images/icon/check.png"/>
                 <span>${lang('confirm')}</span>
             </a>`)
-            if (type == 'main') {
-                $wrapButtonControls.after(`
+            if (target == 'main' || target == 'relationship') {
+                $wrapButtonControls.append(`
                 <div class="info-text-wrap">
                     ${lang('message_info_drag')}
                 </div>`)
@@ -240,7 +252,7 @@ function refreshSettingFile() {
                     </div>
                 </div>`);
             } else {
-                if (target == 'main') {
+                if (target == 'main' || target == 'relation') {
                     let html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick-wrap">`;
@@ -249,9 +261,11 @@ function refreshSettingFile() {
 
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
+                        let type = files.getType(target)[i];
+                        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
                         html += `
                         <div class="slick-item button"
-                             style="background: url('/file/${file_id}') no-repeat center; background-size: cover; font-size: 0;"
+                             style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
                              onclick="openImagePopup(${file_id})">
                             Slider #${file_id}
                         </div>`;
@@ -262,24 +276,24 @@ function refreshSettingFile() {
                 </div>`;
                     $container.append(html);
 
-                    let $slick = $('.slider-wrap .slick');
+                    let $slick = $container.find('.slick');
                     $slick.setCustomSlick(isMobile(), {
                         infinite: false,
                         autoplay: false,
                         draggable: false,
                     });
                     $container.find('.slick').initDraggable({
-                        onDragFinished: generateOnDragFinished('main')
+                        onDragFinished: generateOnDragFinished(target)
                     });
                 } else {
                     let html = `<div class="content-wrap-inner lines-horizontal">`
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
+                        let type = files.getType(target)[i];
                         let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
-                        let option = target == 'open_graph' || target == 'main_video' ? `background-size: cover;` : `background-size: contain;`
                         html += `
                         <div class="upload-item"
-                             style="background: url('${file_url}') no-repeat center; font-size: 0;${option}">
+                             style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
                         </div>`
                     }
                     html += `</div>`;
@@ -297,7 +311,7 @@ function refreshSettingFile() {
             </a>`)
         }
     }
-    let targets = ['favicon', 'open_graph', 'logo', 'footer_logo', 'main_video', 'main'];
+    let targets = ['favicon', 'open_graph', 'logo', 'footer_logo', 'main_video', 'main', 'relation'];
     for (let i in targets) {
         refresh(targets[i])
     }
