@@ -4,15 +4,18 @@ namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\ArtistModel;
 use Models\CustomFileModel;
 
 class GraphicSettingController extends BaseApiController
 {
     protected CustomFileModel $customFileModel;
+    protected ArtistModel $artistModel;
 
     public function __construct()
     {
         $this->customFileModel = model('Models\CustomFileModel');
+        $this->artistModel = model('Models\ArtistModel');
     }
 
     /**
@@ -59,9 +62,11 @@ class GraphicSettingController extends BaseApiController
             // priority 때문에 따로조회
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
+            $artists = $this->artistModel->get(['is_posted' => 1]);
             $data = array_merge($data, [
                 'main' => $images,
-                'relation' => $relations
+                'relation' => $relations,
+                'artist' => $artists
             ]);
             $response['success'] = true;
             $response['data'] = $data;

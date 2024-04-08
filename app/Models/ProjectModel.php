@@ -15,6 +15,8 @@ class ProjectModel extends BaseModel
         'content',
         'is_deleted',
         'is_authenticated',
+        'is_posted',
+        'priority',
         'updated_at',
         'created_at',
     ];

@@ -196,4 +196,46 @@ class ArtistController extends CustomFileController
         ];
         return $this->typicallyUpdate($this->artistModel, $id, $body);
     }
+
+    /**
+     * /api/artist/post/{code}
+     * @param $code
+     * @return ResponseInterface
+     */
+    public function post($code): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        if (!isset($data['artists'])) {
+            $data['artists'] = [];
+        }
+        $response = [
+            'success' => false,
+        ];
+        try {
+            $queries = [];
+            $selectorQuery = '';
+            $prefix = '';
+            foreach ($data['artists'] as $index => $artist_id) {
+                // priority 를 설정 해 준다
+                $query = "UPDATE artist
+                        LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id
+                        SET artist.is_posted = 1
+                        WHERE code_artist.code = '" . $code . "' AND artist.id = " . $artist_id;
+                $queries[] = $query;
+                $selectorQuery .= $prefix . $artist_id;
+                $prefix = ',';
+            }
+            $queries[] = "UPDATE artist
+                        LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id
+                        SET artist.is_posted = 0 
+                        WHERE code_artist.code = '" . $code . "' AND artist.id NOT IN(" . $selectorQuery . ")";
+
+            BaseModel::transaction($this->db, $queries);
+            $response['success'] = true;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
+    }
 }

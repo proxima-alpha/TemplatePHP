@@ -234,7 +234,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getSlickView($files): string
+    public static function getGrpahicSettingSlick($files): string
     {
         $html =
             '<div class="content-wrap-inner slider-wrap lines-horizontal">
@@ -248,6 +248,31 @@ final class HtmlHelper
                         style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
                         onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
                         Slider # ' . $file['id'] . ' 
+                    </div>';
+            }
+        }
+        $html .=
+            '
+            </div>
+        </div>
+    </div>';
+        return $html;
+    }
+
+    public static function getGraphicSettingItemSlick($items, $image_file_key): string
+    {
+        $html =
+            '<div class="content-wrap-inner slider-wrap lines-horizontal">
+                <div class="slider-wrap">
+                    <div class="slick">';
+        if (isset($items)) {
+            foreach ($items as $index => $item) {
+                $url = '/file/' . $item[$image_file_key];
+                $html .=
+                    '<div class="slick-item">
+                        <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                        <p class="item-title">' . $item['name'] . '</p>
+                        <p class="item-content">' . $item['job'] . '</p>
                     </div>';
             }
         }

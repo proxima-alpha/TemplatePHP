@@ -11,3 +11,40 @@
     border: 1px solid #eee;
     margin: 24px 10px;
 }
+
+.artist .slider-box .slider-wrap .slick-item {
+    height: 320px;
+}
+
+.artist .slider-box .slider-wrap .slick-item .image-item {
+    height: 250px;
+    line-height: 200px;
+}
+
+.artist .slider-box .slider-wrap .slick-item p {
+    font-size: 18px;
+    padding: 0 10px;
+    line-height: 25px;
+    text-align: left;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.artist .slider-box .slider-wrap .slick-item p.item-title {
+    font-weight: 600;
+}
+
+/*팝업 커스텀*/
+.popup-artist-search .pages {
+    height: 50px;
+    line-height: 50px;
+}
+
+.popup-artist-search.popup-wrap .popup-box.has-control-button .popup-inner {
+    padding: 20px 20px 45px 20px;
+}
+
+.popup-artist-search .selected {
+    background-color: #efefef;
+}
