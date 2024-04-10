@@ -66,6 +66,7 @@ class GraphicSettingController extends BaseAdminController
                     '/module/draggable',
                     '/module/image_uploader',
                     '/admin/graphic_setting',
+                    '/admin/search_artist',
                 ],
             ])
             . view('/admin/graphic_setting', $data)

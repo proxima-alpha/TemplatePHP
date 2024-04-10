@@ -30,7 +30,6 @@ class ArtistController extends CustomFileController
     {
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'];
-        $code = $queryParams['code'];
         if ($queryParams['page'] != 'last') {
             $page = Utils::toInt($queryParams['page']);
         }
@@ -39,8 +38,8 @@ class ArtistController extends CustomFileController
             $condition = [
                 'is_deleted' => 0,
             ];
-            if (isset($code)) {
-                $condition['code_artist.code'] = $code;
+            if (isset($queryParams['code'])) {
+                $condition['code_artist.code'] = $queryParams['code'];
             }
             $result = $this->artistModel->getPaginated([
                 'per_page' => 10,

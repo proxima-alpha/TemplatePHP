@@ -126,6 +126,7 @@ class ProjectController extends BaseAdminController
                     '/module/image_uploader',
                     '/common/project',
                     '/admin/project_input',
+                    '/admin/search_artist',
                 ],
             ])
             . view('/admin/project/input', $data)
@@ -163,6 +164,7 @@ class ProjectController extends BaseAdminController
                     '/module/image_uploader',
                     '/common/project',
                     '/admin/project_input',
+                    '/admin/search_artist',
                 ],
             ])
             . view('/admin/project/input', $data)
