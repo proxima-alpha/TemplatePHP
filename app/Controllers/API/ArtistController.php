@@ -30,17 +30,22 @@ class ArtistController extends CustomFileController
     {
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'];
+        $code = $queryParams['code'];
         if ($queryParams['page'] != 'last') {
             $page = Utils::toInt($queryParams['page']);
         }
 
         try {
+            $condition = [
+                'is_deleted' => 0,
+            ];
+            if (isset($code)) {
+                $condition['code_artist.code'] = $code;
+            }
             $result = $this->artistModel->getPaginated([
                 'per_page' => 10,
                 'page' => $page,
-            ], [
-                'is_deleted' => 0,
-            ]);
+            ], $condition);
             $response['success'] = true;
             $response['data'] = $result;
         } catch (Exception $e) {
@@ -225,10 +230,14 @@ class ArtistController extends CustomFileController
                 $selectorQuery .= $prefix . $artist_id;
                 $prefix = ',';
             }
+            $conditionQuery = '';
+            if ($selectorQuery != '') {
+                $conditionQuery = " AND artist.id NOT IN(" . $selectorQuery . ")";
+            }
             $queries[] = "UPDATE artist
                         LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id
                         SET artist.is_posted = 0 
-                        WHERE code_artist.code = '" . $code . "' AND artist.id NOT IN(" . $selectorQuery . ")";
+                        WHERE code_artist.code = '" . $code . "'" . $conditionQuery;
 
             BaseModel::transaction($this->db, $queries);
             $response['success'] = true;

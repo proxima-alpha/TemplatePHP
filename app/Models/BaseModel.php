@@ -24,7 +24,7 @@ class BaseModel extends Model
      */
     public function getPaginated($pagination, $condition = null): array
     {
-        $total = $this->builder()->getWhere($condition)->getNumRows();
+        $total = $this->getCountAll($condition);
         $per_page = $pagination['per_page'];
         $total_page = (int)($total / $per_page) + ($total % $per_page == 0 ? 0 : 1);
         $page = $pagination['page'] == 'last' ? $total_page : $pagination['page'];
@@ -44,6 +44,24 @@ class BaseModel extends Model
             'array' => $result,
             'pagination' => $this->parsePagination($page, $per_page, $total, $total_page),
         ];
+    }
+
+    protected function getCountAll($condition = null)
+    {
+        $query = "SELECT COUNT(*) AS cnt FROM " . $this->table;
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
+        }
+        $result = BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
+        ]);
+        return $result[0]['cnt'];
     }
 
     /**
@@ -181,7 +199,7 @@ class BaseModel extends Model
         $values = [];
 
         foreach ($data as $key => $value) {
-            $query .= $prefix . $this->table . "." . $key . " = ?";
+            $query .= $prefix . (str_contains($key, '.') ? $key : $this->table . "." . $key) . " = ?";
             $values[] = $value;
             $prefix = " AND ";
         }

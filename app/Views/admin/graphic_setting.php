@@ -7,10 +7,25 @@ $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
+    let artist_codes = []
     <?php
     if (isset($graphic_settings)) {
     foreach ($graphic_settings as $key => $graphic_setting) {
-    foreach ($graphic_setting as $index => $item) {
+    if($key == 'artists') {
+    foreach ($graphic_settings['artists'] as $code => $items) { ?>
+    artist_codes.push('<?=$code?>')
+    files.checkEmpty('<?=$code?>')
+    <?php foreach ($items as $index => $item) { ?>
+    files.push('<?=$code?>', '<?=$item['id']?>', {
+        profile_id: <?=$item['profile_id']?>,
+        name: '<?=$item['name']?>',
+        job: '<?=$item['job']?>',
+    });
+    <?php }
+    }
+    } else {?>
+    files.checkEmpty('<?=$key?>')
+    <?php foreach ($graphic_setting as $index => $item) {
     if($key == 'artist') {?>
     files.push('<?=$key?>', '<?=$item['id']?>', {
         profile_id: <?=$item['profile_id']?>,
@@ -22,7 +37,9 @@ $identifier = $shortid->generate();
     <?php }
     }
     }
+    }
     }?>
+    console.log(files)
 </script>
 <div class="container-inner">
     <div class="container-wrap">
@@ -63,23 +80,25 @@ $identifier = $shortid->generate();
                 </a>
             </div>
         </div>
-        <div class="content-box artist">
-            <h4 class="page-sub-title">
-                <?= lang('아티스트') ?>
-            </h4>
-            <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['artist'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($graphic_settings['artist'], 'profile_id'); ?>
-                <?php } ?>
+        <?php foreach ($graphic_settings['artists'] as $code => $items) { ?>
+            <div class="content-box artist-selector <?= $code ?>">
+                <h4 class="page-sub-title">
+                    <?= lang($code) ?>
+                </h4>
+                <div class="content-wrap slider-box">
+                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 370)) { ?>
+                        <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id'); ?>
+                    <?php } ?>
+                </div>
+                <div class="control-button-wrap">
+                    <a href="javascript:editSettingFile('<?= $code ?>');"
+                       class="button under-line edit">
+                        <img src="/asset/images/icon/edit.png"/>
+                        <span><?= lang('Service.edit') ?></span>
+                    </a>
+                </div>
             </div>
-            <div class="control-button-wrap">
-                <a href="javascript:editSettingFile('artist');"
-                   class="button under-line edit">
-                    <img src="/asset/images/icon/edit.png"/>
-                    <span><?= lang('Service.edit') ?></span>
-                </a>
-            </div>
-        </div>
+        <?php } ?>
     </div>
 </div>
 <?= \App\Helpers\HtmlHelper::setTranslations(['message_info_drag']) ?>

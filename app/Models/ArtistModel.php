@@ -29,7 +29,7 @@ class ArtistModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT artist.*, code_artist.name as code_artist FROM artist LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id";
+        $query = "SELECT artist.*, code_artist.name as code_artist, code_artist.code as code FROM artist LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);
@@ -48,31 +48,21 @@ class ArtistModel extends BaseModel
         ]);
     }
 
-    /**
-     * artist_code 를 조인하기 위해서 override
-     * @throws Exception
-     */
-    public function getPaginated($pagination, $condition = null): array
+    protected function getCountAll($condition = null)
     {
-        $total = $this->builder()->getWhere($condition)->getNumRows();
-        $per_page = $pagination['per_page'];
-        $total_page = (int)($total / $per_page) + ($total % $per_page == 0 ? 0 : 1);
-        $page = $pagination['page'] == 'last' ? $total_page : $pagination['page'];
-        $offset = 0;
-        if ($page > $total_page) {
-            $page = $total_page;
+        $query = "SELECT COUNT(*) AS cnt FROM artist LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id";
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
         }
-        if ($page > 0) {
-            $offset = ($page - 1) * $per_page;
-        }
-        $result = $this->get($condition, [
-            'value' => $per_page,
-            'offset' => $offset
+        $result = BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
         ]);
-
-        return [
-            'array' => $result,
-            'pagination' => $this->parsePagination($page, $per_page, $total, $total_page),
-        ];
+        return $result[0]['cnt'];
     }
 }

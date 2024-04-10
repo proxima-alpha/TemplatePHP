@@ -44,12 +44,12 @@ function refreshViews(target) {
             let $parent = $(`.content-box.${target}`)
             $parent.removeClass('editing')
 
-            files.clear();
+            files.clearItems();
             for (let target in data) {
                 let array = data[target]
                 for (let i in array) {
                     const item = array[i];
-                    if (target == 'artist') {
+                    if (target != 'main' && target != 'relation') {
                         files.push(target, item['id'], {
                             profile_id: item['profile_id'],
                             name: item['name'],
@@ -79,13 +79,17 @@ function cancelSettingFileEdit(target) {
 function confirmSettingFileEdit(target) {
     if (isEmpty(target)) return;
     switch (target) {
-        case 'artist' : {
+        case 'main' :
+        case 'relation' :
+            confirmEditFiles(target, () => refreshViews(target));
+            break;
+        default : {
             const identifier = files.getIdentifier(target);
             apiRequest({
                 type: 'POST',
                 url: `/api/artist/post/${target}`,
                 data: {
-                    artists: files.get(target),
+                    artists: files.get(target)
                 },
                 dataType: 'json',
                 success: function (response, status, request) {
@@ -100,9 +104,6 @@ function confirmSettingFileEdit(target) {
                 },
             });
         }
-            break;
-        default:
-            confirmEditFiles(target, () => refreshViews(target));
     }
 }
 
@@ -165,7 +166,7 @@ function setEditing($parent, target) {
 
             for (let i in files.get(target)) {
                 let file_id = files.get(target)[i];
-                let type = files.getType(target)[i];
+                let type = files.getExtra(target)[i];
                 let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
                 html += `
                     <div class="slick-item draggable-item upload-item" draggable="true"
@@ -204,16 +205,18 @@ function setEditing($parent, target) {
             });
             break;
         }
-        case 'artist' : {
-            html = `
+        default:
+            if (artist_codes.indexOf(target) >= 0) {
+                {
+                    html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick-wrap">`;
-            html += `
+                    html += `
                 <div class="slick uploader ${target}">`;
-            for (let i in files.get(target)) {
-                let file_id = files.get(target)[i];
-                let extra = files.getType(target)[i];
-                html += `
+                    for (let i in files.get(target)) {
+                        let file_id = files.get(target)[i];
+                        let extra = files.getExtra(target)[i];
+                        html += `
                     <div class="slick-item draggable-item upload-item" draggable="true">
                             <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
                             <p class="item-title">${extra['name']}</p>
@@ -226,32 +229,31 @@ function setEditing($parent, target) {
                             </a>
                         </div>
                     </div>`;
-            }
-            html += `
+                    }
+                    html += `
                         <div class="slick-item upload-item-add button"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
-                             onClick="searchArtist('artist')">
+                             onClick="searchArtist('${target}')">
                         </div>
                     </div>
                     </div>
                 </div>`;
-            $container.append(html);
+                    $container.append(html);
 
-            let $slick = $container.find('.slick');
-            $slick.setCustomSlick(isMobile(), {
-                infinite: false,
-                autoplay: false,
-                draggable: false,
-            });
-            $container.find('.slick').initDraggable({
-                onDragFinished: generateOnDragFinished(target)
-            });
-        }
-            break;
-        default:
-            html = `<div class="content-wrap-inner lines-horizontal">`;
-            if (files.get(target).length == 0) {
-                html += `
+                    let $slick = $container.find('.slick');
+                    $slick.setCustomSlick(isMobile(), {
+                        infinite: false,
+                        autoplay: false,
+                        draggable: false,
+                    });
+                    $container.find('.slick').initDraggable({
+                        onDragFinished: generateOnDragFinished(target)
+                    });
+                }
+            } else {
+                html = `<div class="content-wrap-inner lines-horizontal">`;
+                if (files.get(target).length == 0) {
+                    html += `
                     <div class="upload-item-add"
                          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                         <label for="${target}-file" class="button"></label>
@@ -259,13 +261,13 @@ function setEditing($parent, target) {
                                onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
                                accept="${accept}"/>
                     </div>`;
-            } else {
-                for (let i in files.get(target)) {
-                    let file_id = files.get(target)[i];
-                    let type = files.getType(target)[i];
-                    let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
-                    let option = target == 'open_graph' || target == 'main_video' ? `background-size: cover;` : `background-size: contain;`
-                    html += `
+                } else {
+                    for (let i in files.get(target)) {
+                        let file_id = files.get(target)[i];
+                        let type = files.getExtra(target)[i];
+                        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
+                        let option = target == 'open_graph' || target == 'main_video' ? `background-size: cover;` : `background-size: contain;`
+                        html += `
                         <div class="upload-item" style="background: url('${file_url}') no-repeat center; font-size: 0;${option}">
                             <div class="upload-item-hover">
                                 <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
@@ -274,11 +276,12 @@ function setEditing($parent, target) {
                                 </a>
                             </div>
                         </div>`
+                    }
                 }
-            }
-            html += `
+                html += `
                 </div>`;
-            $container.append(html);
+                $container.append(html);
+            }
     }
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
     $wrapButtonControls.empty();
@@ -303,10 +306,13 @@ function setEditing($parent, target) {
 
 function setView($parent, target) {
     let $container = $parent.find(`.content-wrap`);
-    let accept = getAcceptFromTarget(target);
+    let style = '';
+    if (target != 'main' && target != 'history') {
+        style = ` style="height : 370px; line-height: 368px" `
+    }
     if (files.get(target).length == 0) {
         $container.append(`
-                <div class="no-data-box">
+                <div class="no-data-box" ${style}>
                     <div class="no-data-wrap">
                         <img src="/asset/images/icon/err_empty_folder.png">
                         <span>No data available.</span>
@@ -325,7 +331,7 @@ function setView($parent, target) {
 
                 for (let i in files.get(target)) {
                     let file_id = files.get(target)[i];
-                    let type = files.getType(target)[i];
+                    let type = files.getExtra(target)[i];
                     let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
                     html += `
                         <div class="slick-item button"
@@ -351,53 +357,54 @@ function setView($parent, target) {
                 });
             }
                 break;
-            case 'artist': {
-                html = `
+            default:
+                console.log(artist_codes, artist_codes.indexOf(target), target)
+                if (artist_codes.indexOf(target) >= 0) {
+                    html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick-wrap">`;
-                html += `
-                    <div class="slick uploader ${target}">`;
-                for (let i in files.get(target)) {
-                    let file_id = files.get(target)[i];
-                    let extra = files.getType(target)[i];
                     html += `
+                    <div class="slick uploader ${target}">`;
+                    for (let i in files.get(target)) {
+                        let file_id = files.get(target)[i];
+                        let extra = files.getExtra(target)[i];
+                        html += `
                         <div class="slick-item">
                             <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
                             <p class="item-title">${extra['name']}</p>
                             <p class="item-content">${extra['job']}</p>
                         </div>`;
-                }
-                html += `
+                    }
+                    html += `
                         </div>
                     </div>
                 </div>`;
-                $container.append(html);
+                    $container.append(html);
 
-                let $slick = $container.find('.slick');
-                $slick.setCustomSlick(isMobile(), {
-                    infinite: false,
-                    autoplay: false,
-                    draggable: false,
-                });
-                $container.find('.slick').initDraggable({
-                    onDragFinished: generateOnDragFinished(target)
-                });
-            }
-                break;
-            default:
-                html = `<div class="content-wrap-inner lines-horizontal">`
-                for (let i in files.get(target)) {
-                    let file_id = files.get(target)[i];
-                    let type = files.getType(target)[i];
-                    let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
-                    html += `
+                    let $slick = $container.find('.slick');
+                    $slick.setCustomSlick(isMobile(), {
+                        infinite: false,
+                        autoplay: false,
+                        draggable: false,
+                    });
+                    $container.find('.slick').initDraggable({
+                        onDragFinished: generateOnDragFinished(target)
+                    });
+                } else {
+                    html = `<div class="content-wrap-inner lines-horizontal">`
+                    for (let i in files.get(target)) {
+                        let file_id = files.get(target)[i];
+                        let type = files.getExtra(target)[i];
+                        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
+                        html += `
                         <div class="upload-item"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
                         </div>`
-                }
-                html += `</div>`;
+                    }
+                    html += `</div>`;
 
-                $container.append(html);
+                    $container.append(html);
+                }
         }
     }
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
@@ -424,7 +431,8 @@ function refreshSettingFile() {
             setView($parent, target)
         }
     }
-    let targets = ['favicon', 'open_graph', 'logo', 'footer_logo', 'main_video', 'main', 'relation', 'artist'];
+
+    let targets = files.getKeys();
     for (let i in targets) {
         refresh(targets[i])
     }
@@ -435,7 +443,7 @@ function refreshSettingFile() {
 function searchArtist(target, page = 1) {
     apiRequest({
         type: 'GET',
-        url: `/api/artist?page=${page}`,
+        url: `/api/artist?page=${page}&code=${target}`,
         dataType: 'json',
         success: async function (response, status, request) {
             if (!response.success) {
@@ -451,17 +459,18 @@ function searchArtist(target, page = 1) {
     });
 }
 
-function onSearchArtistSelected(className, id) {
+function onSearchArtistSelected(className, target, id) {
     const $parent = $(`.${className} .table-wrap`)
     let $input = $parent.find('input[type=hidden]');
     if ($input != undefined) {
         $input.remove();
     }
-    $parent.append('<input type="hidden" name="artist_id" value="' + id + '">')
+    $parent.append(`<input type="hidden" name="${target}" value="${id}">`)
     const $selected = $parent.find('.selected')
     if ($selected != undefined) {
         $selected.removeClass('selected')
     }
+    console.log($parent.find(`.item-${id}`))
     $parent.find(`.item-${id}`).addClass('selected')
 }
 
@@ -521,7 +530,7 @@ async function openArtistSearchPopup(target, array, pagination) {
         for (let item of array) {
             html += `
             <li class="row">
-                <a class="button row-button item-${item['id']}" href="javascript:onSearchArtistSelected('${className}', ${item['id']});">
+                <a class="button row-button item-${item['id']}" href="javascript:onSearchArtistSelected('${className}', '${target}', ${item['id']});">
                     <span class="column code">${item['code_artist']}</span>
                     <span class="column name">${item['name']}</span>
                 </a>
@@ -569,7 +578,7 @@ function cancelArtistSearch(className, target) {
 
 function confirmArtistSearch(className, target) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
-    const artist_id = data['artist_id']
+    const artist_id = data[target]
     if (artist_id) {
         if (files.get(target).indexOf(artist_id) >= 0) {
             openPopupMessage(lang('이미 선택된 아티스트입니다'))
@@ -578,7 +587,7 @@ function confirmArtistSearch(className, target) {
         files.push(target, artist_id);
         apiRequest({
             type: 'GET',
-            url: `/api/artist/get/${data['artist_id']}`,
+            url: `/api/artist/get/${data[target]}`,
             data: data,
             dataType: 'json',
             success: function (response, status, request) {

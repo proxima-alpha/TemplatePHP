@@ -13,7 +13,7 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['artists'])) {
     foreach ($data['artists'] as $index => $item) { ?>
-    files.push('artist_id', '<?=$item['id']?>');
+    files.push('artist', '<?=$item['id']?>');
     <?php }
     }
     if (isset($data['project_image_id'])) {?>
@@ -59,7 +59,7 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('아티스트') ?></p>
                     <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', $data['artists'] ?? []) ?>
                     <div class="button-wrap">
-                        <a class="button" href="javascript:searchArtist('artist_id')">
+                        <a class="button" href="javascript:searchArtist('artist')">
                         </a>
                     </div>
                 </div>
@@ -99,7 +99,7 @@ $identifier = $shortid->generate();
 
     function confirmArtistSearch(className, target) {
         let data = parseInputToData($(`.${className} input, .${className} textarea`))
-        const artist_id = data['artist_id']
+        const artist_id = data['artist']
         if (artist_id) {
             if (files.get(target).indexOf(artist_id) >= 0) {
                 openPopupMessage(lang('이미 선택된 아티스트입니다'))
@@ -108,7 +108,7 @@ $identifier = $shortid->generate();
             files.push(target, artist_id);
             apiRequest({
                 type: 'GET',
-                url: `/api/artist/get/${data['artist_id']}`,
+                url: `/api/artist/get/${data['artist']}`,
                 data: data,
                 dataType: 'json',
                 success: function (response, status, request) {
@@ -189,7 +189,7 @@ $identifier = $shortid->generate();
 
     function confirmEditProject(id) {
         let data = parseInputToData($(`.project-wrap .form-wrap .editable`))
-        data['artists'] = files.get('artist_id');
+        data['artists'] = files.get('artist');
         data['project_image_id'] = files.get('project');
 
         let rewards = [];
@@ -223,7 +223,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateProject() {
         let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
-        data['artists'] = files.get('artist_id');
+        data['artists'] = files.get('artist');
         data['project_image_id'] = files.get('project');
 
         let rewards = [];

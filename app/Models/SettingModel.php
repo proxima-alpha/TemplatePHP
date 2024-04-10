@@ -23,6 +23,7 @@ class SettingModel extends BaseModel
         'type',
         'name',
         'value',
+        'is_editable',
         'created_at',
         'updated_at',
     ];

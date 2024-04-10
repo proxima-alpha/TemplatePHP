@@ -12,16 +12,16 @@
     margin: 24px 10px;
 }
 
-.artist .slider-box .slider-wrap .slick-item {
+.artist-selector .slider-box .slider-wrap .slick-item {
     height: 320px;
 }
 
-.artist .slider-box .slider-wrap .slick-item .image-item {
+.artist-selector .slider-box .slider-wrap .slick-item .image-item {
     height: 250px;
     line-height: 200px;
 }
 
-.artist .slider-box .slider-wrap .slick-item p {
+.artist-selector .slider-box .slider-wrap .slick-item p {
     font-size: 18px;
     padding: 0 10px;
     line-height: 25px;
@@ -31,7 +31,8 @@
     white-space: nowrap;
     overflow: hidden;
 }
-.artist .slider-box .slider-wrap .slick-item p.item-title {
+
+.artist-selector .slider-box .slider-wrap .slick-item p.item-title {
     font-weight: 600;
 }
 

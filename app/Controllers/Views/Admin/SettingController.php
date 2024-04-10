@@ -45,6 +45,8 @@ class SettingController extends BaseAdminController
             $result = $this->settingModel->getPaginated([
                 'per_page' => $per_page,
                 'page' => $setting_page,
+            ], [
+                'is_editable' => 1
             ]);
             $setting_data = array_merge($setting_data, $result);
             $setting_data = array_merge($setting_data, [

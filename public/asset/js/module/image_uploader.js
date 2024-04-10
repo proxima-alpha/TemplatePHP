@@ -1,44 +1,54 @@
 let default_identifier = '';
 let files = {
     ids: {},
-    types: {},
+    extras: {},
     identifiers: {},
     checkEmpty(key) {
         if (!this.ids[key]) {
             this.ids[key] = [];
-            this.types[key] = [];
+            this.extras[key] = [];
         }
     },
     get(key) {
         this.checkEmpty(key);
         return this.ids[key];
     },
-    getType(key) {
+    getKeys() {
+        return Object.keys(this.ids);
+    },
+    getExtra(key) {
         this.checkEmpty(key);
-        return this.types[key];
+        return this.extras[key];
     },
     set(key, index, value) {
         this.checkEmpty(key);
         const valueIndex = this.ids[key].indexOf(value);
         this.ids[key][index] = value;
-        const tempType = this.types[key][index];
-        this.types[key][index] = this.types[key][valueIndex];
-        this.types[key][valueIndex] = tempType;
+        const tempType = this.extras[key][index];
+        this.extras[key][index] = this.extras[key][valueIndex];
+        this.extras[key][valueIndex] = tempType;
     },
-    push(key, value, type = 'image') {
+    push(key, value, extra = 'image') {
         this.checkEmpty(key);
         this.ids[key].push(value);
-        this.types[key].push(type);
+        this.extras[key].push(extra);
     },
     splice(key, index) {
         this.checkEmpty(key);
         this.ids[key].splice(index, 1);
-        this.types[key].splice(index, 1);
+        this.extras[key].splice(index, 1);
     },
     clear() {
         this.ids = {};
-        this.types = {};
+        this.extras = {};
         this.identifiers = {};
+    },
+    clearItems() {
+        for(const key in this.ids) {
+            this.ids[key] = [];
+            this.extras[key] = [];
+            this.identifiers[key] = [];
+        }
     },
     getIdentifier(key) {
         return this.identifiers[key];

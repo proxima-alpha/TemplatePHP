@@ -5,17 +5,20 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\ArtistModel;
+use Models\CodeArtistModel;
 use Models\CustomFileModel;
 
 class GraphicSettingController extends BaseApiController
 {
     protected CustomFileModel $customFileModel;
     protected ArtistModel $artistModel;
+    protected CodeArtistModel $codeArtistModel;
 
     public function __construct()
     {
         $this->customFileModel = model('Models\CustomFileModel');
         $this->artistModel = model('Models\ArtistModel');
+        $this->codeArtistModel = model('Models\CodeArtistModel');
     }
 
     /**
@@ -63,11 +66,19 @@ class GraphicSettingController extends BaseApiController
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
             $artists = $this->artistModel->get(['is_posted' => 1]);
+            $codes = $this->codeArtistModel->get();
+            $artist_parsed = [];
+            foreach ($codes as $index => $code) {
+                $artist_parsed[$code['code']] = [];
+            }
+            foreach ($artists as $index => $artist) {
+                $artist_parsed[$artist['code']][] = $artist;
+            }
             $data = array_merge($data, [
                 'main' => $images,
-                'relation' => $relations,
-                'artist' => $artists
+                'relation' => $relations
             ]);
+            $data = array_merge($data, $artist_parsed);
             $response['success'] = true;
             $response['data'] = $data;
         } catch (Exception $e) {

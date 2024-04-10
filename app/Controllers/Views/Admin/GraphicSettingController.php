@@ -4,12 +4,14 @@ namespace Views\Admin;
 
 use Exception;
 use Models\ArtistModel;
+use Models\CodeArtistModel;
 use Models\CustomFileModel;
 
 class GraphicSettingController extends BaseAdminController
 {
     protected CustomFileModel $customFileModel;
     protected ArtistModel $artistModel;
+    protected CodeArtistModel $codeArtistModel;
 
     public function __construct()
     {
@@ -17,6 +19,7 @@ class GraphicSettingController extends BaseAdminController
         $this->isRestricted = true;
         $this->customFileModel = model('Models\CustomFileModel');
         $this->artistModel = model('Models\ArtistModel');
+        $this->codeArtistModel = model('Models\CodeArtistModel');
     }
 
     /**
@@ -31,10 +34,18 @@ class GraphicSettingController extends BaseAdminController
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
             $artists = $this->artistModel->get(['is_posted' => 1]);
+            $codes = $this->codeArtistModel->get();
+            $artist_parsed = [];
+            foreach ($codes as $index => $code) {
+                $artist_parsed[$code['code']] = [];
+            }
+            foreach ($artists as $index => $artist) {
+                $artist_parsed[$artist['code']][] = $artist;
+            }
             $graphic_settings = array_merge($graphic_settings, [
                 'main' => $images,
                 'relation' => $relations,
-                'artist' => $artists
+                'artists' => $artist_parsed,
             ]);
             $data = array_merge($data, [
                 'graphic_settings' => $graphic_settings,

@@ -70,13 +70,13 @@ function searchArtist(target, page = 1) {
     });
 }
 
-function onSearchArtistSelected(className, id) {
+function onSearchArtistSelected(className, target, id) {
     const $parent = $(`.${className} .table-wrap`)
     let $input = $parent.find('input[type=hidden]');
     if ($input != undefined) {
         $input.remove();
     }
-    $parent.append('<input type="hidden" name="artist_id" value="' + id + '">')
+    $parent.append(`<input type="hidden" name="${target}" value="${id}">`)
     const $selected = $parent.find('.selected')
     if ($selected != undefined) {
         $selected.removeClass('selected')
@@ -140,7 +140,7 @@ async function openArtistSearchPopup(target, array, pagination) {
         for (let item of array) {
             html += `
             <li class="row">
-                <a class="button row-button item-${item['id']}" href="javascript:onSearchArtistSelected('${className}', ${item['id']});">
+                <a class="button row-button item-${item['id']}" href="javascript:onSearchArtistSelected('${className}', '${target}', ${item['id']});">
                     <span class="column code">${item['code_artist']}</span>
                     <span class="column name">${item['name']}</span>
                 </a>
