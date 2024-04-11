@@ -1,13 +1,9 @@
 /** artist search **/
 
-function searchArtist(target, isFiltered = false, page = 1) {
-    let additionalParams = '';
-    if (isFiltered && target) {
-        additionalParams = `&code=${target}`;
-    }
+function searchProject(target, page = 1) {
     apiRequest({
         type: 'GET',
-        url: `/api/artist?page=${page}${additionalParams}`,
+        url: `/api/project?page=${page}`,
         dataType: 'json',
         success: async function (response, status, request) {
             if (!response.success) {
@@ -15,7 +11,7 @@ function searchArtist(target, isFiltered = false, page = 1) {
                 return;
             }
             let data = response.data
-            openArtistSearchPopup(target, isFiltered, data.array, data.pagination)
+            openProjectSearchPopup(target, data.array, data.pagination)
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);
@@ -23,7 +19,7 @@ function searchArtist(target, isFiltered = false, page = 1) {
     });
 }
 
-function onSearchArtistSelected(className, target, id) {
+function onSearchProjectSelected(className, target, id) {
     const $parent = $(`.${className} .table-wrap`)
     let $input = $parent.find('input[type=hidden]');
     if ($input != undefined) {
@@ -37,7 +33,7 @@ function onSearchArtistSelected(className, target, id) {
     $parent.find(`.item-${id}`).addClass('selected')
 }
 
-async function openArtistSearchPopup(target, isFiltered, array, pagination) {
+async function openProjectSearchPopup(target, array, pagination) {
     let className = `popup-${target}-search`;
 
     function addPagination($parent) {
@@ -66,15 +62,15 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
         if (start == 1) {
             html += `<span class="button disabled"><a href="#" onclick="return false"></a></span>`;
         } else {
-            html += `<span class="button left"><a href="javascript:searchArtist('${target}', ${isFiltered}, ${start - 5})"></a></span>`;
+            html += `<span class="button left"><a href="javascript:searchArtist('${target}', ${start - 5})"></a></span>`;
         }
         for (let i = start; i <= end; ++i) {
-            html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:searchArtist('${target}', ${isFiltered}, ${i})">${i}</a></span>`;
+            html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:searchArtist('${target}', ${i})">${i}</a></span>`;
         }
         if (total_page == end) {
             html += `<span class="button disabled"><a href="#" onClick="return false"></a></span>`;
         } else {
-            html += `<span class="button left"><a href="javascript:searchArtist('${target}', ${isFiltered}, ${start - 5})"></a></span>`;
+            html += `<span class="button left"><a href="javascript:searchArtist('${target}', ${start - 5})"></a></span>`;
         }
         html += `</div>`;
         $parent.prepend(html);
@@ -95,17 +91,17 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
             <div class="table-wrap">
                 <div class="row-title">
                     <div class="row">
-                        <span class="column code">${lang('분류')}</span>
-                        <span class="column name">${lang('name')}</span>
+                        <span class="column status">${lang('상태')}</span>
+                        <span class="column title">${lang('title')}</span>
                     </div>
                 </div>
                 <ul>`
             for (let item of array) {
                 html += `
                 <li class="row">
-                    <a class="button row-button item-${item['id']}" href="javascript:onSearchArtistSelected('${className}', '${target}', ${item['id']});">
-                        <span class="column code">${item['code_artist']}</span>
-                        <span class="column name">${item['name']}</span>
+                    <a class="button row-button item-${item['id']}" href="javascript:onSearchProjectSelected('${className}', '${target}', ${item['id']});">
+                        <span class="column status">${item['status']}</span>
+                        <span class="column title">${item['title']}</span>
                     </a>
                 </li>`
             }
@@ -115,12 +111,12 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
         html += `
         <div class="control-button-wrap absolute line-before">
             <div class="control-button-box">
-                <a href="javascript:cancelArtistSearch('${className}', '${target}');"
+                <a href="javascript:cancelProjectSearch('${className}', '${target}');"
                     class="button under-line cancel">
                     <img src="/asset/images/icon/cancel.png"/>
                     <span>${lang('cancel')}</span>
                 </a>
-               <a href="javascript:confirmArtistSearch('${className}', '${target}')" class="button confirm">
+               <a href="javascript:confirmProjectSearch('${className}', '${target}')" class="button confirm">
                     <img src="/asset/images/icon/check.png"/>
                     <span>${lang('confirm')}</span>
                 </a>
@@ -137,7 +133,7 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
         addPagination($parent.find('.control-button-wrap'), pagination)
     } else {
         let css = await loadStyleFile('/asset/css/common/table.css', "." + className);
-        css += await loadStyleFile('/asset/css/common/popup/search_artist.css', "." + className);
+        css += await loadStyleFile('/asset/css/common/popup/search_project.css', "." + className);
         openPopup({
             className: className,
             commonClassName: 'popup-search',
@@ -149,10 +145,10 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
     }
 }
 
-function cancelArtistSearch(className, target) {
+function cancelProjectSearch(className, target) {
     closePopup(className);
 }
 
-function confirmArtistSearch(className, target) {
+function confirmProjectSearch(className, target) {
     closePopup(className);
 }

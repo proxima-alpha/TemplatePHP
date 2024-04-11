@@ -6,12 +6,14 @@ use Exception;
 use Models\ArtistModel;
 use Models\CodeArtistModel;
 use Models\CustomFileModel;
+use Models\ProjectModel;
 
 class GraphicSettingController extends BaseAdminController
 {
     protected CustomFileModel $customFileModel;
     protected ArtistModel $artistModel;
     protected CodeArtistModel $codeArtistModel;
+    protected ProjectModel $projectModel;
 
     public function __construct()
     {
@@ -20,6 +22,7 @@ class GraphicSettingController extends BaseAdminController
         $this->customFileModel = model('Models\CustomFileModel');
         $this->artistModel = model('Models\ArtistModel');
         $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->projectModel = model('Models\ProjectModel');
     }
 
     /**
@@ -33,7 +36,8 @@ class GraphicSettingController extends BaseAdminController
             $graphic_settings = [];
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
-            $artists = $this->artistModel->get(['is_posted' => 1]);
+            $projects = $this->projectModel->get(['is_posted' => 1], null, true);
+            $artists = $this->artistModel->get(['is_posted' => 1], null, true);
             $codes = $this->codeArtistModel->get();
             $artist_parsed = [];
             foreach ($codes as $index => $code) {
@@ -45,6 +49,7 @@ class GraphicSettingController extends BaseAdminController
             $graphic_settings = array_merge($graphic_settings, [
                 'main' => $images,
                 'relation' => $relations,
+                'project' => $projects,
                 'artists' => $artist_parsed,
             ]);
             $data = array_merge($data, [
@@ -65,8 +70,9 @@ class GraphicSettingController extends BaseAdminController
                     '/module/slick_custom',
                     '/module/draggable',
                     '/module/image_uploader',
-                    '/admin/graphic_setting',
                     '/admin/search_artist',
+                    '/admin/search_project',
+                    '/admin/graphic_setting',
                 ],
             ])
             . view('/admin/graphic_setting', $data)

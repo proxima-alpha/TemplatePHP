@@ -7,18 +7,21 @@ use Exception;
 use Models\ArtistModel;
 use Models\CodeArtistModel;
 use Models\CustomFileModel;
+use Models\ProjectModel;
 
 class GraphicSettingController extends BaseApiController
 {
     protected CustomFileModel $customFileModel;
     protected ArtistModel $artistModel;
     protected CodeArtistModel $codeArtistModel;
+    protected ProjectModel $projectModel;
 
     public function __construct()
     {
         $this->customFileModel = model('Models\CustomFileModel');
         $this->artistModel = model('Models\ArtistModel');
         $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->projectModel = model('Models\ProjectModel');
     }
 
     /**
@@ -65,7 +68,8 @@ class GraphicSettingController extends BaseApiController
             // priority 때문에 따로조회
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
-            $artists = $this->artistModel->get(['is_posted' => 1]);
+            $projects = $this->projectModel->get(['is_posted' => 1], null, true);
+            $artists = $this->artistModel->get(['is_posted' => 1], null, true);
             $codes = $this->codeArtistModel->get();
             $artist_parsed = [];
             foreach ($codes as $index => $code) {
@@ -76,7 +80,8 @@ class GraphicSettingController extends BaseApiController
             }
             $data = array_merge($data, [
                 'main' => $images,
-                'relation' => $relations
+                'relation' => $relations,
+                'project' => $projects
             ]);
             $data = array_merge($data, $artist_parsed);
             $response['success'] = true;

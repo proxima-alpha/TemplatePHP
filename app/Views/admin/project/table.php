@@ -30,8 +30,8 @@
                                 <a href="/admin/project/<?= $item['id'] ?>/view" class="button row-button">
                                     <span class="column status"><?= $item['status'] ?></span>
                                     <span class="column title"><?= $item['title'] ?></span>
-                                    <span class="column start-date"><?= $item['start_date'] ?></span>
-                                    <span class="column end-date"><?= $item['end_date'] ?></span>
+                                    <span class="column start-date"><?= \App\Helpers\HtmlHelper::toDateString($item['start_date']) ?></span>
+                                    <span class="column end-date"><?= \App\Helpers\HtmlHelper::toDateString($item['end_date']) ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>

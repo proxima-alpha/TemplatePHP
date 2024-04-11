@@ -12,16 +12,20 @@
     margin: 24px 10px;
 }
 
-.artist-selector .slider-box .slider-wrap .slick-item {
+.item-selector .slider-box .slider-wrap .slick-item {
     height: 320px;
 }
 
-.artist-selector .slider-box .slider-wrap .slick-item .image-item {
+.item-selector.project .slider-box .slider-wrap .slick-item {
+    height: 340px;
+}
+
+.item-selector .slider-box .slider-wrap .slick-item .image-item {
     height: 250px;
     line-height: 200px;
 }
 
-.artist-selector .slider-box .slider-wrap .slick-item p {
+.item-selector .slider-box .slider-wrap .slick-item p {
     font-size: 18px;
     padding: 0 10px;
     line-height: 25px;
@@ -32,20 +36,20 @@
     overflow: hidden;
 }
 
-.artist-selector .slider-box .slider-wrap .slick-item p.item-title {
+.item-selector .slider-box .slider-wrap .slick-item p.item-title {
     font-weight: 600;
 }
 
 /*팝업 커스텀*/
-.popup-artist-search .pages {
+.popup-search .pages {
     height: 50px;
     line-height: 50px;
 }
 
-.popup-artist-search.popup-wrap .popup-box.has-control-button .popup-inner {
+.popup-search.popup-wrap .popup-box.has-control-button .popup-inner {
     padding: 20px 20px 45px 20px;
 }
 
-.popup-artist-search .selected {
+.popup-search .selected {
     background-color: #efefef;
 }

@@ -22,7 +22,7 @@ function getAcceptFromTarget(target) {
     return accept;
 }
 
-function editSettingFile(target) {
+function editSetting(target) {
     if (isEmpty(target)) return;
     let $parent = $(`.content-box.${target}`)
     let $container = $parent.find(`.content-wrap`);
@@ -30,7 +30,7 @@ function editSettingFile(target) {
 
     $parent.addClass('editing')
 
-    refreshSettingFile();
+    refreshSetting();
 }
 
 function refreshViews(target) {
@@ -49,7 +49,15 @@ function refreshViews(target) {
                 let array = data[target]
                 for (let i in array) {
                     const item = array[i];
-                    if (target != 'main' && target != 'relation') {
+                    if (target == 'project') {
+                        files.push(target, item['id'], {
+                            project_image_id: item['project_image_id'],
+                            title: item['title'],
+                            start_date: item['start_date'],
+                            end_date: item['end_date'],
+                            content: item['content']
+                        });
+                    } else if (target != 'main' && target != 'relation') {
                         files.push(target, item['id'], {
                             profile_id: item['profile_id'],
                             name: item['name'],
@@ -60,7 +68,7 @@ function refreshViews(target) {
                     }
                 }
             }
-            refreshSettingFile()
+            refreshSetting()
         },
         error: function (response, status, error) {
         },
@@ -82,6 +90,28 @@ function confirmSettingFileEdit(target) {
         case 'main' :
         case 'relation' :
             confirmEditFiles(target, () => refreshViews(target));
+            break;
+        case 'project' : {
+            const identifier = files.getIdentifier(target);
+            apiRequest({
+                type: 'POST',
+                url: `/api/project/post`,
+                data: {
+                    projects: files.get(target)
+                },
+                dataType: 'json',
+                success: function (response, status, request) {
+                    if (!response.success) {
+                        openPopupErrors('popup-error', response, status, request);
+                        return;
+                    }
+                    refreshViews(target);
+                },
+                error: function (response, status, error) {
+                    openPopupErrors('popup-error', response, status, error);
+                },
+            });
+        }
             break;
         default : {
             const identifier = files.getIdentifier(target);
@@ -203,20 +233,64 @@ function setEditing($parent, target) {
             $container.find('.slick').initDraggable({
                 onDragFinished: generateOnDragFinished(target)
             });
-            break;
         }
-        default:
-            if (artist_codes.indexOf(target) >= 0) {
-                {
-                    html = `
+            break;
+        case 'project': {
+            html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick-wrap">`;
-                    html += `
+            html += `
                 <div class="slick uploader ${target}">`;
-                    for (let i in files.get(target)) {
-                        let file_id = files.get(target)[i];
-                        let extra = files.getExtra(target)[i];
-                        html += `
+            for (let i in files.get(target)) {
+                let file_id = files.get(target)[i];
+                let extra = files.getExtra(target)[i];
+                html += `
+                    <div class="slick-item draggable-item upload-item" draggable="true">
+                            <div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
+                            <p class="item-title">${extra['title']}</p>
+                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                            <p class="item-content">${extra['content']}</p>
+                        <input hidden type="text" name="id" value="${file_id}">
+                        <div class="upload-item-hover">
+                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
+                               class="button delete-image black">
+                                <img src="/asset/images/icon/cancel_white.png"/>
+                            </a>
+                        </div>
+                    </div>`;
+            }
+            html += `
+                        <div class="slick-item upload-item-add button"
+                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
+                             onClick="searchProject('${target}')">
+                        </div>
+                    </div>
+                    </div>
+                </div>`;
+            $container.append(html);
+
+            let $slick = $container.find('.slick');
+            $slick.setCustomSlick(isMobile(), {
+                infinite: false,
+                autoplay: false,
+                draggable: false,
+            });
+            $container.find('.slick').initDraggable({
+                onDragFinished: generateOnDragFinished(target)
+            });
+        }
+            break;
+        default:
+            if (artist_codes.indexOf(target) >= 0) {
+                html = `
+                <div class="content-wrap-inner slider-wrap lines-horizontal">
+                    <div class="slick-wrap">`;
+                html += `
+                <div class="slick uploader ${target}">`;
+                for (let i in files.get(target)) {
+                    let file_id = files.get(target)[i];
+                    let extra = files.getExtra(target)[i];
+                    html += `
                     <div class="slick-item draggable-item upload-item" draggable="true">
                             <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
                             <p class="item-title">${extra['name']}</p>
@@ -229,8 +303,8 @@ function setEditing($parent, target) {
                             </a>
                         </div>
                     </div>`;
-                    }
-                    html += `
+                }
+                html += `
                         <div class="slick-item upload-item-add button"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
                              onClick="searchArtist('${target}', true)">
@@ -238,18 +312,17 @@ function setEditing($parent, target) {
                     </div>
                     </div>
                 </div>`;
-                    $container.append(html);
+                $container.append(html);
 
-                    let $slick = $container.find('.slick');
-                    $slick.setCustomSlick(isMobile(), {
-                        infinite: false,
-                        autoplay: false,
-                        draggable: false,
-                    });
-                    $container.find('.slick').initDraggable({
-                        onDragFinished: generateOnDragFinished(target)
-                    });
-                }
+                let $slick = $container.find('.slick');
+                $slick.setCustomSlick(isMobile(), {
+                    infinite: false,
+                    autoplay: false,
+                    draggable: false,
+                });
+                $container.find('.slick').initDraggable({
+                    onDragFinished: generateOnDragFinished(target)
+                });
             } else {
                 html = `<div class="content-wrap-inner lines-horizontal">`;
                 if (files.get(target).length == 0) {
@@ -307,7 +380,9 @@ function setEditing($parent, target) {
 function setView($parent, target) {
     let $container = $parent.find(`.content-wrap`);
     let style = '';
-    if (target != 'main' && target != 'history') {
+    if (target == 'project') {
+        style = ` style="height : 390px; line-height: 388px" `
+    } else if (target != 'main' && target != 'history') {
         style = ` style="height : 370px; line-height: 368px" `
     }
     if (files.get(target).length == 0) {
@@ -357,8 +432,41 @@ function setView($parent, target) {
                 });
             }
                 break;
+            case 'project': {
+                html = `
+                <div class="content-wrap-inner slider-wrap lines-horizontal">
+                    <div class="slick-wrap">`;
+                html += `
+                    <div class="slick uploader ${target}">`;
+                for (let i in files.get(target)) {
+                    let file_id = files.get(target)[i];
+                    let extra = files.getExtra(target)[i];
+                    html += `
+                        <div class="slick-item">
+                            <div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
+                            <p class="item-title">${extra['title']}</p>
+                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                            <p class="item-content">${extra['content']}</p>
+                        </div>`;
+                }
+                html += `
+                        </div>
+                    </div>
+                </div>`;
+                $container.append(html);
+
+                let $slick = $container.find('.slick');
+                $slick.setCustomSlick(isMobile(), {
+                    infinite: false,
+                    autoplay: false,
+                    draggable: false,
+                });
+                $container.find('.slick').initDraggable({
+                    onDragFinished: generateOnDragFinished(target)
+                });
+            }
+                break;
             default:
-                console.log(artist_codes, artist_codes.indexOf(target), target)
                 if (artist_codes.indexOf(target) >= 0) {
                     html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
@@ -410,14 +518,14 @@ function setView($parent, target) {
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
     $wrapButtonControls.empty();
     $wrapButtonControls.append(`
-    <a href="javascript:editSettingFile('${target}');"
+    <a href="javascript:editSetting('${target}');"
        class="button under-line edit">
         <img src="/asset/images/icon/edit.png"/>
         <span>${lang('edit')}</span>
     </a>`)
 }
 
-function refreshSettingFile() {
+function refreshSetting() {
     let refresh = (target) => {
         if (isEmpty(target)) return;
         let $parent = $(`.content-box.${target}`)
@@ -439,18 +547,69 @@ function refreshSettingFile() {
 }
 
 // override
+
+function confirmProjectSearch(className, target) {
+    let data = parseInputToData($(`.${className} input, .${className} textarea`))
+    const id = data[target]
+    if (id) {
+        if (files.get(target).indexOf(id) >= 0) {
+            openPopupMessage(lang('이미 선택된 프로젝트 입니다'))
+            return;
+        }
+        files.push(target, id);
+        apiRequest({
+            type: 'GET',
+            url: `/api/project/get/${id}`,
+            data: data,
+            dataType: 'json',
+            success: function (response, status, request) {
+                if (!response.success) {
+                    openPopupErrors('popup-error', response, status, request);
+                    return;
+                }
+
+                const data = response.data
+                let file_url = `/file/${data['project_image_id']}`
+                let $uploader = $(`.uploader.${target}`);
+
+                if ($uploader.attr('class').includes('slick')) {
+                    let index = $uploader.attr('total') - 1;
+                    $uploader.addCustomSlickItem(index,
+                        `<div class="slick-item">
+                    <div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div>
+                    <p class="item-title">${data['title']}</p>
+                    <p class="item-date">${toDateString(data['start_date'])} ~ ${toDateString(data['end_date'])}</p>
+                    <p class="item-content">${data['content']}</p>
+                </div>`);
+
+                    $uploader.initDraggable({
+                        onDragFinished: generateOnDragFinished(target),
+                    });
+                }
+            },
+            error: function (response, status, error) {
+                openPopupErrors('popup-error', response, status, error);
+            },
+        });
+        closePopup(className);
+    } else {
+        openPopupMessage(lang('프로젝트를 선택해주세요'))
+    }
+}
+
+// override
 function confirmArtistSearch(className, target) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
-    const artist_id = data[target]
-    if (artist_id) {
-        if (files.get(target).indexOf(artist_id) >= 0) {
+    const id = data[target]
+    if (id) {
+        if (files.get(target).indexOf(id) >= 0) {
             openPopupMessage(lang('이미 선택된 아티스트입니다'))
             return;
         }
-        files.push(target, artist_id);
+        files.push(target, id);
         apiRequest({
             type: 'GET',
-            url: `/api/artist/get/${data[target]}`,
+            url: `/api/artist/get/${id}`,
             data: data,
             dataType: 'json',
             success: function (response, status, request) {
@@ -461,8 +620,6 @@ function confirmArtistSearch(className, target) {
 
                 const data = response.data
                 let file_url = `/file/${data['profile_id']}`
-                let $container = $(`.row-uploader.${target}`);
-
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {

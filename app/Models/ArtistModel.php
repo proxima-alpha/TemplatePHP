@@ -27,7 +27,7 @@ class ArtistModel extends BaseModel
      * @return array
      * @throws Exception
      */
-    public function get($condition = null, $limit = null): array
+    public function get($condition = null, $limit = null, $isPriority = false): array
     {
         $query = "SELECT artist.*, code_artist.name as code_artist, code_artist.code as code FROM artist LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id";
         $values = [];
@@ -36,7 +36,11 @@ class ArtistModel extends BaseModel
             $values = array_merge($values, $set['values']);
             $query .= " " . $set['query'];
         }
-        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        if ($isPriority) {
+            $query .= " ORDER BY " . $this->table . ".priority ASC";
+        } else {
+            $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        }
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }

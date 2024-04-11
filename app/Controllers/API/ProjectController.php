@@ -3,6 +3,7 @@
 namespace API;
 
 use App\Helpers\QueryHelper;
+use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\ArtistGroupModel;
@@ -25,17 +26,46 @@ class ProjectController extends CustomFileController
     }
 
     /**
-     * [get] /api/artist/get/{id}
-     * @param $id
+     * [get] /api/artist
      * @return ResponseInterface
      */
-    public function getArtist($id): ResponseInterface
+    public function index(): ResponseInterface
     {
-        return $this->typicallyFind($this->artistModel, $id);
+        $queryParams = $this->request->getGet();
+        $page = $queryParams['page'];
+        if ($queryParams['page'] != 'last') {
+            $page = Utils::toInt($queryParams['page']);
+        }
+
+        try {
+            $condition = [
+                'is_deleted' => 0,
+            ];
+            $result = $this->projectModel->getPaginated([
+                'per_page' => 10,
+                'page' => $page,
+            ], $condition);
+            $response['success'] = true;
+            $response['data'] = $result;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
     }
 
     /**
-     * [post] /api/artist/create
+     * [get] /api/project/get/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function get($id): ResponseInterface
+    {
+        return $this->typicallyFind($this->projectModel, $id);
+    }
+
+    /**
+     * [post] /api/project/create
      * @return ResponseInterface
      */
     public function create(): ResponseInterface
@@ -76,6 +106,9 @@ class ProjectController extends CustomFileController
                 // 날짜 체크
                 if (isset($data['end_date'])) {
                     $startTimeRaw = strtotime($data['start_date']);
+                    $endTimeRaw = strtotime($data['end_date']);
+                    $endDateString = date("Y-m-d", $endTimeRaw);
+                    $data['end_date'] = $endDateString . " 23:59:59";
                     $endTimeRaw = strtotime($data['end_date']);
                     if ($startTimeRaw > $endTimeRaw)
                         throw new Exception('End Date should be later than Start Date.');
@@ -130,7 +163,7 @@ class ProjectController extends CustomFileController
     }
 
     /**
-     * [post] /api/artist/update/{id}
+     * [post] /api/project/update/{id}
      * @param $id
      * @return ResponseInterface
      */
@@ -218,7 +251,7 @@ class ProjectController extends CustomFileController
     }
 
     /**
-     * [delete] /api/artist/delete/{id}
+     * [delete] /api/project/delete/{id}
      * @param $id
      * @return ResponseInterface
      */
@@ -229,5 +262,47 @@ class ProjectController extends CustomFileController
             'is_deleted' => 1,
         ];
         return $this->typicallyUpdate($this->artistModel, $id, $body);
+    }
+
+    /**
+     * /api/project/post
+     * @return ResponseInterface
+     */
+    public function post(): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        if (!isset($data['projects'])) {
+            $data['projects'] = [];
+        }
+        $response = [
+            'success' => false,
+        ];
+        try {
+            $queries = [];
+            $selectorQuery = '';
+            $prefix = '';
+            foreach ($data['projects'] as $index => $project_id) {
+                // priority 를 설정 해 준다
+                $query = "UPDATE project
+                        SET project.is_posted = 1, project.priority = " . ($index + 1) . "
+                        WHERE project.id = " . $project_id;
+                $queries[] = $query;
+                $selectorQuery .= $prefix . $project_id;
+                $prefix = ',';
+            }
+            $conditionQuery = '';
+            if ($selectorQuery != '') {
+                $conditionQuery = " WHERE project.id NOT IN(" . $selectorQuery . ")";
+            }
+            $queries[] = "UPDATE project
+                        SET project.is_posted = 0 " . $conditionQuery;
+
+            BaseModel::transaction($this->db, $queries);
+            $response['success'] = true;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
     }
 }

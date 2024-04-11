@@ -153,10 +153,12 @@ $routes->post('/api/artist/update/'.$ID_RULE, [\API\ArtistController::class, 'up
 $routes->delete('/api/artist/delete/'.$ID_RULE, [\API\ArtistController::class, 'delete']);
 $routes->post('/api/artist/post/'.$CODE_RULE, [\API\ArtistController::class, 'post']);
 
+$routes->get('/api/project', [\API\ProjectController::class, 'index']);
 $routes->get('/api/project/get/'.$ID_RULE, [\API\ProjectController::class, 'get']);
 $routes->post('/api/project/create', [\API\ProjectController::class, 'create']);
 $routes->post('/api/project/update/'.$ID_RULE, [\API\ProjectController::class, 'update']);
 $routes->delete('/api/project/delete/'.$ID_RULE, [\API\ProjectController::class, 'delete']);
+$routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 

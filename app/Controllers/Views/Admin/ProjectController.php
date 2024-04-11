@@ -125,8 +125,8 @@ class ProjectController extends BaseAdminController
                     '/module/draggable',
                     '/module/image_uploader',
                     '/common/project',
-                    '/admin/project_input',
                     '/admin/search_artist',
+                    '/admin/project_input',
                 ],
             ])
             . view('/admin/project/input', $data)

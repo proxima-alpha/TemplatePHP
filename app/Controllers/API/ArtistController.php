@@ -223,7 +223,7 @@ class ArtistController extends CustomFileController
                 // priority 를 설정 해 준다
                 $query = "UPDATE artist
                         LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id
-                        SET artist.is_posted = 1
+                        SET artist.is_posted = 1, artist.priority = " . ($index + 1) . "
                         WHERE code_artist.code = '" . $code . "' AND artist.id = " . $artist_id;
                 $queries[] = $query;
                 $selectorQuery .= $prefix . $artist_id;

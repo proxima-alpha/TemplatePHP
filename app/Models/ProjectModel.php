@@ -20,4 +20,14 @@ class ProjectModel extends BaseModel
         'updated_at',
         'created_at',
     ];
+
+    public function get($condition = null, $limit = null, $isPriority = false): array
+    {
+        $builder = !$isPriority ? $this->builder()->orderBy("created_at", "DESC") :
+            $this->builder()->orderBy("priority", "ASC");
+        if (isset($limit)) {
+            $builder = $builder->limit($limit['value'], $limit['offset']);
+        }
+        return $builder->getWhere($condition)->getResultArray();
+    }
 }

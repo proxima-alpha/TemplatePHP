@@ -15,13 +15,14 @@
 function openPopup(input, callback) {
     // 각 팝업을 각각 제어하기 위해 주는 selector name
     let className = input.className;
+    let commonClassName = input.commonClassName;
     let style = input.style;
     let html = input.html;
     // 팝업 세팅 완료 후 수행되어져야 할 기능 callback
     let onEnterKeydown = input.onEnterKeydown;
 
     $('body').append(`
-    <div class="popup-wrap ${className}">
+    <div class="popup-wrap ${className} ${commonClassName ?? ''}">
         ${style ?? ''}
         <div class="popup">
             <div class="interface">

@@ -21,11 +21,11 @@
                 <div class="line"></div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('시작일') ?></p>
-                    <input class="editable" name="start_date" value="<?= $data['start_date'] ?>" readonly>
+                    <input class="editable" name="start_date" value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) ?>" readonly>
                 </div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('마감일') ?></p>
-                    <input class="editable" name="end_date" value="<?= $data['end_date'] ?>" readonly>
+                    <input class="editable" name="end_date" value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?>" readonly>
                 </div>
             </div>
             <?php if (isset($data['artists']) || isset($data['rewards'])) { ?>

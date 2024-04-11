@@ -43,13 +43,13 @@ $identifier = $shortid->generate();
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('시작일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('start_date')">
-                        <input class="editable" name="start_date" value="<?= $data['start_date'] ?? null ?>" readonly>
+                        <input class="editable" name="start_date" value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>" readonly>
                     </a>
                 </div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('마감일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('end_date')">
-                        <input class="editable" name="end_date" value="<?= $data['end_date'] ?? null ?>" readonly>
+                        <input class="editable" name="end_date" value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>" readonly>
                     </a>
                 </div>
             </div>
@@ -57,7 +57,7 @@ $identifier = $shortid->generate();
                 <div class="line black"></div>
                 <div class="input-wrap artist">
                     <p class="input-title"><?= lang('아티스트') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', $data['artists'] ?? []) ?>
+                    <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist', $data['artists'] ?? []) ?>
                     <div class="button-wrap">
                         <a class="button" href="javascript:searchArtist('artist')">
                         </a>
@@ -99,16 +99,16 @@ $identifier = $shortid->generate();
 
     function confirmArtistSearch(className, target) {
         let data = parseInputToData($(`.${className} input, .${className} textarea`))
-        const artist_id = data['artist']
-        if (artist_id) {
-            if (files.get(target).indexOf(artist_id) >= 0) {
+        const id = data['artist']
+        if (id) {
+            if (files.get(target).indexOf(id) >= 0) {
                 openPopupMessage(lang('이미 선택된 아티스트입니다'))
                 return;
             }
-            files.push(target, artist_id);
+            files.push(target, id);
             apiRequest({
                 type: 'GET',
-                url: `/api/artist/get/${data['artist']}`,
+                url: `/api/artist/get/${id}`,
                 data: data,
                 dataType: 'json',
                 success: function (response, status, request) {

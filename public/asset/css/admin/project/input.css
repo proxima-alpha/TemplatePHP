@@ -25,16 +25,16 @@
 }
 
 /*팝업 커스텀*/
-.popup-artist-search .pages {
+.popup-search .pages {
     height: 50px;
     line-height: 50px;
 }
 
-.popup-artist-search.popup-wrap .popup-box.has-control-button .popup-inner {
+.popup-search.popup-wrap .popup-box.has-control-button .popup-inner {
     padding: 20px 20px 45px 20px;
 }
 
-.popup-artist-search .selected {
+.popup-search .selected {
     background-color: #efefef;
 }
 

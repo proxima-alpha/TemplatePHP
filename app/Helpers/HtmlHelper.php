@@ -116,6 +116,15 @@ final class HtmlHelper
         return HtmlHelper::setTranslations(array_merge($defaultTranslations, $translations));
     }
 
+    public static function toDateString($dateString)
+    {
+        try {
+            $date = strtotime($dateString);
+            return date("Y-m-d", $date);
+        } catch (Exception $e) {
+            return '';
+        }
+    }
 
     public static function getPaginationLink($pagination_link, $number, $params = null, $pagination_key = null): string
     {
@@ -273,6 +282,31 @@ final class HtmlHelper
                         <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
                         <p class="item-title">' . $item['name'] . '</p>
                         <p class="item-content">' . $item['job'] . '</p>
+                    </div>';
+            }
+        }
+        $html .=
+            '
+            </div>
+        </div>
+    </div>';
+        return $html;
+    }
+    public static function getGraphicSettingProjectItemSlick($items, $image_file_key): string
+    {
+        $html =
+            '<div class="content-wrap-inner slider-wrap lines-horizontal">
+                <div class="slider-wrap">
+                    <div class="slick">';
+        if (isset($items)) {
+            foreach ($items as $index => $item) {
+                $url = '/file/' . $item[$image_file_key];
+                $html .=
+                    '<div class="slick-item">
+                        <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                        <p class="item-title">' . $item['title'] . '</p>
+                        <p class="item-date">' . HtmlHelper::toDateString($item['start_date']).' ~ '.HtmlHelper::toDateString($item['end_date']) . '</p>
+                        <p class="item-content">' . $item['content'] . '</p>
                     </div>';
             }
         }

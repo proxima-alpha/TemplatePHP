@@ -26,11 +26,13 @@ $identifier = $shortid->generate();
     } else {?>
     files.checkEmpty('<?=$key?>')
     <?php foreach ($graphic_setting as $index => $item) {
-    if($key == 'artist') {?>
+    if($key == 'project') {?>
     files.push('<?=$key?>', '<?=$item['id']?>', {
-        profile_id: <?=$item['profile_id']?>,
-        name: '<?=$item['name']?>',
-        job: '<?=$item['job']?>',
+        project_image_id: <?=$item['project_image_id']?>,
+        title: '<?=$item['title']?>',
+        start_date: '<?=$item['start_date']?>',
+        end_date: '<?=$item['end_date']?>',
+        content: '<?=$item['content']?>',
     });
     <?php } else {?>
     files.push('<?=$key?>', '<?=$item['id']?>', '<?=$item['type']?>');
@@ -39,7 +41,6 @@ $identifier = $shortid->generate();
     }
     }
     }?>
-    console.log(files)
 </script>
 <div class="container-inner">
     <div class="container-wrap">
@@ -56,7 +57,7 @@ $identifier = $shortid->generate();
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
-                <a href="javascript:editSettingFile('main');"
+                <a href="javascript:editSetting('main');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>
@@ -73,7 +74,24 @@ $identifier = $shortid->generate();
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
-                <a href="javascript:editSettingFile('relation');"
+                <a href="javascript:editSetting('relation');"
+                   class="button under-line edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span><?= lang('Service.edit') ?></span>
+                </a>
+            </div>
+        </div>
+        <div class="content-box item-selector project">
+            <h4 class="page-sub-title">
+                <?= lang('프로젝트') ?>
+            </h4>
+            <div class="content-wrap slider-box">
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['project'] ?? null, 390)) { ?>
+                    <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($graphic_settings['project'], 'project_image_id'); ?>
+                <?php } ?>
+            </div>
+            <div class="control-button-wrap">
+                <a href="javascript:editSetting('project');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>
@@ -81,7 +99,7 @@ $identifier = $shortid->generate();
             </div>
         </div>
         <?php foreach ($graphic_settings['artists'] as $code => $items) { ?>
-            <div class="content-box artist-selector <?= $code ?>">
+            <div class="content-box item-selector <?= $code ?>">
                 <h4 class="page-sub-title">
                     <?= lang($code) ?>
                 </h4>
@@ -91,7 +109,7 @@ $identifier = $shortid->generate();
                     <?php } ?>
                 </div>
                 <div class="control-button-wrap">
-                    <a href="javascript:editSettingFile('<?= $code ?>');"
+                    <a href="javascript:editSetting('<?= $code ?>');"
                        class="button under-line edit">
                         <img src="/asset/images/icon/edit.png"/>
                         <span><?= lang('Service.edit') ?></span>
