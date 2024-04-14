@@ -40,12 +40,17 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "메일 송신용 지메일 메일주소",
         ]);
+        $this->createIfNotExist(['code' => 'main-content-text'], [
+            "code" => "main-content-text",
+            "type" => "long-text",
+            "name" => "메인 화면 내용",
+        ]);
         $codes = ['project', 'previous-project', 'artist', 'actor', 'creator'];
 
         foreach ($codes as $code) {
             $this->createIfNotExist(['code' => "main-show-".$code], [
                 "code" => "main-show-".$code,
-                "type" => "tinyint",
+                "type" => "bool",
                 "value" => "1",
                 "is_editable" => "0",
                 "name" => "메인 활성화",

@@ -18,20 +18,13 @@
     }
 }
 
-
-#header {
-    position: absolute;
-    top: 0;
-    /*z-index: 100;*/
-}
-
 #container .section {
     position: relative;
     overflow: hidden;
 }
 
 .section .page-inner {
-    padding-top: 110px;
+    padding-top: 60px;
     text-align: center;
 }
 
@@ -85,7 +78,7 @@
 slider 페이지
  */
 #page-start {
-    background: #222;
+    background: #000;
 }
 
 #page-start .slider-box {
@@ -102,6 +95,9 @@ slider 페이지
     background: url('/asset/images/icon/button_right_white@2x.png') no-repeat center;
 }
 
+#page-start .main-slider-wrap .slick .slick-item {
+    height: 600px;
+}
 
 #page-start .slider-text-wrap {
     position: absolute;
@@ -109,38 +105,26 @@ slider 페이지
     left: 0;
     right: 0;
     top: 0;
-    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
 }
 
 #page-start .slider-text-wrap .text-wrap {
-    max-width: 800px;
-    padding: 40px 50px 40px 50px;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: normal;
-    /*color: #000;*/
-    /*border: 1px solid #fff;*/
-    /*background: rgba(255, 255, 255, 0.6);*/
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 30px;
+    text-align: left;
+    line-height: 45px;
     color: #fff;
-    background: rgba(0, 0, 0, 0.6);
-    box-sizing: border-box;
-}
-
-#page-start .slider-text-wrap .text-wrap p {
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
-#page-start .slider-text-wrap .text-wrap .title {
-    font-size: 26px;
-    line-height: 50px;
-    font-weight: 600;
 }
 
 #page-start .slider-text-wrap .text-wrap .content {
-    font-size: 18px;
+    font-size: 40px;
     font-weight: 400;
-    overflow: hidden;
+    white-space: pre-wrap;
+    word-break: break-word;
+    letter-spacing: -2px;
 }
 
 /*

@@ -86,7 +86,25 @@ return [
     "is_active" => "활성화 여부",
 
     //main
+    "menu_artist_list" => "아티스트 목록",
+    "menu_user_guide" => "이용 가이드",
+    "menu_inquiry" => "문의하기",
     "show_detail" => "상세보기",
+    //main-footer
+    "ceo_name" => "대표",
+    "cs_center" => "고객센터",
+    "company_number" => "사업자등록번호",
+    "certification_number" => "통신판매업신고번호",
+    "manager_name" => "개인정보보호책임자",
+    //main-footer-buttons
+    "artist_registration" => "아티스트 가입하기",
+    "label_registration" => "소속사/레이블 신청",
+    "guide_qna" => "가이드와 자주 묻는 질문들",
+    "request_demo" => "데모 요청하기",
+    "agreement_service" => "서비스 이용약관",
+    "agreement_personal" => "개인정보 처리방침",
+    "show_information" => "안내 보기",
+
 
     //admin
     "category" => "카테고리",

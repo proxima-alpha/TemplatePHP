@@ -30,7 +30,6 @@ class BaseAdminController extends BaseViewController
 
     public function __construct()
     {
-        $this->setLanguage();
         $this->links = [
             [
                 'name' => lang('Service.category'),
@@ -76,6 +75,7 @@ class BaseAdminController extends BaseViewController
         if ($this->isCheckLogin) {
             $this->checkLogin();
         }
+        $this->setLanguage();
     }
 
     /**

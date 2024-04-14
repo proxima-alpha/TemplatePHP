@@ -94,6 +94,8 @@ $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
 /**
  * API Routes
  */
+$routes->get('/api/session/(lang)/'.$CODE_RULE, [\Views\BaseViewController::class, 'updateSession']);
+
 $TARGET_RULE = 'topic|main|relation|project|user_profile|artist_profile|artist_preview';
 $routes->post('/api/file/(' . $TARGET_RULE . ')/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
 $routes->post('/api/file/(' . $TARGET_RULE . '|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);

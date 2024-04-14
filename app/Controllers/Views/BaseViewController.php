@@ -91,11 +91,13 @@ class BaseViewController extends BaseController
         $this->setCookie('user_id', $this->session->user_id);
         $this->setCookie('user_type', $this->session->user_type);
         $this->setCookie('is_admin', $this->session->is_admin);
+        $this->setCookie('lang', $this->session->lang);
         return [
             'is_login' => $this->session->is_login,
             'user_id' => $this->session->user_id,
             'user_type' => $this->session->user_type,
             'is_admin' => $this->session->is_admin,
+            'lang' => $this->session->lang,
         ];
     }
 
@@ -106,6 +108,13 @@ class BaseViewController extends BaseController
         } else {
             set_cookie($key, '', httpOnly: false);
         }
+    }
+
+    public function updateSession($key, $value): void
+    {
+        $this->session->set([
+            $key => $value,
+        ]);
     }
 
     #[NoReturn] protected function handleException(Exception $e): void

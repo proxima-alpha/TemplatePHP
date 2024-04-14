@@ -93,7 +93,7 @@ final class HtmlHelper
             ...translations,
             ';
         foreach ($translations as $key) {
-            $result .= "'" . $key . "' : '" . lang('Service.' . $key) . "',\n";
+            $result .= "'" . $key . "' : \"" . lang('Service.' . $key) . "\",\n";
         }
         $result .= '}
         </script>

@@ -72,8 +72,8 @@ abstract class BaseController extends Controller
     protected function setLanguage(): void
     {
         $language = \Config\Services::language();
-        $language->setLocale('ko');
-
+        $lang = $this->session->lang;
+        $language->setLocale($lang ?? 'ko');
     }
 
 }

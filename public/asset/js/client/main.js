@@ -76,6 +76,8 @@ $(document).ready(function () {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
+        prevArrow: false,
+        nextArrow: false,
         autoplaySpeed: 2000,
         accessibility: false,
     });
@@ -309,42 +311,27 @@ function closePagePopupTodayDisabled(className, id) {
  * window resize
  */
 function resizeWindow() {
-    refreshMainStartPageContentHeight();
-
-    let $pageInners = $('.section .page-inner').not('.whole-page');
-    for (let i in $pageInners) {
-
-        let paddingTop = $pageInners.eq(i).css('padding-top') ?? '0';
-        paddingTop = paddingTop.replaceAll('px', '');
-
-        let height = window.innerHeight - paddingTop;
-        let $footer = $pageInners.eq(i).parent().find('#footer')
-        if ($footer.length > 0) {
-            height -= $footer.height();
-            $pageInners.eq(i).css({
-                'padding-bottom': `${$footer.height()}px`
-            })
-        }
-        $pageInners.eq(i).css({
-            'line-height': `${height}px`,
-        })
-    }
+    // let $pageInners = $('.section .page-inner').not('.whole-page');
+    // for (let i in $pageInners) {
+    //
+    //     let paddingTop = $pageInners.eq(i).css('padding-top') ?? '0';
+    //     paddingTop = paddingTop.replaceAll('px', '');
+    //
+    //     let height = window.innerHeight - paddingTop;
+    //     let $footer = $pageInners.eq(i).parent().find('#footer')
+    //     if ($footer.length > 0) {
+    //         height -= $footer.height();
+    //         $pageInners.eq(i).css({
+    //             'padding-bottom': `${$footer.height()}px`
+    //         })
+    //     }
+    //     $pageInners.eq(i).css({
+    //         'line-height': `${height}px`,
+    //     })
+    // }
 
     resizePagePopupWindow();
     $(`#page-intro`).setVideoCoverStyle();
-}
-
-function refreshMainStartPageContentHeight() {
-    let header_height = $('#header').height();
-    let content_height = window.innerHeight - header_height
-    $('#page-start .main-slider-wrap').css('padding-top', header_height);
-    $('#page-start .main-slider-wrap .slick').css('height', content_height);
-    $('#page-start .main-slider-wrap .slick .slick-item').css('height', content_height);
-    $('#page-start .slider-text-wrap .text-wrap .content').css('max-height', `${content_height - 300}px`);
-
-    $('#page-start .slider-text-wrap').css({
-        'line-height': `${content_height}px`,
-    })
 }
 
 function setMainPageHeaderShape(index, nextIndex, isMobile = false) {

@@ -31,7 +31,6 @@ class BaseClientController extends BaseViewController
 
     public function __construct()
     {
-        $this->setLanguage();
         $this->categoryModel = model('Models\CategoryModel');
         $this->categoryLocalModel = model('Models\CategoryLocalModel');
         $this->settingModel = model('Models\SettingModel');
@@ -56,6 +55,7 @@ class BaseClientController extends BaseViewController
         if ($this->isCheckLogin) {
             $this->checkLogin();
         }
+        $this->setLanguage();
     }
 
     /**
