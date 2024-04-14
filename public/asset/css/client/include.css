@@ -98,10 +98,12 @@ body {
     position: absolute;
     right: 0;
 }
+
 .utill ul {
     display: inline-block;
     vertical-align: middle;
 }
+
 .utill li {
     float: left;
     font-size: 14px;
@@ -111,6 +113,7 @@ body {
     color: #fff;
     box-sizing: border-box;
 }
+
 .utill select {
     height: 30px;
     margin: 15px 10px;
@@ -246,10 +249,10 @@ body {
 /*footer logo*/
 #footer .footer-inner .logo {
     width: 200px;
+    margin: 0 10px;
     flex-shrink: 0;
     /*width: 200px;*/
     height: 40px;
-    margin-left: -10px;
     display: inline-block;
     vertical-align: middle;
 }
@@ -346,6 +349,7 @@ body {
         left: 15px;
         right: 15px;
     }
+
     .utill select {
         position: absolute;
         left: 0;
@@ -364,5 +368,17 @@ body {
 
     .gnb .lnb.opened {
         display: block;
+    }
+
+    #footer .footer-inner {
+        flex-direction: column;
+    }
+
+    #footer .footer-inner .logo {
+        margin-bottom: 20px;
+    }
+
+    #footer .text-wrap ul li {
+        margin: 2px 5px;
     }
 }

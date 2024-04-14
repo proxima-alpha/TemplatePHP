@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use mysql_xdevapi\Exception;
+
 final class HtmlHelper
 {
     public static function getPagination($pagination, $pagination_link): string
@@ -118,11 +120,24 @@ final class HtmlHelper
 
     public static function toDateString($dateString)
     {
+        if (!isset($dateString)) return '';
         try {
             $date = strtotime($dateString);
             return date("Y-m-d", $date);
         } catch (Exception $e) {
             return '';
+        }
+    }
+
+    public static function secToString($sec)
+    {
+        if (!$sec) return '0:00';
+        try {
+            $minutes = floor($sec / 60);
+            $seconds = $sec % 60;
+            return $minutes . ":" . str_pad($seconds, 2, "0", STR_PAD_LEFT);
+        } catch (Exception $e) {
+            return '0:00';
         }
     }
 
@@ -165,7 +180,7 @@ final class HtmlHelper
                     '<div class="upload-item-add"
                          style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
                         <label for="' . $key . '-file" class="button"></label>
-                        <input type="file" name="file" multiple id="' . $key . '-file"
+                        <input type="file" name="file" id="' . $key . '-file"
                                onchange="onFileUpload(this, \'' . $key . '\');"
                                accept="image/png,image/jpg"/>
                     </div>';
@@ -214,7 +229,7 @@ final class HtmlHelper
                 '<div class="slick-item upload-item-add"
                      style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
                     <label for="artist_preview-file" class="button"></label>
-                    <input type="file" name="file" multiple id="artist_preview-file"
+                    <input type="file" name="file" id="artist_preview-file"
                            onchange="onFileUpload(this, \'' . $key . '\');"
                            accept="video/*,image/png,image/jpg"/>
                 </div>';
@@ -243,11 +258,10 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getGrpahicSettingSlick($files): string
+    public static function getGrpahicSettingSlick($files, $isAdmin = false): string
     {
         $html =
-            '<div class="content-wrap-inner slider-wrap lines-horizontal">
-                <div class="slider-wrap">
+            '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
                     <div class="slick">';
         if (isset($files)) {
             foreach ($files as $index => $file) {
@@ -256,27 +270,28 @@ final class HtmlHelper
                     '<div class="slick-item button"
                         style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
                         onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
-                        Slider # ' . $file['id'] . ' 
-                    </div>';
+                        Slider # ' . $file['id'];
+                if (!$isAdmin && $file['type'] == 'video') {
+                    $html .= ' <p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
+                }
+                $html .= '</div>';
             }
         }
         $html .=
             '
             </div>
-        </div>
     </div>';
         return $html;
     }
 
-    public static function getGraphicSettingItemSlick($items, $image_file_key): string
+    public static function getGraphicSettingItemSlick($items, $image_file_key, $isAdmin = false): string
     {
         $html =
-            '<div class="content-wrap-inner slider-wrap lines-horizontal">
-                <div class="slider-wrap">
+            '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
                     <div class="slick">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
-                $url = '/file/' . $item[$image_file_key];
+                $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
                 $html .=
                     '<div class="slick-item">
                         <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
@@ -287,25 +302,25 @@ final class HtmlHelper
         }
         $html .=
             '
-            </div>
         </div>
     </div>';
         return $html;
     }
-    public static function getGraphicSettingProjectItemSlick($items, $image_file_key): string
+
+    public static function getGraphicSettingProjectItemSlick($items, $image_file_key, $isAdmin = false): string
     {
         $html =
-            '<div class="content-wrap-inner slider-wrap lines-horizontal">
+            '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
                 <div class="slider-wrap">
                     <div class="slick">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
-                $url = '/file/' . $item[$image_file_key];
+                $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
                 $html .=
                     '<div class="slick-item">
                         <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
                         <p class="item-title">' . $item['title'] . '</p>
-                        <p class="item-date">' . HtmlHelper::toDateString($item['start_date']).' ~ '.HtmlHelper::toDateString($item['end_date']) . '</p>
+                        <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
                         <p class="item-content">' . $item['content'] . '</p>
                     </div>';
             }
@@ -318,6 +333,26 @@ final class HtmlHelper
         return $html;
     }
 
+    public static function getProjectItem($items, $image_file_key): string
+    {
+        $html = '<div class="content-wrap-inner slider-wrap">';
+        if (isset($items)) {
+            foreach ($items as $index => $item) {
+                $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
+                $html .=
+                    '<div class="content-item">
+                        <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                        <p class="item-title">' . $item['title'] . '</p>
+                        <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
+                        <p class="item-content">' . $item['content'] . '</p>
+                    </div>';
+            }
+        }
+        $html .=
+            '</div>';
+        return $html;
+    }
+
     public static function getRowUploaderArtist($target, $items, $view_mode = 'input'): string
     {
         $html = '';
@@ -325,7 +360,7 @@ final class HtmlHelper
             '<div class="row-uploader ' . $target . '">';
         if ($view_mode == 'input') {
             foreach ($items as $index => $item) {
-                $url = '/file/' . $item['profile_id'];
+                $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
                 $html .=
                     '<div class="draggable-item row-uploader-item" draggable="true">
                     <input hidden class="editable" type="text" name="id" value="' . $item['id'] . '">
@@ -345,7 +380,7 @@ final class HtmlHelper
             }
         } else {
             foreach ($items as $index => $item) {
-                $url = '/file/' . $item['profile_id'];
+                $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
                 $html .=
                     '<div class="row-uploader-item">
                     <input hidden type="text" name="id" value="' . $item['id'] . '">

@@ -37,9 +37,9 @@ class GraphicSettingController extends BaseAdminController
         $data = $this->getViewData();
         try {
             $graphic_settings = [];
-            $images = $this->customFileModel->get(['target' => 'main']);
+            $main_images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
-            $projects = $this->projectModel->get(['is_posted' => 1], null, true);
+            $projects = $this->projectModel->get(['is_posted' => 1, 'status' => 'open'], null, true);
             $artists = $this->artistModel->get(['is_posted' => 1], null, true);
             $codes = $this->codeArtistModel->get();
             $settings = $this->settingModel->getMainShowSettings();
@@ -51,7 +51,7 @@ class GraphicSettingController extends BaseAdminController
                 $artist_parsed[$artist['code']][] = $artist;
             }
             $graphic_settings = array_merge($graphic_settings, [
-                'main' => $images,
+                'main' => $main_images,
                 'relation' => $relations,
                 'project' => $projects,
                 'artists' => $artist_parsed,

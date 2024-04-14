@@ -43,13 +43,16 @@ $identifier = $shortid->generate();
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('시작일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('start_date')">
-                        <input class="editable" name="start_date" value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>" readonly>
+                        <input class="editable" name="start_date"
+                               value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
+                               readonly>
                     </a>
                 </div>
                 <div class="input-wrap calendar">
                     <p class="input-title"><?= lang('마감일') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('end_date')">
-                        <input class="editable" name="end_date" value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>" readonly>
+                        <input class="editable" name="end_date"
+                               value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>" readonly>
                     </a>
                 </div>
             </div>
@@ -73,6 +76,15 @@ $identifier = $shortid->generate();
                     </div>
                 </div>
                 <div class="line black"></div>
+                <div class="input-wrap inline">
+                    <p class="input-title"><?= lang('상태') ?></p>
+                    <select class="editable" name="status" value="<?= $data['status'] ?? '' ?>">`
+                        <option
+                            value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
+                        <option
+                            value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
+                    </select>
+                </div>
             </div>
             <div class="button-wrap">
                 <a href="<?= $type == 'create' ? 'javascript:confirmCreateProject()' : 'javascript:confirmEditProject(' . $data['id'] . ')' ?>"

@@ -4,8 +4,12 @@ namespace Views;
 
 use App\Helpers\ServerLogger;
 use Exception;
+use Models\ArtistModel;
 use Models\BoardModel;
+use Models\CodeArtistModel;
 use Models\CustomFileModel;
+use Models\ProjectModel;
+use Models\SettingModel;
 use Models\TopicModel;
 
 class MainController extends BaseClientController
@@ -14,6 +18,10 @@ class MainController extends BaseClientController
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
     protected CustomFileModel $customFileModel;
+    protected ArtistModel $artistModel;
+    protected CodeArtistModel $codeArtistModel;
+    protected ProjectModel $projectModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
@@ -21,6 +29,10 @@ class MainController extends BaseClientController
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
         $this->customFileModel = model('Models\CustomFileModel');
+        $this->artistModel = model('Models\ArtistModel');
+        $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->projectModel = model('Models\ProjectModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -31,22 +43,36 @@ class MainController extends BaseClientController
     {
         $data = $this->getViewData();
         try {
-            $data['logos'] = $this->customFileModel->getLogos();
-            // for pagination
-
-            // load table view
-            $data['topics_table'] = $this->getTopics('notice');
-            // load grid view
-            $data['topics_grid'] = $this->getTopics('item');
-
-            $images = $this->customFileModel->get(['type' => 'image', 'target' => 'main']);
-            $data = array_merge($data, [
-                'slider_images' => $images,
+            $graphic_settings = [];
+            $main_images = $this->customFileModel->get(['target' => 'main']);
+            $relations = $this->customFileModel->get(['target' => 'relation']);
+            $projects = $this->projectModel->get(['is_posted' => 1, 'status' => 'open'], null, true);
+            $artists = $this->artistModel->get(['is_posted' => 1], null, true);
+            $codes = $this->codeArtistModel->get();
+            $settings = $this->settingModel->getMainShowSettings();
+            $previous_projects = [];
+            if(isset($settings['main-show-previous-project']) && $settings['main-show-previous-project'] == 1) {
+                $previous_projects = $this->projectModel->getPreviousProjects();
+            }
+            $artist_parsed = [];
+            foreach ($codes as $index => $code) {
+                $artist_parsed[$code['code']] = [];
+            }
+            foreach ($artists as $index => $artist) {
+                $artist_parsed[$artist['code']][] = $artist;
+            }
+            $graphic_settings = array_merge($graphic_settings, [
+                'main' => $main_images,
+                'relation' => $relations,
+                'project' => $projects,
+                'artists' => $artist_parsed,
+                'previous-project' => $previous_projects,
             ]);
-            $videos = $this->customFileModel->get(['type' => 'video', 'target' => 'main']);
             $data = array_merge($data, [
-                'videos' => $videos,
+                'data' => $graphic_settings,
+                'settings' => $settings,
             ]);
+
             $data = array_merge($data, [
                 'company_info' => [
                     'name' => '(주)유닉코퍼레이션',

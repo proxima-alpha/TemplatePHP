@@ -30,4 +30,16 @@ class ProjectModel extends BaseModel
         }
         return $builder->getWhere($condition)->getResultArray();
     }
+
+    public function getPreviousProjects(): array
+    {
+        $today  = date("Y-m-d");
+        $query = "SELECT * FROM project WHERE status = 'open' AND end_date < '".$today."' ORDER BY created_at DESC";
+        return BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => [],
+            ],
+        ]);
+    }
 }

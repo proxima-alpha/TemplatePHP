@@ -88,7 +88,7 @@ function deleteUploadedImageFile(target, id, accept) {
     <div class="upload-item-add"
          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
         <label for="${target}-file" class="button"></label>
-        <input type="file" name="file" multiple id="${target}-file"
+        <input type="file" name="file" id="${target}-file"
                onchange="onFileUpload(this, '${target}');"
                accept="${accept}"/>
     </div>`);

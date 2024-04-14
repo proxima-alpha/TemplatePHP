@@ -69,6 +69,7 @@ class CustomFileController extends BaseApiController
 
                 $width = 0;
                 $height = 0;
+                $time = 0;
                 $thumb_file_name = null;
                 switch ($uploadedType) {
                     case 'image' :
@@ -83,6 +84,7 @@ class CustomFileController extends BaseApiController
                             'ffprobe.binaries' => '/usr/bin/ffprobe'
                         ]);
                         $video = $ffmpeg->open($path . '/' . $file_name);
+                        $time = floor($ffmpeg->getFFProbe()->format($path . '/' . $file_name)->get('duration'));
 
                         $thumb_file_name = 'thumb.jpg';
                         $video->frame(TimeCode::fromSeconds(0))
@@ -102,6 +104,7 @@ class CustomFileController extends BaseApiController
                     'width' => $width,
                     'height' => $height,
                     'mime_type' => $mime_type,
+                    'time' => $time,
                     'path' => $path,
                     'symbolic_path' => $symbolic_path,
                     'identifier' => $identifier,

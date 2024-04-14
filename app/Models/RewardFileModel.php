@@ -14,6 +14,7 @@ class RewardFileModel extends BasePriorityModel
         'file_name',
         'thumb_file_name',
         'mime_type',
+        'time',
         'width',
         'height',
         'created_at',

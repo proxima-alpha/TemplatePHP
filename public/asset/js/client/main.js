@@ -2,11 +2,6 @@
  * @file main.php
  */
 
-// setOnResolutionChanged 가 맨 처음에 무조건 한번 불리기 때문에
-// init 값을 이미 2페이지에서 시작하듯이 설정해 준다
-let mainPageIndex = 2, mainPageNextIndex = 1;
-let map;
-
 /**
  * 스토리지 제어 함수 정의
  * @type {{set: handleStorage.set, has: (function(*): boolean)}}
@@ -33,42 +28,6 @@ let handleStorage = {
 };
 
 $(document).ready(function () {
-    mainPageIndex = 2;
-    mainPageNextIndex = 1;
-    let $sections = $('.section');
-    let anchors = [];
-    for (let i = 0; i < $sections.length; i++) {
-        anchors.push(`${i + 1}`);
-    }
-    // activate full page
-    $('#container').fullpage({
-        anchors: anchors,
-        menu: '#menu',
-        onLeave: function (index, nextIndex, direction) {
-            mainPageIndex = index;
-            mainPageNextIndex = nextIndex;
-            let isMobile = $('body').hasClass('mobile');
-            setMainPageHeaderShape(index, nextIndex, isMobile);
-
-            if (nextIndex == 1) {
-                refreshMainStartPageContentHeight();
-            }
-        },
-        afterLoad: function (anchorLink, index) {
-            if (index == 2) {
-                if ($('#page-intro video').length > 0) {
-                    $('#page-intro video').get(0).play();
-                }
-            }
-        }
-    });
-    if (video) {
-        $(`#page-intro`).prepend(`
-        <video muted loop>
-            <source src="/file/${video['id']}" type="${video['mime_type']}">
-        </video>`);
-    }
-
     resizeWindow();
 
     // activate slick
@@ -82,120 +41,20 @@ $(document).ready(function () {
         accessibility: false,
     });
 
-    try {
-        let container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-        let options = { //지도를 생성할 때 필요한 기본 옵션
-            center: new kakao.maps.LatLng(36.119312, 127.838161), //지도의 중심좌표.
-            level: 12, //지도의 레벨(확대, 축소 정도)
-            // draggable: false,
-            scrollwheel: false,
-            disableDoubleClick: true,
-            disableDoubleClickZoom: true,
-        };
-
-        map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
-        let event = new Event("customMapLoad");
-        dispatchEvent(event);
-    } catch (e) {
-        // do nothing
-        // prevent throwing job in middle
-        let $boxMap = $('#page-map .map-box');
-        $boxMap.empty();
-        $boxMap.append(`
-        <div class="no-data-box" style="position: absolute; top: 50%; margin-top: -150px; left: 0;">
-            <div class="no-data-wrap">
-                <img src="/asset/images/icon/err_wrong_value.png">
-                <span>Please check APPKEY value for map API.</span>
-            </div>
-        </div>`)
-    }
-
-    let element = $(`#page-map .list-wrap`).get(0);
-    if (element) {
-        // auto scrolling
-        element.addEventListener("scrollend", (event) => {
-            try {
-                let page = parseInt(element.getAttribute('page'));
-                let per_page = parseInt(element.getAttribute('per-page'));
-                let total = parseInt(element.getAttribute('total'));
-                let total_page = parseInt(element.getAttribute('total-page'));
-                if (page >= total_page) return;
-                apiRequest({
-                    type: 'GET',
-                    url: `/api/location/get/all?page=${page + 1}&per-page=${per_page}`,
-                    dataType: 'json',
-                    success: function (response, status, request) {
-                        if (!response.success) return;
-                        let data = response.data
-                        let array = data['array'];
-                        let pagination = data['pagination'];
-                        for (let i in array) {
-                            let item = array[i]
-
-                            $(`#page-map .list-wrap`).attr({
-                                'page': pagination['page'],
-                                'total': pagination['total'],
-                                'total-page': pagination['total-page'],
-                            })
-                            $(`#page-map .list-wrap ul`).append(`
-                            <li class="button">
-                                <div class="text-wrap">
-                                    <div class="title">${item['name']}</div>
-                                    <div class="content">${item['address']}</div>
-                                </div>
-                            </li>`)
-                        }
-                        setMapPoints(array);
-                    },
-                    error: function (response, status, error) {
-                    },
-                });
-            } catch (e) {
-                // do nothing
-                return;
-            }
-        });
-    }
-
-    let $slick = $('#page-preview .slick');
-    $slick.setOnResolutionChanged((event) => {
-        let isMobile = event.detail.isMobile;
-
-        $slick.setCustomSlick(isMobile, {
-            infinite: false,
-            autoplay: false,
-        });
+    $('#page-media .slick').slick({
+        infinite: false,
+        autoplay: true,
+        draggable: true,
+        slidesToShow: 6,
+        duration: 2000
     })
-
-    // slick item 이 없는 경우 setOnResolutionChanged 이 작동하지 않으므로
-    // slick과 연관없는 기능들은 body에 연결해준다
-    $('body').setOnResolutionChanged((event) => {
-        let isMobile = event.detail.isMobile;
-
-        setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
-
-        if (isMobile) {
-            // mobile 로 전환
-            // 첫 load 때 모바일인 경우 호출됨
-            $('#page-map .location-list-box').css({
-                'display': 'none'
-            });
-            if (map && bounds) {
-                map.setBounds(bounds, 0, 0, 0, 0);
-                map.panBy(340, 0)
-            }
-        } else {
-            // pc 로 전환
-            $('#page-map .location-list-box').css({
-                'animation-duration': '',
-                'animation-name': '',
-                'display': 'block'
-            });
-            if (map && bounds) {
-                map.setBounds(bounds, 0, 0, 0, 340);
-            }
-        }
-    })
+    // // slick item 이 없는 경우 setOnResolutionChanged 이 작동하지 않으므로
+    // // slick과 연관없는 기능들은 body에 연결해준다
+    // $('body').setOnResolutionChanged((event) => {
+    //     let isMobile = event.detail.isMobile;
+    //
+    //     setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
+    // })
 
     checkPagePopup();
 });
@@ -237,7 +96,7 @@ function checkPagePopup() {
                         </div>
                     </div>
                     <div class="button-wrap">
-                        <a href="javascript:closePagePopupTodayDisabled('${className}', ${item['id']})" class="button black">
+                        <a href="javascript:closePagePopupTodayDisabled('${className}', ${item['id']})" class="button">
                             <span>${lang('message_popup_page')}</span>
                         </a>
                     </div>`
@@ -331,7 +190,6 @@ function resizeWindow() {
     // }
 
     resizePagePopupWindow();
-    $(`#page-intro`).setVideoCoverStyle();
 }
 
 function setMainPageHeaderShape(index, nextIndex, isMobile = false) {

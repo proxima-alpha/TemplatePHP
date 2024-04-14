@@ -263,6 +263,7 @@ input[type=checkbox] {
     line-height: 298px;
     vertical-align: middle;
     display: inline-block;
+    text-align: center;
 }
 
 .no-data-box:before,

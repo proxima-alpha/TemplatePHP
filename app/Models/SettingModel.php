@@ -45,6 +45,11 @@ class SettingModel extends BaseModel
             "type" => "long-text",
             "name" => "메인 화면 내용",
         ]);
+        $this->createIfNotExist(['code' => 'web-title'], [
+            "code" => "web-title",
+            "type" => "text",
+            "name" => "페이지 상단 이름",
+        ]);
         $codes = ['project', 'previous-project', 'artist', 'actor', 'creator'];
 
         foreach ($codes as $code) {

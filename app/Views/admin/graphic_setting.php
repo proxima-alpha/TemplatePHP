@@ -28,7 +28,9 @@ $identifier = $shortid->generate();
     <?php foreach ($graphic_setting as $index => $item) {
     if($key == 'project') {?>
     files.push('<?=$key?>', '<?=$item['id']?>', {
+        <?php if(isset($item['project_image_id'])) {?>
         project_image_id: <?=$item['project_image_id']?>,
+        <?php } ?>
         title: '<?=$item['title']?>',
         start_date: '<?=$item['start_date']?>',
         end_date: '<?=$item['end_date']?>',
@@ -53,7 +55,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['main'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['main']); ?>
+                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['main'], true); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -70,7 +72,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['relation']); ?>
+                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['relation'], true); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -93,7 +95,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 390)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id'); ?>
+                    <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id', true); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -123,7 +125,7 @@ $identifier = $shortid->generate();
                 <div class="input-wrap inline">
                     <input type="checkbox"
                            name="main-show-<?= $code ?>" <?= $settings['main-show-' . $code] ?? null == '1' ? 'checked' : '' ?>
-                           onchange="onSettingChanged(this, `<?=$code?>`)"/>
+                           onchange="onSettingChanged(this, `<?= $code ?>`)"/>
                     <p class="input-title"><?= lang('메인에 개시') ?></p>
                 </div>
                 <div class="content-wrap slider-box">

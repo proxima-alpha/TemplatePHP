@@ -31,11 +31,23 @@ function openWindow(url) {
 }
 
 function toDateString(dateString) {
+    if (!dateString) return '';
     try {
         const date = new Date(dateString);
         return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
     } catch (e) {
         return '';
+    }
+}
+
+function secToString(sec) {
+    if (!sec) return '0:00';
+    try {
+        const minutes = Math.floor(sec / 60);
+        const seconds = sec % 60;
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    } catch (e) {
+        return '0:00';
     }
 }
 

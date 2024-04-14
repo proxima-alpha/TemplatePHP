@@ -174,7 +174,7 @@ function deleteSettingFile(target, id) {
     <div class="upload-item-add"
          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
         <label for="${target}-file" class="button"></label>
-        <input type="file" name="file" multiple id="${target}-file"
+        <input type="file" name="file" id="${target}-file"
                onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
                accept="${accept}"/>
     </div>`);
@@ -215,7 +215,7 @@ function setEditing($parent, target) {
                         <div class="slick-item upload-item-add"
                              style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                             <label for="image-file" class="button"></label>
-                            <input type="file" name="file" multiple id="image-file"
+                            <input type="file" name="file" id="image-file"
                                    onchange="onFileUpload(this, '${target}');"
                                    accept="${accept}"/>
                         </div>
@@ -330,7 +330,7 @@ function setEditing($parent, target) {
                     <div class="upload-item-add"
                          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                         <label for="${target}-file" class="button"></label>
-                        <input type="file" name="file" multiple id="${target}-file"
+                        <input type="file" name="file" id="${target}-file"
                                onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
                                accept="${accept}"/>
                     </div>`;
@@ -660,13 +660,13 @@ function onSettingChanged(element, code) {
         type: 'POST',
         url: `/api/setting/update`,
         data: {
-            code : `main-show-${code}`,
+            code: `main-show-${code}`,
             value: element.checked ? 1 : 0
         },
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
-                if(element.checked) {
+                if (element.checked) {
                     element.checked = false;
                 } else {
                     element.checked = true;
@@ -676,7 +676,7 @@ function onSettingChanged(element, code) {
             }
         },
         error: function (response, status, error) {
-            if(element.checked) {
+            if (element.checked) {
                 element.checked = false;
             } else {
                 element.checked = true;

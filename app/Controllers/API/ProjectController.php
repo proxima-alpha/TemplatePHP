@@ -40,6 +40,7 @@ class ProjectController extends CustomFileController
         try {
             $condition = [
                 'is_deleted' => 0,
+                'status' => 'open',
             ];
             $result = $this->projectModel->getPaginated([
                 'per_page' => 10,

@@ -1,14 +1,6 @@
 <?php
 
 if (!isset($links) && !isset($is_login)) return;
-
-$sliderImages = [
-    '/asset/images/slider/drilling-rig-4581167_1280.jpeg',
-    '/asset/images/slider/film-4613426_1280.jpeg',
-    '/asset/images/slider/geometry-7209216_1280.jpeg',
-    '/asset/images/slider/record-player-1851576_1280.jpeg',
-    '/asset/images/slider/vacation-2302013_1280.jpeg',
-];
 $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/custom/logo.svg';
 $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo']['id']}" : '/asset/images/custom/logo.svg';
 $favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
@@ -41,8 +33,6 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/library/fullpage/jquery.fullPage.js"></script>
     <script type="text/javascript" src="/asset/js/library/slick/slick.min.js"></script>
-    <script type="text/javascript"
-            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<?= $settings['kakao-map-appkey'] ?? '' ?>"></script>
 
     <script type="text/javascript" src="/asset/js/module/slick_custom.js"></script>
     <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
@@ -50,32 +40,6 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
     <script type="text/javascript" src="/asset/js/common/topic_view.js"></script>
     <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <script type="text/javascript" src="/asset/js/client/main.js"></script>
-    <script type="text/javascript">
-        addEventListener('customMapLoad', function () {
-            let points = [];
-            <?php
-            if(isset($locations)) {
-            foreach ($locations['array'] as $index => $point) { ?>
-            points.push({
-                name: '<?=$point['name']?>',
-                latitude: '<?=$point['latitude']?>',
-                longitude: '<?=$point['longitude']?>',
-            })
-            <?php
-            }
-            }
-            ?>
-            setMapPoints(points)
-        })
-        let video = null;
-        <?php if(isset($videos) && sizeof($videos) > 0) {
-        $video = $videos[0];?>
-        video = {
-            id: <?=$video['id']?>,
-            mime_type: '<?=$video['mime_type']?>',
-        }
-        <?php } ?>
-    </script>
 
 </head>
 <?= \App\Helpers\HtmlHelper::setTranslationsClient(['message_popup_page']) ?>
@@ -141,7 +105,7 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
         <div class="main-slider-wrap">
             <div class="slider-box">
                 <div class="slick">
-                    <?php foreach ($slider_images as $index => $image) { ?>
+                    <?php foreach ($data['main'] as $index => $image) { ?>
                         <div class="slick-item"
                              style="background: url('/file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #<?= $index ?>
@@ -153,6 +117,100 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
                         <p class="content"><?= $settings['main-content-text'] ?? '' ?></p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="section" id="page-media">
+        <div class="page-inner">
+            <div class="content-box relation">
+                <h4 class="page-sub-title">
+                    BECLE FAN RELATION
+                </h4>
+                <div class="content-wrap slider-box">
+                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
+                        <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['relation']); ?>
+                    <?php } ?>
+                </div>
+            </div>
+            <?php if ($settings['main-show-project'] == 1) { ?>
+                <div class="content-box project">
+                    <h4 class="page-sub-title">
+                        인기 프로젝트
+                    </h4>
+                    <div class="content-wrap slider-box">
+                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 390)) { ?>
+                            <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id'); ?>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php }
+            foreach ($data['artists'] as $code => $items) {
+                if ($settings['main-show-' . $code] == 1) { ?>
+                    <div class="content-box artists <?= $code ?>">
+                        <h4 class="page-sub-title">
+                            <?= $code ?>
+                        </h4>
+                        <div class="content-wrap slider-box">
+                            <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 370)) { ?>
+                                <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id'); ?>
+                            <?php } ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+            }
+            if ($settings['main-show-previous-project'] == 1) { ?>
+                <div class="content-box previous-project">
+                    <h4 class="page-sub-title">
+                        지난 프로젝트
+                    </h4>
+                    <div class="content-wrap slider-box">
+                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 390)) { ?>
+                            <?= \App\Helpers\HtmlHelper::getProjectItem($data['previous-project'], 'project_image_id'); ?>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <div class="section" id="page-intro">
+        <div class="page-inner">
+            <h3 class="page-title">
+                <?= lang('Service.main_info_title') ?>
+            </h3>
+            <h4 class="page-sub-title">
+                <?= lang('Service.main_info_sub_title') ?>
+            </h4>
+            <div class="content-box">
+                <div class="content-wrap image">
+                    <img src="/asset/images/custom/device.svg"/>
+                </div>
+                <div class="content-wrap list">
+                    <ul>
+                        <li class="wrap-fill">
+                            <p class="title"><?= lang('Service.main_info_title_01') ?></p>
+                        </li>
+                        <li class="wrap-line">
+                            <p class="title"><?= lang('Service.main_info_title_02') ?></p>
+                            <p class="content"><?= lang('Service.main_info_content_02') ?></p>
+                        </li>
+                        <li class="wrap-line">
+                            <p class="title"><?= lang('Service.main_info_title_03') ?></p>
+                            <p class="content"><?= lang('Service.main_info_content_03') ?></p>
+                        </li>
+                        <li class="wrap-fill">
+                            <p class="title"><?= lang('Service.main_info_title_04') ?></p>
+                            <p class="content"><?= lang('Service.main_info_content_04') ?></p>
+                        </li>
+                        <li class="wrap-line">
+                            <p class="title"><?= lang('Service.main_info_title_05') ?></p>
+                            <p class="content"><?= lang('Service.main_info_content_05') ?></p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="content-box right">
+                </div>
+
             </div>
         </div>
     </div>
@@ -198,8 +256,7 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
                 </div>
             </div>
         </div>
-</div>
-</footer>
+    </footer>
 </div>
 
 </body>

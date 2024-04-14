@@ -68,7 +68,7 @@ class GraphicSettingController extends BaseApiController
             // priority 때문에 따로조회
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
-            $projects = $this->projectModel->get(['is_posted' => 1], null, true);
+            $projects = $this->projectModel->get(['is_posted' => 1, 'status' => 'open'], null, true);
             $artists = $this->artistModel->get(['is_posted' => 1], null, true);
             $codes = $this->codeArtistModel->get();
             $artist_parsed = [];
