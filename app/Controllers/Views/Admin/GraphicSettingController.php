@@ -7,6 +7,7 @@ use Models\ArtistModel;
 use Models\CodeArtistModel;
 use Models\CustomFileModel;
 use Models\ProjectModel;
+use Models\SettingModel;
 
 class GraphicSettingController extends BaseAdminController
 {
@@ -14,6 +15,7 @@ class GraphicSettingController extends BaseAdminController
     protected ArtistModel $artistModel;
     protected CodeArtistModel $codeArtistModel;
     protected ProjectModel $projectModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
@@ -23,6 +25,7 @@ class GraphicSettingController extends BaseAdminController
         $this->artistModel = model('Models\ArtistModel');
         $this->codeArtistModel = model('Models\CodeArtistModel');
         $this->projectModel = model('Models\ProjectModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -39,6 +42,7 @@ class GraphicSettingController extends BaseAdminController
             $projects = $this->projectModel->get(['is_posted' => 1], null, true);
             $artists = $this->artistModel->get(['is_posted' => 1], null, true);
             $codes = $this->codeArtistModel->get();
+            $settings = $this->settingModel->getMainShowSettings();
             $artist_parsed = [];
             foreach ($codes as $index => $code) {
                 $artist_parsed[$code['code']] = [];
@@ -53,7 +57,8 @@ class GraphicSettingController extends BaseAdminController
                 'artists' => $artist_parsed,
             ]);
             $data = array_merge($data, [
-                'graphic_settings' => $graphic_settings,
+                'data' => $graphic_settings,
+                'settings' => $settings,
             ]);
         } catch (Exception $e) {
             //todo(log)

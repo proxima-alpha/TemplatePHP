@@ -645,3 +645,43 @@ function confirmArtistSearch(className, target) {
         openPopupMessage(lang('아티스트를 선택해주세요'))
     }
 }
+
+function onMembershipInputValueChanged(element) {
+    let $button = $(`#page-last .button-wrap .button`);
+    if (!element.checked) {
+        $button.addClass('disabled');
+    } else {
+        $button.removeClass('disabled');
+    }
+}
+
+function onSettingChanged(element, code) {
+    apiRequest({
+        type: 'POST',
+        url: `/api/setting/update`,
+        data: {
+            code : `main-show-${code}`,
+            value: element.checked ? 1 : 0
+        },
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                if(element.checked) {
+                    element.checked = false;
+                } else {
+                    element.checked = true;
+                }
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+        },
+        error: function (response, status, error) {
+            if(element.checked) {
+                element.checked = false;
+            } else {
+                element.checked = true;
+            }
+            openPopupErrors('popup-error', response, status, error);
+        },
+    });
+}

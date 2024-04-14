@@ -9,10 +9,10 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     let artist_codes = []
     <?php
-    if (isset($graphic_settings)) {
-    foreach ($graphic_settings as $key => $graphic_setting) {
+    if (isset($data)) {
+    foreach ($data as $key => $graphic_setting) {
     if($key == 'artists') {
-    foreach ($graphic_settings['artists'] as $code => $items) { ?>
+    foreach ($data['artists'] as $code => $items) { ?>
     artist_codes.push('<?=$code?>')
     files.checkEmpty('<?=$code?>')
     <?php foreach ($items as $index => $item) { ?>
@@ -52,8 +52,8 @@ $identifier = $shortid->generate();
                 <?= lang('Service.main_image') ?>
             </h4>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['main'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($graphic_settings['main']); ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['main'] ?? null)) { ?>
+                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['main']); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -69,8 +69,8 @@ $identifier = $shortid->generate();
                 <?= lang('릴레이션') ?>
             </h4>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['relation'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($graphic_settings['relation']); ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
+                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['relation']); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -85,9 +85,15 @@ $identifier = $shortid->generate();
             <h4 class="page-sub-title">
                 <?= lang('프로젝트') ?>
             </h4>
+            <div class="input-wrap inline">
+                <input type="checkbox"
+                       name="main-show-project" <?= $settings['main-show-project'] ?? null == '1' ? 'checked' : '' ?>
+                       onchange="onSettingChanged(this, 'project')"/>
+                <p class="input-title"><?= lang('메인에 개시') ?></p>
+            </div>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($graphic_settings['project'] ?? null, 390)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($graphic_settings['project'], 'project_image_id'); ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 390)) { ?>
+                    <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id'); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -98,11 +104,28 @@ $identifier = $shortid->generate();
                 </a>
             </div>
         </div>
-        <?php foreach ($graphic_settings['artists'] as $code => $items) { ?>
+        <div class="content-box item-selector previous-project">
+            <h4 class="page-sub-title">
+                <?= lang('이전 프로젝트') ?>
+            </h4>
+            <div class="input-wrap inline">
+                <input type="checkbox"
+                       name="main-show-project" <?= $settings['main-show-previous-project'] ?? null == '1' ? 'checked' : '' ?>
+                       onchange="onSettingChanged(this, 'previous-project')"/>
+                <p class="input-title"><?= lang('메인에 개시') ?></p>
+            </div>
+        </div>
+        <?php foreach ($data['artists'] as $code => $items) { ?>
             <div class="content-box item-selector <?= $code ?>">
                 <h4 class="page-sub-title">
                     <?= lang($code) ?>
                 </h4>
+                <div class="input-wrap inline">
+                    <input type="checkbox"
+                           name="main-show-<?= $code ?>" <?= $settings['main-show-' . $code] ?? null == '1' ? 'checked' : '' ?>
+                           onchange="onSettingChanged(this, `<?=$code?>`)"/>
+                    <p class="input-title"><?= lang('메인에 개시') ?></p>
+                </div>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 370)) { ?>
                         <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id'); ?>

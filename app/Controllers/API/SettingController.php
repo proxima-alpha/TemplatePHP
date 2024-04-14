@@ -61,6 +61,24 @@ class SettingController extends BaseApiController
     }
 
     /**
+     * [post] /api/setting/update
+     * @return ResponseInterface
+     */
+    public function updateWithCode(): ResponseInterface
+    {
+        $this->checkAdmin();
+        $data = $this->request->getPost();
+        $validationRules = [
+            'code' => [
+                'label' => 'Code',
+                'rules' => 'required',
+            ],
+        ];
+        $code = $this->settingModel->getLatest(['code' => $data['code']]);
+        return $this->typicallyUpdate($this->settingModel, $code['id'], $data, $validationRules);
+    }
+
+    /**
      * [delete] /api/setting/delete/{id}
      * @param $id
      * @return ResponseInterface

@@ -77,7 +77,7 @@ class SettingController extends BaseAdminController
         }
         $data = $this->getViewData();
         try {
-            $result = $this->codeArtistModel->get();
+            $result = $this->codeArtistModel->get(['is_deleted' => 0]);
             $data = array_merge($data, [
                 'array' => $result,
             ]);

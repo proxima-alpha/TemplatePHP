@@ -40,6 +40,26 @@
     font-weight: 600;
 }
 
+.item-selector.previous-project {
+    margin-bottom: 40px;
+}
+
+.item-selector .input-wrap {
+    text-align: left;
+    line-height: 20px;
+    padding: 0px 20px 5px 20px;
+}
+
+.item-selector .input-wrap * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.item-selector .input-wrap .input-title {
+    font-size: 16px;
+    font-weight: 300;
+}
+
 /*팝업 커스텀*/
 .popup-search .pages {
     height: 50px;

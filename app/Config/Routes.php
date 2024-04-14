@@ -133,6 +133,7 @@ $routes->delete('/api/topic/reply/delete/'.$ID_RULE, [\API\TopicController::clas
 $routes->get('/api/setting/get/'.$ID_RULE, [\API\SettingController::class, 'getSetting']);
 $routes->post('/api/setting/create', [\API\SettingController::class, 'createSetting']);
 $routes->post('/api/setting/update/'.$ID_RULE, [\API\SettingController::class, 'updateSetting']);
+$routes->post('/api/setting/update', [\API\SettingController::class, 'updateWithCode']);
 $routes->delete('/api/setting/delete/'.$ID_RULE, [\API\SettingController::class, 'deleteSetting']);
 
 $routes->get('/api/code/artist/get/'.$ID_RULE, [\API\CodeController::class, 'getCodeArtist']);

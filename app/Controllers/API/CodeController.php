@@ -6,16 +6,19 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\CodeArtistModel;
 use Models\CodeRewardRequestModel;
+use Models\SettingModel;
 
 class CodeController extends BaseApiController
 {
     protected CodeArtistModel $codeArtistModel;
     protected CodeRewardRequestModel $codeRewardRequestModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
         $this->codeArtistModel = model('Models\CodeArtistModel');
         $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -49,7 +52,15 @@ class CodeController extends BaseApiController
                 'rules' => 'required|min_length[1]',
             ],
         ];
-        return $this->typicallyCreate($this->codeArtistModel, $data, $validationRules);
+        return $this->typicallyCreate($this->codeArtistModel, $data, $validationRules, function ($model, $data) {
+            $this->settingModel->insert([
+                "code" => "main-show-".$data['code'],
+                "type" => "tinyint",
+                "value" => "1",
+                "is_editable" => "0",
+                "name" => "메인 활성화",
+            ]);
+        });
     }
 
     /**
@@ -61,7 +72,17 @@ class CodeController extends BaseApiController
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
-        return $this->typicallyUpdate($this->codeArtistModel, $id, $data);
+        $previousCode = $this->codeArtistModel->getLatest(['id'=>$id]);
+        return $this->typicallyUpdate($this->codeArtistModel, $id, $data, null, function($model, $data) use ($previousCode) {
+            $settings = $this->settingModel->get([
+                "code" => "main-show-".$previousCode['code']
+            ]);
+            if(sizeof($settings) > 0) {
+                $this->settingModel->update($settings[0]['id'], [
+                    'code' => "main-show-".$data['code']
+                ]);
+            }
+        });
     }
 
     /**
@@ -75,7 +96,15 @@ class CodeController extends BaseApiController
         $body = [
             'is_deleted' => 1,
         ];
-        return $this->typicallyUpdate($this->codeArtistModel, $id, $body);
+        $previousCode = $this->codeArtistModel->getLatest(['id'=>$id]);
+        return $this->typicallyUpdate($this->codeArtistModel, $id, $body, null, function($model, $data) use($previousCode){
+            $settings = $this->settingModel->get([
+                "code" => "main-show-".$previousCode['code']
+            ]);
+            if(sizeof($settings) > 0) {
+                $this->settingModel->delete($settings[0]['id']);
+            }
+        });
     }
 
     /**

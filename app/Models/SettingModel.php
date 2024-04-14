@@ -40,5 +40,32 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "메일 송신용 지메일 메일주소",
         ]);
+        $codes = ['project', 'previous-project', 'artist', 'actor', 'creator'];
+
+        foreach ($codes as $code) {
+            $this->createIfNotExist(['code' => "main-show-".$code], [
+                "code" => "main-show-".$code,
+                "type" => "tinyint",
+                "value" => "1",
+                "is_editable" => "0",
+                "name" => "메인 활성화",
+            ]);
+        }
+    }
+
+    public function getMainShowSettings() {
+        $query = "SELECT * FROM setting WHERE code LIKE 'main-show-%'";
+        $queryResult = BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => [],
+            ],
+        ]);
+
+        $result = [];
+        foreach($queryResult as $item) {
+            $result[$item['code']] = $item['value'];
+        }
+        return $result;
     }
 }

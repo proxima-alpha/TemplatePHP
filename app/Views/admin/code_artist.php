@@ -49,16 +49,16 @@
      */
     initializeInputPopup({
         getGetUrl: function (id) {
-            return `/api/category/get/${id}`
+            return `/api/code/artist/get/${id}`
         },
         getCreateUrl: function () {
-            return `/api/category/create`
+            return `/api/code/artist/create`
         },
         getUpdateUrl: function (id) {
-            return `/api/category/update/${id}`
+            return `/api/code/artist/update/${id}`
         },
         getDeleteUrl: function (id) {
-            return `/api/category/delete/${id}`
+            return `/api/code/artist/delete/${id}`
         },
         getHtml: function (data) {
             const typeSet = {
@@ -70,20 +70,6 @@
                 name: {
                     type: 'text',
                     name: `<?=lang('Service.name')?>`,
-                },
-                path: {
-                    type: 'text',
-                    name: `<?=lang('Service.path')?>`,
-                },
-                is_main_only: {
-                    type: 'bool',
-                    name: `<?=lang('Service.main_only')?>`,
-                    description: `<?=lang('Service.message_info_category_main_only')?>`
-                },
-                has_local: {
-                    type: 'bool',
-                    name: `<?=lang('Service.local_show')?>`,
-                    description: `<?=lang('Service.message_info_category_local')?>`
                 },
             }
             let keys = Object.keys(typeSet);

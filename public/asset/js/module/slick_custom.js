@@ -128,11 +128,11 @@ jQuery.prototype.removeCustomSlickItem = function (index) {
  * @param slickOption
  */
 jQuery.prototype.setCustomSlick = function (isMobile = false, slickOption = {}, customOption = {}) {
-    let $slick = this;
+    let $slicks = this;
     if (!slickOption) slickOption = {};
 
     try {
-        $slick.attr({
+        $slicks.attr({
             'slickOption': JSON.stringify(slickOption)
         })
     } catch (e) {
@@ -142,82 +142,88 @@ jQuery.prototype.setCustomSlick = function (isMobile = false, slickOption = {}, 
     if (isMobile) {
         // 모바일 뷰
         // 한 행에 두개의 열을 가지도록 children 조정
-        $slick.addClass('mobile');
-        let $children = $slick.find('.slick-item');
-        let total = $children.length;
-        let $resultArray = [];
-        let height = (window.innerHeight - 300) / 2;
-
-        function getChild(i) {
-            let ch = $children.get(i);
-            if (customOption && !customOption.isPopup) {
-                ch.style.height = `${height}px`;
-            }
-            ch.style.width = ``;
-            return ch.cloneNode(true);
-        }
-
-        let totalSlotIndex = Math.ceil($children.length / mobileSlickPageRowSize);
-        for (let i = 0; i < totalSlotIndex; ++i) {
-            let itemArray = [];
-            let itemIndex = i * mobileSlickPageRowSize;
-            if (itemIndex < $children.length) {
-                itemArray.push(getChild(itemIndex));
-            }
-            itemIndex = i * 2 + 1;
-            if (itemIndex < $children.length) {
-                itemArray.push(getChild(itemIndex));
-            }
-            $resultArray.push(itemArray);
-        }
-        if ($slick.hasClass('slick-initialized')) {
-            $slick.slick("unslick");
-        }
-        $slick.empty();
-        for (let i in $resultArray) {
-            let $div = $(`<div class="slick-item-wrap" ${$slick.hasClass('uploader') ? 'draggable="true"' : ''}></div>`);
-            for (let j in $resultArray[i]) {
-                $div.append($resultArray[i][j])
-            }
-            $slick.append($div);
-        }
-        $slick.attr({
-            'total': total
-        })
-        $slick.slick({
-            ...slickOption,
-            slidesToShow: mobileSlickSlotSize,
-            slidesToScroll: 1,
-        });
-    } else {
-        // PC 뷰
-        // 한 행에 두개의 열을 가지도록 children 이 조정된 경우 원복
-        // 아닌 경우 그대로 slick 실행
-        $slick.removeClass('mobile');
-        let $children = $slick.find('.slick-item-wrap');
-        if ($children.length > 0) {
+        $slicks.addClass('mobile');
+        for(let i= 0; i< $slicks.length; ++i) {
+            const $slick = $slicks.eq(i);
+            let $children = $slick.find('.slick-item');
+            let total = $children.length;
             let $resultArray = [];
-            for (let i = 0; i < $children.length; ++i) {
-                let $childrenArray = $($children.get(i)).children();
-                $childrenArray.css({
-                    'height': ''
-                })
-                $resultArray = $resultArray.concat($childrenArray);
+            let height = (window.innerHeight - 300) / 2;
+
+            function getChild(i) {
+                let ch = $children.get(i);
+                if (customOption && !customOption.isPopup) {
+                    ch.style.height = `${height}px`;
+                }
+                ch.style.width = ``;
+                return ch.cloneNode(true);
             }
 
+            let totalSlotIndex = Math.ceil($children.length / mobileSlickPageRowSize);
+            for (let i = 0; i < totalSlotIndex; ++i) {
+                let itemArray = [];
+                let itemIndex = i * mobileSlickPageRowSize;
+                if (itemIndex < $children.length) {
+                    itemArray.push(getChild(itemIndex));
+                }
+                itemIndex = i * 2 + 1;
+                if (itemIndex < $children.length) {
+                    itemArray.push(getChild(itemIndex));
+                }
+                $resultArray.push(itemArray);
+            }
             if ($slick.hasClass('slick-initialized')) {
                 $slick.slick("unslick");
             }
             $slick.empty();
-            $slick.append($resultArray);
+            for (let i in $resultArray) {
+                let $div = $(`<div class="slick-item-wrap" ${$slick.hasClass('uploader') ? 'draggable="true"' : ''}></div>`);
+                for (let j in $resultArray[i]) {
+                    $div.append($resultArray[i][j])
+                }
+                $slick.append($div);
+            }
+            $slick.attr({
+                'total': total
+            })
+            $slick.slick({
+                ...slickOption,
+                slidesToShow: mobileSlickSlotSize,
+                slidesToScroll: 1,
+            });
         }
-        $slick.attr({
-            'total': $slick.children().length
-        })
-        $slick.slick({
-            ...slickOption,
-            slidesToShow: pcSlickSlotSize,
-            slidesToScroll: 1,
-        });
+    } else {
+        // PC 뷰
+        // 한 행에 두개의 열을 가지도록 children 이 조정된 경우 원복
+        // 아닌 경우 그대로 slick 실행
+        $slicks.removeClass('mobile');
+        for(let i= 0; i< $slicks.length; ++i) {
+            const $slick = $slicks.eq(i);
+            let $children = $slick.find('.slick-item-wrap');
+            if ($children.length > 0) {
+                let $resultArray = [];
+                for (let i = 0; i < $children.length; ++i) {
+                    let $childrenArray = $($children.get(i)).children();
+                    $childrenArray.css({
+                        'height': ''
+                    })
+                    $resultArray = $resultArray.concat($childrenArray);
+                }
+
+                if ($slick.hasClass('slick-initialized')) {
+                    $slick.slick("unslick");
+                }
+                $slick.empty();
+                $slick.append($resultArray);
+            }
+            $slick.attr({
+                'total': $slicks.children().length
+            })
+            $slick.slick({
+                ...slickOption,
+                slidesToShow: pcSlickSlotSize,
+                slidesToScroll: 1,
+            });
+        }
     }
 }
