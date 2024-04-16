@@ -159,7 +159,7 @@ function generateOnSettingFileUploaded() {
         } else {
             $container.append(`
             <div class="upload-item">
-                <video>
+                <video preload="metadata">
                     <source src="${file_url}">
                 </video>
                 <div class="upload-item-hover">
@@ -229,7 +229,7 @@ function setEditing($parent, target) {
                 } else {
                     html += `
                     <div class="slick-item draggable-item upload-item" draggable="true">
-                        <video>
+                        <video preload="metadata">
                             <source src="${file_url}">
                         </video>
                         <input hidden type="text" name="id" value="${file_id}">
@@ -386,7 +386,7 @@ function setEditing($parent, target) {
                         } else {
                             html += `
                             <div class="upload-item">
-                                <video>
+                                <video preload="metadata">
                                     <source src="${file_url}">
                                 </video>
                                 <div class="upload-item-hover">
@@ -461,14 +461,14 @@ function setView($parent, target) {
                         html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                             onclick="openImagePopup(${file_id})">
+                             onclick="openImagePopup(${file_id}, '${type}')">
                             Slider #${file_id}
                         </div>`;
                     } else {
                         html += `
                         <div class="slick-item button"
                              onclick="openImagePopup(${file_id}, '${type}')">
-                            <video>
+                            <video preload="metadata">
                                 <source src="${file_url}">
                             </video>
                         </div>`;
@@ -572,7 +572,7 @@ function setView($parent, target) {
                         } else {
                             html += `
                             <div class="upload-item">
-                                <video>
+                                <video preload="metadata">
                                     <source src="${file_url}">
                                 </video>
                             </div>`

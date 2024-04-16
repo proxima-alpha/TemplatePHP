@@ -229,7 +229,7 @@ final class HtmlHelper
                             '<div class="slick-item draggable-item upload-item" draggable="true">
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
-                            <video>
+                            <video preload="metadata">
                                 <source src="' . $url . '">
                             </video>
                             <div class="upload-item-hover">
@@ -271,7 +271,7 @@ final class HtmlHelper
                         $html .=
                             '<div class="slick-item button"
                             onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
-                            <video>
+                            <video preload="metadata">
                                 <source src="' . $url . '">
                             </video>
                         </div>';
@@ -304,7 +304,7 @@ final class HtmlHelper
                     $html .=
                         '<div class="slick-item button"
                         onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
-                            <video>
+                            <video preload="metadata">
                                 <source src="' . $url . '">
                             </video>';
                     if (!$isAdmin) {

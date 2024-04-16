@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    console.log($('#artists .slick'))
-    $('#artists .slick').slick({
+    const $slick = $('#artists .slick');
+    $slick.slick({
         infinite: false,
         autoplay: true,
         draggable: true,
         slidesToShow: 6,
         duration: 2000
     })
-    setArtist(3)
+    $slick.setVideoCoverStyle();
 });
 
 function setArtist(id) {
@@ -46,12 +46,13 @@ function setArtist(id) {
                         html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                             onclick="openImagePopup(${file_id})">
+                             onclick="openImagePopup(${file_id}, '${type}')">
                         </div>`;
                     } else {
                         html += `
-                        <div class="slick-item">
-                            <video>
+                        <div class="slick-item button"
+                             onclick="openImagePopup(${file_id}, '${type}')">
+                            <video preload="metadata">
                                 <source src="${file_url}">
                             </video>
                             <p class="time-string">${secToString(preview['time'])}</p>

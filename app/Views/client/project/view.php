@@ -72,3 +72,10 @@ if (isset($data['artists'])) { ?>
         </div>
     </div>
 </div>
+<?php if (isset($data['artists']) && sizeof($data['artists']) > 0) { ?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        setArtist(<?=$data['artists'][0]['id']?>)
+    });
+</script>
+<?php } ?>

@@ -155,7 +155,7 @@ function onFileUpload(
                     } else {
                         $uploader.addCustomSlickItem(index,
                     `<div class="slick-item draggable-item upload-item" draggable="true">
-                                <video>
+                                <video preload="metadata">
                                     <source src="${file_url}">
                                 </video>
                             <input hidden type="text" name="id" value="${file_id}">
