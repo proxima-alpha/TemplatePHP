@@ -7,6 +7,7 @@ $(document).ready(function () {
             draggable: false,
         });
     })
+    $slick.setVideoCoverStyle();
 });
 
 function getAcceptFromTarget(target) {
@@ -144,17 +145,31 @@ function generateOnSettingFileUploaded() {
         let $container = $parent.find(`.content-wrap-inner`);
         $container.empty();
 
-        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
-        let option = type == 'video' ? `background-size: cover;` : `background-size: contain;`
-        $container.append(`
-        <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0;${option}">
-            <div class="upload-item-hover">
-                <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
-                   class="button delete-image black">
-                    <img src="/asset/images/icon/cancel_white.png"/>
-                </a>
-            </div>
-        </div>`);
+        let file_url = `/file/${file_id}`;
+        if (type == 'image') {
+            $container.append(`
+            <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0; background-size: cover;">
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>`);
+        } else {
+            $container.append(`
+            <div class="upload-item">
+                <video>
+                    <source src="${file_url}">
+                </video>
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>`);
+        }
     }
 }
 
@@ -197,8 +212,9 @@ function setEditing($parent, target) {
             for (let i in files.get(target)) {
                 let file_id = files.get(target)[i];
                 let type = files.getExtra(target)[i];
-                let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
-                html += `
+                const file_url = `/file/${file_id}`;
+                if (type == 'image') {
+                    html += `
                     <div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
@@ -210,6 +226,21 @@ function setEditing($parent, target) {
                             </a>
                         </div>
                     </div>`;
+                } else {
+                    html += `
+                    <div class="slick-item draggable-item upload-item" draggable="true">
+                        <video>
+                            <source src="${file_url}">
+                        </video>
+                        <input hidden type="text" name="id" value="${file_id}">
+                        <div class="upload-item-hover">
+                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
+                               class="button delete-image black">
+                                <img src="/asset/images/icon/cancel_white.png"/>
+                            </a>
+                        </div>
+                    </div>`;
+                }
             }
             html += `
                         <div class="slick-item upload-item-add"
@@ -225,6 +256,7 @@ function setEditing($parent, target) {
             $container.append(html);
 
             let $slick = $container.find('.slick');
+            $slick.setVideoCoverStyle();
             $slick.setCustomSlick(isMobile(), {
                 infinite: false,
                 autoplay: false,
@@ -270,6 +302,7 @@ function setEditing($parent, target) {
             $container.append(html);
 
             let $slick = $container.find('.slick');
+            $slick.setVideoCoverStyle();
             $slick.setCustomSlick(isMobile(), {
                 infinite: false,
                 autoplay: false,
@@ -315,6 +348,7 @@ function setEditing($parent, target) {
                 $container.append(html);
 
                 let $slick = $container.find('.slick');
+                $slick.setVideoCoverStyle();
                 $slick.setCustomSlick(isMobile(), {
                     infinite: false,
                     autoplay: false,
@@ -338,22 +372,37 @@ function setEditing($parent, target) {
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
                         let type = files.getExtra(target)[i];
-                        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
-                        let option = target == 'open_graph' || target == 'main_video' ? `background-size: cover;` : `background-size: contain;`
-                        html += `
-                        <div class="upload-item" style="background: url('${file_url}') no-repeat center; font-size: 0;${option}">
-                            <div class="upload-item-hover">
-                                <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
-                                   class="button delete-image black">
-                                    <img src="/asset/images/icon/cancel_white.png"/>
-                                </a>
-                            </div>
-                        </div>`
+                        let file_url = `/file/${file_id}`
+                        if (type == 'image') {
+                            html += `
+                            <div class="upload-item" style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
+                                <div class="upload-item-hover">
+                                    <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
+                                       class="button delete-image black">
+                                        <img src="/asset/images/icon/cancel_white.png"/>
+                                    </a>
+                                </div>
+                            </div>`
+                        } else {
+                            html += `
+                            <div class="upload-item">
+                                <video>
+                                    <source src="${file_url}">
+                                </video>
+                                <div class="upload-item-hover">
+                                    <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
+                                       class="button delete-image black">
+                                        <img src="/asset/images/icon/cancel_white.png"/>
+                                    </a>
+                                </div>
+                            </div>`
+                        }
                     }
                 }
                 html += `
                 </div>`;
                 $container.append(html);
+                $container.setVideoCoverStyle();
             }
     }
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
@@ -407,13 +456,23 @@ function setView($parent, target) {
                 for (let i in files.get(target)) {
                     let file_id = files.get(target)[i];
                     let type = files.getExtra(target)[i];
-                    let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
-                    html += `
+                    let file_url = `/file/${file_id}`;
+                    if (type == 'image') {
+                        html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
                              onclick="openImagePopup(${file_id})">
                             Slider #${file_id}
                         </div>`;
+                    } else {
+                        html += `
+                        <div class="slick-item button"
+                             onclick="openImagePopup(${file_id}, '${type}')">
+                            <video>
+                                <source src="${file_url}">
+                            </video>
+                        </div>`;
+                    }
                 }
                 html += `
                         </div>
@@ -422,6 +481,7 @@ function setView($parent, target) {
                 $container.append(html);
 
                 let $slick = $container.find('.slick');
+                $slick.setVideoCoverStyle();
                 $slick.setCustomSlick(isMobile(), {
                     infinite: false,
                     autoplay: false,
@@ -503,15 +563,25 @@ function setView($parent, target) {
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
                         let type = files.getExtra(target)[i];
-                        let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
-                        html += `
-                        <div class="upload-item"
-                             style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
-                        </div>`
+                        let file_url = `/file/${file_id}`
+                        if (type == 'image') {
+                            html += `
+                            <div class="upload-item"
+                                 style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
+                            </div>`
+                        } else {
+                            html += `
+                            <div class="upload-item">
+                                <video>
+                                    <source src="${file_url}">
+                                </video>
+                            </div>`
+                        }
                     }
                     html += `</div>`;
 
                     $container.append(html);
+                    $container.setVideoCoverStyle();
                 }
         }
     }

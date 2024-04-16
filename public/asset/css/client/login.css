@@ -1,4 +1,7 @@
 
+.login-container {
+    color: #fff;
+}
 .login-container h3.title {
     margin: 0 0 20px 0;
     font-size: 20px;
@@ -21,6 +24,7 @@
 
 .login-container .control-button-wrap span {
     font-size: 16px;
+    color: #E2E8F0;
 }
 
 .login-container .button-wrap {
@@ -28,8 +32,10 @@
 }
 
 .login-container .button-wrap .button {
-    min-width: 100px;
-    padding: 10px 20px;
-    margin: 0 10px;
-    font-size: 16px;
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
 }

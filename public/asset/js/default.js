@@ -179,37 +179,41 @@ async function apiRequest(input) {
 }
 
 jQuery.prototype.setVideoCoverStyle = function () {
-    let $parent = this;
-    let $video = $parent.find(`video`)
-    if ($video.length == 0) return;
-    this.css({
-        'position': 'relative',
-    })
-    $video.css({
-        'position': 'absolute',
-    });
-    let ratioParent = $parent.width() / $parent.height();
-    let ratioVideo = $video.width() / $video.height();
-    if (ratioParent > ratioVideo) {
-        let standard = $parent.width() / ratioVideo;
+    let $videos = this.find(`video`)
+    if ($videos.length == 0) return;
+    for(let i= 0; i< $videos.length; ++i ) {
+        const $video = $videos.eq(i);
+        let $parent = $video.parent();
+        $parent.css({
+            'position': 'relative',
+            'overflow' : 'hidden',
+        })
         $video.css({
-            'width': '100%',
-            'height': `${standard}px`,
-            'top': '50%',
-            'left': 0,
-            'margin-top': `-${standard / 2}px`,
-            'margin-left': 0,
+            'position': 'absolute',
         });
-    } else {
-        let standard = $parent.height() * ratioVideo;
-        $video.css({
-            'width': `${standard}px`,
-            'height': '100%',
-            'top': 0,
-            'left': '50%',
-            'margin-top': 0,
-            'margin-left': `-${standard / 2}px`
-        });
+        let ratioParent = $parent.width() / $parent.height();
+        let ratioVideo = $video.width() / $video.height();
+        if (ratioParent > ratioVideo) {
+            let standard = $parent.width() / ratioVideo;
+            $video.css({
+                'width': '100%',
+                'height': `${standard}px`,
+                'top': '50%',
+                'left': 0,
+                'margin-top': `-${standard / 2}px`,
+                'margin-left': 0,
+            });
+        } else {
+            let standard = $parent.height() * ratioVideo;
+            $video.css({
+                'width': `${standard}px`,
+                'height': '100%',
+                'top': 0,
+                'left': '50%',
+                'margin-top': 0,
+                'margin-left': `-${standard / 2}px`
+            });
+        }
     }
 }
 

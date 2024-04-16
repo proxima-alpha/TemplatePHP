@@ -41,16 +41,22 @@ function setArtist(id) {
                 for (let preview of data.previews) {
                     let file_id = preview['id'];
                     let type = preview['type'];
-                    let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`;
-                    html += `
+                    let file_url = `/file/${file_id}`;
+                    if(type == 'image') {
+                        html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                             onclick="openImagePopup(${file_id})">`
-
-                    if (type == 'video') {
-                        html += `<p class="time-string">${secToString(preview['time'])}</p>`;
+                             onclick="openImagePopup(${file_id})">
+                        </div>`;
+                    } else {
+                        html += `
+                        <div class="slick-item">
+                            <video>
+                                <source src="${file_url}">
+                            </video>
+                            <p class="time-string">${secToString(preview['time'])}</p>
+                        </div>`
                     }
-                    html += `</div>`;
                 }
                 html += `
                         </div>
@@ -58,6 +64,7 @@ function setArtist(id) {
                 </div>`;
             }
             $container.append(html);
+            $container.setVideoCoverStyle();
             const $slick = $container.find('.slick');
             if ($slick.length > 0) {
                 $slick.slick({

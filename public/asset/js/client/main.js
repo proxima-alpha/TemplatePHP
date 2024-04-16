@@ -48,6 +48,7 @@ $(document).ready(function () {
         slidesToShow: 6,
         duration: 2000
     })
+    $('#page-media .slick').setVideoCoverStyle();
     // // slick item 이 없는 경우 setOnResolutionChanged 이 작동하지 않으므로
     // // slick과 연관없는 기능들은 body에 연결해준다
     // $('body').setOnResolutionChanged((event) => {

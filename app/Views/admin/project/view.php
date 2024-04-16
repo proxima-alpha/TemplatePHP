@@ -34,6 +34,16 @@
                     <input class="editable" name="end_date"
                            value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?>" readonly>
                 </div>
+                <div class="line"></div>
+                <div class="input-wrap inline status">
+                    <p class="input-title"><?= lang('상태') ?></p>
+                    <select class="editable" name="status" disabled>`
+                        <option
+                            value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
+                        <option
+                            value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
+                    </select>
+                </div>
             </div>
             <?php if (isset($data['artists']) || isset($data['rewards'])) { ?>
                 <div class="form-wrap extra">
@@ -51,16 +61,6 @@
                             <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', $data['rewards'], 'view') ?>
                         </div>
                     <?php } ?>
-                    <div class="line black"></div>
-                    <div class="input-wrap inline">
-                        <p class="input-title"><?= lang('상태') ?></p>
-                        <select class="editable" name="status" disabled>`
-                            <option
-                                value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
-                            <option
-                                value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
-                        </select>
-                    </div>
                 </div>
             <?php }
             if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>

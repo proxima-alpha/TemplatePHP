@@ -210,9 +210,10 @@ final class HtmlHelper
                     <div class="slick uploader ' . $key . '">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
-                    $url = $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail';
-                    $html .=
-                        '<div class="slick-item draggable-item upload-item" draggable="true"
+                    $url = '/file/' . $file['id'];
+                    if ($file['type'] == 'image') {
+                        $html .=
+                            '<div class="slick-item draggable-item upload-item" draggable="true"
                             style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
@@ -223,6 +224,22 @@ final class HtmlHelper
                                 </a>
                             </div>
                         </div>';
+                    } else {
+                        $html .=
+                            '<div class="slick-item draggable-item upload-item" draggable="true">
+                            Slider #' . $file['id'] . '
+                            <input hidden type="text" name="id" value="' . $file['id'] . '">
+                            <video>
+                                <source src="' . $url . '">
+                            </video>
+                            <div class="upload-item-hover">
+                                <a href="javascript:deleteUploadedSlickFile( \'' . $key . '\', ' . $file['id'] . ')"
+                                   class="button delete-image black">
+                                    <img src="/asset/images/icon/cancel_white.png"/>
+                                </a>
+                            </div>
+                        </div>';
+                    }
                 }
             }
             $html .=
@@ -242,13 +259,23 @@ final class HtmlHelper
                         <div class="slick">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
-                    $url = $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail';
-                    $html .=
-                        '<div class="slick-item button"
+                    $url = '/file/' . $file['id'];
+                    if ($file['type'] == 'image') {
+                        $html .=
+                            '<div class="slick-item button"
                             style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
                             onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
                             Slider # ' . $file['id'] . ' 
                         </div>';
+                    } else {
+                        $html .=
+                            '<div class="slick-item button"
+                            onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                            <video>
+                                <source src="' . $url . '">
+                            </video>
+                        </div>';
+                    }
                 }
             }
             $html .=
@@ -265,16 +292,26 @@ final class HtmlHelper
                     <div class="slick">';
         if (isset($files)) {
             foreach ($files as $index => $file) {
-                $url = $file['type'] == 'image' ? '/file/' . $file['id'] : '/file/' . $file['id'] . '/thumbnail';
-                $html .=
-                    '<div class="slick-item button"
+                $url = '/file/' . $file['id'];
+                if ($file['type'] == 'image') {
+                    $html .=
+                        '<div class="slick-item button"
                         style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
                         onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
-                        Slider # ' . $file['id'];
-                if (!$isAdmin && $file['type'] == 'video') {
-                    $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
+                        Slider # ' . $file['id'] .
+                        '</div>';
+                } else {
+                    $html .=
+                        '<div class="slick-item button"
+                        onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                            <video>
+                                <source src="' . $url . '">
+                            </video>';
+                    if (!$isAdmin) {
+                        $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
+                    }
+                    $html .= '</div>';
                 }
-                $html .= '</div>';
             }
         }
         $html .=

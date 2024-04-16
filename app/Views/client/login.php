@@ -48,7 +48,7 @@
         </div>
         <div class="button-wrap controls">
             <a href="javascript:login('login-container')"
-               class="button confirm black"><?= lang('Service.login') ?></a>
+               class="button confirm"><?= lang('Service.login') ?></a>
         </div>
     </div>
 </div>

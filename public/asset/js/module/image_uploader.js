@@ -134,15 +134,15 @@ function onFileUpload(
             if (callback && typeof callback == 'function') {
                 callback(target, file_id.toString(), type);
             } else {
-                let file_url = type == 'video' ? `/file/${file_id}/thumbnail` : `/file/${file_id}`
-                let option = type == 'video' ? `background-size: cover;` : `background-size: contain;`
+                let file_url = `/file/${file_id}`
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {
                     let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index,
-                        `<div class="slick-item draggable-item upload-item" draggable="true"
-                        style="background: url('${file_url}') no-repeat center;font-size: 0;${option}">
+                    if( type == 'image') {
+                        $uploader.addCustomSlickItem(index,
+                            `<div class="slick-item draggable-item upload-item" draggable="true"
+                        style="background: url('${file_url}') no-repeat center;font-size: 0; background-size: cover;">
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
@@ -152,6 +152,22 @@ function onFileUpload(
                             </a>
                         </div>
                     </div>`);
+                    } else {
+                        $uploader.addCustomSlickItem(index,
+                    `<div class="slick-item draggable-item upload-item" draggable="true">
+                                <video>
+                                    <source src="${file_url}">
+                                </video>
+                            <input hidden type="text" name="id" value="${file_id}">
+                            <div class="upload-item-hover">
+                                <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
+                                   class="button delete-image black">
+                                    <img src="/asset/images/icon/cancel_white.png"/>
+                                </a>
+                            </div>
+                        </div>`);
+                        $uploader.setVideoCoverStyle();
+                    }
 
                     $uploader.initDraggable({
                         onDragFinished: generateOnDragFinished(target),

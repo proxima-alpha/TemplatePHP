@@ -131,8 +131,8 @@ class ArtistController extends CustomFileController
                     foreach ($data['previews'] as $index => $file_id) {
                         $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
                     }
-                    foreach ($data['profile_id'] as $index => $file_id) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
+                    if(isset($data['profile_id'])) {
+                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['profile_id'], $data['identifier'], $index);
                     }
                     BaseModel::transaction($this->db, $queries);
 

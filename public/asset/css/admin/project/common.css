@@ -29,6 +29,10 @@
     box-sizing: border-box;
 }
 
+.form-wrap .input-wrap.status {
+    padding: 20px 0;
+}
+
 .row-uploader.reward .row-uploader-item {
     height: auto;
     line-height: normal;

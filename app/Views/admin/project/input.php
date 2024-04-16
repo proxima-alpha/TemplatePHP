@@ -5,6 +5,7 @@ use Crisu83\ShortId\ShortId;
 if ($type == 'create') {
     $data['title'] = '';
     $data['content'] = '';
+    $data['guide'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
@@ -60,6 +61,16 @@ $identifier = $shortid->generate();
                                value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>" readonly>
                     </a>
                 </div>
+                <div class="line"></div>
+                <div class="input-wrap inline status">
+                    <p class="input-title"><?= lang('상태') ?></p>
+                    <select class="editable" name="status" value="<?= $data['status'] ?? '' ?>">`
+                        <option
+                            value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
+                        <option
+                            value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
+                    </select>
+                </div>
             </div>
             <div class="form-wrap extra">
                 <div class="line black"></div>
@@ -79,16 +90,6 @@ $identifier = $shortid->generate();
                         <a class="button" href="javascript:addRewardForm('reward')">
                         </a>
                     </div>
-                </div>
-                <div class="line black"></div>
-                <div class="input-wrap inline">
-                    <p class="input-title"><?= lang('상태') ?></p>
-                    <select class="editable" name="status" value="<?= $data['status'] ?? '' ?>">`
-                        <option
-                            value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
-                        <option
-                            value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
-                    </select>
                 </div>
             </div>
             <div class="button-wrap">
@@ -181,6 +182,10 @@ $identifier = $shortid->generate();
                    <input type="number" name="price" class="editable under-line" value=""/>
                    <p class="description">KRW</p>
                </div>
+                <div class="input-wrap">
+                    <p class="input-title">${lang('리워드 제목')}</p>
+                    <input type="text" name="title" class="editable under-line" value=""/>
+                </div>
                <div class="input-wrap">
                    <p class="input-title">${lang('리워드')}</p>
                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
