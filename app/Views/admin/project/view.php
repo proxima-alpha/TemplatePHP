@@ -11,6 +11,11 @@
                     <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
                               onkeyup="resizeInputPopupTextarea(this)" readonly><?= $data['content'] ?></textarea>
                 </div>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('이용방법') ?></p>
+                    <textarea class="editable" name="guide" onkeydown="resizeInputPopupTextarea(this)"
+                              onkeyup="resizeInputPopupTextarea(this)" readonly><?= $data['guide'] ?></textarea>
+                </div>
                 <?php if (isset($data['project_image_id'])) { ?>
                     <div class="line"></div>
                     <div class="input-wrap">

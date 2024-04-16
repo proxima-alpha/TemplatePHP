@@ -13,6 +13,7 @@ class ProjectModel extends BaseModel
         'end_date',
         'title',
         'content',
+        'guide',
         'is_deleted',
         'is_authenticated',
         'is_posted',

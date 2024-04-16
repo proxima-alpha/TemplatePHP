@@ -9,17 +9,20 @@ use Exception;
 use Models\ArtistModel;
 use Models\BaseModel;
 use Models\CodeArtistModel;
+use Models\CustomFileModel;
 
 class ArtistController extends CustomFileController
 {
     protected CodeArtistModel $codeArtistModel;
     protected ArtistModel $artistModel;
+    protected CustomFileModel $customFileModel;
 
     public function __construct()
     {
         $this->db = db_connect();
         $this->codeArtistModel = model('Models\CodeArtistModel');
         $this->artistModel = model('Models\ArtistModel');
+        $this->customFileModel = model('Models\CustomFileModel');
     }
 
     /**
@@ -61,7 +64,24 @@ class ArtistController extends CustomFileController
      */
     public function get($id): ResponseInterface
     {
-        return $this->typicallyFind($this->artistModel, $id);
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $result = $this->artistModel->get(['id' => $id, 'is_deleted' => 0]);
+            if (!$result) throw new Exception('not exist');
+            if (sizeof($result) != 1) throw new Exception('deleted');
+            $artist = $result[0];
+            $previews = $this->customFileModel->get(['artist_id' => $id, 'target' => 'artist_preview']);
+            $artist['previews'] = $previews;
+            $response['success'] = true;
+            $response['data'] = $artist;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
     }
 
     /**

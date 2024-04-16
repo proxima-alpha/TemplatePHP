@@ -1,0 +1,251 @@
+#image {
+    height: 400px;
+    position: relative;
+}
+
+#image .overlap-text-box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+#image .overlap-text-box .overlap-text-wrap {
+    max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
+}
+
+#image .overlap-text-box .text-wrap {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 30px;
+    text-align: left;
+    line-height: 45px;
+    color: #fff;
+}
+
+#image .overlap-text-box .text-wrap p {
+    font-size: 40px;
+    font-weight: 400;
+    white-space: pre-wrap;
+    word-break: break-word;
+    letter-spacing: -2px;
+}
+
+#artists .slick-item .image-item-wrap {
+    text-align: center;
+}
+
+#artists .slick-item .image-item {
+    width: 150px;
+    height: 150px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+#artists .slick-item p {
+    font-size: 18px;
+    padding: 0 10px;
+    line-height: 25px;
+    text-align: center;
+    color: #fff;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#artists .slick-item p.item-content {
+    display: none;
+}
+
+#artists .slick-item p.item-title {
+    font-weight: 600;
+}
+
+#artists .line {
+    margin-top: 40px;
+    background: #232127;
+}
+
+.container-wrap {
+    font-size: 0;
+}
+
+.container-wrap > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.container-wrap .content-box {
+    width: calc(65% - 20px);
+    margin-right: 20px;
+}
+
+.container-wrap .side-content-box {
+    width: 35%;
+}
+
+
+.artist-box {
+    text-align: left;
+    color: #A3A3A3;
+}
+
+.artist-box .title-text-wrap {
+    line-height: 60px;
+}
+
+.artist-box .title-text-wrap * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.artist-box .title-text-wrap .name {
+    color: #fff;
+    font-size: 30px;
+    margin: 0 5px;
+}
+
+.artist-box .title-text-wrap .job {
+    font-size: 20px;
+}
+
+.artist-box .content-text-wrap {
+    min-height: 100px;
+    font-size: 20px;
+    margin: 0 5px;
+}
+
+.artist-box .slick .slick-item {
+    height: 250px;
+    margin: 10px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.artist-box .slick .slick-item .time-string {
+    font-size: 16px;
+    color: white;
+    font-weight: 400;
+    position: relative;
+    top: 10px;
+    left: 10px;
+}
+
+.project-wrap {
+    text-align: left;
+    margin-top: 40px;
+}
+
+.project-wrap > div {
+    font-size: 18px;
+    color: #fff;
+    min-height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.date-box {
+    text-align: left;
+}
+
+.date-box p {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 400;
+}
+
+.reward-box {
+    text-align: left;
+}
+
+.reward-box .reward-wrap {
+    padding: 20px 15px;
+    border-radius: 5px;
+    border: 1px solid #232127;
+    margin-top: 20px;
+}
+
+.reward-box .line {
+    background: #232127;
+}
+
+.reward-box .reward-wrap p {
+    font-size: 18px;
+    color: #fff;
+}
+
+.reward-box .reward-wrap .title {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.reward-box .reward-wrap .content {
+    margin: 5px;
+    min-height: 50px;
+}
+
+.reward-box .reward-wrap .total-count {
+    text-align: right;
+}
+
+.reward-box .reward-wrap .price {
+    font-size: 20px;
+    text-align: right;
+    font-weight: 400;
+}
+
+.button-wrap {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.button.button-fill {
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+
+
+.page-sub-title {
+    margin: 20px 0 10px 0;
+    display: inline-block;
+    position: relative;
+}
+
+.page-sub-title:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 2px;
+    background: #FF7A00;
+}
+
+@media (max-width: 840px) {
+    #image .overlap-text-box .text-wrap {
+        max-width: calc(100% - 40px);
+    }
+
+    .container-wrap .content-box,
+    .container-wrap .side-content-box {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+}

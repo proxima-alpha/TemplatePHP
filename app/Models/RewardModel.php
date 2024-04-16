@@ -8,10 +8,12 @@ class RewardModel extends BasePriorityModel
     protected $allowedFields = [
         'id',
         'project_id',
+        'title',
         'content',
         'total_count',
         'price',
         'limited_count',
+        'purchased_count',
         'is_deleted',
         'priority',
         'created_at',

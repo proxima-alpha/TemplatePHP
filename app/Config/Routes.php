@@ -49,6 +49,7 @@ $routes->addRedirect('/board/'.$CODE_RULE, '/board/$1/1');
 $routes->get('/board/'.$CODE_RULE.'/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/'.$ID_RULE, [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/'.$ID_RULE.'/edit', [\Views\BoardController::class, 'editTopic']);
+$routes->get('/project/'.$ID_RULE.'/view', [\Views\ProjectController::class, 'get']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/category');
@@ -77,8 +78,8 @@ $routes->get('/admin/artist/'.$ID_RULE.'/edit', [\Views\Admin\ArtistController::
 
 $routes->get('/admin/project/'.$ID_RULE, [\Views\Admin\ProjectController::class, 'index']);
 $routes->addRedirect('/admin/project', '/admin/project/1');
-$routes->get('/admin/project/create', [\Views\Admin\ProjectController::class, 'create']);
 $routes->get('/admin/project/'.$ID_RULE.'/view', [\Views\Admin\ProjectController::class, 'get']);
+$routes->get('/admin/project/create', [\Views\Admin\ProjectController::class, 'create']);
 $routes->get('/admin/project/'.$ID_RULE.'/edit', [\Views\Admin\ProjectController::class, 'edit']);
 
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);

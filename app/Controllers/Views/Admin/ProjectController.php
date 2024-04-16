@@ -24,7 +24,7 @@ class ProjectController extends BaseAdminController
     }
 
     /**
-     * /admin/user/{page}
+     * /admin/project/{page}
      * @param $page
      * @return string
      */
@@ -60,7 +60,7 @@ class ProjectController extends BaseAdminController
     }
 
     /**
-     * /admin/artist/{id}
+     * /admin/project/{id}/view
      * @param $id
      * @return string
      */
@@ -94,7 +94,7 @@ class ProjectController extends BaseAdminController
     }
 
     /**
-     * /admin/artist/{id}/edit
+     * /admin/project/{id}/edit
      * @param $id
      * @return string
      */
@@ -134,7 +134,7 @@ class ProjectController extends BaseAdminController
     }
 
     /**
-     * /admin/artist/create
+     * /admin/project/create
      * @return string
      */
     public function create(): string

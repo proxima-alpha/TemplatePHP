@@ -34,6 +34,11 @@ $identifier = $shortid->generate();
                     <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
                               onkeyup="resizeInputPopupTextarea(this)"><?= $data['content'] ?></textarea>
                 </div>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('이용방법') ?></p>
+                    <textarea class="editable" name="guide" onkeydown="resizeInputPopupTextarea(this)"
+                              onkeyup="resizeInputPopupTextarea(this)"><?= $data['guide'] ?></textarea>
+                </div>
                 <div class="line"></div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('타이틀 이미지') ?></p>
@@ -200,7 +205,7 @@ $identifier = $shortid->generate();
     }
 
     function confirmEditProject(id) {
-        let data = parseInputToData($(`.project-wrap .form-wrap .editable`))
+        let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
         data['artists'] = files.get('artist');
         data['project_image_id'] = files.get('project');
 

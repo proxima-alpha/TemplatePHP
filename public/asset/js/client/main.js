@@ -42,7 +42,7 @@ $(document).ready(function () {
     });
 
     $('#page-media .slick').slick({
-        infinite: false,
+        infinite: true,
         autoplay: true,
         draggable: true,
         slidesToShow: 6,

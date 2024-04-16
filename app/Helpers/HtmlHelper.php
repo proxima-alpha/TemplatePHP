@@ -272,15 +272,14 @@ final class HtmlHelper
                         onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
                         Slider # ' . $file['id'];
                 if (!$isAdmin && $file['type'] == 'video') {
-                    $html .= ' <p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
+                    $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
                 }
                 $html .= '</div>';
             }
         }
         $html .=
-            '
-            </div>
-    </div>';
+            '</div>
+        </div>';
         return $html;
     }
 
@@ -288,22 +287,23 @@ final class HtmlHelper
     {
         $html =
             '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
-                    <div class="slick">';
+                <div class="slick">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
                 $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
                 $html .=
                     '<div class="slick-item">
-                        <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                        <div class="image-item-wrap">
+                            <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                        </div>
                         <p class="item-title">' . $item['name'] . '</p>
                         <p class="item-content">' . $item['job'] . '</p>
                     </div>';
             }
         }
         $html .=
-            '
-        </div>
-    </div>';
+            '</div>
+        </div>';
         return $html;
     }
 
@@ -317,12 +317,18 @@ final class HtmlHelper
             foreach ($items as $index => $item) {
                 $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
                 $html .=
-                    '<div class="slick-item">
-                        <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                    '<div class="slick-item">';
+                if (!$isAdmin) {
+                    $html .= '<a href="/project/' . $item['id'] . '/view">';
+                }
+                $html .= '<div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
                         <p class="item-title">' . $item['title'] . '</p>
                         <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
-                        <p class="item-content">' . $item['content'] . '</p>
-                    </div>';
+                        <p class="item-content">' . $item['content'] . '</p>';
+                if (!$isAdmin) {
+                    $html .= '</a>';
+                }
+                $html .= '</div>';
             }
         }
         $html .=
@@ -415,6 +421,10 @@ final class HtmlHelper
                     <p class="description">KRW</p>
                 </div>
                 <div class="input-wrap">
+                    <p class="input-title">' . lang('리워드 제목') . '</p>
+                    <input type="text" name="title" class="editable under-line" value="' . $item['title'] . '"/>
+                </div>
+                <div class="input-wrap">
                     <p class="input-title">' . lang('리워드') . '</p>
                     <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
                               onkeyup="resizeInputPopupTextarea(this)">' . $item['content'] . '</textarea>
@@ -443,6 +453,10 @@ final class HtmlHelper
                     <p class="input-title">' . lang('가격') . '</p>
                     <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '" readonly/>
                     <p class="description">KRW</p>
+                </div>
+                <div class="input-wrap">
+                    <p class="input-title">' . lang('리워드 제목') . '</p>
+                    <input type="text" name="title" class="editable under-line" value="' . $item['title'] . '" readonly/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title">' . lang('리워드') . '</p>

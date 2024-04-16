@@ -58,7 +58,7 @@ class GraphicSettingController extends BaseAdminController
             ]);
             $data = array_merge($data, [
                 'data' => $graphic_settings,
-                'settings' => $settings,
+                'data_settings' => $settings,
             ]);
         } catch (Exception $e) {
             //todo(log)

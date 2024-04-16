@@ -89,7 +89,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="input-wrap inline">
                 <input type="checkbox"
-                       name="main-show-project" <?= $settings['main-show-project'] ?? null == '1' ? 'checked' : '' ?>
+                       name="main-show-project" <?= $data_settings['main-show-project'] ?? null == '1' ? 'checked' : '' ?>
                        onchange="onSettingChanged(this, 'project')"/>
                 <p class="input-title"><?= lang('메인에 개시') ?></p>
             </div>
@@ -112,7 +112,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="input-wrap inline">
                 <input type="checkbox"
-                       name="main-show-project" <?= $settings['main-show-previous-project'] ?? null == '1' ? 'checked' : '' ?>
+                       name="main-show-project" <?= $data_settings['main-show-previous-project'] ?? null == '1' ? 'checked' : '' ?>
                        onchange="onSettingChanged(this, 'previous-project')"/>
                 <p class="input-title"><?= lang('메인에 개시') ?></p>
             </div>
@@ -124,7 +124,7 @@ $identifier = $shortid->generate();
                 </h4>
                 <div class="input-wrap inline">
                     <input type="checkbox"
-                           name="main-show-<?= $code ?>" <?= $settings['main-show-' . $code] ?? null == '1' ? 'checked' : '' ?>
+                           name="main-show-<?= $code ?>" <?= $data_settings['main-show-' . $code] ?? null == '1' ? 'checked' : '' ?>
                            onchange="onSettingChanged(this, `<?= $code ?>`)"/>
                     <p class="input-title"><?= lang('메인에 개시') ?></p>
                 </div>

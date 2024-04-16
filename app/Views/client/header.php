@@ -1,9 +1,9 @@
 <?php
 
-use App\Helpers\Utils;
-
 if (!isset($links) && !isset($is_login)) return;
-$logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/include/logo.png';
+$logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/custom/logo.svg';
+$favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
+$open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id']}" : '/asset/images/include/open_graph.png';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -12,7 +12,9 @@ $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/ima
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
     <title><?= $settings['web-title'] ?? '' ?></title>
-    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
+    <meta property="og:image" content="<?= $open_graph_url ?>"/>
+    <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/default.css"/>
@@ -26,7 +28,6 @@ $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/ima
 
     <script type="text/javascript" src="/asset/js/library/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/asset/js/default.js"></script>
-    <script type="text/javascript" src="/asset/js/client/client_default.js"></script>
     <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
     <script type="text/javascript" src="/asset/js/common/login.js"></script>
@@ -52,45 +53,45 @@ $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/ima
         </div>
         <div class="line mobile-only"></div>
         <div class="header-inner">
+            <h1 class="logo pc-only"><a href="/"><img src="<?= $logo_url ?>" alt="header logo"></a>
+            </h1>
             <div class="utill">
+                <select onchange="onLanguageChanged(this)">
+                    <option value="ko" <?= $lang == 'ko' ? 'selected' : '' ?>>한국어</option>
+                    <option value="en" <?= $lang == 'en' ? 'selected' : '' ?>>English</option>
+                </select>
                 <ul class="cf">
                     <?php if ($is_login) {
                         if ($is_admin) { ?>
                             <li><a href="/admin"><?= lang('Service.admin_page') ?></a></li>
                         <?php } ?>
-                        <li><a href="/profile"><?= lang('Service.profile') ?></a></li>
-                        <li class="last"><a href="javascript:logout();"><?= lang('Service.logout') ?></a></li>
+                        <li><a class="button-fill" href="/profile"><?= lang('Service.profile') ?></a></li>
+                        <li><a class="button-line"
+                               href="javascript:logout();"><?= lang('Service.logout') ?></a></li>
                     <?php } else { ?>
-                        <li><a href="/registration"><?= lang('Service.register') ?></a></li>
-                        <li class="last"><a href="/login"><?= lang('Service.login') ?></a></li>
+                        <li><a href="/login" class="button-fill"><?= lang('Service.login') ?></a></li>
+                        <li><a href="/registration" class="button-line">
+                                <?= lang('Service.register') ?></a>
+                        </li>
                     <?php } ?>
                 </ul>
             </div>
-            <h1 class="logo pc-only"><a href="/"><img src="<?= $logo_url ?>" alt="header logo"></a></h1>
             <ul class="gnb cf">
-                <?php
-                foreach ($links as $i => $link) {
-                    if ($link['is_main_only'] == 0) { ?>
-                        <li>
-                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($link['path']) . "')\"" ?>
-                                class="button gnb-menu">
-                                <?= $link['name'] ?>
-                            </a>
-                            <ul class="lnb">
-                                <?php if ($link['has_local'] == 1) {
-                                    foreach ($link['locals'] as $j => $localLink) { ?>
-                                        <li>
-                                            <a <?= "onclick=\"clickClientNavigation(this, '" . Utils::parseUrl($localLink['path']) . "')\"" ?>
-                                                class="button lnb-menu">
-                                                <?= $localLink['name'] ?>
-                                            </a>
-                                        </li>
-                                    <?php }
-                                } ?>
-                            </ul>
-                        </li>
-                    <?php }
-                } ?>
+                <li>
+                    <a href="#" class="button gnb-menu">
+                        <?= lang('Service.menu_artist_list') ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="button gnb-menu">
+                        <?= lang('Service.menu_user_guide') ?>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="button gnb-menu">
+                        <?= lang('Service.menu_inquiry') ?>
+                    </a>
+                </li>
             </ul>
         </div>
     </header>

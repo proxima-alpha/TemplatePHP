@@ -70,6 +70,7 @@ class BaseViewController extends BaseController
             'user_id' => $this->session->user_id,
             'user_type' => $this->session->user_type,
             'is_admin' => $this->session->is_admin,
+            'lang' => $this->session->lang,
         ], $initData);
         if (isset($input['css'])) {
             $data['css'] = $this->generateAssetStatement("css", $input['css']);
