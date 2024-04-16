@@ -62,7 +62,7 @@ class BaseClientController extends BaseViewController
         $initData = array_merge($initData, [
             'logos' => $logos,
         ]);
-        return view('client/header', parent::loadDataForHeader($data, $initData));
+        return view('/client/header', parent::loadDataForHeader($data, $initData));
     }
 
     /**
@@ -71,7 +71,7 @@ class BaseClientController extends BaseViewController
      */
     protected function loadFooter(): string
     {
-        return view('client/footer');
+        return view('/client/footer');
     }
 
     /**

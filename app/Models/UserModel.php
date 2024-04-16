@@ -36,7 +36,7 @@ class UserModel extends BaseModel
     {
         $result = $this->builder()->getWhere(["username" => "admin"])->getResultArray();
         if (count($result) == 0) {
-            $password = Password::hash("admin", Password::BCRYPT);
+            $password = password_hash("admin", '2y', ["cost" => 5]);
             $data = [
                 "username" => "admin",
                 "type" => "admin",

@@ -4,7 +4,6 @@ namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
-use Leaf\Helpers\Password;
 use Models\UserModel;
 use Models\VerificationCodeModel;
 
@@ -220,7 +219,7 @@ class UserController extends BaseApiController
                 if (sizeof($users) > 0) {
                     throw new Exception('this email is already in used.');
                 }
-                $data['password'] = Password::hash($data['password'], Password::BCRYPT);
+                $data['password'] = password_hash($data['password'], '2y', ["cost" => 5]);
                 $this->userModel->insert($data);
                 $response['success'] = true;
             } catch (Exception $e) {
@@ -324,7 +323,7 @@ class UserController extends BaseApiController
                     //todo error
                 }
                 $user = $users[0];
-                $data['password'] = Password::hash($data['password'], Password::BCRYPT);
+                $data['password'] = password_hash($data['password'], '2y', ["cost" => 5]);
                 $this->userModel->update($user['id'], $data);
                 $response['success'] = true;
             } catch (Exception $e) {
@@ -364,7 +363,7 @@ class UserController extends BaseApiController
                     throw new Exception('username is registered.');
                 }
                 $user = $users[0];
-                if (!Password::verify($data['password'], $user['password'])) {
+                if (!password_verify($data['password'], $user['password'])) {
                     throw new Exception('password is not correct.');
                 }
                 $this->session->set([
@@ -444,11 +443,11 @@ class UserController extends BaseApiController
                     if (!$user) {
                         throw new Exception('not exist');
                     }
-                    if (!Password::verify($data['current_password'], $user['password'])) {
+                    if (!password_verify($data['current_password'], $user['password'])) {
                         throw new Exception('password is not correct.');
                     }
                     $this->userModel->update($this->session->user_id, [
-                        'password' => Password::hash($data['new_password'], Password::BCRYPT),
+                        'password' => password_hash($data['new_password'], '2y', ["cost" => 5]),
                     ]);
                     $response['success'] = true;
                 } catch (Exception $e) {

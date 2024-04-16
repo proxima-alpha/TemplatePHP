@@ -76,7 +76,6 @@ class MainController extends BaseClientController
             //todo(log)
             $this->handleException($e);
         }
-        ServerLogger::log($data);
         return parent::loadHeader([
                 'css' => ['/client/main'],
                 'js' => [
