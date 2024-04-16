@@ -119,8 +119,6 @@ return [
 
 
     //admin
-    "category" => "카테고리",
-    "category_local" => "하위 카테고리",
     "board" => "게시판",
     "reply" => "댓글",
     "reservation" => "예약",
@@ -146,8 +144,6 @@ return [
     "message_info_english" => "* 해당 필드는 영문이여야 합니다.",
     "message_info_public" => "* 해당 필드는 비인증 사용자도 볼 수 있도록 합니다.",
     "message_info_table_style" => "* 해당 필드는 일반 사용자가 보는 게시판의 스타일을 지정합니다.",
-    "message_info_category_main_only" => "* 해당 필드는 이 카테고리가 메인페이지에서만 보이도록 설정합니다.",
-    "message_info_category_local" => "* 해당 필드는 하위 카테고리가 보일지 아닐지 설정합니다.",
     "message_info_reservation_time" => "* 해당 필드는 사용자가 예약시 날짜와 시간을 선택할 수 있는지 허용합니다.",
     "message_info_reservation_default_message" => "* 해당 필드는 예약이 완료됐을시 사용자에게 이메일을 보내는 기본 메세지 입니다.\n(만약 로그인 시스템을 사용하지 않거나 사용자가 수신 거부인 경우 발송되지 않습니다)",
     "message_info_location_address" => "* '검색' 버튼을 사용하여 위도 경도를 검색해 주세요.",

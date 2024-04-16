@@ -52,7 +52,7 @@ $routes->get('/topic/'.$ID_RULE.'/edit', [\Views\BoardController::class, 'editTo
 $routes->get('/project/'.$ID_RULE.'/view', [\Views\ProjectController::class, 'get']);
 
 //admin pages
-$routes->addRedirect('/admin', '/admin/category');
+$routes->addRedirect('/admin', '/admin/artist');
 $routes->get('/admin/login', [\Views\Admin\LoginController::class, 'index']);
 $routes->get('/admin/registration', [\Views\Admin\RegistrationController::class, 'index']);
 $routes->get('/admin/reset-password', [\Views\Admin\RegistrationController::class, 'resetPassword']);
@@ -85,9 +85,6 @@ $routes->get('/admin/project/'.$ID_RULE.'/edit', [\Views\Admin\ProjectController
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
 $routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
-
-$routes->get('/admin/category', [\Views\Admin\CategoryController::class, 'index']);
-$routes->get('/admin/category/'.$CODE_RULE, [\Views\Admin\CategoryController::class, 'getCategory']);
 
 $routes->get('/file/(:any)/thumbnail', [\Views\CustomFileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
@@ -165,18 +162,6 @@ $routes->delete('/api/project/delete/'.$ID_RULE, [\API\ProjectController::class,
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
-
-$routes->get('/api/category/get/all', [\API\CategoryController::class, 'getCategoryAll']);
-$routes->get('/api/category/get/'.$ID_RULE, [\API\CategoryController::class, 'getCategory']);
-$routes->post('/api/category/create', [\API\CategoryController::class, 'createCategory']);
-$routes->post('/api/category/update/'.$ID_RULE, [\API\CategoryController::class, 'updateCategory']);
-$routes->delete('/api/category/delete/'.$ID_RULE, [\API\CategoryController::class, 'deleteCategory']);
-$routes->get('/api/category/exchange-priority/'.$ID_RULE.'/'.$ID_RULE, [\API\CategoryController::class, 'exchangeCategoryPriority']);
-$routes->get('/api/category/local/get/'.$ID_RULE, [\API\CategoryController::class, 'getCategoryLocal']);
-$routes->post('/api/category/local/create', [\API\CategoryController::class, 'createCategoryLocal']);
-$routes->post('/api/category/local/update/'.$ID_RULE, [\API\CategoryController::class, 'updateCategoryLocal']);
-$routes->delete('/api/category/local/delete/'.$ID_RULE, [\API\CategoryController::class, 'deleteCategoryLocal']);
-$routes->get('/api/category/local/exchange-priority/'.$ID_RULE.'/'.$ID_RULE, [\API\CategoryController::class, 'exchangeCategoryLocalPriority']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
 $routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCodeMail']);

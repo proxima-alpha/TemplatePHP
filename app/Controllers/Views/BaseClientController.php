@@ -5,24 +5,14 @@ namespace Views;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
-use Models\CategoryLocalModel;
-use Models\CategoryModel;
 use Models\CustomFileModel;
 use Models\SettingModel;
 use Psr\Log\LoggerInterface;
 
 class BaseClientController extends BaseViewController
 {
-    protected CategoryModel $categoryModel;
-    protected CategoryLocalModel $categoryLocalModel;
     protected SettingModel $settingModel;
     protected CustomFileModel $customFileModel;
-    /**
-     * links for pages
-     * @var string[]
-     */
-    protected array $links = [];
-
     /**
      * to check login when user access page automatically
      * @var bool
@@ -31,22 +21,8 @@ class BaseClientController extends BaseViewController
 
     public function __construct()
     {
-        $this->categoryModel = model('Models\CategoryModel');
-        $this->categoryLocalModel = model('Models\CategoryLocalModel');
         $this->settingModel = model('Models\SettingModel');
         $this->customFileModel = model('Models\CustomFileModel');
-
-        // must be same with [\API\CategoryController - getCategoryAll()]
-        $categories = $this->categoryModel->get();
-        foreach ($categories as $i => $category) {
-            if ($category['has_local'] == 1) {
-                $paths = $this->categoryLocalModel->get([
-                    'category_id' => $category['id'],
-                ]);
-                $categories[$i]['locals'] = $paths;
-            }
-        }
-        $this->links = $categories;
     }
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -84,7 +60,6 @@ class BaseClientController extends BaseViewController
     {
         $logos = $this->customFileModel->getLogos();
         $initData = array_merge($initData, [
-            'links' => $this->links,
             'logos' => $logos,
         ]);
         return view('client/header', parent::loadDataForHeader($data, $initData));

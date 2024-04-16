@@ -88,8 +88,6 @@ return [
     "show_detail" => "Show Detail",
 
     //admin
-    "category" => "Category",
-    "category_local" => "Category Local",
     "board" => "Board",
     "reply" => "Reply",
     "reservation" => "Reservation",
@@ -115,8 +113,6 @@ return [
     "message_info_english" => "* This must be in english.",
     "message_info_public" => "* This field allows unauthorized users can watch.",
     "message_info_table_style" => "* This field sets style of table in user view.",
-    "message_info_category_main_only" => "* This field controls the category appear in main page only.",
-    "message_info_category_local" => "* This field controls the visibility of the sub category.",
     "message_info_reservation_time" => "* This field allows user can select date and time when they reserve.",
     "message_info_reservation_default_message" => "* This field is the default message to send email user when the reservation status is complete.\n(If not using the login system or not allowed to receive, it will not send)",
     "message_info_location_address" => "* Please use 'search' button to find latitude and longitude.",
