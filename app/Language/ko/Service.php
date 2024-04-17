@@ -117,6 +117,10 @@ return [
     "main_info_title_05" => "영상 공유하기",
     "main_info_content_05" => "공유시 많은 이벤트들이 준비되어 있으니 친구 또는 팬들과 함께 영상을 공유해보세요.",
 
+    //reward
+    "reward_step_01" => "구매할 수량을 선택하세요",
+    "reward_step_02" => "요청 메세지를 작성해 보세요",
+    "reward_step_03" => "결제하여 요청을 완료해보세요",
 
     //admin
     "board" => "게시판",

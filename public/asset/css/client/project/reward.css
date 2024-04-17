@@ -1,0 +1,233 @@
+.container-wrap {
+    font-size: 0;
+}
+
+.container-wrap > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.container-wrap .content-box {
+    width: calc(65% - 40px);
+    min-height: 600px;
+    margin-right: 40px;
+}
+
+.container-wrap .side-content-box {
+    width: 35%;
+}
+
+.date-box {
+    text-align: left;
+}
+
+.date-box p {
+    font-size: 22px;
+    color: #fff;
+    font-weight: 400;
+}
+
+.reward-box {
+    text-align: left;
+}
+
+.reward-box .reward-wrap {
+    padding: 20px 15px;
+    border-radius: 5px;
+    border: 1px solid #232127;
+    margin-top: 20px;
+}
+
+.reward-box .line {
+    background: #232127;
+}
+
+.reward-box .reward-wrap p {
+    font-size: 18px;
+    color: #fff;
+}
+
+.reward-box .reward-wrap .title {
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.reward-box .reward-wrap .content {
+    margin: 5px;
+    min-height: 50px;
+}
+
+.reward-box .reward-wrap .total-count {
+    text-align: right;
+}
+
+.reward-box .reward-wrap .price {
+    font-size: 20px;
+    text-align: right;
+    font-weight: 400;
+}
+
+.payment-box {
+    padding: 20px 15px;
+    border-radius: 5px;
+    border: 1px solid #232127;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.payment-box .limited-count-wrap * {
+    color: #fff;
+    vertical-align: middle;
+}
+
+.payment-box .limited-count-wrap .title {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.payment-box .limited-count-wrap .content {
+    color: #E2E8F0;
+    font-size: 18px;
+}
+
+.payment-box input {
+    width: 100%;
+    line-height: 40px;
+    font-size: 20px;
+    font-weight: 400;
+    background: black;
+    color: #fff;
+    border: none;
+    border-bottom: 1px solid #232127;
+}
+
+.payment-box .total-price {
+    text-align: right;
+    color: #FF7A00;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.container-inner .container-wrap .button-wrap {
+    margin-top: 20px;
+}
+
+.container-inner .container-wrap .button {
+    margin: 0 10px;
+}
+
+.stage-box {
+    width: 390px;
+    margin: 0 auto;
+    margin-top: 40px;
+    position: relative;
+}
+
+.stage-box:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 65px;
+    right: 65px;
+    top: 15px;
+    height: 2px;
+    background: #FF7A00;
+}
+
+.stage-box .step-wrap {
+    width: 130px;
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    z-index: 10;
+}
+
+.stage-box .step-wrap .circle {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 50%;
+    border: 2px solid #FF7A00;
+    background: #000;
+    display: inline-block;
+}
+
+.stage-box .step-wrap .circle img {
+    vertical-align: middle;
+}
+
+.stage-box .step-wrap.selected .circle {
+    background: #FF7A00;
+}
+
+.stage-box .step-wrap .text-wrap {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #232127;
+    word-break: keep-all;
+}
+
+.stage-box .step-wrap.selected .text-wrap {
+    color: #fff;
+}
+
+.container-inner .button-wrap {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.container-inner .button.button-fill {
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+
+.container-inner .button.button-line {
+    color: #fff;
+    padding: 8px 38px;
+    font-size: 18px;
+    border-radius: 100px;
+    color: #FF7A00;
+    font-weight: 600;
+    border: 2px solid #FF7A00;
+}
+
+.container-inner .button.button-line.disabled {
+    color: #232127;
+    cursor: auto;
+    border: 2px solid #232127;
+}
+
+.page-sub-title {
+    margin: 20px 0 10px 0;
+    padding: 0 8px 0 5px;
+    display: inline-block;
+    position: relative;
+}
+
+.page-sub-title:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 2px;
+    background: #FF7A00;
+}
+
+@media (max-width: 840px) {
+    .container-wrap .content-box,
+    .container-wrap .side-content-box {
+        width: 100%;
+        padding: 0 10px;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+
+}

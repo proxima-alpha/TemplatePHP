@@ -50,6 +50,7 @@ $routes->get('/board/'.$CODE_RULE.'/topic/create', [\Views\BoardController::clas
 $routes->get('/topic/'.$ID_RULE, [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/'.$ID_RULE.'/edit', [\Views\BoardController::class, 'editTopic']);
 $routes->get('/project/'.$ID_RULE.'/view', [\Views\ProjectController::class, 'get']);
+$routes->get('/project/reward/'.$ID_RULE, [\Views\ProjectController::class, 'getReward']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/artist');

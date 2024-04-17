@@ -18,6 +18,10 @@
     }
 }
 
+#container {
+    padding-bottom: 40px;
+}
+
 #container .section {
     position: relative;
     overflow: hidden;
@@ -124,6 +128,7 @@ slider 페이지
 }
 
 #page-media .page-sub-title {
+    padding: 0 8px 0 5px;
     display: inline-block;
     position: relative;
 }
@@ -203,6 +208,10 @@ slider 페이지
     overflow: hidden;
 }
 
+#page-media .slick-item p.item-date {
+    font-size: 13px;
+}
+
 #page-media .slick-item p.item-title,
 #page-media .content-item p.item-title {
     font-weight: 600;
@@ -261,10 +270,6 @@ slider 페이지
 }
 
 #page-intro .content-wrap.list li p.content {
-    margin-top: 40px;
-}
-
-#footer {
     margin-top: 40px;
 }
 

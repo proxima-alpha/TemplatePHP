@@ -63,7 +63,7 @@ if (isset($data['artists'])) { ?>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                             <div class="button-wrap">
-                                <a class="button button-fill" href="#"><?= lang('결제하기') ?></a>
+                                <a class="button button-fill" href="/project/reward/<?=$reward['id']?>"><?= lang('결제하기') ?></a>
                             </div>
                         </div>
                     <?php } ?>

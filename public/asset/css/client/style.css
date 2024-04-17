@@ -1,8 +1,6 @@
-#wrap {
-    background: #000;
-}
 
 #container {
+    background: #000;
     width: 100%;
     min-width: 1200px;
     text-align: center;

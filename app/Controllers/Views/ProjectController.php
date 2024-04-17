@@ -21,7 +21,6 @@ class ProjectController extends BaseClientController
         $this->artistGroupModel = model('Models\ArtistGroupModel');
     }
 
-
     /**
      * /project/{id}/view
      * @param $id
@@ -55,7 +54,34 @@ class ProjectController extends BaseClientController
     }
 
     /**
-     * artist 조회시 필요한 데이터 불러오는 기능
+     * /project/{id}/reward
+     * @param $reward_id
+     * @return string
+     */
+    public function getReward($reward_id): string
+    {
+        $data = $this->getViewData();
+        try {
+            $data = array_merge($data, $this->getRewardData($reward_id));
+        } catch (Exception $e) {
+            //todo(log)
+            $this->handleException($e);
+        }
+
+        return parent::loadHeader([
+                'css' => [
+                    '/client/project/reward'
+                ],
+                'js' => [
+                    '/client/reward',
+                ],
+            ])
+            . view('/client/project/reward', $data)
+            . parent::loadFooter();
+    }
+
+    /**
+     * project 조회시 필요한 데이터 불러오는 기능
      * @throws Exception
      */
     private function getProjectData($id): array
@@ -70,5 +96,23 @@ class ProjectController extends BaseClientController
         $project['rewards'] = $rewards;
         $result['data'] = $project;
         return $result;
+    }
+
+    /**
+     * reward 조회시 필요한 데이터 불러오는 기능
+     * @throws Exception
+     */
+    private function getRewardData($id): array
+    {
+        $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+        if (sizeof($rewards) != 1) throw new Exception('deleted');
+        $reward = $rewards[0];
+        $projects = $this->projectModel->get(['id' => $reward['project_id'], 'is_deleted' => 0]);
+        if (sizeof($projects) != 1) throw new Exception('deleted');
+        $project = $projects[0];
+        return [
+            'project' => $project,
+            'reward' => $reward,
+        ];
     }
 }

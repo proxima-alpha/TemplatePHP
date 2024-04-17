@@ -431,7 +431,7 @@ function setView($parent, target) {
     let style = '';
     if (target == 'project') {
         style = ` style="height : 390px; line-height: 388px" `
-    } else if (target != 'main' && target != 'history') {
+    } else if (target != 'main' && target != 'relation') {
         style = ` style="height : 370px; line-height: 368px" `
     }
     if (files.get(target).length == 0) {

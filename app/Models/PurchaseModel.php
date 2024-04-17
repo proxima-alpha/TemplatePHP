@@ -10,6 +10,8 @@ class PurchaseModel extends BaseModel
         'user_id',
         'reword_id',
         'status',
+        'paid',
+        'refunded',
         'purchaser_name',
         'purchaser_email',
         'created_at',

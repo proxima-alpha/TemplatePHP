@@ -10,6 +10,7 @@ class PurchaseItemModel extends BaseModel
         'purchase_id',
         'code_reaction_id',
         'status',
+        'price',
         'requirer_name',
         'requirer_email',
         'requirer_comment',
