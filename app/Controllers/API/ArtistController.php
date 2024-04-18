@@ -128,11 +128,13 @@ class ArtistController extends CustomFileController
                 } else {
                     // image priority
                     $queries = [];
-                    foreach ($data['previews'] as $index => $file_id) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
+                    if(isset($data['previews'])) {
+                        foreach ($data['previews'] as $index => $file_id) {
+                            $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
+                        }
                     }
                     if(isset($data['profile_id'])) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['profile_id'], $data['identifier'], $index);
+                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['profile_id'], $data['identifier'], 1);
                     }
                     BaseModel::transaction($this->db, $queries);
 

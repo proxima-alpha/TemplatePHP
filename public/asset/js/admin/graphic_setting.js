@@ -65,7 +65,10 @@ function refreshViews(target) {
                             job: item['job']
                         });
                     } else {
-                        files.push(target, item['id'], item['type']);
+                        files.push(target, item['id'], {
+                            type: item['type'],
+                            relative_path: item['relative_path']
+                        });
                     }
                 }
             }
@@ -139,14 +142,14 @@ function confirmSettingFileEdit(target) {
 }
 
 function generateOnSettingFileUploaded() {
-    return (target, file_id, type) => {
-        files.push(target, file_id, type);
+    return (target, file_id, extra) => {
+        files.push(target, file_id, extra);
         let $parent = $(`.content-box.${target}`)
         let $container = $parent.find(`.content-wrap-inner`);
         $container.empty();
 
-        let file_url = `/file/${file_id}`;
-        if (type == 'image') {
+        const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+        if (!extra || extra.type == 'image') {
             $container.append(`
             <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0; background-size: cover;">
                 <div class="upload-item-hover">
@@ -211,9 +214,9 @@ function setEditing($parent, target) {
 
             for (let i in files.get(target)) {
                 let file_id = files.get(target)[i];
-                let type = files.getExtra(target)[i];
-                const file_url = `/file/${file_id}`;
-                if (type == 'image') {
+                let extra = files.getExtra(target)[i];
+                const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+                if (!extra || extra.type == 'image') {
                     html += `
                     <div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
@@ -371,9 +374,9 @@ function setEditing($parent, target) {
                 } else {
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
-                        let type = files.getExtra(target)[i];
-                        let file_url = `/file/${file_id}`
-                        if (type == 'image') {
+                        let extra = files.getExtra(target)[i];
+                        const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+                        if (!extra || extra.type == 'image') {
                             html += `
                             <div class="upload-item" style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
                                 <div class="upload-item-hover">
@@ -455,19 +458,18 @@ function setView($parent, target) {
 
                 for (let i in files.get(target)) {
                     let file_id = files.get(target)[i];
-                    let type = files.getExtra(target)[i];
-                    let file_url = `/file/${file_id}`;
-                    if (type == 'image') {
+                    let extra = files.getExtra(target)[i];
+                    const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+                    if (!extra || extra.type == 'image') {
                         html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                             onclick="openImagePopup(${file_id}, '${type}')">
+                             onclick="openImagePopup(${file_id})">
                             Slider #${file_id}
                         </div>`;
                     } else {
                         html += `
-                        <div class="slick-item button"
-                             onclick="openImagePopup(${file_id}, '${type}')">
+                        <div class="slick-item button">
                             <video preload="metadata">
                                 <source src="${file_url}">
                             </video>
@@ -562,9 +564,9 @@ function setView($parent, target) {
                     html = `<div class="content-wrap-inner lines-horizontal">`
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
-                        let type = files.getExtra(target)[i];
-                        let file_url = `/file/${file_id}`
-                        if (type == 'image') {
+                        let extra = files.getExtra(target)[i];
+                        const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+                        if (!extra || extra.type == 'image') {
                             html += `
                             <div class="upload-item"
                                  style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">

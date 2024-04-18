@@ -2,6 +2,8 @@
 
 namespace Views;
 
+use App\Helpers\HtmlHelper;
+use App\Helpers\ServerLogger;
 use Exception;
 use Models\ArtistGroupModel;
 use Models\ProjectModel;

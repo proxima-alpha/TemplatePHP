@@ -42,11 +42,11 @@ body {
     height: 60px;
     line-height: 60px;
     flex-shrink: 0;
+    margin-right: 20px;
 }
 
 #header .logo a {
     display: block;
-    height: 40px;
     font-size: 0;
     line-height: inherit;
 }
@@ -54,7 +54,6 @@ body {
 #header .logo a img {
     display: inline-block;
     vertical-align: middle;
-    max-height: 100%;
 }
 
 #header .mobile-utill {
@@ -106,12 +105,19 @@ body {
 
 .utill li {
     float: left;
-    font-size: 14px;
+    line-height: 60px;
 }
 
 .utill li a {
+    font-size: 14px;
     color: #fff;
     box-sizing: border-box;
+    min-width: 80px;
+    height: 36px;
+    line-height: 36px;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
 }
 
 .utill select {
@@ -127,7 +133,6 @@ body {
 
 .utill li .button-fill {
     color: #fff;
-    padding: 10px;
     border-radius: 100px;
     font-weight: 400;
     background: #FF7A00;
@@ -135,10 +140,10 @@ body {
 
 .utill li .button-line {
     color: #FF7A00;
-    padding: 8px;
     border-radius: 100px;
     font-weight: 600;
     border: 2px solid #FF7A00;
+    line-height: 32px;
 }
 
 .utill li:after {
@@ -335,11 +340,8 @@ body {
 
     #header .logo {
         position: absolute;
-        right: 10px;
-    }
-
-    #header .logo a {
-        height: 35px;
+        right: 5px;
+        margin: 0;
     }
 
     .utill {

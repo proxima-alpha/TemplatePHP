@@ -9,7 +9,7 @@
                         </h4>
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
-                            <p class="content"><?= $reward['content'] ?></p>
+                            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
                             <p class="total-count"><?= $reward['total_count'] ?><?= lang('개 한정') ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>

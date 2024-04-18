@@ -1,3 +1,4 @@
+<?= \App\Helpers\HtmlHelper::setTranslationsClient(['message_popup_page']) ?>
 <div class="section " id="page-start">
     <div class="main-slider-wrap">
         <div class="slider-box">

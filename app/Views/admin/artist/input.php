@@ -58,7 +58,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('샘플 영상') ?></p>
-                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null) ?>
+                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>

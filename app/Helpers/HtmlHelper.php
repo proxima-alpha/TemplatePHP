@@ -45,9 +45,9 @@ final class HtmlHelper
         return View("reply", $data);
     }
 
-    public static function covertTextarea($string)
+    public static function covertNewline($string)
     {
-        return str_replace('\n', '&#10;', $string);
+        return str_replace("\n", '<br/>', $string);
     }
 
     public static function showDataEmpty($data, $height = null): bool
@@ -201,7 +201,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getSlickUploader($key, $files, $view_mode = 'input'): string
+    public static function getSlickUploader($key, $files, $view_mode = 'view', $accept = null): string
     {
         $html = '';
         if ($view_mode == 'input') {
@@ -210,11 +210,10 @@ final class HtmlHelper
                     <div class="slick uploader ' . $key . '">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
-                    $url = '/file/' . $file['id'];
                     if ($file['type'] == 'image') {
                         $html .=
                             '<div class="slick-item draggable-item upload-item" draggable="true"
-                            style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;">
+                            style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;">
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <div class="upload-item-hover">
@@ -230,7 +229,7 @@ final class HtmlHelper
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <video preload="metadata">
-                                <source src="' . $url . '">
+                                <source src="' . $file['relative_path'] . '">
                             </video>
                             <div class="upload-item-hover">
                                 <a href="javascript:deleteUploadedSlickFile( \'' . $key . '\', ' . $file['id'] . ')"
@@ -248,7 +247,7 @@ final class HtmlHelper
                     <label for="artist_preview-file" class="button"></label>
                     <input type="file" name="file" id="artist_preview-file"
                            onchange="onFileUpload(this, \'' . $key . '\');"
-                           accept="video/*,image/png,image/jpg"/>
+                           accept="' . $accept . '"/>
                 </div>';
             $html .=
                 '</div>
@@ -259,20 +258,18 @@ final class HtmlHelper
                         <div class="slick">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
-                    $url = '/file/' . $file['id'];
                     if ($file['type'] == 'image') {
                         $html .=
                             '<div class="slick-item button"
-                            style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
-                            onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                            style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
+                            onclick="openImagePopup(' . $file['id'] . ')">
                             Slider # ' . $file['id'] . ' 
                         </div>';
                     } else {
                         $html .=
-                            '<div class="slick-item button"
-                            onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                            '<div class="slick-item button">
                             <video preload="metadata">
-                                <source src="' . $url . '">
+                                <source src="' . $file['relative_path'] . '">
                             </video>
                         </div>';
                     }
@@ -292,20 +289,18 @@ final class HtmlHelper
                     <div class="slick">';
         if (isset($files)) {
             foreach ($files as $index => $file) {
-                $url = '/file/' . $file['id'];
                 if ($file['type'] == 'image') {
                     $html .=
                         '<div class="slick-item button"
-                        style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"
-                        onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                        style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
+                        onclick="openImagePopup(' . $file['id'] . ')">
                         Slider # ' . $file['id'] .
                         '</div>';
                 } else {
                     $html .=
-                        '<div class="slick-item button"
-                        onclick="openImagePopup(' . $file['id'] . ', \'' . $file['type'] . '\', \'' . $file['mime_type'] . '\')">
+                        '<div class="slick-item button">
                             <video preload="metadata">
-                                <source src="' . $url . '">
+                                <source src="' . $file['relative_path'] . '" >
                             </video>';
                     if (!$isAdmin) {
                         $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';

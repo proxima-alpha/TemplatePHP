@@ -137,7 +137,8 @@ input:focus, textarea:focus {
 }
 
 input:focus[readonly], textarea:focus[readonly] {
-    border: 1px solid #bbb;
+    border: none;
+    /*border: 1px solid #bbb;*/
 }
 
 input.under-line[readonly], input.under-line:focus[readonly] {

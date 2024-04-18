@@ -302,7 +302,7 @@ function openUserPopup(user_id) {
     });
 }
 
-function openImagePopup(id, type = 'image', mime_type) {
+function openImagePopup(id) {
     let className = 'popup-image-detail';
     let style = `
     <style>
@@ -310,18 +310,30 @@ function openImagePopup(id, type = 'image', mime_type) {
         width: 100%;
     }
     </style>`
-    let html;
-    if (type == 'image') {
-        html = `<div class="image-wrap">
+    let html = `<div class="image-wrap">
             <img src='/file/${id}'/>
         </div>`;
-    } else if (type == 'video') {
-        html = `<div class="image-wrap">
+    openPopup({
+        className: className,
+        style: style,
+        html: html,
+    })
+}
+
+
+function openVideoPopup(id, type = 'image', mime_type) {
+    let className = 'popup-image-detail';
+    let style = `
+    <style>
+    .${className} .popup-inner .image-wrap * {
+        width: 100%;
+    }
+    </style>`
+    let html = `<div class="image-wrap">
         <video controls>
             <source src="/file/${id}" type="${mime_type}">
         </video>
         </div>`;
-    }
     openPopup({
         className: className,
         style: style,

@@ -8,18 +8,17 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
     let artist_codes = []
-    <?php
-    if (isset($data)) {
+    <?php if (isset($data)) {
     foreach ($data as $key => $graphic_setting) {
     if($key == 'artists') {
     foreach ($data['artists'] as $code => $items) { ?>
-    artist_codes.push('<?=$code?>')
-    files.checkEmpty('<?=$code?>')
+    artist_codes.push(`<?=$code?>`)
+    files.checkEmpty(`<?=$code?>`)
     <?php foreach ($items as $index => $item) { ?>
-    files.push('<?=$code?>', '<?=$item['id']?>', {
+    files.push(`<?=$code?>`, `<?=$item['id']?>`, {
         profile_id: <?=$item['profile_id']?>,
-        name: '<?=$item['name']?>',
-        job: '<?=$item['job']?>',
+        name: `<?=$item['name']?>`,
+        job: `<?=$item['job']?>`,
     });
     <?php }
     }
@@ -27,17 +26,20 @@ $identifier = $shortid->generate();
     files.checkEmpty('<?=$key?>')
     <?php foreach ($graphic_setting as $index => $item) {
     if($key == 'project') {?>
-    files.push('<?=$key?>', '<?=$item['id']?>', {
+    files.push(`<?=$key?>`, `<?=$item['id']?>`, {
         <?php if(isset($item['project_image_id'])) {?>
         project_image_id: <?=$item['project_image_id']?>,
         <?php } ?>
-        title: '<?=$item['title']?>',
-        start_date: '<?=$item['start_date']?>',
-        end_date: '<?=$item['end_date']?>',
-        content: '<?=$item['content']?>',
+        title: `<?=$item['title']?>`,
+        start_date: `<?=$item['start_date']?>`,
+        end_date: `<?=$item['end_date']?>`,
+        content: `<?=$item['content']?>`,
     });
     <?php } else {?>
-    files.push('<?=$key?>', '<?=$item['id']?>', '<?=$item['type']?>');
+    files.push(`<?=$key?>`, `<?=$item['id']?>`, {
+        type: `<?=$item['type']?>`,
+        relative_path: `<?=$item['relative_path']?>`
+    });
     <?php }
     }
     }
@@ -130,7 +132,7 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 370)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id'); ?>
+                        <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id', true); ?>
                     <?php } ?>
                 </div>
                 <div class="control-button-wrap">

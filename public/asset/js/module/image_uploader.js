@@ -28,7 +28,7 @@ let files = {
         this.extras[key][index] = this.extras[key][valueIndex];
         this.extras[key][valueIndex] = tempType;
     },
-    push(key, value, extra = 'image') {
+    push(key, value, extra = null) {
         this.checkEmpty(key);
         this.ids[key].push(value);
         this.extras[key].push(extra);
@@ -44,7 +44,7 @@ let files = {
         this.identifiers = {};
     },
     clearItems() {
-        for(const key in this.ids) {
+        for (const key in this.ids) {
             this.ids[key] = [];
             this.extras[key] = [];
             this.identifiers[key] = [];
@@ -61,8 +61,11 @@ let files = {
 function deleteUploadedSlickFile(target = 'topic', id) {
     let index = files.get(target).indexOf(id.toString());
     if (index < 0) return;
-    let $slick = $(`.${target} .slick.uploader`);
-    $slick.removeCustomSlickItem(index)
+    let $uploader = $(`.uploader.${target}`);
+    if($uploader.hasClass('slick'))
+    {
+        $uploader.removeCustomSlickItem(index)
+    }
     files.splice(target, index);
     // apiRequest({
     //     type: 'DELETE',
@@ -126,20 +129,23 @@ function onFileUpload(
             }
             let data = response.data;
             let file_id = data.id;
-            let mime_type = data.mime_type;
             let type = data.type;
+            let relative_path = data.relative_path;
 
             files.push(target, file_id.toString());
 
             if (callback && typeof callback == 'function') {
-                callback(target, file_id.toString(), type);
+                callback(target, file_id.toString(), {
+                    type: type,
+                    relative_path: relative_path
+                });
             } else {
-                let file_url = `/file/${file_id}`
+                let file_url = relative_path
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {
                     let index = $uploader.attr('total') - 1;
-                    if( type == 'image') {
+                    if (type == 'image') {
                         $uploader.addCustomSlickItem(index,
                             `<div class="slick-item draggable-item upload-item" draggable="true"
                         style="background: url('${file_url}') no-repeat center;font-size: 0; background-size: cover;">
@@ -154,7 +160,7 @@ function onFileUpload(
                     </div>`);
                     } else {
                         $uploader.addCustomSlickItem(index,
-                    `<div class="slick-item draggable-item upload-item" draggable="true">
+                            `<div class="slick-item draggable-item upload-item" draggable="true">
                                 <video preload="metadata">
                                     <source src="${file_url}">
                                 </video>

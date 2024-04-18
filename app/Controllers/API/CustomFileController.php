@@ -5,8 +5,6 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
-use FFMpeg\Coordinate\TimeCode;
-use FFMpeg\FFMpeg;
 use InvalidArgumentException;
 use Models\BaseModel;
 use Models\CustomFileModel;
@@ -62,8 +60,8 @@ class CustomFileController extends BaseApiController
                 } else {
                     throw new Exception("not allowed mime type");
                 }
-                $symbolic_path = 'uploads/images/' . date("Y-m-d") . '/' . $shortid->generate();
-                $path = WRITEPATH . $symbolic_path;
+                $symbolic_path = 'uploads/' . date("Y-m-d") . '/' . $shortid->generate();
+                $path = ROOTPATH . 'public/' . $symbolic_path;
                 mkdir($path, 0777, true);
                 $file->move($path);
 
@@ -97,7 +95,7 @@ class CustomFileController extends BaseApiController
                 $data = [
                     'type' => $uploadedType,
                     'file_name' => $file_name,
-                    'thumb_file_name' => $thumb_file_name,
+                    'relative_path' => '/' . $symbolic_path . '/' . $file_name,
                     'width' => $width,
                     'height' => $height,
                     'mime_type' => $mime_type,
@@ -118,6 +116,7 @@ class CustomFileController extends BaseApiController
                         'id' => $inserted_row_id,
                         'mime_type' => $mime_type,
                         'type' => $uploadedType,
+                        'relative_path' => '/' . $symbolic_path . '/' . $file_name,
                     ];
                 }
             } else {

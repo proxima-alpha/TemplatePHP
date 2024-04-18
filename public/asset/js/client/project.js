@@ -28,9 +28,7 @@ function setArtist(id) {
                     <h3 class="name">${data.name}</h3>
                     <h4 class="job">${data.job}</h4>
                 </div>
-                <div class="content-text-wrap">
-                    ${data.introduction}
-                </div>`;
+                <p class="content-text-wrap">${data.introduction.replaceAll('\n', '<br/>')}</p>`;
 
             if (data.previews.length > 0) {
                 html += `
@@ -41,17 +39,16 @@ function setArtist(id) {
                 for (let preview of data.previews) {
                     let file_id = preview['id'];
                     let type = preview['type'];
-                    let file_url = `/file/${file_id}`;
+                    let file_url = preview['relative_path'];
                     if(type == 'image') {
                         html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                             onclick="openImagePopup(${file_id}, '${type}')">
+                             onclick="openImagePopup(${file_id})">
                         </div>`;
                     } else {
                         html += `
-                        <div class="slick-item button"
-                             onclick="openImagePopup(${file_id}, '${type}')">
+                        <div class="slick-item button">
                             <video preload="metadata">
                                 <source src="${file_url}">
                             </video>

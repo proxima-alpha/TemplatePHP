@@ -89,7 +89,7 @@ slider 페이지
 }
 
 #page-start .main-slider-wrap .slick .slick-item {
-    height: 600px;
+    height: 450px;
 }
 
 #page-start .overlap-text-box {
@@ -371,5 +371,8 @@ slider 페이지
 
     #page-intro .content-wrap.list ul {
         padding: 10px;
+    }
+    .section .page-inner {
+        width: 100%;
     }
 }

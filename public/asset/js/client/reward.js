@@ -1,9 +1,17 @@
 function onCountChange(element, price) {
     const $parent = $(element).parent()
     const count = $(element).val()
+    if (count < 1) {
+        $(element).val(1);
+        return;
+    }
     const $totalPrice = $parent.find('.total-price');
     $totalPrice.empty();
     $totalPrice.append(`${count * price} KRW`)
+
+    //page-2 에서 구매 수량 세트 생성
+    const $page2 = $('.page-2');
+    const childCount = $page2.children().length;
 }
 
 let rewardPageIndex = 1;
@@ -33,7 +41,7 @@ function refreshViews() {
     $(`.container-inner .content-box .page-${rewardPageIndex}`).css({
         display: 'block',
     })
-    const $stage =  $(`.side-content-box .stage-box`).children();
+    const $stage = $(`.side-content-box .stage-box`).children();
     $stage.removeClass('selected')
-    $stage.eq(rewardPageIndex-1).addClass('selected')
+    $stage.eq(rewardPageIndex - 1).addClass('selected')
 }

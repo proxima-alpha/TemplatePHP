@@ -28,19 +28,19 @@ if (isset($data['artists'])) { ?>
                     <h3 class="name">-</h3>
                     <h4 class="job">-</h4>
                 </div>
-                <div class="content-text-wrap">
+                <p class="content-text-wrap">
                     -
-                </div>
+                </p>
             </div>
             <div class="project-wrap">
                 <h4 class="page-sub-title">
                     <?= lang('이벤트') ?>
                 </h4>
-                <div class="content"><?= $data['content'] ?></div>
+                <div class="content"><?= \App\Helpers\HtmlHelper::covertNewline($data['content']) ?></div>
                 <h4 class="page-sub-title">
                     <?= lang('이용방법') ?>
                 </h4>
-                <div class="guide"><?= $data['guide'] ?></div>
+                <div class="guide"><?= \App\Helpers\HtmlHelper::covertNewline($data['guide']) ?></div>
             </div>
         </div>
         <div class="side-content-box">
@@ -58,12 +58,13 @@ if (isset($data['artists'])) { ?>
                     <?php foreach ($data['rewards'] as $reward) { ?>
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
-                            <p class="content"><?= $reward['content'] ?></p>
-                            <p class="total-count"><?= $reward['total_count'] ?><?= lang('개 한정')?></p>
+                            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
+                            <p class="total-count"><?= $reward['total_count'] ?><?= lang('개 한정') ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                             <div class="button-wrap">
-                                <a class="button button-fill" href="/project/reward/<?=$reward['id']?>"><?= lang('결제하기') ?></a>
+                                <a class="button button-fill"
+                                   href="/project/reward/<?= $reward['id'] ?>"><?= lang('결제하기') ?></a>
                             </div>
                         </div>
                     <?php } ?>
@@ -73,9 +74,9 @@ if (isset($data['artists'])) { ?>
     </div>
 </div>
 <?php if (isset($data['artists']) && sizeof($data['artists']) > 0) { ?>
-<script type="text/javascript">
-    $(document).ready(function () {
-        setArtist(<?=$data['artists'][0]['id']?>)
-    });
-</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            setArtist(<?=$data['artists'][0]['id']?>)
+        });
+    </script>
 <?php } ?>
