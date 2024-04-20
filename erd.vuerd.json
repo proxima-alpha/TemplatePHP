@@ -3288,7 +3288,7 @@
           },
           {
             "id": "fdb874d9-2be7-430f-b995-f2bcd9c052c4",
-            "name": "requirer_name",
+            "name": "inquirer_name",
             "comment": "",
             "dataType": "VARCHAR(50)",
             "default": "",
@@ -3311,7 +3311,7 @@
           },
           {
             "id": "ca0c43cf-e813-4cb6-b546-f4595cb1489b",
-            "name": "requirer_email",
+            "name": "inquirer_email",
             "comment": "",
             "dataType": "VARCHAR(50)",
             "default": "",
@@ -3334,7 +3334,7 @@
           },
           {
             "id": "4637de0c-9dcd-4320-897f-847fd8ef02d9",
-            "name": "requirer_comment",
+            "name": "inquirer_comment",
             "comment": "",
             "dataType": "TEXT",
             "default": "",

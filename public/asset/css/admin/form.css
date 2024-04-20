@@ -24,7 +24,7 @@
     vertical-align: bottom;
 }
 
-.container-inner .input-wrap.inline input:not([type=checkbox]),
+.container-inner .input-wrap.inline input:not([type=checkbox]):not([type=radio]),
 .container-inner .input-wrap.inline textarea,
 .container-inner .input-wrap.inline select {
     width: 70%;
@@ -32,7 +32,7 @@
     vertical-align: bottom;
 }
 
-.container-inner .input-wrap input:not([type=checkbox]),
+.container-inner .input-wrap input:not([type=checkbox]):not([type=radio]),
 .container-inner .input-wrap textarea,
 .container-inner .input-wrap select {
     line-height: 40px;

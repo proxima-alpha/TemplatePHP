@@ -27,6 +27,8 @@
     font-weight: 400;
 }
 
+/* ------ box1 ------ */
+
 .reward-box {
     text-align: left;
 }
@@ -34,12 +36,12 @@
 .reward-box .reward-wrap {
     padding: 20px 15px;
     border-radius: 5px;
-    border: 1px solid #232127;
+    border: 1px solid #E2E8F0;
     margin-top: 20px;
 }
 
 .reward-box .line {
-    background: #232127;
+    background: #E2E8F0;
 }
 
 .reward-box .reward-wrap p {
@@ -70,7 +72,7 @@
 .payment-box {
     padding: 20px 15px;
     border-radius: 5px;
-    border: 1px solid #232127;
+    border: 1px solid #E2E8F0;
     margin-top: 20px;
     text-align: left;
 }
@@ -95,10 +97,10 @@
     line-height: 40px;
     font-size: 20px;
     font-weight: 400;
-    background: black;
+    background: none;
     color: #fff;
     border: none;
-    border-bottom: 1px solid #232127;
+    border-bottom: 1px solid #E2E8F0;
 }
 
 .payment-box .total-price {
@@ -106,6 +108,104 @@
     color: #FF7A00;
     font-size: 30px;
     font-weight: 600;
+}
+
+/* ------ box2 ------ */
+
+.request-wrap {
+    text-align: left;
+}
+
+.request-wrap .form-wrap {
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #E2E8F0;
+    margin-top: 20px;
+}
+
+.request-wrap .form-wrap .input-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.request-wrap .form-wrap .input-wrap input:not([hidden]):not([type=checkbox]):not([type=radio]),
+.request-wrap .form-wrap .input-wrap textarea,
+.request-wrap .form-wrap .input-wrap select {
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.request-wrap .form-wrap .input-wrap select option {
+    color: #000;
+}
+
+.request-wrap .form-wrap .input-wrap select {
+    width: 400px;
+    height: 40px;
+    padding: 0 10px;
+}
+
+.request-wrap .form-wrap .mine .input-item-wrap * {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 35px;
+}
+
+.request-wrap .form-wrap .mine label {
+    font-size: 18px;
+    color: #fff;
+    padding: 0 10px;
+}
+
+.request-wrap .form-wrap .mine input {
+    width: 20px;
+    height: 20px;
+    accent-color: #FF7A00;
+}
+
+.request-wrap .form-wrap .inquirer input {
+    margin-bottom: 10px;
+    line-height: 40px;
+}
+
+.request-wrap .form-wrap .comment textarea {
+    height: 120px;
+}
+
+.request-wrap .form-wrap .agree .input-title {
+    width: auto;
+    color: #fff;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: normal;
+}
+
+/*체크박스 커스텀*/
+.request-wrap .form-wrap .agree input {
+    appearance: none; /* 원래 제공되는 체크박스 없애기 */
+    border-radius: 50%; /* 동그랗게 만들기 */
+    border: 2px solid #FF7A00;
+}
+
+.request-wrap .form-wrap .agree input:checked {
+    background: #FF7A00;
+    position: relative;
+}
+
+.request-wrap .form-wrap .agree input:checked:before {
+    content: '';
+    color: transparent;
+    display: block;
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: -4px;
+    bottom: -4px;
+    background: url('/asset/images/custom/check.svg') 100%;
 }
 
 .container-inner .container-wrap .button-wrap {
@@ -116,6 +216,7 @@
     margin: 0 10px;
 }
 
+/* 진행 상황 확인 용 배지 */
 .stage-box {
     width: 390px;
     margin: 0 auto;
@@ -149,7 +250,7 @@
     line-height: 30px;
     border-radius: 50%;
     border: 2px solid #FF7A00;
-    background: #000;
+    background: #121114;
     display: inline-block;
 }
 
@@ -159,6 +260,10 @@
 
 .stage-box .step-wrap.selected .circle {
     background: #FF7A00;
+}
+
+.stage-box .step-wrap:not(.selected) img {
+    display: none;
 }
 
 .stage-box .step-wrap .text-wrap {

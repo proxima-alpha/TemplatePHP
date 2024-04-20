@@ -21,7 +21,7 @@
     word-break: keep-all;
 }
 
-.form-wrap .input-wrap input:not([type=checkbox]),
+.form-wrap .input-wrap input:not([type=checkbox]):not([type=radio]),
 .form-wrap .input-wrap textarea {
     width: 100%;
     font-weight: 200;
@@ -52,7 +52,7 @@
     margin-right: 15px;
 }
 
-.form-wrap .input-wrap.inline input:not([type=checkbox]),
+.form-wrap .input-wrap.inline input:not([type=checkbox]):not([type=radio]),
 .form-wrap .input-wrap.inline textarea {
     width: 70%;
 }

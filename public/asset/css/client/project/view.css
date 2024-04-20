@@ -171,12 +171,12 @@
 .reward-box .reward-wrap {
     padding: 20px 15px;
     border-radius: 5px;
-    border: 1px solid #232127;
+    border: 1px solid #E2E8F0;
     margin-top: 20px;
 }
 
 .reward-box .line {
-    background: #232127;
+    background: #E2E8F0;
 }
 
 .reward-box .reward-wrap p {

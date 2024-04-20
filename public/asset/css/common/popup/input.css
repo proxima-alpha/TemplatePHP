@@ -26,7 +26,8 @@
     width: calc(30% - 15px);
 }
 
-.form-wrap .input-wrap.inline input:not([type=checkbox]), .form-wrap .input-wrap textarea {
+.form-wrap .input-wrap.inline input:not([type=checkbox]):not([type=radio]),
+.form-wrap .input-wrap textarea {
     width: 70%;
 }
 

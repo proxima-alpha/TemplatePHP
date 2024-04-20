@@ -72,6 +72,7 @@ class ProjectController extends BaseClientController
 
         return parent::loadHeader([
                 'css' => [
+                    '/common/input',
                     '/client/project/reward'
                 ],
                 'js' => [

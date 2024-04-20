@@ -131,6 +131,10 @@ body {
     vertical-align: middle;
 }
 
+.utill select option{
+    color: #000;
+}
+
 .utill li .button-fill {
     color: #fff;
     border-radius: 100px;
