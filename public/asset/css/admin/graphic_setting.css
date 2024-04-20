@@ -37,6 +37,7 @@
 
 .item-selector .slider-box .slider-wrap .slick-item p.item-title {
     font-weight: 600;
+    margin-top: 10px;
 }
 
 .item-selector.previous-project {

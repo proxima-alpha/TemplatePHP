@@ -34,6 +34,33 @@ class ProjectController extends BaseClientController
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getProjectData($id));
+            $guide = [
+                [
+                    'title' => lang('Client.guide_01_title'),
+                    'content' => lang('Client.guide_01_content'),
+                ],
+                [
+                    'title' => lang('Client.guide_02_title'),
+                    'content' => lang('Client.guide_02_content'),
+                ],
+                [
+                    'title' => lang('Client.guide_03_title'),
+                    'content' => lang('Client.guide_03_content'),
+                ],
+                [
+                    'title' => lang('Client.guide_04_title'),
+                    'content' => lang('Client.guide_04_content'),
+                ],
+                [
+                    'title' => lang('Client.guide_05_title'),
+                    'content' => lang('Client.guide_05_content'),
+                ],
+                [
+                    'title' => lang('Client.guide_06_title'),
+                    'content' => lang('Client.guide_06_content'),
+                ],
+            ];
+            $data = array_merge($data, ['guide' => $guide]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);

@@ -214,6 +214,7 @@ slider 페이지
 
 #page-media .slick-item p.item-title,
 #page-media .content-item p.item-title {
+    margin-top: 10px;
     font-weight: 600;
 }
 

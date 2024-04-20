@@ -40,7 +40,23 @@ if (isset($data['artists'])) { ?>
                 <h4 class="page-sub-title">
                     <?= lang('이용방법') ?>
                 </h4>
-                <div class="guide"><?= \App\Helpers\HtmlHelper::covertNewline($data['guide']) ?></div>
+                <div class="guide-wrap">
+                    <p class="title">
+                        <?= lang('Client.guide_title') ?>
+                    </p>
+                    <div class="guide-content-wrap">
+                        <?php foreach ($guide as $item) { ?>
+                            <p class="sub-title">
+                                <?= $item['title'] ?>
+                            </p>
+                            <div class="content">
+                                <p>
+                                    <?= $item['content'] ?>
+                                </p>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="side-content-box">
