@@ -1,3 +1,6 @@
+
+const purchaseItems = [];
+
 function onCountChange(element, price) {
     const $parent = $(element).parent()
     const count = $(element).val()
@@ -5,12 +8,14 @@ function onCountChange(element, price) {
         $(element).val(1);
         return;
     }
-    const $totalPrice = $parent.find('.total-price');
-    $totalPrice.empty();
-    $totalPrice.append(`${count * price} KRW`)
+    const $totalPrice = $('.total-price input');
+    $totalPrice.val(`${count * price}`)
 
     //page-2 에서 구매 수량 세트 생성
-    const $page2 = $('.page-2');
+    const $page2 = $('#page-2');
+    for(let i = 0; i< purchaseItems.length || i < count; ++i) {
+
+    }
     const childCount = $page2.children().length;
 }
 
@@ -20,6 +25,10 @@ function onClickNext() {
     if (rewardPageIndex == 3) return;
     if (rewardPageIndex == 1) {
         $(`.container-inner .content-box .button-wrap .prev`).removeClass('disabled')
+    } else if(rewardPageIndex == 2) {
+        $(`.container-inner .content-box > div.button-wrap`).css({
+            display: 'none',
+        })
     }
     rewardPageIndex++;
     refreshViews();
@@ -38,7 +47,7 @@ function refreshViews() {
     $(`.container-inner .content-box .page`).css({
         display: 'none',
     })
-    $(`.container-inner .content-box .page-${rewardPageIndex}`).css({
+    $(`#page-${rewardPageIndex}`).css({
         display: 'block',
     })
     const $stage = $(`.side-content-box .stage-box`).children();

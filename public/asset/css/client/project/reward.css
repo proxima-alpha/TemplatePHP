@@ -1,10 +1,12 @@
-.container-wrap {
+.container-inner .container-wrap {
     font-size: 0;
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 .container-wrap > div {
-    display: inline-block;
-    vertical-align: top;
+    display: flex;
+    flex-direction: column;
 }
 
 .container-wrap .content-box {
@@ -27,49 +29,73 @@
     font-weight: 400;
 }
 
-/* ------ box1 ------ */
-
 .reward-box {
     text-align: left;
 }
 
-.reward-box .reward-wrap {
+.reward-wrap {
     padding: 20px 15px;
     border-radius: 5px;
     border: 1px solid #E2E8F0;
     margin-top: 20px;
 }
 
-.reward-box .line {
+.project-wrap {
+    padding: 20px 15px;
+    border-radius: 5px;
+    border: 1px solid #E2E8F0;
+    margin-top: 20px;
+}
+
+.project-wrap > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.project-wrap .image-wrap {
+    width: 150px;
+    height: 150px;
+}
+
+.project-wrap .content-wrap {
+    margin-left: 20px;
+    width: calc(100% - 170px);
+}
+
+.reward-wrap .line {
     background: #E2E8F0;
 }
 
-.reward-box .reward-wrap p {
+.project-wrap p,
+.reward-wrap p {
     font-size: 18px;
     color: #fff;
 }
 
-.reward-box .reward-wrap .title {
+.project-wrap .title,
+.reward-wrap .title {
     font-size: 22px;
+    line-height: 40px;
     font-weight: 400;
 }
 
-.reward-box .reward-wrap .content {
+.project-wrap .content,
+.reward-wrap .content {
     margin: 5px;
     min-height: 50px;
 }
 
-.reward-box .reward-wrap .total-count {
+.reward-wrap .total-count {
     text-align: right;
 }
 
-.reward-box .reward-wrap .price {
+.reward-wrap .price {
     font-size: 20px;
     text-align: right;
     font-weight: 400;
 }
 
-.payment-box {
+.select-payment-box {
     padding: 20px 15px;
     border-radius: 5px;
     border: 1px solid #E2E8F0;
@@ -77,22 +103,22 @@
     text-align: left;
 }
 
-.payment-box .limited-count-wrap * {
+.select-payment-box .limited-count-wrap * {
     color: #fff;
     vertical-align: middle;
 }
 
-.payment-box .limited-count-wrap .title {
+.select-payment-box .limited-count-wrap .title {
     font-size: 20px;
     font-weight: 400;
 }
 
-.payment-box .limited-count-wrap .content {
+.select-payment-box .limited-count-wrap .content {
     color: #E2E8F0;
     font-size: 18px;
 }
 
-.payment-box input {
+.select-payment-box input {
     width: 100%;
     line-height: 40px;
     font-size: 20px;
@@ -103,80 +129,30 @@
     border-bottom: 1px solid #E2E8F0;
 }
 
-.payment-box .total-price {
-    text-align: right;
-    color: #FF7A00;
-    font-size: 30px;
-    font-weight: 600;
-}
-
-/* ------ box2 ------ */
-
-.request-wrap {
+#page-2 {
     text-align: left;
+    display: none;
 }
 
-.request-wrap .form-wrap {
+#page-2 .form-wrap {
     padding: 20px;
     border-radius: 5px;
     border: 1px solid #E2E8F0;
     margin-top: 20px;
 }
 
-.request-wrap .form-wrap .input-title {
-    color: #fff;
-    font-weight: 600;
-    font-size: 20px;
+#page-2 .form-wrap .inquirer input {
+    margin-bottom: 10px;
     line-height: 40px;
 }
 
-.request-wrap .form-wrap .input-wrap input:not([hidden]):not([type=checkbox]):not([type=radio]),
-.request-wrap .form-wrap .input-wrap textarea,
-.request-wrap .form-wrap .input-wrap select {
-    background: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-}
-
-.request-wrap .form-wrap .input-wrap select option {
-    color: #000;
-}
-
-.request-wrap .form-wrap .input-wrap select {
-    width: 400px;
-    height: 40px;
-    padding: 0 10px;
-}
-
-.request-wrap .form-wrap .mine .input-item-wrap * {
+#page-2 .form-wrap .mine .input-item-wrap * {
     display: inline-block;
     vertical-align: middle;
     line-height: 35px;
 }
 
-.request-wrap .form-wrap .mine label {
-    font-size: 18px;
-    color: #fff;
-    padding: 0 10px;
-}
-
-.request-wrap .form-wrap .mine input {
-    width: 20px;
-    height: 20px;
-    accent-color: #FF7A00;
-}
-
-.request-wrap .form-wrap .inquirer input {
-    margin-bottom: 10px;
-    line-height: 40px;
-}
-
-.request-wrap .form-wrap .comment textarea {
-    height: 120px;
-}
-
-.request-wrap .form-wrap .agree .input-title {
+#page-2 .form-wrap .agree .input-title {
     width: auto;
     color: #fff;
     font-weight: 400;
@@ -184,27 +160,193 @@
     line-height: normal;
 }
 
+#page-3 {
+    text-align: left;
+    display: none;
+}
+
+#page-3 .purchase-item-wrap {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+#page-3 .purchase-item-wrap .input-wrap.inline .input-title {
+    width: calc(25% - 15px);
+    text-align: left;
+}
+
+#page-3 .purchase-item-wrap .input-wrap.inline input:not([hidden]):not([type=checkbox]):not([type=radio]),
+#page-3 .purchase-item-wrap .input-wrap.inline textarea {
+    width: 75%;
+    text-align: right;
+    background: none;
+    color: #888;
+}
+
+#page-3 .payment-box .inquirer input {
+    margin-bottom: 10px;
+    line-height: 40px;
+}
+
+#page-3 .payment-box .inquirer input {
+    margin-bottom: 10px;
+    line-height: 40px;
+}
+
+#page-3 .terms {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#page-3 .terms ul li * {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 30px;
+}
+
+#page-3 .terms ul li p {
+    width: calc(100% - 30px);
+}
+
+#page-3 .terms ul li p,
+#page-3 .terms ul li a {
+    font-size: 16px;
+    color: #888;
+}
+
+#page-3 .terms ul li a {
+    font-weight: 600;
+}
+
+#page-3 .terms ul li:before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #888;
+    margin: 11px;
+}
+
+#page-3 .payment-box .button-wrap {
+    margin-top: 40px;
+}
+
+#page-3 .payment-box .button.payment {
+    width: 100%;
+    font-weight: 400;
+    font-size: 24px;
+    box-sizing: border-box;
+}
+
+.total-price {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.total-price input,
+.total-price p {
+    text-align: right;
+    color: #FF7A00;
+    font-size: 30px;
+    font-weight: 600;
+    background: none;
+    border: none;
+    width: 100%;
+    display: flex;
+}
+
+.total-price p {
+    width: auto;
+    flex-shrink: 0;
+}
+
+/* form-wrap override */
+
+.form-wrap .input-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 40px;
+}
+
+.form-wrap .input-wrap p.input-info {
+    color: #888;
+    font-size: 16px;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+
+.form-wrap .input-wrap input:not([hidden]):not([type=checkbox]):not([type=radio]),
+.form-wrap .input-wrap textarea,
+.form-wrap .input-wrap select {
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.form-wrap .input-wrap select option {
+    color: #000;
+}
+
+.form-wrap .input-wrap select {
+    width: 400px;
+    height: 40px;
+    padding: 0 10px;
+    appearance: none;
+    background-image: url("/asset/images/custom/arrow_bottom.svg");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position-y: 10px;
+    background-position-x: calc(100% - 10px);
+}
+
+.form-wrap .input-wrap label {
+    width: auto;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 0 10px;
+    line-height: normal;
+}
+
+.form-wrap .input-wrap input[type=radio] {
+    width: 20px;
+    height: 20px;
+    accent-color: #FF7A00;
+}
+
+.form-wrap .comment textarea {
+    height: 120px;
+}
+
 /*체크박스 커스텀*/
-.request-wrap .form-wrap .agree input {
+.form-wrap .input-wrap input[type=checkbox] {
     appearance: none; /* 원래 제공되는 체크박스 없애기 */
     border-radius: 50%; /* 동그랗게 만들기 */
     border: 2px solid #FF7A00;
 }
 
-.request-wrap .form-wrap .agree input:checked {
+.form-wrap .input-wrap input[type=checkbox]:checked {
     background: #FF7A00;
     position: relative;
 }
 
-.request-wrap .form-wrap .agree input:checked:before {
+.form-wrap .input-wrap input[type=checkbox]:checked:before {
     content: '';
     color: transparent;
     display: block;
     position: absolute;
-    left: -4px;
-    right: -4px;
-    top: -4px;
-    bottom: -4px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background: url('/asset/images/custom/check.svg') 100%;
 }
 
@@ -219,8 +361,7 @@
 /* 진행 상황 확인 용 배지 */
 .stage-box {
     width: 390px;
-    margin: 0 auto;
-    margin-top: 40px;
+    margin: 40px auto;
     position: relative;
 }
 
@@ -256,6 +397,7 @@
 
 .stage-box .step-wrap .circle img {
     vertical-align: middle;
+    width: 80%;
 }
 
 .stage-box .step-wrap.selected .circle {
@@ -327,12 +469,17 @@
 }
 
 @media (max-width: 840px) {
+    .container-inner .container-wrap {
+        display: block;
+    }
+
     .container-wrap .content-box,
     .container-wrap .side-content-box {
         width: 100%;
         padding: 0 10px;
         margin-right: 0;
         box-sizing: border-box;
+        display: block;
     }
 
 }

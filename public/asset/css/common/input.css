@@ -39,7 +39,7 @@
 }
 
 .form-wrap .input-wrap.inline p,
-.form-wrap .input-wrap.inline input,
+.form-wrap .input-wrap.inline input:not([hidden]),
 .form-wrap .input-wrap.inline textarea,
 .form-wrap .input-wrap.inline select {
     vertical-align: top;
@@ -52,7 +52,7 @@
     margin-right: 15px;
 }
 
-.form-wrap .input-wrap.inline input:not([type=checkbox]):not([type=radio]),
+.form-wrap .input-wrap.inline input:not([hidden]):not([type=checkbox]):not([type=radio]),
 .form-wrap .input-wrap.inline textarea {
     width: 70%;
 }
