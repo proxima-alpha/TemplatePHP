@@ -9,12 +9,12 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
         <div class="text-wrap">
             <div class="button-wrap">
                 <ul class="cf">
-                    <li><a href="#"><?= lang('Service.artist_registration') ?></a></li>
-                    <li><a href="#"><?= lang('Service.label_registration') ?></a></li>
-                    <li><a href="#"><?= lang('Service.guide_qna') ?></a></li>
-                    <li><a href="#"><?= lang('Service.request_demo') ?></a></li>
-                    <li><a href="#"><?= lang('Service.agreement_service') ?></a></li>
-                    <li><a href="#"><?= lang('Service.agreement_personal') ?></a></li>
+                    <li><a href="#"><?= lang('Client.artist_registration') ?></a></li>
+                    <li><a href="#"><?= lang('Client.label_registration') ?></a></li>
+                    <li><a href="#"><?= lang('Client.guide_qna') ?></a></li>
+                    <li><a href="#"><?= lang('Client.request_demo') ?></a></li>
+                    <li><a href="#"><?= lang('Client.agreement_service') ?></a></li>
+                    <li><a href="#"><?= lang('Client.agreement_personal') ?></a></li>
                 </ul>
             </div>
             <div class="company-info">
@@ -23,7 +23,7 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
                     <?php foreach ($company_info as $key => $value) {
                         if ($key != 'name') { ?>
                             <li>
-                                <p class="title"><?= lang('Service.' . $key) ?></p>
+                                <p class="title"><?= lang('Client.' . $key) ?></p>
                                 <p class="value"><?= $value ?></p>
                             </li>
                         <?php }
@@ -40,7 +40,7 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
             </ul>
             <div class="terms">
                 <?php foreach ($terms as $index => $value) { ?>
-                    <p><?= $value ?><?= $index == sizeof($terms) - 1 ? '<a href="#">[' . lang('Service.show_information') . ']</a>' : '' ?></p>
+                    <p><?= $value ?><?= $index == sizeof($terms) - 1 ? '<a href="#">[' . lang('Client.show_information') . ']</a>' : '' ?></p>
                 <?php } ?>
             </div>
         </div>

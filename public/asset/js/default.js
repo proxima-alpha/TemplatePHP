@@ -108,9 +108,12 @@ function parseInputToData($inputs) {
             if (domElement.name) {
                 if (domElement.tagName == 'textarea') {
                     data[domElement.name] = domElement.value.toRawString();
-                }
-                if (domElement.type == 'checkbox') {
+                } else if (domElement.type == 'checkbox') {
                     data[domElement.name] = domElement.checked ? 1 : 0;
+                } else if (domElement.type == 'radio') {
+                    if(domElement.checked) {
+                        data[domElement.name] = domElement.value;
+                    }
                 } else {
                     data[domElement.name] = $input.val();
                 }

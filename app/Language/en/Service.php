@@ -71,6 +71,7 @@ return [
     "reservation_refuse_reason" => "Reasons for refusal",
     "reservation_use_default" => "Use default comment",
     "reservation_response" => "Response",
+    "expect_date" => "Requested Date",
     "expect_time" => "Requested Time",
     "confirm_date" => "Confirm Date",
     "confirm_time" => "Confirm Time",

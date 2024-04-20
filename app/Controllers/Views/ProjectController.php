@@ -2,10 +2,9 @@
 
 namespace Views;
 
-use App\Helpers\HtmlHelper;
-use App\Helpers\ServerLogger;
 use Exception;
 use Models\ArtistGroupModel;
+use Models\CodeRewardRequestModel;
 use Models\ProjectModel;
 use Models\RewardModel;
 
@@ -14,6 +13,7 @@ class ProjectController extends BaseClientController
     protected ProjectModel $projectModel;
     protected RewardModel $rewardModel;
     protected ArtistGroupModel $artistGroupModel;
+    protected CodeRewardRequestModel $codeRewardRequestModel;
 
     public function __construct()
     {
@@ -21,6 +21,7 @@ class ProjectController extends BaseClientController
         $this->projectModel = model('Models\ProjectModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->artistGroupModel = model('Models\ArtistGroupModel');
+        $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
     }
 
     /**
@@ -112,10 +113,12 @@ class ProjectController extends BaseClientController
         $reward = $rewards[0];
         $projects = $this->projectModel->get(['id' => $reward['project_id'], 'is_deleted' => 0]);
         if (sizeof($projects) != 1) throw new Exception('deleted');
+        $reward_requests = $this->codeRewardRequestModel->get(['is_deleted' => 0, 'is_active' => 1]);
         $project = $projects[0];
         return [
             'project' => $project,
             'reward' => $reward,
+            'reward_requests' => $reward_requests
         ];
     }
 }

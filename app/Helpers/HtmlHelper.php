@@ -85,7 +85,7 @@ final class HtmlHelper
         ];
     }
 
-    public static function setTranslations(array $translations = []): void
+    public static function setTranslations(array $translations = [], string $setKey = 'Service'): void
     {
         if (sizeof($translations) == 0) return;
         $result = '
@@ -95,7 +95,7 @@ final class HtmlHelper
             ...translations,
             ';
         foreach ($translations as $key) {
-            $result .= "'" . $key . "' : \"" . lang('Service.' . $key) . "\",\n";
+            $result .= "'" . $key . "' : \"" . lang($setKey . '.' . $key) . "\",\n";
         }
         $result .= '}
         </script>
@@ -103,19 +103,19 @@ final class HtmlHelper
         echo $result;
     }
 
-    public static function setTranslationsAdmin(array $translations = [])
+    public static function setTranslationsAdmin()
     {
         $defaultTranslations = HtmlHelper::getDefaultTranslationKeys();
-        return HtmlHelper::setTranslations(array_merge($defaultTranslations, $translations));
+        return HtmlHelper::setTranslations($defaultTranslations);
     }
 
-    public static function setTranslationsClient(array $translations = [])
+    public static function setTranslationsClient()
     {
         $defaultTranslations = array_merge(HtmlHelper::getDefaultTranslationKeys(), [
             // login
             'password', 'register', 'password_forget', 'login',
         ]);
-        return HtmlHelper::setTranslations(array_merge($defaultTranslations, $translations));
+        return HtmlHelper::setTranslations($defaultTranslations);
     }
 
     public static function toDateString($dateString)

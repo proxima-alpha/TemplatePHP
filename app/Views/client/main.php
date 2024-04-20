@@ -1,4 +1,4 @@
-<?= \App\Helpers\HtmlHelper::setTranslationsClient(['message_popup_page']) ?>
+<?= \App\Helpers\HtmlHelper::setTranslations(['message_popup_page']) ?>
 <div class="section " id="page-start">
     <div class="main-slider-wrap">
         <div class="slider-box">
@@ -76,10 +76,10 @@
 <div class="section" id="page-intro">
     <div class="page-inner">
         <h3 class="page-title">
-            <?= lang('Service.main_info_title') ?>
+            <?= lang('Client.main_info_title') ?>
         </h3>
         <h4 class="page-sub-title">
-            <?= lang('Service.main_info_sub_title') ?>
+            <?= lang('Client.main_info_sub_title') ?>
         </h4>
         <div class="content-box">
             <div class="content-wrap image">
@@ -88,23 +88,23 @@
             <div class="content-wrap list">
                 <ul>
                     <li class="wrap-fill">
-                        <p class="title"><?= lang('Service.main_info_title_01') ?></p>
+                        <p class="title"><?= lang('Client.main_info_title_01') ?></p>
                     </li>
                     <li class="wrap-line">
-                        <p class="title"><?= lang('Service.main_info_title_02') ?></p>
-                        <p class="content"><?= lang('Service.main_info_content_02') ?></p>
+                        <p class="title"><?= lang('Client.main_info_title_02') ?></p>
+                        <p class="content"><?= lang('Client.main_info_content_02') ?></p>
                     </li>
                     <li class="wrap-line">
-                        <p class="title"><?= lang('Service.main_info_title_03') ?></p>
-                        <p class="content"><?= lang('Service.main_info_content_03') ?></p>
+                        <p class="title"><?= lang('Client.main_info_title_03') ?></p>
+                        <p class="content"><?= lang('Client.main_info_content_03') ?></p>
                     </li>
                     <li class="wrap-fill">
-                        <p class="title"><?= lang('Service.main_info_title_04') ?></p>
-                        <p class="content"><?= lang('Service.main_info_content_04') ?></p>
+                        <p class="title"><?= lang('Client.main_info_title_04') ?></p>
+                        <p class="content"><?= lang('Client.main_info_content_04') ?></p>
                     </li>
                     <li class="wrap-line">
-                        <p class="title"><?= lang('Service.main_info_title_05') ?></p>
-                        <p class="content"><?= lang('Service.main_info_content_05') ?></p>
+                        <p class="title"><?= lang('Client.main_info_title_05') ?></p>
+                        <p class="content"><?= lang('Client.main_info_content_05') ?></p>
                     </li>
                 </ul>
             </div>

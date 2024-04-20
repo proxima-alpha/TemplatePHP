@@ -77,17 +77,17 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
             <ul class="gnb cf">
                 <li>
                     <a href="#" class="button gnb-menu">
-                        <?= lang('Service.menu_artist_list') ?>
+                        <?= lang('Client.menu_artist_list') ?>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="button gnb-menu">
-                        <?= lang('Service.menu_user_guide') ?>
+                        <?= lang('Client.menu_user_guide') ?>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="button gnb-menu">
-                        <?= lang('Service.menu_inquiry') ?>
+                        <?= lang('Client.menu_inquiry') ?>
                     </a>
                 </li>
             </ul>

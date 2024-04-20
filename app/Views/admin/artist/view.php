@@ -13,6 +13,10 @@
                     <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>" readonly/>
                 </div>
                 <div class="input-wrap">
+                    <p class="input-title"><?= lang('직업') ?></p>
+                    <input type="text" name="job" class="editable under-line" value="<?= $data['job'] ?>" readonly/>
+                </div>
+                <div class="input-wrap">
                     <p class="input-title"><?= lang('소개') ?></p>
                     <textarea name="introduction" onkeydown="resizeInputPopupTextarea(this)"
                               onkeyup="resizeInputPopupTextarea(this)" readonly><?= $data['introduction'] ?></textarea>
