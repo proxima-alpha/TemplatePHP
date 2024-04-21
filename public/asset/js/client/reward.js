@@ -1,12 +1,15 @@
 let purchaseItems = [];
 let purchaseItemsCount = 1;
 const rewardRequests = {};
+let rewardPrice = 0;
 
 let rewardPageIndex = 1;
 
 function getPurchaseItemHtml(index, item) {
     let html = `
         <form class="form-wrap">
+            <input class="editable" hidden type="number" name="price"
+                   value="${rewardPrice}"/>
             <div class="input-wrap">
                 <p class="input-title">${lang('reward_purchase_item_01')}</p>
                 <select class="editable" name="code_reward_request_id">`
@@ -89,7 +92,13 @@ function onCountChange(element, price) {
         if (i < purchaseItems.length) {
             html += getPurchaseItemHtml(i, purchaseItems[i]);
         } else {
-            html += getPurchaseItemHtml(i, {});
+            const user_name = getCookie('user_name')
+            const user_email = getCookie('user_email')
+            console.log(user_email)
+            html += getPurchaseItemHtml(i, {
+                inquirer_name: user_name,
+                inquirer_email: user_email,
+            });
         }
     }
     container.empty();
@@ -177,4 +186,26 @@ function refreshViews() {
     $stage.removeClass('selected')
     $stage.eq(rewardPageIndex - 1).addClass('selected')
     $('html').scrollTop(0);
+}
+
+function requestPayment() {
+    let data = parseInputToData($(`.payment-box .form-wrap .editable`))
+    data['purchase_items'] = purchaseItems.slice(0, purchaseItemsCount);
+
+    apiRequest({
+        type: 'POST',
+        url: `/api/purchase`,
+        data: data,
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+            // history.back();
+        },
+        error: function (response, status, error) {
+            openPopupErrors('popup-error', response, status, error);
+        },
+    });
 }

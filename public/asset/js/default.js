@@ -53,7 +53,7 @@ function secToString(sec) {
 
 function getCookie(cookie_name) {
     let x, y;
-    let val = document.cookie.split(';');
+    let val = decodeURIComponent(document.cookie).split(';');
     for (let i = 0; i < val.length; i++) {
         x = val[i].substring(0, val[i].indexOf('='));
         y = val[i].substring(val[i].indexOf('=') + 1);

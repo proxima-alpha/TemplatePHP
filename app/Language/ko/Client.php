@@ -12,14 +12,6 @@ return [
     "company_number" => "사업자등록번호",
     "certification_number" => "통신판매업신고번호",
     "manager_name" => "개인정보보호책임자",
-    //main-footer-buttons
-    "artist_registration" => "아티스트 가입하기",
-    "label_registration" => "소속사/레이블 신청",
-    "guide_qna" => "가이드와 자주 묻는 질문들",
-    "request_demo" => "데모 요청하기",
-    "agreement_service" => "서비스 이용약관",
-    "agreement_personal" => "개인정보 처리방침",
-    "show_information" => "안내 보기",
 
     "main_info_title" => "추억의 시작",
     "main_info_sub_title" => "내 팬에게 추억을 선물하세요!",
@@ -66,6 +58,27 @@ return [
     "reward_reaction" => "분류",
     "reward_request" => "요청 사항",
     "show_more" => "더보기",
+
+    // footer
+    "artist_registration" => "아티스트 가입하기",
+    "label_registration" => "소속사/레이블 신청",
+    "guide_qna" => "가이드와 자주 묻는 질문들",
+    "request_demo" => "데모 요청하기",
+    "agreement_service" => "서비스 이용약관",
+    "agreement_personal" => "개인정보 처리방침",
+    "show_information" => "안내 보기",
+
+    "company_info_name" => '(주)유닉코퍼레이션',
+    "company_info_ceo_name" => '손윤정',
+    "company_info_cs_center" => '010-5692-2500 (평일 10:00 ~ 19:00)',
+    "company_info_company_number" => '555-81-02851',
+    "company_info_certification_number" => '제2024-서울서초-0338호',
+    "company_info_address" => '서울 서초구 사임당로8길 13, 4층 402호 N91호',
+    "company_info_email" => 'contact@unyk.kr',
+    "company_info_manager_name" => '이새글',
+
+    "terms_01" => "(주)유닉코퍼레이션은 통신판매중개자로서 통신판매의 당사자가 아니며 상품, 상품정보, 거래에 관한 의무와 책임은 아티스트에게 있습니다.",
+    "terms_02" => "(주)유닉코퍼레이션 사이트의 상품/아티스트/중개 서비스/거래 정보, 콘텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는 저작권법, 콘텐츠산업 진흥법 등 관련법령에 의하여 엄격히 금지됩니다.",
 
 
     "message_error_field_empty" => "입력란을 모두 작성해 주세요."

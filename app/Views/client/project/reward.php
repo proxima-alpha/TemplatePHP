@@ -16,7 +16,9 @@
     'message_error_field_empty',
 ], 'Client');
 ?>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script type="text/javascript">
+    rewardPrice = <?=$reward['price']?>;
     <?php if (isset($reward_requests)) {
     foreach ($reward_requests as $index => $item) { ?>
     rewardRequests[`<?=$item['id']?>`] = {
@@ -87,7 +89,7 @@
                     <input type="number" name="count" class="editable" value="1"
                            onchange="onCountChange(this, <?= $reward['price'] ?>)"/>
                     <div class="total-price">
-                        <input type="number" name="price" value="<?= $reward['price'] ?>" readonly/>
+                        <input type="number" name="paid" value="<?= $reward['price'] ?>" readonly/>
                         <p>KRW</p>
                     </div>
                 </div>
@@ -98,6 +100,8 @@
                 </h4>
                 <div class="purchase-item-wrap">
                     <form class="form-wrap">
+                        <input class="editable" hidden type="number" name="price"
+                               value="<?= $reward['price'] ?>"/>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Client.reward_purchase_item_01') ?></p>
                             <select class="editable" name="code_reward_request_id" value="1">
@@ -120,9 +124,11 @@
                         <div class="input-wrap inquirer">
                             <p class="input-title"><?= lang('Client.reward_purchase_item_03') ?></p>
                             <input class="editable" type="text" name="inquirer_name"
-                                   placeholder="<?= lang('Client.reward_purchase_item_03_1') ?>"/>
+                                   placeholder="<?= lang('Client.reward_purchase_item_03_1') ?>"
+                                   value="<?= $user_name ?? '' ?>"/>
                             <input class="editable" type="email" name="inquirer_email"
-                                   placeholder="<?= lang('Client.reward_purchase_item_03_2') ?>"/>
+                                   placeholder="<?= lang('Client.reward_purchase_item_03_2') ?>"
+                                   value="<?= $user_email ?? '' ?>"/>
                         </div>
                         <div class="input-wrap comment">
                             <p class="input-title"><?= lang('Client.reward_purchase_item_04') ?></p>
@@ -185,16 +191,21 @@
                         </div>
                     </div>
                     <div class="button-wrap">
-                        <a class="button more button-line" href="javascript:openPurchaseItemWrap()"><?= lang('Client.show_more') ?></a>
+                        <a class="button more button-line"
+                           href="javascript:openPurchaseItemWrap()"><?= lang('Client.show_more') ?></a>
                     </div>
                 </div>
                 <div class="payment-box">
                     <div class="form-wrap">
+                        <input class="editable" hidden type="text" name="reward_id"
+                               value="<?= $reward['id'] ?>"/>
                         <h4 class="page-sub-title"><?= lang('주문자 정보') ?></h4>
                         <div class="input-wrap inquirer">
                             <p class="input-info"><?= lang('주문자 정보로 결제관련 정보가 제공됩니다. 정확한 정보로 입력되어 있는지 확인해 주세요.') ?></p>
-                            <input type="text" name="inquirer_name" placeholder="<?= lang('구매하는 사람의 이름') ?>"/>
-                            <input type="email" name="inquirer_email" placeholder="<?= lang('구매하는 사람의 이메일') ?>"/>
+                            <input class="editable" type="text" name="purchaser_name" placeholder="<?= lang('구매하는 사람의 이름') ?>"
+                                   value="<?= $user_name ?? '' ?>"/>
+                            <input class="editable" type="email" name="purchaser_email" placeholder="<?= lang('구매하는 사람의 이메일') ?>"
+                                   value="<?= $user_email ?? '' ?>"/>
                         </div>
                         <h4 class="page-sub-title"><?= lang('결제 수단 선택') ?></h4>
                         <div class="input-wrap">
@@ -205,7 +216,7 @@
                         </div>
                         <h4 class="page-sub-title"><?= lang('결제 예정 금액') ?></h4>
                         <div class="total-price">
-                            <input type="number" name="price" value="<?= $reward['price'] ?>" readonly/>
+                            <input class="editable" type="number" name="paid" value="<?= $reward['price'] ?>" readonly/>
                             <p>KRW</p>
                         </div>
                         <div class="terms">
@@ -218,7 +229,8 @@
                         </div>
                     </div>
                     <div class="button-wrap">
-                        <a class="button payment button-fill" href="#"><?= lang('결제하기') ?></a>
+                        <a class="button payment button-fill"
+                           href="javascript:requestPayment();"><?= lang('결제하기') ?></a>
                     </div>
                 </div>
             </div>

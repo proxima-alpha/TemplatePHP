@@ -89,18 +89,18 @@ class BaseClientController extends BaseViewController
         return array_merge(parent::getViewData(), [
             // todo translation
             'company_info' => [
-                'name' => '(주)유닉코퍼레이션',
-                'ceo_name' => '손윤정',
-                'cs_center' => '010-5692-2500 (평일 10:00 ~ 19:00)',
-                'company_number' => '555-81-02851',
-                'certification_number' => '제2024-서울서초-0338호',
-                'address' => '서울 서초구 사임당로8길 13, 4층 402호 N91호',
-                'email' => 'contact@unyk.kr',
-                'manager_name' => '이새글',
+                'name' => lang('Client.company_info_name'),
+                'ceo_name' => lang('Client.company_info_ceo_name'),
+                'cs_center' => lang('Client.company_info_cs_center'),
+                'company_number' =>lang('Client.company_info_company_number'),
+                'certification_number' => lang('Client.company_info_certification_number'),
+                'address' => lang('Client.company_info_address'),
+                'email' => lang('Client.company_info_email'),
+                'manager_name' => lang('Client.company_info_manager_name'),
             ],
             'terms' => [
-                '(주)유닉코퍼레이션은 통신판매중개자로서 통신판매의 당사자가 아니며 상품, 상품정보, 거래에 관한 의무와 책임은 아티스트에게 있습니다.',
-                '(주)유닉코퍼레이션 사이트의 상품/아티스트/중개 서비스/거래 정보, 콘텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는 저작권법, 콘텐츠산업 진흥법 등 관련법령에 의하여 엄격히 금지됩니다.'
+                lang('Client.terms_01'),
+                lang('Client.terms_02'),
             ],
             'settings' => $settings,
             'is_admin_page' => false,

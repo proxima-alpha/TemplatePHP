@@ -33,14 +33,12 @@
         <div class="control-button-wrap">
             <a href="/registration"
                class="button under-line register">
-                <img src="/asset/images/icon/plus_circle.png"/>
                 <span><?= lang('Service.register') ?></span>
             </a>
         </div>
         <div class="control-button-wrap">
             <a href="/reset-password"
                class="button under-line forgot-password">
-                <img src="/asset/images/icon/password.png"/>
                 <span><?= lang('Service.password_forget') ?></span>
             </a>
         </div>

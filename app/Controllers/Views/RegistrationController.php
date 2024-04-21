@@ -34,7 +34,7 @@ class RegistrationController extends BaseClientController
                     '/client/form',
                 ],
                 'js' => [
-                    '/common/registration',
+                    '/client/registration',
                 ],
             ])
             . view('/client/registration', $data)

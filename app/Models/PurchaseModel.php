@@ -8,7 +8,7 @@ class PurchaseModel extends BaseModel
     protected $allowedFields = [
         'id',
         'user_id',
-        'reword_id',
+        'reward_id',
         'status',
         'paid',
         'refunded',

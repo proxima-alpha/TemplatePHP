@@ -39,3 +39,17 @@
     font-weight: 400;
     background: #FF7A00;
 }
+
+.form-wrap .input-title {
+    color: #fff;
+}
+
+.form-wrap .input-wrap input:not([hidden]):not([type=checkbox]):not([type=radio]),
+.form-wrap .input-wrap textarea,
+.form-wrap .input-wrap select {
+    background: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    line-height: 35px;
+}

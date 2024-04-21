@@ -368,6 +368,7 @@ class UserController extends BaseApiController
                 }
                 $this->session->set([
                     'username' => $user['username'],
+                    'user_email' => $user['email'],
                     'user_name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
                     'user_id' => $user['id'],
                     'user_type' => $user['type'],
@@ -394,6 +395,7 @@ class UserController extends BaseApiController
         ];
         $this->session->set([
             'username' => null,
+            'user_email' => null,
             'user_name' => null,
             'user_id' => null,
             'user_type' => null,

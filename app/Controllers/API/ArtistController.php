@@ -123,31 +123,32 @@ class ArtistController extends CustomFileController
                 }
                 $inserted_row_id = $this->artistModel->insert($data);
                 if (!$inserted_row_id) {
-                    $this->db->transRollback();
                     $response['messages'] = $this->artistModel->errors();
-                } else {
-                    // image priority
-                    $queries = [];
-                    if(isset($data['previews'])) {
-                        foreach ($data['previews'] as $index => $file_id) {
-                            $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
-                        }
-                    }
-                    if(isset($data['profile_id'])) {
-                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['profile_id'], $data['identifier'], 1);
-                    }
-                    BaseModel::transaction($this->db, $queries);
-
-                    // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
-                    $conditionQuery = "identifier = '" . $data['identifier'] . "'";
-                    $this->handleFileDelete($conditionQuery);
-                    $this->db->transCommit();
-                    $response['success'] = true;
+                    throw new \Exception();
                 }
+                // image priority
+                $queries = [];
+                if (isset($data['previews'])) {
+                    foreach ($data['previews'] as $index => $file_id) {
+                        $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
+                    }
+                }
+                if (isset($data['profile_id'])) {
+                    $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['profile_id'], $data['identifier'], 1);
+                }
+                BaseModel::transaction($this->db, $queries);
+
+                // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
+                $conditionQuery = "identifier = '" . $data['identifier'] . "'";
+                $this->handleFileDelete($conditionQuery);
+                $this->db->transCommit();
+                $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();
-                $response['message'] = $e->getMessage();
+                if (!isset($response['message'])) {
+                    $response['message'] = $e->getMessage();
+                }
             }
         }
 

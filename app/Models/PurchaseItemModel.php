@@ -8,7 +8,7 @@ class PurchaseItemModel extends BaseModel
     protected $allowedFields = [
         'id',
         'purchase_id',
-        'code_reaction_id',
+        'code_reward_request_id',
         'status',
         'price',
         'inquirer_name',

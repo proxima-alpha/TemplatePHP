@@ -80,27 +80,28 @@ class TopicController extends CustomFileController
                 if (isset($data['id'])) unset($data['id']);
                 $inserted_row_id = $this->topicModel->insert($data);
                 if (!$inserted_row_id) {
-                    $this->db->transRollback();
                     $response['messages'] = $this->topicModel->errors();
-                } else {
-                    // image priority
-                    $queries = [];
-                    foreach ($data['files'] as $index => $file_id) {
-                        // 이미지에 topic_id 할당하면서 priority 를 설정 해 준다
-                        $queries[] = QueryHelper::getFileAllocation('topic_id', $inserted_row_id, $file_id, $data['identifier'], $index);
-                    }
-                    BaseModel::transaction($this->db, $queries);
-
-                    // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
-                    $conditionQuery = "identifier = '" . $data['identifier'] . "'";
-                    $this->handleFileDelete($conditionQuery);
-                    $this->db->transCommit();
-                    $response['success'] = true;
+                    throw new \Exception();
                 }
+                // image priority
+                $queries = [];
+                foreach ($data['files'] as $index => $file_id) {
+                    // 이미지에 topic_id 할당하면서 priority 를 설정 해 준다
+                    $queries[] = QueryHelper::getFileAllocation('topic_id', $inserted_row_id, $file_id, $data['identifier'], $index);
+                }
+                BaseModel::transaction($this->db, $queries);
+
+                // create 일 때는 추가되었으나 사용하지 않는 파일에 대해서만 고려하면 된다
+                $conditionQuery = "identifier = '" . $data['identifier'] . "'";
+                $this->handleFileDelete($conditionQuery);
+                $this->db->transCommit();
+                $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();
-                $response['message'] = $e->getMessage();
+                if (!isset($response['message'])) {
+                    $response['message'] = $e->getMessage();
+                }
             }
         }
 

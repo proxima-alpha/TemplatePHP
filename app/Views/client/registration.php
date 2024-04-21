@@ -32,7 +32,7 @@
                     </div>
                     <div class="button-wrap controls disappear-at-next-step" style="margin-top: 40px">
                         <a href="javascript:sendVerificationCode()"
-                           class="button confirm black">
+                           class="button confirm button-fill">
                             <?= lang('Service.verification_verify_email') ?>
                         </a>
                     </div>

@@ -89,15 +89,19 @@ class BaseViewController extends BaseController
     {
         // js 에서도 사용자의 기본 상태를 알기 위해 cookie 에도 매번 refresh
         $this->setCookie('is_login', $this->session->is_login);
+        $this->setCookie('user_email', $this->session->user_email);
         $this->setCookie('user_id', $this->session->user_id);
         $this->setCookie('user_type', $this->session->user_type);
+        $this->setCookie('user_name', $this->session->user_name);
         $this->setCookie('is_admin', $this->session->is_admin);
         $this->setCookie('lang', $this->session->lang);
         return [
             'is_login' => $this->session->is_login,
+            'user_email' => $this->session->user_email,
             'user_id' => $this->session->user_id,
             'user_type' => $this->session->user_type,
             'is_admin' => $this->session->is_admin,
+            'user_name' => $this->session->user_name,
             'lang' => $this->session->lang,
         ];
     }

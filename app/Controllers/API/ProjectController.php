@@ -129,34 +129,39 @@ class ProjectController extends CustomFileController
 
                 $this->db->transBegin();
                 $inserted_row_id = $this->projectModel->insert($data);
-
                 if (!$inserted_row_id) {
-                    $this->db->transRollback();
                     $response['messages'] = $this->projectModel->errors();
-                } else {
-                    foreach ($data['rewards'] as $reward) {
-                        $reward['project_id'] = $inserted_row_id;
-                        if (isset($reward['id'])) {
-                            $this->rewardModel->update($reward['id'], $reward);
-                        } else {
-                            $this->rewardModel->insert($reward);
-                        }
-                    }
-                    $queries = [];
-                    $queries[] = QueryHelper::getGroupCreate($data['artists'], $inserted_row_id);
-                    if (isset($data['project_image_id'])) {
-                        $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
-                    }
-                    BaseModel::transaction($this->db, $queries);
-                    $this->db->transCommit();
-                    $conditionQuery = "identifier = '" . $data['identifier'] . "'";
-                    $this->handleFileDelete($conditionQuery);
-                    $response['success'] = true;
+                    throw new \Exception();
                 }
+                foreach ($data['rewards'] as $reward) {
+                    $reward['project_id'] = $inserted_row_id;
+                    $inserted_id = false;
+                    if (isset($reward['id'])) {
+                        $inserted_id = $this->rewardModel->update($reward['id'], $reward);
+                    } else {
+                        $inserted_id = $this->rewardModel->insert($reward);
+                    }
+                    if (!$inserted_id) {
+                        $response['messages'] = $this->rewardModel->errors();
+                        throw new \Exception();
+                    }
+                }
+                $queries = [];
+                $queries[] = QueryHelper::getGroupCreate($data['artists'], $inserted_row_id);
+                if (isset($data['project_image_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
+                }
+                BaseModel::transaction($this->db, $queries);
+                $this->db->transCommit();
+                $conditionQuery = "identifier = '" . $data['identifier'] . "'";
+                $this->handleFileDelete($conditionQuery);
+                $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();
-                $response['message'] = $e->getMessage();
+                if (!isset($response['message'])) {
+                    $response['message'] = $e->getMessage();
+                }
             }
         }
 
@@ -193,7 +198,11 @@ class ProjectController extends CustomFileController
         } else {
             try {
                 $this->db->transBegin();
-                $this->projectModel->update($id, $data);
+                $inserted_id = $this->projectModel->update($id, $data);
+                if (!$inserted_id) {
+                    $response['messages'] = $this->projectModel->errors();
+                    throw new \Exception();
+                }
                 $queries = [];
                 // reward 제거
                 $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
@@ -218,10 +227,15 @@ class ProjectController extends CustomFileController
                 foreach ($data['rewards'] as $index => $newReward) {
                     $newReward['project_id'] = $id;
                     $newReward['priority'] = $index + 1;
+                    $inserted_id = false;
                     if (isset($newReward['id'])) {
-                        $this->rewardModel->update($newReward['id'], $newReward);
+                        $inserted_id = $this->rewardModel->update($newReward['id'], $newReward);
                     } else {
-                        $this->rewardModel->insert($newReward);
+                        $inserted_id = $this->rewardModel->insert($newReward);
+                    }
+                    if (!$inserted_id) {
+                        $response['messages'] = $this->rewardModel->errors();
+                        throw new \Exception();
                     }
                 }
 
@@ -244,7 +258,9 @@ class ProjectController extends CustomFileController
                 //todo(log)
 //                ServerLogger::log($e);
                 $this->db->transRollback();
-                $response['message'] = $e->getMessage();
+                if (!isset($response['message'])) {
+                    $response['message'] = $e->getMessage();
+                }
             }
         }
 

@@ -211,6 +211,5 @@ class BaseApiController extends BaseController
                 exit;
             }
         }
-
     }
 }

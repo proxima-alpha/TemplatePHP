@@ -162,6 +162,8 @@ $routes->post('/api/project/update/'.$ID_RULE, [\API\ProjectController::class, '
 $routes->delete('/api/project/delete/'.$ID_RULE, [\API\ProjectController::class, 'delete']);
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 
+$routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
+
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
