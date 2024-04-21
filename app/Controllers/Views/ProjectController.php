@@ -2,6 +2,7 @@
 
 namespace Views;
 
+use App\Helpers\Utils;
 use Exception;
 use Models\ArtistGroupModel;
 use Models\CodeRewardRequestModel;
@@ -90,6 +91,7 @@ class ProjectController extends BaseClientController
      */
     public function getReward($reward_id): string
     {
+        $this->checkLogout();
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getRewardData($reward_id));
@@ -111,6 +113,20 @@ class ProjectController extends BaseClientController
             . parent::loadFooter();
     }
 
+    public function getComplete(): string
+    {
+        $this->checkLogout();
+        $data = $this->getViewData();
+        return parent::loadHeader([
+                'css' => [
+                    '/client/project/complete'
+                ],
+                'js' => [],
+            ])
+            . view('/client/project/complete', $data)
+            . parent::loadFooter();
+    }
+
     /**
      * project 조회시 필요한 데이터 불러오는 기능
      * @throws Exception
@@ -123,6 +139,15 @@ class ProjectController extends BaseClientController
         $project = $projects[0];
         $artists = $this->artistGroupModel->getArtists($id);
         $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+        foreach ($rewards as $index => $reward) {
+            if (isset($this->session->user_id)) {
+                $rewards[$index]['paid_count'] = $this->rewardModel->getPaidCount($reward['id'], $this->session->user_id);
+            } else {
+                $rewards[$index]['paid_count'] = 0;
+            }
+            $rewards[$index]['available_count'] = Utils::calculateAvailableReward($rewards[$index]);
+        }
+
         $project['artists'] = $artists;
         $project['rewards'] = $rewards;
         $result['data'] = $project;
@@ -135,9 +160,17 @@ class ProjectController extends BaseClientController
      */
     private function getRewardData($id): array
     {
+        $imp_shop_id = $this->settingModel->getInitialValue(['code' => 'imp-shop-id'], 'value');
         $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
         if (sizeof($rewards) != 1) throw new Exception('deleted');
         $reward = $rewards[0];
+        if (isset($this->session->user_id)) {
+            $reward['paid_count'] = $this->rewardModel->getPaidCount($reward['id'], $this->session->user_id);
+        } else {
+            $reward['paid_count'] = 0;
+        }
+        $reward['available_count'] = Utils::calculateAvailableReward($reward);
+
         $projects = $this->projectModel->get(['id' => $reward['project_id'], 'is_deleted' => 0]);
         if (sizeof($projects) != 1) throw new Exception('deleted');
         $reward_requests = $this->codeRewardRequestModel->get(['is_deleted' => 0, 'is_active' => 1]);
@@ -145,7 +178,8 @@ class ProjectController extends BaseClientController
         return [
             'project' => $project,
             'reward' => $reward,
-            'reward_requests' => $reward_requests
+            'reward_requests' => $reward_requests,
+            'imp_shop_id' => $imp_shop_id
         ];
     }
 }

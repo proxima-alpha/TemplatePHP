@@ -69,4 +69,20 @@ class Utils
 //        $decrypted = utf8_decode($decrypted);
         return \Config\Services::encrypter()->decrypt($decrypted);
     }
+
+    static function calculateAvailableReward($item)
+    {
+        $availableCount = $item['total_count'] - $item['purchased_count'];
+        if ($availableCount < 0) {
+            $availableCount = 0;
+        }
+        if ($availableCount > $item['limited_count']) {
+            $availableCount = $item['limited_count'];
+        }
+        $availableCount -= $item['paid_count'];
+        if ($availableCount < 0) {
+            $availableCount = 0;
+        }
+        return $availableCount;
+    }
 }

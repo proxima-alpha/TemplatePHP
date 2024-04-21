@@ -1,7 +1,9 @@
 let purchaseItems = [];
 let purchaseItemsCount = 1;
 const rewardRequests = {};
+let availableCount = 0;
 let rewardPrice = 0;
+let rewardName = '';
 
 let rewardPageIndex = 1;
 
@@ -78,6 +80,10 @@ function onCountChange(element, price) {
     const count = $(element).val()
     if (count < 1) {
         $(element).val(1);
+        return;
+    }
+    if (count > availableCount) {
+        $(element).val(availableCount);
         return;
     }
     purchaseItemsCount = count;
@@ -191,7 +197,6 @@ function refreshViews() {
 function requestPayment() {
     let data = parseInputToData($(`.payment-box .form-wrap .editable`))
     data['purchase_items'] = purchaseItems.slice(0, purchaseItemsCount);
-
     apiRequest({
         type: 'POST',
         url: `/api/purchase`,
@@ -202,7 +207,50 @@ function requestPayment() {
                 openPopupErrors('popup-error', response, status, request);
                 return;
             }
+            const purchase_id = response.data['id'];
+            const payRequestData = {
+                pg: data['pg'],
+                pay_method: "card",
+                merchant_uid: `${data['reward_id'].padStart(16, "0")}-${response.data['id'].padStart(20, "0")}`, // 주문번호
+                name: rewardName,
+                amount: data['paid'], // 숫자 타입
+                buyer_email: data['purchaser_email'],
+                buyer_name: data['purchaser_name'],
+            };
+            IMP.request_pay(payRequestData,
+                (rsp) => {
+                    if (rsp.success) {
+                        completePayment(purchase_id, rsp.imp_uid, rsp.merchant_uid)
+                    } else {
+                        alert(rsp.error_msg);
+                    }
+                    // callback
+                    //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+                },
+            );
             // history.back();
+        },
+        error: function (response, status, error) {
+            openPopupErrors('popup-error', response, status, error);
+        },
+    });
+}
+
+function completePayment(id, imp_uid, merchant_uid) {
+    apiRequest({
+        type: 'POST',
+        url: `/api/purchase/${id}/complete`,
+        data: {
+            imp_uid: imp_uid,
+            merchant_uid: merchant_uid,
+        },
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+            window.location.href = '/project/purchase/complete';
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);

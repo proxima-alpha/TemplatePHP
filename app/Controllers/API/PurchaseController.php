@@ -2,8 +2,10 @@
 
 namespace API;
 
+use App\Helpers\IMPHelper;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\BaseModel;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
 use Models\PurchaseModel;
@@ -53,8 +55,8 @@ class PurchaseController extends BaseApiController
                 'label' => 'Purchase Item',
                 'rules' => 'required',
             ],
-            'payment_method' => [
-                'label' => 'Payment Method',
+            'pg' => [
+                'label' => 'PG',
                 'rules' => 'required',
             ],
         ];
@@ -76,6 +78,11 @@ class PurchaseController extends BaseApiController
                     if ($nowTimeRaw > $endTimeRaw)
                         throw new Exception('This project is expired.');
                 }
+                $paid_count = $this->rewardModel->getPaidCount($data['reward_id'], $this->session->user_id);
+                if (sizeof($data['purchase_items']) + $paid_count > $reward['limited_count'] ||
+                    sizeof($data['purchase_items']) + $reward['purchased_count'] > $reward['total_count']) {
+                    throw new Exception('Items to buy are exceeded.');
+                }
 
                 if (isset($data['id'])) unset($data['id']);
 
@@ -94,10 +101,67 @@ class PurchaseController extends BaseApiController
                         throw new \Exception();
                     }
                 }
-//                    $queries = [];
-//                    $queries[] = "UPDATE reward SET purchased_count = purchased_count + ".sizeof($data['purchase_items'])." WHERE id = '" . $data['reward_id'] . "';";
-//
-//                    BaseModel::transaction($this->db, $queries);
+                $this->db->transCommit();
+                $purchase = $this->purchaseModel->getLatest(['id' => $inserted_row_id]);
+                $response['success'] = true;
+                $response['data'] = $purchase;
+            } catch (Exception $e) {
+                //todo(log)
+                $this->db->transRollback();
+                if (!isset($response['message'])) {
+                    $response['message'] = $e->getMessage();
+                }
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [post] /api/purchase/{id}/complete
+     * @return ResponseInterface
+     */
+    public function complete($id): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $validationRules = [
+            'imp_uid' => [
+                'label' => 'imp_uid',
+                'rules' => 'required',
+            ],
+            'merchant_uid' => [
+                'label' => 'merchant_uid',
+                'rules' => 'required',
+            ],
+        ];
+
+        $response = [
+            'success' => false,
+        ];
+
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                $paidData = IMPHelper::getPaymentData($data['imp_uid']);
+                if (!isset($paidData['success']) || !$paidData['success']) {
+                    throw new Exception('IMP::' . ($paidData['message'] ?? 'Payment failed'));
+                }
+                $items = $this->purchaseItemModel->get(['purchase_id' => $id]);
+                $purchase = $this->purchaseModel->getLatest(['id' => $id]);
+                $this->db->transBegin();
+                $inserted_id = $this->purchaseModel->update($id, [
+                    'imp_uid' => $data['imp_uid'],
+                    'merchant_uid' => $data['merchant_uid'],
+                    'status' => 'paid',
+                ]);
+                if (!$inserted_id) {
+                    $response['messages'] = $this->purchaseItemModel->errors();
+                    throw new \Exception();
+                }
+                $queries = [];
+                $queries[] = "UPDATE reward SET purchased_count = purchased_count + " . sizeof($items) . " WHERE id = '" . $purchase['reward_id'] . "';";
+                BaseModel::transaction($this->db, $queries);
                 $this->db->transCommit();
                 $response['success'] = true;
             } catch (Exception $e) {

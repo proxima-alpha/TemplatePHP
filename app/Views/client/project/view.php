@@ -75,12 +75,14 @@ if (isset($data['artists'])) { ?>
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
                             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
-                            <p class="total-count"><?= $reward['total_count'] ?><?= lang('개 한정') ?></p>
+                            <p class="remaining-count"><?= sprintf(lang("현재 재고 %s"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
+                            <p class="limited-count"><?= sprintf(lang("%s 개 한정"), $reward['limited_count']) ?></p>
+                            <p class="available-count"><?= sprintf(lang("%s 개 구매가능"), $reward['available_count']) ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                             <div class="button-wrap">
                                 <a class="button button-fill"
-                                   href="/project/reward/<?= $reward['id'] ?>"><?= lang('결제하기') ?></a>
+                                   href="javascript:purchaseReward(<?= $reward['id'] ?>, <?= $reward['available_count'] ?>);"><?= lang('결제하기') ?></a>
                             </div>
                         </div>
                     <?php } ?>

@@ -51,6 +51,22 @@ class BaseClientController extends BaseViewController
     }
 
     /**
+     * logout 상태일 때 페이지에 대한 접근 체크 기능
+     * @return void
+     */
+    protected function checkLogout(): void
+    {
+        if (!$this->session->is_login) {
+            $response = Services::response();
+            $response->setBody(view('/redirect', [
+                'path' => '/',
+            ]));
+            $response->sendBody();
+            exit;
+        }
+    }
+
+    /**
      * 공통 header 부분 출력 기능
      * @param array $data
      * @param array $initData

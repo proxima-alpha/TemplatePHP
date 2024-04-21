@@ -30,6 +30,21 @@ class SettingModel extends BaseModel
 
     public function initialize(): void
     {
+        $this->createIfNotExist(['code' => 'imp-shop-id'], [
+            "code" => "imp-shop-id",
+            "type" => "text",
+            "name" => "고객사 식별코드",
+        ]);
+        $this->createIfNotExist(['code' => 'imp-api-key'], [
+            "code" => "imp-api-key",
+            "type" => "text",
+            "name" => "REST API KEY",
+        ]);
+        $this->createIfNotExist(['code' => 'imp-api-secret'], [
+            "code" => "imp-api-secret",
+            "type" => "text",
+            "name" => "REST API Secret",
+        ]);
         $this->createIfNotExist(['code' => 'gmail-password-key'], [
             "code" => "gmail-password-key",
             "type" => "text",

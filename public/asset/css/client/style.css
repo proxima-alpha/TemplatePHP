@@ -16,6 +16,7 @@
 
 .container-inner {
     width: 1120px;
+    min-height: 800px;
 }
 
 .container-inner .container-wrap {
@@ -458,7 +459,6 @@ input[type=checkbox] {
 
     .container-inner {
         width: 100%;
-        min-height: 800px;
         padding-top: 60px;
     }
 

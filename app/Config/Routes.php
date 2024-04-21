@@ -50,7 +50,8 @@ $routes->get('/board/'.$CODE_RULE.'/topic/create', [\Views\BoardController::clas
 $routes->get('/topic/'.$ID_RULE, [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/'.$ID_RULE.'/edit', [\Views\BoardController::class, 'editTopic']);
 $routes->get('/project/'.$ID_RULE.'/view', [\Views\ProjectController::class, 'get']);
-$routes->get('/project/reward/'.$ID_RULE, [\Views\ProjectController::class, 'getReward']);
+$routes->get('/project/purchase/reward/'.$ID_RULE, [\Views\ProjectController::class, 'getReward']);
+$routes->get('/project/purchase/complete', [\Views\ProjectController::class, 'getComplete']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/artist');
@@ -163,6 +164,7 @@ $routes->delete('/api/project/delete/'.$ID_RULE, [\API\ProjectController::class,
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
+$routes->post('/api/purchase/'.$ID_RULE.'/complete', [\API\PurchaseController::class, 'complete']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 

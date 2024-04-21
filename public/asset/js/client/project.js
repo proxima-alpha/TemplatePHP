@@ -40,7 +40,7 @@ function setArtist(id) {
                     let file_id = preview['id'];
                     let type = preview['type'];
                     let file_url = preview['relative_path'];
-                    if(type == 'image') {
+                    if (type == 'image') {
                         html += `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
@@ -77,5 +77,16 @@ function setArtist(id) {
             openPopupErrors('popup-error', response, status, error);
         },
     });
+}
 
+function purchaseReward(id, available_count) {
+    console.log(getCookie('is_login'))
+    if (getCookie('is_login') != 1) {
+        openPopupMessage(lang('로그인이 필요한 서비스 입니다.'))
+        return
+    }
+    if(available_count <= 0) {
+        return openPopupMessage(lang('구매 가능한 수량을 초과하였습니다.'))
+    }
+    window.location.href = `/project/purchase/reward/${id}`;
 }

@@ -1,0 +1,45 @@
+#image {
+    height: 350px;
+    line-height: 350px;
+}
+
+#image .text-wrap p {
+    font-size: 50px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -2px;
+}
+
+.container-inner .message {
+    font-size: 30px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.container-inner .button-wrap {
+    margin-top: 40px;
+}
+
+.container-inner .button.button-fill {
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+
+@media (max-width: 840px) {
+    #image .overlap-text-box .text-wrap {
+        max-width: calc(100% - 40px);
+    }
+
+    .container-wrap .content-box,
+    .container-wrap .side-content-box {
+        width: 100%;
+        padding: 0 10px;
+        margin-right: 0;
+        box-sizing: border-box;
+    }
+
+}

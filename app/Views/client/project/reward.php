@@ -18,7 +18,10 @@
 ?>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script type="text/javascript">
+    IMP.init(`<?=$imp_shop_id?>`);
     rewardPrice = <?=$reward['price']?>;
+    rewardName = `<?=$reward['title']?>`;
+    availableCount = <?=$reward['available_count']?>;
     <?php if (isset($reward_requests)) {
     foreach ($reward_requests as $index => $item) { ?>
     rewardRequests[`<?=$item['id']?>`] = {
@@ -75,7 +78,9 @@
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
                             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
-                            <p class="total-count"><?= $reward['total_count'] ?><?= lang('개 한정') ?></p>
+                            <p class="remaining-count"><?= sprintf(lang("현재 재고 %s"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
+                            <p class="limited-count"><?= sprintf(lang("%s 개 한정"), $reward['limited_count']) ?></p>
+                            <p class="available-count"><?= sprintf(lang("%s 개 구매가능"), $reward['available_count']) ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                         </div>
@@ -84,7 +89,7 @@
                 <div class="select-payment-box">
                     <div class="limited-count-wrap">
                         <span class="title"><?= lang('구매가능한 수량') ?> </span>
-                        <span class="content"><?= $reward['limited_count'] ?></span>
+                        <span class="content"><?= $reward['available_count'] ?></span>
                     </div>
                     <input type="number" name="count" class="editable" value="1"
                            onchange="onCountChange(this, <?= $reward['price'] ?>)"/>
@@ -209,9 +214,9 @@
                         </div>
                         <h4 class="page-sub-title"><?= lang('결제 수단 선택') ?></h4>
                         <div class="input-wrap">
-                            <p class="input-info"><?= lang('결제 도중 결제창을 닫거나 브라우저를 종료하는 경우, 결제가 정상적으로 완료되지 않을 수 있습니다. 해외 발급 카드로 결제시에는 언어 설정을 외국어로 변경하여 결제를 진행해 주세요.') ?></p>
-                            <select class="editable" name="payment_method" value="1">`
-                                <option value="1"><?= lang('나이스페이') ?></option>
+                            <p class="input-info"><?= lang('결제 도중 결제창을 닫거나 브라우저를 종료하는 경우, 결제가 정상적으로 완료되지 않을 수 있습니다.<br/>해외 발급 카드로 결제시에는 언어 설정을 외국어로 변경하여 결제를 진행해 주세요.') ?></p>
+                            <select class="editable" name="pg">`
+                                <option value="nice" selected><?= lang('원화 결제 (나이스페이)') ?></option>
                             </select>
                         </div>
                         <h4 class="page-sub-title"><?= lang('결제 예정 금액') ?></h4>
