@@ -111,7 +111,7 @@ function parseInputToData($inputs) {
                 } else if (domElement.type == 'checkbox') {
                     data[domElement.name] = domElement.checked ? 1 : 0;
                 } else if (domElement.type == 'radio') {
-                    if(domElement.checked) {
+                    if (domElement.checked) {
                         data[domElement.name] = domElement.value;
                     }
                 } else {
@@ -184,12 +184,12 @@ async function apiRequest(input) {
 jQuery.prototype.setVideoCoverStyle = function () {
     let $videos = this.find(`video`)
     if ($videos.length == 0) return;
-    for(let i= 0; i< $videos.length; ++i ) {
+    for (let i = 0; i < $videos.length; ++i) {
         const $video = $videos.eq(i);
         let $parent = $video.parent();
         $parent.css({
             'position': 'relative',
-            'overflow' : 'hidden',
+            'overflow': 'hidden',
         })
         $video.css({
             'position': 'absolute',

@@ -1,13 +1,14 @@
 $(document).ready(function () {
     let $slick = $('.slider-wrap .slick');
-    $slick.setOnResolutionChanged((event) => {
+    $slick.setVideoCoverStyle();
+    $('body').setOnResolutionChanged((event) => {
+        const $slick = $('.slider-wrap .slick');
         $slick.setCustomSlick(event.detail.isMobile, {
             infinite: false,
             autoplay: false,
             draggable: false,
         });
     })
-    $slick.setVideoCoverStyle();
 });
 
 function getAcceptFromTarget(target) {
@@ -281,10 +282,12 @@ function setEditing($parent, target) {
                 let extra = files.getExtra(target)[i];
                 html += `
                     <div class="slick-item draggable-item upload-item" draggable="true">
-                            <div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            <p class="item-title">${extra['title']}</p>
-                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                            <p class="item-content">${extra['content']}</p>
+                            <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                            <div class="text-item-wrap">
+                                <p class="item-title">${extra['title']}</p>
+                                <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                                <p class="item-content">${extra['content']}</p>
+                            </div>
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
@@ -328,9 +331,11 @@ function setEditing($parent, target) {
                     let extra = files.getExtra(target)[i];
                     html += `
                     <div class="slick-item draggable-item upload-item" draggable="true">
-                            <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            <p class="item-title">${extra['name']}</p>
-                            <p class="item-content">${extra['job']}</p>
+                            <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                            <div class="text-item-wrap">
+                                <p class="item-title">${extra['name']}</p>
+                                <p class="item-content">${extra['job']}</p>
+                            </div>
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
@@ -433,9 +438,9 @@ function setView($parent, target) {
     let $container = $parent.find(`.content-wrap`);
     let style = '';
     if (target == 'project') {
-        style = ` style="height : 390px; line-height: 388px" `
+        style = ` style="height : 398px; line-height: 396px" `
     } else if (target != 'main' && target != 'relation') {
-        style = ` style="height : 370px; line-height: 368px" `
+        style = ` style="height : 372px; line-height: 370px" `
     }
     if (files.get(target).length == 0) {
         $container.append(`
@@ -505,10 +510,12 @@ function setView($parent, target) {
                     let extra = files.getExtra(target)[i];
                     html += `
                         <div class="slick-item">
-                            <div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            <p class="item-title">${extra['title']}</p>
-                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                            <p class="item-content">${extra['content']}</p>
+                            <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                            <div class="text-item-wrap">
+                                <p class="item-title">${extra['title']}</p>
+                                <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                                <p class="item-content">${extra['content']}</p>
+                            </div>
                         </div>`;
                 }
                 html += `
@@ -540,9 +547,13 @@ function setView($parent, target) {
                         let extra = files.getExtra(target)[i];
                         html += `
                         <div class="slick-item">
-                            <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            <p class="item-title">${extra['name']}</p>
-                            <p class="item-content">${extra['job']}</p>
+                            <div class="image-item-wrap">
+                                <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
+                            </div>
+                            <div class="text-item-wrap">
+                                <p class="item-title">${extra['name']}</p>
+                                <p class="item-content">${extra['job']}</p>
+                            </div>
                         </div>`;
                     }
                     html += `
@@ -646,12 +657,20 @@ function confirmProjectSearch(className, target) {
 
                 if ($uploader.attr('class').includes('slick')) {
                     let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index,
-                        `<div class="slick-item">
-                    <div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                    <p class="item-title">${data['title']}</p>
-                    <p class="item-date">${toDateString(data['start_date'])} ~ ${toDateString(data['end_date'])}</p>
-                    <p class="item-content">${data['content']}</p>
+                    $uploader.addCustomSlickItem(index,`
+                <div class="slick-item draggable-item upload-item" draggable="true">
+                    <div class="image-item-wrap"><div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                    <div class="text-item-wrap">
+                        <p class="item-title">${data['title']}</p>
+                        <p class="item-date">${toDateString(data['start_date'])} ~ ${toDateString(data['end_date'])}</p>
+                        <p class="item-content">${data['content']}</p>
+                    </div>
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
+                    </div>
                 </div>`);
 
                     $uploader.initDraggable({
@@ -696,11 +715,19 @@ function confirmArtistSearch(className, target) {
 
                 if ($uploader.attr('class').includes('slick')) {
                     let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index,
-                        `<div class="slick-item">
-                    <div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                    <p class="item-title">${data['name']}</p>
-                    <p class="item-content">${data['job']}</p>
+                    $uploader.addCustomSlickItem(index,`
+                <div class="slick-item draggable-item upload-item" draggable="true">
+                    <div class="image-item-wrap"><div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                    <div class="text-item-wrap">
+                        <p class="item-title">${data['name']}</p>
+                        <p class="item-content">${data['job']}</p>
+                    </div>
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
+                    </div>
                 </div>`);
 
                     $uploader.initDraggable({

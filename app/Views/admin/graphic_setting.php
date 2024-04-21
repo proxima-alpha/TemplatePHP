@@ -96,7 +96,7 @@ $identifier = $shortid->generate();
                 <p class="input-title"><?= lang('메인에 개시') ?></p>
             </div>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 390)) { ?>
+                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 398)) { ?>
                     <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id', true); ?>
                 <?php } ?>
             </div>
@@ -131,7 +131,7 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('메인에 개시') ?></p>
                 </div>
                 <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 370)) { ?>
+                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 372)) { ?>
                         <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id', true); ?>
                     <?php } ?>
                 </div>

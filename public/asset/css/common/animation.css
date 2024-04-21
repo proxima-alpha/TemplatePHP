@@ -42,3 +42,16 @@
     }
 }
 
+@keyframes wideUp {
+    from {
+        top: 0;
+        bottom: 0;
+        height: 100%;
+    }
+
+    to {
+        top: -12px;
+        bottom: -12px;
+        height: 110%;
+    }
+}

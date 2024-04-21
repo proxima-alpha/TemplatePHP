@@ -7,6 +7,7 @@ let $draggableHandle = null;
 let $draggableItemMap = {};
 
 /**
+ * pc용
  * drag 시작 handler
  * @param event
  */
@@ -22,6 +23,7 @@ function handleDragStart(event) {
 }
 
 /**
+ * pc용
  * drag 종료 handler
  * drop 이 안일어 나는 경우 전역변수 draggableDragged 를 null 로 만들기 위해 추가
  * @param event
@@ -33,6 +35,7 @@ function handleDragEnd(event) {
 }
 
 /**
+ * pc용
  * drop handler
  * 데이터 변경 및 onDragFinished callback 호출
  * API 호출 후 결과에 따라 값을 반영/미반영 할 수 있으므로 await 로 호출함
@@ -73,6 +76,7 @@ function handleDrop(parentElement) {
 }
 
 /**
+ * pc용
  * drag over handler
  * - 예제에서 preventDefault 를 추가해 줘야 정상 작동 한다고 하여 추가
  * @param event

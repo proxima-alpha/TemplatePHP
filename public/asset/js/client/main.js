@@ -58,6 +58,13 @@ $(document).ready(function () {
     // })
 
     checkPagePopup();
+
+    $('video').on('mouseenter', event => {
+        event.target.play();
+    })
+    $('video').on('mouseleave', event => {
+        event.target.pause();
+    })
 });
 
 /**
@@ -235,141 +242,3 @@ addEventListener("resize", (event) => {
     resizeWindow();
 });
 
-
-let bounds;
-
-/**
- * map 에 포인트 추가하는 기능
- * points 는 따로 저장하지않고, bounds 만 저장 해 새 포인트 추가 시
- * 기존 map 을 재활용 하여 사용
- * @param points
- */
-function setMapPoints(points) {
-    if (!bounds) {
-        bounds = new kakao.maps.LatLngBounds();
-    }
-    // let bounds = new kakao.maps.LatLngBounds();
-
-    let i, marker;
-
-
-    var imageSize = new kakao.maps.Size(20, 40),
-        imageOptions = {
-            spriteOrigin: new kakao.maps.Point(0, 0),
-            spriteSize: new kakao.maps.Size(20, 40)
-        };
-    // 마커이미지와 마커를 생성합니다
-    var markerImage = new kakao.maps.MarkerImage("/asset/images/icon/marker.png", imageSize, imageOptions);
-
-    for (i = 0; i < points.length; i++) {
-        // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
-        let point = points[i];
-        let mapPoint = new kakao.maps.LatLng(point.latitude, point.longitude);
-        marker = new kakao.maps.Marker({
-            position: mapPoint,
-            image: markerImage,
-        });
-        marker.setMap(map);
-
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(new kakao.maps.LatLng(point.latitude, point.longitude));
-    }
-    map.setMaxLevel(15);
-    if (isMobile()) {
-        map.setBounds(bounds, 0, 0, 0, 0);
-    } else {
-        map.setBounds(bounds, 0, 0, 0, 340);
-    }
-    // map.setLevel(map.getLevel() + 1);
-    // map.setMinLevel(12)
-    // map.setMaxLevel(13)
-}
-
-/**
- * main 페이지에서 가맹 문의 보내는 기능
- */
-function requestMembership() {
-    let inputData = parseInputToData($(`#page-last .form-wrap input, #page-last .form-wrap textarea`))
-    let keys = ['name', 'phone_number', 'content'];
-    for (let i in keys) {
-        let key = keys[i];
-        if (isEmpty(inputData[key])) {
-            //todo error message
-            return;
-        }
-    }
-    apiRequest({
-        type: 'POST',
-        url: `/api/reservation/request`,
-        data: {
-            reservation_board_code: 'enquiry-membership',
-            temp_name: inputData['name'],
-            temp_phone_number: inputData['phone_number'],
-            question_comment: inputData['content'],
-        },
-        dataType: 'json',
-        success: function (response, status, request) {
-            if (!response.success) {
-                openPopupErrors('popup-error', response, status, request);
-                return;
-            }
-            $(`#page-last .form-wrap input, #page-last .form-wrap textarea`).val('');
-            $(`#page-last .form-wrap input[type=checkbox]`).prop("checked", false);
-            $(`#page-last .button-wrap .button`).addClass('disabled');
-        },
-        error: function (response, status, error) {
-            openPopupErrors('popup-error', response, status, error);
-        },
-    });
-}
-
-/**
- * checkbox value 변경 listener
- * 약관 동의 시에만 예약 요청을 할 수 있도록 만들기 위한 기능
- * @param element
- */
-function onMembershipInputValueChanged(element) {
-    let $button = $(`#page-last .button-wrap .button`);
-    if (!element.checked) {
-        $button.addClass('disabled');
-    } else {
-        $button.removeClass('disabled');
-    }
-}
-
-let mainPageMapTimeoutId;
-
-function clearMobileMapTimeout() {
-    if (mainPageMapTimeoutId) {
-        clearTimeout(mainPageMapTimeoutId);
-        mainPageMapTimeoutId = undefined;
-    }
-}
-
-function openMobileMapDetailList() {
-    clearMobileMapTimeout();
-    if ($('#page-map .location-list-box').css('display') == 'none') {
-        $('#page-map .location-list-box').css({
-            'animation-duration': '0.2s',
-            'animation-name': 'mainMapSlideDown',
-            'display': 'block'
-        });
-        $('#page-map .page-title-wrap .button img').attr({
-            'src': '/asset/images/icon/button_top.png'
-        })
-    } else {
-        $('#page-map .location-list-box').css({
-            'animation-duration': '0.2s',
-            'animation-name': 'mainMapSlideUp',
-        });
-        adminNavigationTimeoutId = setTimeout(function () {
-            $('#page-map .location-list-box').css({
-                'display': 'none'
-            });
-            clearMobileMapTimeout();
-        }, 200);
-        $('#page-map .page-title-wrap .button img').attr({
-            'src': '/asset/images/icon/button_bottom.png'
-        })
-    }
-}

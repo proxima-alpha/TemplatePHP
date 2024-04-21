@@ -161,7 +161,7 @@ class ProjectController extends BaseClientController
     private function getRewardData($id): array
     {
         $imp_shop_id = $this->settingModel->getInitialValue(['code' => 'imp-shop-id'], 'value');
-        $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+        $rewards = $this->rewardModel->get(['id' => $id, 'is_deleted' => 0]);
         if (sizeof($rewards) != 1) throw new Exception('deleted');
         $reward = $rewards[0];
         if (isset($this->session->user_id)) {

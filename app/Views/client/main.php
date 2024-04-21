@@ -38,7 +38,7 @@
                     인기 프로젝트
                 </h4>
                 <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 390)) { ?>
+                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 368)) { ?>
                         <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id'); ?>
                     <?php } ?>
                 </div>
@@ -51,7 +51,7 @@
                         <?= $code ?>
                     </h4>
                     <div class="content-wrap slider-box">
-                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 370)) { ?>
+                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 340)) { ?>
                             <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id'); ?>
                         <?php } ?>
                     </div>
@@ -65,7 +65,7 @@
                     지난 프로젝트
                 </h4>
                 <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 390)) { ?>
+                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>
                         <?= \App\Helpers\HtmlHelper::getProjectItem($data['previous-project'], 'project_image_id'); ?>
                     <?php } ?>
                 </div>

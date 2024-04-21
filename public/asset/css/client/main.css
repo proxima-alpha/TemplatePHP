@@ -161,13 +161,11 @@ slider 페이지
 }
 
 #page-media .content-box.project .slick .slick-item {
-    height: 340px;
     margin: 10px;
     border-radius: 20px;
     border: 1px solid #E2E8F0;
     overflow: hidden;
 }
-
 
 #page-media .content-box.previous-project .content-item {
     width: calc(16% - 20px);
@@ -189,10 +187,34 @@ slider 페이지
     display: inline-block;
 }
 
-#page-media .slick-item .image-item,
-#page-media .content-item .image-item {
+#page-media .slick-item .image-item-wrap,
+#page-media .content-item .image-item-wrap {
     height: 250px;
-    line-height: 200px;
+    line-height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+#page-media .slick-item .text-item-wrap,
+#page-media .content-item .text-item-wrap {
+    margin: 10px 0;
+}
+
+#page-media .slick-item .image-item-wrap .image-item,
+#page-media .content-item .image-item-wrap .image-item {
+    height: 100%;
+}
+
+#page-media .slick .slick-item:hover .image-item {
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: -12px;
+    bottom: -12px;
+    height: 110%;
+    animation-duration: 0.2s;
+    animation-name: wideUp;
+    animation-fill-mode: both;
 }
 
 #page-media .slick-item p,
@@ -214,7 +236,6 @@ slider 페이지
 
 #page-media .slick-item p.item-title,
 #page-media .content-item p.item-title {
-    margin-top: 10px;
     font-weight: 600;
 }
 
@@ -373,6 +394,7 @@ slider 페이지
     #page-intro .content-wrap.list ul {
         padding: 10px;
     }
+
     .section .page-inner {
         width: 100%;
     }

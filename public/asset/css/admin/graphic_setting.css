@@ -12,11 +12,11 @@
 }
 
 .item-selector .slider-box .slider-wrap .slick-item {
-    height: 320px;
+    height: 322px;
 }
 
 .item-selector.project .slider-box .slider-wrap .slick-item {
-    height: 340px;
+    height: 348px;
 }
 
 .item-selector .slider-box .slider-wrap .slick-item .image-item {
@@ -35,9 +35,12 @@
     overflow: hidden;
 }
 
+.item-selector .slider-box .slider-wrap .slick-item .text-item-wrap {
+    margin: 10px 0;
+}
+
 .item-selector .slider-box .slider-wrap .slick-item p.item-title {
     font-weight: 600;
-    margin-top: 10px;
 }
 
 .item-selector.previous-project {
