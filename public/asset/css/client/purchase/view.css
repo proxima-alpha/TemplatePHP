@@ -1,0 +1,128 @@
+.purchase-item-box {
+    font-size: 0;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #E2E8F0;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 800px;
+    margin-bottom: 20px;
+}
+
+.reward-wrap p {
+    font-size: 18px;
+    color: #fff;
+}
+
+.reward-wrap .project-title {
+    font-size: 20px;
+    color: #FF7A00;
+    font-weight: 600;
+}
+
+.reward-wrap .title {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.reward-wrap .price {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 40px;
+}
+
+.reward-wrap > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.reward-wrap .image-wrap {
+    width: 100px;
+    height: 100px;
+}
+
+.reward-wrap .content-wrap {
+    margin-left: 20px;
+    width: calc(100% - 120px);
+    text-align: left;
+}
+
+.purchase-item-box .line {
+    margin-top: 10px;
+}
+
+.container-inner .button-wrap {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.container-inner .button {
+    margin: 0 3px;
+    line-height: normal;
+}
+
+.container-inner .button.button-fill {
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 16px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+
+.container-inner .button.button-fill.disabled {
+    pointer-events: none;
+    cursor: default;
+    background: #232127;
+}
+
+.container-inner .button.button-line {
+    color: #fff;
+    padding: 6px 18px;
+    font-size: 16px;
+    border-radius: 100px;
+    color: #FF7A00;
+    font-weight: 600;
+    border: 2px solid #FF7A00;
+}
+
+.purchase-item-wrap,
+.purchase-wrap {
+    margin: 10px 0;
+}
+
+.container-inner .text-wrap * {
+    display: inline-block;
+    line-height: 30px;
+}
+
+.container-inner .text-wrap .title {
+    width: 25%;
+    color: #fff;
+    font-weight: 400;
+    font-size: 16px;
+    text-align: left;
+}
+
+.container-inner .text-wrap .content {
+    width: 75%;
+    color: #888;
+    font-size: 16px;
+    text-align: right;
+}
+
+.container-inner .text-wrap.comment .content {
+    min-height: 100px;
+}
+
+@media (max-width: 840px) {
+    .container-inner .container-wrap {
+        padding-left: 10px;
+        padding-right: 10px;
+        box-sizing: border-box;
+    }
+
+    .purchase-item-box {
+        width: 100%;
+    }
+}

@@ -34,16 +34,13 @@ if (isset($data['artists'])) { ?>
             </div>
             <div class="project-wrap">
                 <h4 class="page-sub-title">
-                    <?= lang('이벤트') ?>
+                    <?= lang('Client.project') ?>
                 </h4>
                 <div class="content"><?= \App\Helpers\HtmlHelper::covertNewline($data['content']) ?></div>
                 <h4 class="page-sub-title">
-                    <?= lang('이용방법') ?>
+                    <?= lang('Client.guide_title') ?>
                 </h4>
                 <div class="guide-wrap">
-                    <p class="title">
-                        <?= lang('Client.guide_title') ?>
-                    </p>
                     <div class="guide-content-wrap">
                         <?php foreach ($guide as $item) { ?>
                             <p class="sub-title">
@@ -62,22 +59,22 @@ if (isset($data['artists'])) { ?>
         <div class="side-content-box">
             <div class="date-box">
                 <h4 class="page-sub-title">
-                    <?= lang('일시') ?>
+                    <?= lang('Client.datetime') ?>
                 </h4>
                 <p><?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?></p>
             </div>
             <?php if (isset($data['rewards'])) { ?>
                 <div class="reward-box">
                     <h4 class="page-sub-title">
-                        <?= lang('리워드') ?>
+                        <?= lang('Client.reward') ?>
                     </h4>
                     <?php foreach ($data['rewards'] as $reward) { ?>
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
                             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
-                            <p class="remaining-count"><?= sprintf(lang("현재 재고 %s"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
-                            <p class="limited-count"><?= sprintf(lang("%s 개 한정"), $reward['limited_count']) ?></p>
-                            <p class="available-count"><?= sprintf(lang("%s 개 구매가능"), $reward['available_count']) ?></p>
+                            <p class="remaining-count"><?= sprintf(lang("Client.reward_now_stock_string"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
+                            <p class="limited-count"><?= sprintf(lang("Client.reward_limited_count_string"), $reward['limited_count']) ?></p>
+                            <p class="available-count"><?= sprintf(lang("Client.reward_available_count_string"), $reward['available_count']) ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                             <div class="button-wrap">

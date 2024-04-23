@@ -1,0 +1,105 @@
+.pages a {
+    color: #fff;
+}
+
+.reward-box .reward-wrap {
+    font-size: 0;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #E2E8F0;
+    box-sizing: border-box;
+    display: inline-block;
+    width: 800px;
+    margin-bottom: 20px;
+}
+
+.reward-box .reward-wrap p {
+    font-size: 18px;
+    color: #fff;
+}
+
+.reward-box .reward-wrap .project-title {
+    font-size: 20px;
+    color: #FF7A00;
+    font-weight: 600;
+}
+
+.reward-box .reward-wrap .title {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.reward-box .reward-wrap .content {
+    margin: 5px;
+    min-height: 50px;
+}
+
+.reward-box .reward-wrap .price {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 40px;
+}
+
+.reward-box .reward-wrap > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.reward-box .reward-wrap .image-wrap {
+    width: 100px;
+    height: 100px;
+}
+
+.reward-box .reward-wrap .content-wrap {
+    width: calc(100% - 120px);
+    height: 100px;
+    margin-left: 20px;
+    text-align: left;
+}
+
+.reward-box .reward-wrap .line {
+    margin-top: 10px;
+}
+
+.container-inner .button-wrap {
+    width: 100%;
+    text-align: right;
+    margin-top: 10px;
+}
+.container-inner .button {
+    margin: 0 3px;
+    line-height: normal;
+}
+.container-inner .button.button-fill {
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 16px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+.container-inner .button.button-fill.disabled {
+    pointer-events: none;
+    cursor: default;
+    background: #232127;
+}
+
+.container-inner .button.button-line {
+    color: #fff;
+    padding: 6px 18px;
+    font-size: 16px;
+    border-radius: 100px;
+    color: #FF7A00;
+    font-weight: 600;
+    border: 2px solid #FF7A00;
+}
+
+@media (max-width: 840px) {
+    .reward-box {
+        padding: 10px;
+    }
+
+    .reward-box .reward-wrap {
+        width: 100%;
+    }
+}

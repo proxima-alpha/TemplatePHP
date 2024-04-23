@@ -90,6 +90,13 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
                         <?= lang('Client.menu_inquiry') ?>
                     </a>
                 </li>
+                <?php if ($is_login) { ?>
+                    <li>
+                        <a href="/purchase" class="button gnb-menu highlight">
+                            <?= lang('Client.menu_purchase_list') ?>
+                        </a>
+                    </li>
+                <?php }?>
             </ul>
         </div>
     </header>

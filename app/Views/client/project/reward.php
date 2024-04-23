@@ -1,5 +1,4 @@
 <?php
-\App\Helpers\ServerLogger::log(array_merge(['Service' => [1, 2, 3]], ['Service' => [4, 5, 6]]));
 \App\Helpers\HtmlHelper::setTranslations([
     'reward_purchase_item_01',
     'reward_purchase_item_02',
@@ -37,7 +36,7 @@
         <div class="side-content-box">
             <div class="date-box">
                 <h4 class="page-sub-title">
-                    <?= lang('일시') ?>
+                    <?= lang('Client.datetime') ?>
                 </h4>
                 <p><?= \App\Helpers\HtmlHelper::toDateString($project['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($project['end_date']) ?></p>
             </div>
@@ -73,14 +72,14 @@
                 <?php if (isset($reward)) { ?>
                     <div class="reward-box">
                         <h4 class="page-sub-title">
-                            <?= lang('리워드 선택') ?>
+                            <?= lang('Client.reward_select') ?>
                         </h4>
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
                             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
-                            <p class="remaining-count"><?= sprintf(lang("현재 재고 %s"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
-                            <p class="limited-count"><?= sprintf(lang("%s 개 한정"), $reward['limited_count']) ?></p>
-                            <p class="available-count"><?= sprintf(lang("%s 개 구매가능"), $reward['available_count']) ?></p>
+                            <p class="remaining-count"><?= sprintf(lang("Client.reward_now_stock_string"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
+                            <p class="limited-count"><?= sprintf(lang("Client.reward_limited_count_string"), $reward['limited_count']) ?></p>
+                            <p class="available-count"><?= sprintf(lang("Client.reward_available_count_string"), $reward['available_count']) ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                         </div>
@@ -88,7 +87,7 @@
                 <?php } ?>
                 <div class="select-payment-box">
                     <div class="limited-count-wrap">
-                        <span class="title"><?= lang('구매가능한 수량') ?> </span>
+                        <span class="title"><?= lang('Client.available_count') ?> </span>
                         <span class="content"><?= $reward['available_count'] ?></span>
                     </div>
                     <input type="number" name="count" class="editable" value="1"
@@ -101,7 +100,7 @@
             </div>
             <div class="page" id="page-2" style="display: none">
                 <h4 class="page-sub-title">
-                    <?= lang('리워드 선택') ?>
+                    <?= lang('Client.reward_select') ?>
                 </h4>
                 <div class="purchase-item-wrap">
                     <form class="form-wrap">
@@ -150,7 +149,7 @@
             <div class="page" id="page-3">
                 <div class="purchase-item-box">
                     <h4 class="page-sub-title">
-                        <?= lang('선택한 상품') ?>
+                        <?= lang('purchase_selected_item') ?>
                     </h4>
                     <?php if (isset($project)) { ?>
                         <div class="project-wrap">
@@ -168,7 +167,7 @@
                         <div class="reward-wrap">
                             <p class="title"><?= $reward['title'] ?></p>
                             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
-                            <p class="total-count"><?= $reward['total_count'] ?><?= lang('개 한정') ?></p>
+                            <p class="total-count"><?= sprintf(lang('Client.reward_limited_count_string'), $reward['total_count']) ?></p>
                             <div class="line"></div>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                         </div>
@@ -204,22 +203,24 @@
                     <div class="form-wrap">
                         <input class="editable" hidden type="text" name="reward_id"
                                value="<?= $reward['id'] ?>"/>
-                        <h4 class="page-sub-title"><?= lang('주문자 정보') ?></h4>
+                        <h4 class="page-sub-title"><?= lang('Client.purchaser_info') ?></h4>
                         <div class="input-wrap inquirer">
-                            <p class="input-info"><?= lang('주문자 정보로 결제관련 정보가 제공됩니다. 정확한 정보로 입력되어 있는지 확인해 주세요.') ?></p>
-                            <input class="editable" type="text" name="purchaser_name" placeholder="<?= lang('구매하는 사람의 이름') ?>"
+                            <p class="input-info"><?= lang('Client.purchaser_notice') ?></p>
+                            <input class="editable" type="text" name="purchaser_name"
+                                   placeholder="<?= lang('Client.purchaser_name') ?>"
                                    value="<?= $user_name ?? '' ?>"/>
-                            <input class="editable" type="email" name="purchaser_email" placeholder="<?= lang('구매하는 사람의 이메일') ?>"
+                            <input class="editable" type="email" name="purchaser_email"
+                                   placeholder="<?= lang('Client.purchaser_email') ?>"
                                    value="<?= $user_email ?? '' ?>"/>
                         </div>
-                        <h4 class="page-sub-title"><?= lang('결제 수단 선택') ?></h4>
+                        <h4 class="page-sub-title"><?= lang('Client.payment_method_select') ?></h4>
                         <div class="input-wrap">
-                            <p class="input-info"><?= lang('결제 도중 결제창을 닫거나 브라우저를 종료하는 경우, 결제가 정상적으로 완료되지 않을 수 있습니다.<br/>해외 발급 카드로 결제시에는 언어 설정을 외국어로 변경하여 결제를 진행해 주세요.') ?></p>
+                            <p class="input-info"><?= lang('Client.payment_notice_01') ?></p>
                             <select class="editable" name="pg">`
-                                <option value="nice" selected><?= lang('원화 결제 (나이스페이)') ?></option>
+                                <option value="nice" selected><?= lang('Client.payment_method_nice') ?></option>
                             </select>
                         </div>
-                        <h4 class="page-sub-title"><?= lang('결제 예정 금액') ?></h4>
+                        <h4 class="page-sub-title"><?= lang('Client.payment_expected_price') ?></h4>
                         <div class="total-price">
                             <input class="editable" type="number" name="paid" value="<?= $reward['price'] ?>" readonly/>
                             <p>KRW</p>
@@ -227,22 +228,22 @@
                         <div class="terms">
                             <ul>
                                 <li>
-                                    <p><?= sprintf(lang("%s에 동의합니다"), '<a href="#">' . lang('주문정보 및 서비스 이용약관') . '</a>') ?></p>
+                                    <p><?= sprintf(lang("Client.payment_agreement_string"), '<a href="#">' . lang('Client.payment_agreement') . '</a>') ?></p>
                                 </li>
-                                <li><p><?= lang("모든 금액은 원화로 결제되며, 환율에 따라 주문 금액과 결제 금액의 차이가 발생할 수 있습니다.") ?></p></li>
+                                <li><p><?= lang("Client.payment_notice_02") ?></p></li>
                             </ul>
                         </div>
                     </div>
                     <div class="button-wrap">
                         <a class="button payment button-fill"
-                           href="javascript:requestPayment();"><?= lang('결제하기') ?></a>
+                           href="javascript:requestPayment();"><?= lang('Client.payment_proceed') ?></a>
                     </div>
                 </div>
             </div>
             <div class="button-wrap">
                 <a class="button prev button-line disabled"
-                   href="javascript:onClickPrev();"><?= lang('이전') ?></a>
-                <a class="button next button-fill" href="javascript:onClickNext();"><?= lang('다음') ?></a>
+                   href="javascript:onClickPrev();"><?= lang('Client.prev') ?></a>
+                <a class="button next button-fill" href="javascript:onClickNext();"><?= lang('Client.next') ?></a>
             </div>
         </div>
     </div>

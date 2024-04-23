@@ -218,6 +218,11 @@ body {
     display: block;
 }
 
+.gnb > li > a.highlight {
+    color: #FFAE00;
+    font-weight: 600;
+}
+
 .gnb .lnb {
     width: 200px;
     position: absolute;

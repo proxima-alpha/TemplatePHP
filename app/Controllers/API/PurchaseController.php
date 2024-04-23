@@ -156,7 +156,7 @@ class PurchaseController extends BaseApiController
                     'status' => 'paid',
                 ]);
                 if (!$inserted_id) {
-                    $response['messages'] = $this->purchaseItemModel->errors();
+                    $response['messages'] = $this->purchaseModel->errors();
                     throw new \Exception();
                 }
                 $queries = [];

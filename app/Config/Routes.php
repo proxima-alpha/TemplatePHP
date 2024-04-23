@@ -52,6 +52,9 @@ $routes->get('/topic/'.$ID_RULE.'/edit', [\Views\BoardController::class, 'editTo
 $routes->get('/project/'.$ID_RULE.'/view', [\Views\ProjectController::class, 'get']);
 $routes->get('/project/purchase/reward/'.$ID_RULE, [\Views\ProjectController::class, 'getReward']);
 $routes->get('/project/purchase/complete', [\Views\ProjectController::class, 'getComplete']);
+$routes->get('/purchase/'.$ID_RULE, [\Views\PurchaseController::class, 'index']);
+$routes->addRedirect('/purchase', '/purchase/1');
+$routes->get('/purchase/'.$ID_RULE .'/view', [\Views\PurchaseController::class, 'getView']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/artist');
