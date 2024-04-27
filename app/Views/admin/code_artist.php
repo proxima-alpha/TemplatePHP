@@ -4,7 +4,7 @@
 <div class="container-inner code-artist code">
     <div class="container-wrap">
         <h4 class="page-sub-title">
-            <?= lang('아티스트 분류 설정') ?>
+            <?= lang('Service.artist_code') ?>
         </h4>
         <div class="info-text-wrap">
             <?= lang('Service.message_info_drag') ?>

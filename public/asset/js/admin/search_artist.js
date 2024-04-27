@@ -95,7 +95,7 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
             <div class="table-wrap">
                 <div class="row-title">
                     <div class="row">
-                        <span class="column code">${lang('분류')}</span>
+                        <span class="column code">${lang('search_artist')}</span>
                         <span class="column name">${lang('name')}</span>
                     </div>
                 </div>

@@ -636,7 +636,7 @@ function confirmProjectSearch(className, target) {
     const id = data[target]
     if (id) {
         if (files.get(target).indexOf(id) >= 0) {
-            openPopupMessage(lang('이미 선택된 프로젝트 입니다'))
+            openPopupMessage(lang('message_item_already_selected'))
             return;
         }
         files.push(target, id);
@@ -684,7 +684,7 @@ function confirmProjectSearch(className, target) {
         });
         closePopup(className);
     } else {
-        openPopupMessage(lang('프로젝트를 선택해주세요'))
+        openPopupMessage(lang('message_item_select'))
     }
 }
 
@@ -694,7 +694,7 @@ function confirmArtistSearch(className, target) {
     const id = data[target]
     if (id) {
         if (files.get(target).indexOf(id) >= 0) {
-            openPopupMessage(lang('이미 선택된 아티스트입니다'))
+            openPopupMessage(lang('message_item_already_selected'))
             return;
         }
         files.push(target, id);
@@ -741,7 +741,7 @@ function confirmArtistSearch(className, target) {
         });
         closePopup(className);
     } else {
-        openPopupMessage(lang('아티스트를 선택해주세요'))
+        openPopupMessage(lang('message_item_select'))
     }
 }
 

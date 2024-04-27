@@ -41,7 +41,7 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/artist',
             ],
             [
-                'name' => lang('프로젝트'),
+                'name' => lang('Service.project'),
                 'link' => '/admin/project',
             ],
             [

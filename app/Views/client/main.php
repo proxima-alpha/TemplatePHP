@@ -24,7 +24,7 @@
     <div class="page-inner">
         <div class="content-box relation">
             <h4 class="page-sub-title">
-                BECLE FAN RELATION
+                <?=lang("Client.relation")?>
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
@@ -35,24 +35,24 @@
         <?php if ($data_settings['main-show-project'] == 1) { ?>
             <div class="content-box project">
                 <h4 class="page-sub-title">
-                    인기 프로젝트
+                    <?=lang("Client.popular_project")?>
                 </h4>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 368)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id'); ?>
+                        <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'project_image_id', $lang); ?>
                     <?php } ?>
                 </div>
             </div>
         <?php }
-        foreach ($data['artists'] as $code => $items) {
+        foreach ($data['artists'] as $code => $item) {
             if ($data_settings['main-show-' . $code] == 1) { ?>
                 <div class="content-box artists <?= $code ?>">
                     <h4 class="page-sub-title">
-                        <?= $code ?>
+                        <?= $lang == 'ko' ? $item['code']['name'] :   $item['code']['name_en']  ?>
                     </h4>
                     <div class="content-wrap slider-box">
-                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 340)) { ?>
-                            <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id'); ?>
+                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($item['items'] ?? null, 340)) { ?>
+                            <?= \App\Helpers\HtmlHelper::getArtistSlick($item['items'], 'profile_id', $lang); ?>
                         <?php } ?>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
         if ($data_settings['main-show-previous-project'] == 1) { ?>
             <div class="content-box previous-project">
                 <h4 class="page-sub-title">
-                    지난 프로젝트
+                    <?=lang("Client.previous_project")?>
                 </h4>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>

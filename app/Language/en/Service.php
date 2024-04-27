@@ -40,6 +40,7 @@ return [
     "email" => "Email",
     "code" => "Code",
     "name" => "Name",
+    "name_en" => "Name(English)",
     "title" => "Title",
     "type" => "Type",
     "alias" => "Alias",
@@ -97,6 +98,12 @@ return [
     "stock_count" => "Stocks",
     "available_count" => "Available",
 
+    "artist_code" => "Artist Category",
+    "reward_request_code" => "Reward Request Category",
+    "category" => "Category",
+    "opened" => "Opened",
+    "closed" => "Closed",
+
     //main
     "show_detail" => "Show Detail",
 
@@ -114,6 +121,10 @@ return [
     "main_video" => "Main Video",
     "main_image" => "Main Images",
     "artist" => "Artist",
+    "project" => "Project",
+    "relation" => "Relation",
+    "show_main" => "Visible in main page",
+    "previous_project" => "Previous Project",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",
@@ -131,6 +142,8 @@ return [
     "message_info_location_address" => "* Please use 'search' button to find latitude and longitude.",
     "message_error_empty_field" => "{field} is empty",
     "message_error_differ_password" => "please check two fields for password is same.",
+    "message_item_already_selected" => "This item is already selected.",
+    "message_item_select" => "Please select item.",
 
     //email
     "email_click_link" => "Or click {link} to verify.",

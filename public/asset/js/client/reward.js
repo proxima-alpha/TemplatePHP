@@ -15,9 +15,10 @@ function getPurchaseItemHtml(index, item) {
             <div class="input-wrap">
                 <p class="input-title">${lang('reward_purchase_item_01')}</p>
                 <select class="editable" name="code_reward_request_id">`
+    const language = getCookie('lang')
     for (const id in rewardRequests) {
         const code = rewardRequests[id];
-        html += `<option value="${code['id']}">${code['name']}</option>`
+        html += `<option value="${code['id']}">${language == 'ko' ? code['name'] : code['name_en']}</option>`
     }
     html += `</select>
             </div>

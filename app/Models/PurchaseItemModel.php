@@ -30,7 +30,7 @@ class PurchaseItemModel extends BaseModel
      */
     public function get($condition = null, $limit = null, $isPriority = false): array
     {
-        $query = "SELECT reward.*, project.title AS project_title, project.project_image_id AS project_image_id,".
+        $query = "SELECT reward.*, project.title AS project_title, project.title_en AS project_title_en, project.project_image_id AS project_image_id,".
             " purchase_item.id AS id, purchase_item.status, purchase_item.price FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
             " LEFT JOIN reward ON reward.id = purchase.reward_id".

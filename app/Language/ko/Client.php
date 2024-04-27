@@ -7,6 +7,11 @@ return [
     "menu_user_guide" => "이용 가이드",
     "menu_inquiry" => "문의하기",
     "show_detail" => "상세보기",
+
+    "relation" => "BECLE FAN RELATION",
+    "popular_project" => "인기있는 프로젝트",
+    "previous_project" => "지난 프로젝트",
+
     //main-footer
     "ceo_name" => "대표",
     "cs_center" => "고객센터",
@@ -76,6 +81,10 @@ return [
     "purchaser_notice" => "주문자 정보로 결제관련 정보가 제공됩니다. 정확한 정보로 입력되어 있는지 확인해 주세요.",
     "purchase_selected_item" => "선택한 상품",
 
+    "purchase_complete" => "구매가 완료되었습니다.",
+    "purchase_next" => "구매 내역에서 확인하기",
+    "purchase" => "구매하기",
+
     "reward_select"  => "리워드 선택",
     "payment_method_select"  => "결제수단 선택",
     "payment_method_nice"  => "원화 결제 (나이스페이)",
@@ -116,7 +125,10 @@ return [
     "terms_01" => "(주)유닉코퍼레이션은 통신판매중개자로서 통신판매의 당사자가 아니며 상품, 상품정보, 거래에 관한 의무와 책임은 아티스트에게 있습니다.",
     "terms_02" => "(주)유닉코퍼레이션 사이트의 상품/아티스트/중개 서비스/거래 정보, 콘텐츠, UI 등에 대한 무단 복제, 전송, 배포, 스크래핑 등의 행위는 저작권법, 콘텐츠산업 진흥법 등 관련법령에 의하여 엄격히 금지됩니다.",
 
-
-    "message_error_field_empty" => "입력란을 모두 작성해 주세요."
+    "message_error_field_empty" => "입력란을 모두 작성해 주세요.",
+    "message_error_login" => "로그인이 필요한 서비스 입니다.",
+    "message_error_exceed" => "구매 가능한 수량을 초과하였습니다.",
+    "message_error_expired" => "프로젝트가 만료되었습니다.",
+    "message_error_not_started" => "프로젝트가 아직 시작되지 않았습니다.",
 ];
 ?>

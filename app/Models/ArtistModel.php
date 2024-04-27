@@ -32,7 +32,7 @@ class ArtistModel extends BaseModel
      */
     public function get($condition = null, $limit = null, $isPriority = false): array
     {
-        $query = "SELECT artist.*, code_artist.name as code_artist, code_artist.code as code FROM artist LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id";
+        $query = "SELECT artist.*, code_artist.name as code_artist, code_artist.name_en as code_artist_en, code_artist.code as code FROM artist LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id";
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);

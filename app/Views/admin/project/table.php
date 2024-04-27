@@ -1,7 +1,7 @@
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
-            <?= lang('프로젝트') ?>
+            <?= lang('Service.project') ?>
         </h3>
         <div class="table-box">
             <div class="table-wrap">
@@ -17,10 +17,10 @@
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column status"><?= lang('상태') ?></span>
-                            <span class="column title"><?= lang('제목') ?></span>
-                            <span class="column start-date"><?= lang('시작일') ?></span>
-                            <span class="column end-date"><?= lang('종료일') ?></span>
+                            <span class="column status"><?= lang('Service.status') ?></span>
+                            <span class="column title"><?= lang('Service.title') ?></span>
+                            <span class="column start-date"><?= lang('Service.start_date') ?></span>
+                            <span class="column end-date"><?= lang('Service.end_date') ?></span>
                             <span class="column created-at"><?= lang('Service.created_at') ?></span>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                             <li class="row">
                                 <a href="/admin/project/<?= $item['id'] ?>/view" class="button row-button">
                                     <span class="column status"><?= $item['status'] ?></span>
-                                    <span class="column title"><?= $item['title'] ?></span>
+                                    <span class="column title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></span>
                                     <span class="column start-date"><?= \App\Helpers\HtmlHelper::toDateString($item['start_date']) ?></span>
                                     <span class="column end-date"><?= \App\Helpers\HtmlHelper::toDateString($item['end_date']) ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>

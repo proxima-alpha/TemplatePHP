@@ -74,7 +74,10 @@ abstract class BaseController extends Controller
     {
         $language = \Config\Services::language();
         $lang = $this->session->lang;
-        $language->setLocale($lang ?? Utils::startsWith( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ko-KR') ? 'ko' : 'en');
+        if (!isset($lang)) {
+            $lang = Utils::startsWith($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ko-KR') ? 'ko' : 'en';
+        }
+        $language->setLocale($lang);
     }
 
 }

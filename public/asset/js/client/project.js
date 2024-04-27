@@ -21,14 +21,15 @@ function setArtist(id) {
                 return;
             }
             let data = response.data
+            const language = getCookie('lang');
             const $container = $('.container-inner .artist-box');
             $container.empty();
             let html = `
                 <div class="title-text-wrap">
-                    <h3 class="name">${data.name}</h3>
-                    <h4 class="job">${data.job}</h4>
+                    <h3 class="name">${language == 'ko' ? data.name : data.name_en}</h3>
+                    <h4 class="job">${language == 'ko' ? data.job : data.job_en}</h4>
                 </div>
-                <p class="content-text-wrap">${data.introduction.replaceAll('\n', '<br/>')}</p>`;
+                <p class="content-text-wrap">${(language == 'ko' ? data.introduction : data.introduction_en).replaceAll('\n', '<br/>')}</p>`;
 
             if (data.previews.length > 0) {
                 html += `
@@ -79,14 +80,26 @@ function setArtist(id) {
     });
 }
 
-function purchaseReward(id, available_count) {
-    console.log(getCookie('is_login'))
+function purchaseReward(id, start_date, end_date, available_count) {
     if (getCookie('is_login') != 1) {
-        openPopupMessage(lang('로그인이 필요한 서비스 입니다.'))
+        openPopupMessage(lang('message_error_login'))
         return
     }
-    if(available_count <= 0) {
-        return openPopupMessage(lang('구매 가능한 수량을 초과하였습니다.'))
+    if (available_count <= 0) {
+        return openPopupMessage(lang('message_error_exceed'))
+    }
+    const rawNowDate = new Date()
+    if (!isEmpty(start_date)) {
+        const rawStartDate = new Date(start_date)
+        if (rawStartDate > rawNowDate) {
+            return openPopupMessage(lang('message_error_not_started'))
+        }
+    }
+    if (!isEmpty(end_date)) {
+        const rawEndDate = new Date(end_date).setHours(23, 59, 59)
+        if (rawEndDate < rawNowDate) {
+            return openPopupMessage(lang('message_error_expired'))
+        }
     }
     window.location.href = `/project/purchase/reward/${id}`;
 }

@@ -91,7 +91,7 @@ async function openProjectSearchPopup(target, array, pagination) {
             <div class="table-wrap">
                 <div class="row-title">
                     <div class="row">
-                        <span class="column status">${lang('상태')}</span>
+                        <span class="column status">${lang('status')}</span>
                         <span class="column title">${lang('title')}</span>
                     </div>
                 </div>

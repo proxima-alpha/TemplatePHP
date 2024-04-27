@@ -12,8 +12,8 @@
                                  style="background: url('/file/<?= $item['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
                             <div class="content-wrap">
-                                <p class="project-title"><?= $item['project_title'] ?></p>
-                                <p class="title"><?= $item['title'] ?></p>
+                                <p class="project-title"><?= $lang == 'ko' ? $item['project_title'] : $item['project_title_en'] ?></p>
+                                <p class="title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></p>
                                 <p class="price"><?= $item['price'] ?> KRW</p>
                             </div>
                             <div class="line"></div>

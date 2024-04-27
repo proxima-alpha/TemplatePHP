@@ -56,10 +56,13 @@ class MainController extends BaseClientController
             }
             $artist_parsed = [];
             foreach ($codes as $index => $code) {
-                $artist_parsed[$code['code']] = [];
+                $artist_parsed[$code['code']] = [
+                    'code' => $code,
+                    'items' => []
+                ];
             }
             foreach ($artists as $index => $artist) {
-                $artist_parsed[$artist['code']][] = $artist;
+                $artist_parsed[$artist['code']]['items'][] = $artist;
             }
             $graphic_settings = array_merge($graphic_settings, [
                 'main' => $main_images,

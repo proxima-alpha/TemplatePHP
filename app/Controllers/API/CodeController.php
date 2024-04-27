@@ -54,7 +54,7 @@ class CodeController extends BaseApiController
         ];
         return $this->typicallyCreate($this->codeArtistModel, $data, $validationRules, function ($model, $data) {
             $this->settingModel->insert([
-                "code" => "main-show-".$data['code'],
+                "code" => "main-show-" . $data['code'],
                 "type" => "tinyint",
                 "value" => "1",
                 "is_editable" => "0",
@@ -72,15 +72,17 @@ class CodeController extends BaseApiController
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
-        $previousCode = $this->codeArtistModel->getLatest(['id'=>$id]);
-        return $this->typicallyUpdate($this->codeArtistModel, $id, $data, null, function($model, $data) use ($previousCode) {
-            $settings = $this->settingModel->get([
-                "code" => "main-show-".$previousCode['code']
-            ]);
-            if(sizeof($settings) > 0) {
-                $this->settingModel->update($settings[0]['id'], [
-                    'code' => "main-show-".$data['code']
+        $previousCode = $this->codeArtistModel->getLatest(['id' => $id]);
+        return $this->typicallyUpdate($this->codeArtistModel, $id, $data, null, function ($model, $data) use ($previousCode) {
+            if (isset($data['code']) && $previousCode['code'] != $data['code']) {
+                $settings = $this->settingModel->get([
+                    "code" => "main-show-" . $previousCode['code']
                 ]);
+                if (sizeof($settings) > 0) {
+                    $this->settingModel->update($settings[0]['id'], [
+                        'code' => "main-show-" . $data['code']
+                    ]);
+                }
             }
         });
     }
@@ -96,13 +98,15 @@ class CodeController extends BaseApiController
         $body = [
             'is_deleted' => 1,
         ];
-        $previousCode = $this->codeArtistModel->getLatest(['id'=>$id]);
-        return $this->typicallyUpdate($this->codeArtistModel, $id, $body, null, function($model, $data) use($previousCode){
-            $settings = $this->settingModel->get([
-                "code" => "main-show-".$previousCode['code']
-            ]);
-            if(sizeof($settings) > 0) {
-                $this->settingModel->delete($settings[0]['id']);
+        $previousCode = $this->codeArtistModel->getLatest(['id' => $id]);
+        return $this->typicallyUpdate($this->codeArtistModel, $id, $body, null, function ($model, $data) use ($previousCode) {
+            if (isset($data['code']) && $previousCode['code'] != $data['code']) {
+                $settings = $this->settingModel->get([
+                    "code" => "main-show-" . $previousCode['code']
+                ]);
+                if (sizeof($settings) > 0) {
+                    $this->settingModel->delete($settings[0]['id']);
+                }
             }
         });
     }

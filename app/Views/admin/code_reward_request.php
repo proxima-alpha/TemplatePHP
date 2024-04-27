@@ -1,7 +1,7 @@
 <div class="container-inner code-reward-request code">
     <div class="container-wrap">
         <h4 class="page-sub-title">
-            <?= lang('요청사항 설정') ?>
+            <?= lang('Service.reward_request_code') ?>
         </h4>
         <div class="table-box">
             <div class="table-wrap">

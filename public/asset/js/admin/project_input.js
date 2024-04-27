@@ -2,7 +2,7 @@ async function openCalendarPopup(target, expect_date = null, expect_time = null)
     let className = 'popup-calendar';
     let html = `
     <h3 class="popup-title">
-        ${lang('날짜 선택')}
+        ${lang('select_date')}
     </h3>
     <div class="form-wrap">
         <div class= "calendar-wrap">

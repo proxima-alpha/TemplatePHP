@@ -40,6 +40,7 @@ return [
     "email" => "이메일",
     "code" => "코드",
     "name" => "이름",
+    "name_en" => "이름(영문)",
     "title" => "제목",
     "type" => "유형",
     "alias" => "명칭",
@@ -97,6 +98,12 @@ return [
     "stock_count" => "재고",
     "available_count" => "구매 가능한 수량",
 
+    "artist_code" => "아티스트 분류",
+    "reward_request_code" => "요청사항 분류",
+    "category" => "분류",
+    "opened" => "공개",
+    "closed" => "비공개",
+
     //admin
     "board" => "게시판",
     "reply" => "댓글",
@@ -111,6 +118,10 @@ return [
     "main_video" => "메인 비디오",
     "main_image" => "메인 이미지",
     "artist" => "아티스트",
+    "project" => "프로젝트",
+    "relation" => "릴레이션",
+    "show_main" => "메인 페이지에 게시",
+    "previous_project" => "지난 프로젝트",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
@@ -128,6 +139,8 @@ return [
     "message_info_location_address" => "* '검색' 버튼을 사용하여 위도 경도를 검색해 주세요.",
     "message_error_empty_field" => "{field} 입력칸이 비어있습니다.",
     "message_error_differ_password" => "두 비밀번호 입력 값이 같은지 확인해주세요.",
+    "message_item_already_selected" => "이미 선택된 항목 입니다.",
+    "message_item_select" => "항목을 선택해주세요.",
 
     //email
     "email_click_link" => "혹은 {link} 를 클릭하세요.",

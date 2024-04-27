@@ -17,7 +17,7 @@
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
-                            <span class="column code"><?= lang('분류') ?></span>
+                            <span class="column code"><?= lang('Service.category') ?></span>
                             <span class="column name"><?= lang('Service.name') ?></span>
                             <span class="column created-at"><?= lang('Service.created_at') ?></span>
                         </div>
@@ -25,9 +25,11 @@
                     <ul>
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
-                                <a href="/admin/artist/<?=$item['id']?>/view" class="button row-button">
-                                    <span class="column code"><?=  $item['code_artist']  ?></span>
-                                    <span class="column name"><?= $item['name'] ?></span>
+                                <a href="/admin/artist/<?= $item['id'] ?>/view" class="button row-button">
+                                    <span
+                                        class="column code"><?= $lang == 'ko' ? $item['code_artist'] : $item['code_artist_en'] ?></span>
+                                    <span
+                                        class="column name"><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>

@@ -57,9 +57,9 @@
                     <p class="input-title"><?= lang('service.status') ?></p>
                     <select class="editable" name="status" disabled>`
                         <option
-                            value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
+                            value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('Service.opened') ?></option>
                         <option
-                            value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
+                            value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('Service.closed') ?></option>
                     </select>
                 </div>
             </div>
@@ -69,14 +69,14 @@
                         <div class="line black"></div>
                         <div class="input-wrap artist">
                             <p class="input-title"><?= lang('Service.artist') ?></p>
-                            <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', $data['artists'], 'view') ?>
+                            <?= \App\Helpers\HtmlHelper::getArtistRow('artist_id', $data['artists'], $lang, 'view') ?>
                         </div>
                     <?php }
                     if (isset($data['rewards'])) { ?>
                         <div class="line black"></div>
                         <div class="input-wrap reward">
                             <p class="input-title"><?= lang('Service.price_reward') ?></p>
-                            <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', $data['rewards'], 'view') ?>
+                            <?= \App\Helpers\HtmlHelper::getRewardRow('reward', $data['rewards'], 'view') ?>
                         </div>
                     <?php } ?>
                 </div>

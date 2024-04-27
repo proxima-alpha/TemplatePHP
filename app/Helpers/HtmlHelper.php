@@ -315,7 +315,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getGraphicSettingItemSlick($items, $image_file_key, $isAdmin = false): string
+    public static function getArtistSlick($items, $image_file_key, $lang = 'ko', $isAdmin = false): string
     {
         $html =
             '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
@@ -329,8 +329,8 @@ final class HtmlHelper
                             <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
                         </div>
                         <div class="text-item-wrap">
-                            <p class="item-title">' . $item['name'] . '</p>
-                            <p class="item-content">' . $item['job'] . '</p>
+                            <p class="item-title">' . ($lang == 'ko' ? $item['name'] : $item['name_en']) . '</p>
+                            <p class="item-content">' . ($lang == 'ko' ? $item['job'] : $item['job_en']) . '</p>
                         </div>
                     </div>';
             }
@@ -341,7 +341,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getGraphicSettingProjectItemSlick($items, $image_file_key, $isAdmin = false): string
+    public static function getProjectSlick($items, $image_file_key, $lang = 'ko', $isAdmin = false): string
     {
         $html =
             '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
@@ -360,9 +360,9 @@ final class HtmlHelper
                             <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
                         </div>
                         <div class="text-item-wrap">
-                            <p class="item-title">' . $item['title'] . '</p>
+                            <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
                             <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
-                            <p class="item-content">' . $item['content'] . '</p>
+                            <p class="item-content">' . ($lang == 'ko' ? $item['content'] : $item['content_en']) . '</p>
                         </div>';
                 if (!$isAdmin) {
                     $html .= '</a>';
@@ -402,8 +402,9 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getRowUploaderArtist($target, $items, $view_mode = 'input'): string
+    public static function getArtistRow($target, $items, $lang = 'ko', $view_mode = 'input'): string
     {
+        ServerLogger::log($lang);
         $html = '';
         $html .=
             '<div class="row-uploader ' . $target . '">';
@@ -415,9 +416,9 @@ final class HtmlHelper
                     <input hidden class="editable" type="text" name="id" value="' . $item['id'] . '">
                     <div class="profile" style=" background: url(\'' . $url . '\'); background-size: cover; font-size: 0;"></div>
                     <div class="info-wrap">
-                        <p class="name">' . $item['name'] . '</p>
-                        <p>' . $item['job'] . '</p>
-                        <p>' . $item['introduction'] . '</p>
+                        <p class="name">' . ($lang == 'ko' ? $item['name'] : $item['name_en']) . '</p>
+                        <p>' . ($lang == 'ko' ? $item['job'] : $item['job_en']) . '</p>
+                        <p>' . ($lang == 'ko' ? $item['introduction'] : $item['introduction_en']) . '</p>
                     </div>
                     <div class="upload-item-hover">
                         <a href="javascript:deleteUploadedArtistFile( \'' . $target . '\', ' . $item['id'] . ')"
@@ -435,9 +436,9 @@ final class HtmlHelper
                     <input hidden type="text" name="id" value="' . $item['id'] . '">
                     <div class="profile" style=" background: url(\'' . $url . '\'); background-size: cover; font-size: 0;"></div>
                     <div class="info-wrap">
-                        <p class="name">' . $item['name'] . '</p>
-                        <p>' . $item['job'] . '</p>
-                        <p>' . $item['introduction'] . '</p>
+                        <p class="name">' . ($lang == 'ko' ? $item['name'] : $item['name_en']) . '</p>
+                        <p>' . ($lang == 'ko' ? $item['job'] : $item['job_en']) . '</p>
+                        <p>' . ($lang == 'ko' ? $item['introduction'] : $item['introduction_en']) . '</p>
                     </div>
                 </div>';
             }
@@ -447,7 +448,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getRowUploaderReward($target, $items, $view_mode = 'input'): string
+    public static function getRewardRow($target, $items, $view_mode = 'input'): string
     {
         $html = '<div class="row-uploader ' . $target . '">';
         $option = $view_mode == 'input' ? '' : 'readonly';

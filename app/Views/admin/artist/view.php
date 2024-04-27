@@ -1,11 +1,16 @@
+<?php
+\App\Helpers\HtmlHelper::setTranslations([
+    'message_error_login',
+], 'Client');
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <div class="artist-wrap">
             <div class="form-wrap line-after">
                 <div class="input-wrap inline">
-                    <p class="input-title"><?= lang('아티스트 타입') ?></p>
+                    <p class="input-title"><?= lang('type') ?></p>
                     <select class="editable" name="code_artist_id" value="1" disabled>`
-                        <option value="1"><?= $data['code_artist'] ?></option>
+                        <option value="1"><?= $lang == 'ko' ? $data['code_artist'] : $data['code_artist_en'] ?></option>
                     </select>
                 </div>
                 <div class="tab-box">

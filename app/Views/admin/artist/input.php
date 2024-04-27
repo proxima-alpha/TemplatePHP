@@ -27,13 +27,15 @@ $identifier = $shortid->generate();
             <div class="form-wrap line-after">
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
                 <div class="input-wrap inline">
-                    <p class="input-title"><?= lang('아티스트 타입') ?></p>
+                    <p class="input-title"><?= lang('Service.type') ?></p>
                     <select class="editable" name="code_artist_id" value="<?= $code_artist_id ?? '' ?>">`
                         <?php
                         if (isset($code_artists)) {
                             foreach ($code_artists as $item) { ?>
                                 <option value="<?= $item['id'] ?>"
-                                    <?= isset($code_artist_id) && $item['id'] == $code_artist_id ? 'selected' : '' ?>><?= $item['name'] ?></option>
+                                    <?= isset($code_artist_id) && $item['id'] == $code_artist_id ? 'selected' : '' ?>>
+                                    <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
+                                </option>
                             <?php }
                         } ?>
                     </select>

@@ -374,7 +374,7 @@ async function openPopupMessage(message) {
         <div>${message}</div>
     </div>
     <div class="button-wrap controls">
-        <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('확인')}</a>
+        <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('confirm')}</a>
     </div>`;
     openPopup({
         className: className,

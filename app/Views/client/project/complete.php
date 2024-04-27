@@ -6,10 +6,10 @@
 </div>
 <div class="container-inner">
     <div class="container-wrap">
-        <h4 class="message"><?=lang('구매가 완료되었습니다.')?></>
+        <h4 class="message"><?=lang('Client.purchase_complete')?></>
         <div class="button-wrap">
             <a class="button button-fill"
-               href="/"><?= lang('구매 내역에서 확인하기') ?></a>
+               href="/"><?= lang('Client.purchase_next') ?></a>
         </div>
     </div>
 </div>

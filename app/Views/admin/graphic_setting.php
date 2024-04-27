@@ -4,6 +4,14 @@ use Crisu83\ShortId\ShortId;
 
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
+
+\App\Helpers\HtmlHelper::setTranslations([
+    'message_info_drag',
+    'category',
+    'status',
+    'message_item_already_selected',
+    'message_item_select',
+]);
 ?>
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
@@ -70,7 +78,7 @@ $identifier = $shortid->generate();
         </div>
         <div class="content-box relation">
             <h4 class="page-sub-title">
-                <?= lang('릴레이션') ?>
+                <?= lang('Service.relation') ?>
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
@@ -87,17 +95,17 @@ $identifier = $shortid->generate();
         </div>
         <div class="content-box item-selector project">
             <h4 class="page-sub-title">
-                <?= lang('프로젝트') ?>
+                <?= lang('Service.project') ?>
             </h4>
             <div class="input-wrap inline">
                 <input type="checkbox"
                        name="main-show-project" <?= $data_settings['main-show-project'] ?? null == '1' ? 'checked' : '' ?>
                        onchange="onSettingChanged(this, 'project')"/>
-                <p class="input-title"><?= lang('메인에 개시') ?></p>
+                <p class="input-title"><?= lang('Service.show_main') ?></p>
             </div>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 398)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGraphicSettingProjectItemSlick($data['project'], 'project_image_id', true); ?>
+                    <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'project_image_id', $lang, true); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -110,13 +118,13 @@ $identifier = $shortid->generate();
         </div>
         <div class="content-box item-selector previous-project">
             <h4 class="page-sub-title">
-                <?= lang('이전 프로젝트') ?>
+                <?= lang('Service.previous_project') ?>
             </h4>
             <div class="input-wrap inline">
                 <input type="checkbox"
                        name="main-show-project" <?= $data_settings['main-show-previous-project'] ?? null == '1' ? 'checked' : '' ?>
                        onchange="onSettingChanged(this, 'previous-project')"/>
-                <p class="input-title"><?= lang('메인에 개시') ?></p>
+                <p class="input-title"><?= lang('Service.show_main') ?></p>
             </div>
         </div>
         <?php foreach ($data['artists'] as $code => $items) { ?>
@@ -128,11 +136,11 @@ $identifier = $shortid->generate();
                     <input type="checkbox"
                            name="main-show-<?= $code ?>" <?= $data_settings['main-show-' . $code] ?? null == '1' ? 'checked' : '' ?>
                            onchange="onSettingChanged(this, `<?= $code ?>`)"/>
-                    <p class="input-title"><?= lang('메인에 개시') ?></p>
+                    <p class="input-title"><?= lang('Service.show_main') ?></p>
                 </div>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 372)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($items, 'profile_id', true); ?>
+                        <?= \App\Helpers\HtmlHelper::getArtistSlick($items, 'profile_id', $lang, true); ?>
                     <?php } ?>
                 </div>
                 <div class="control-button-wrap">
@@ -146,4 +154,3 @@ $identifier = $shortid->generate();
         <?php } ?>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_drag']) ?>

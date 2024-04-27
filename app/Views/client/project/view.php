@@ -1,10 +1,17 @@
-<?php if (isset($data['project_image_id'])) { ?>
+<?php
+\App\Helpers\HtmlHelper::setTranslations([
+    'message_error_login',
+    'message_error_exceed',
+    'message_error_expired',
+    'message_error_not_started',
+], 'Client');
+if (isset($data['project_image_id'])) { ?>
     <div class="section " id="image"
          style="background: url('/file/<?= $data['project_image_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
         <div class="overlap-text-box">
             <div class="overlap-text-wrap">
                 <div class="text-wrap">
-                    <p><?= $data['title'] ?? '' ?></p>
+                    <p><?= ($lang == 'ko' ? $data['title'] : $data['title_en']) ?? '' ?></p>
                 </div>
             </div>
         </div>
@@ -14,7 +21,7 @@ if (isset($data['artists'])) { ?>
     <div class="section" id="artists">
         <div class="page-inner">
             <div class="content-wrap slider-box">
-                <?= \App\Helpers\HtmlHelper::getGraphicSettingItemSlick($data['artists'], 'profile_id'); ?>
+                <?= \App\Helpers\HtmlHelper::getArtistSlick($data['artists'], 'profile_id', $lang); ?>
             </div>
             <div class="line"></div>
         </div>
@@ -36,7 +43,8 @@ if (isset($data['artists'])) { ?>
                 <h4 class="page-sub-title">
                     <?= lang('Client.project') ?>
                 </h4>
-                <div class="content"><?= \App\Helpers\HtmlHelper::covertNewline($data['content']) ?></div>
+                <div
+                    class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $data['content'] : $data['content_en']) ?></div>
                 <h4 class="page-sub-title">
                     <?= lang('Client.guide_title') ?>
                 </h4>
@@ -70,8 +78,8 @@ if (isset($data['artists'])) { ?>
                     </h4>
                     <?php foreach ($data['rewards'] as $reward) { ?>
                         <div class="reward-wrap">
-                            <p class="title"><?= $reward['title'] ?></p>
-                            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($reward['content']) ?></p>
+                            <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
+                            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
                             <p class="remaining-count"><?= sprintf(lang("Client.reward_now_stock_string"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
                             <p class="limited-count"><?= sprintf(lang("Client.reward_limited_count_string"), $reward['limited_count']) ?></p>
                             <p class="available-count"><?= sprintf(lang("Client.reward_available_count_string"), $reward['available_count']) ?></p>
@@ -79,7 +87,7 @@ if (isset($data['artists'])) { ?>
                             <p class="price"><?= $reward['price'] ?> KRW</p>
                             <div class="button-wrap">
                                 <a class="button button-fill"
-                                   href="javascript:purchaseReward(<?= $reward['id'] ?>, <?= $reward['available_count'] ?>);"><?= lang('결제하기') ?></a>
+                                   href="javascript:purchaseReward(<?= $reward['id'] ?>, '<?= $data['start_date'] ?>', '<?= $data['end_date'] ?>',  <?= $reward['available_count'] ?>);"><?= lang('Client.purchase') ?></a>
                             </div>
                         </div>
                     <?php } ?>

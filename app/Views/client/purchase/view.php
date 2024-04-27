@@ -9,8 +9,8 @@
                      style="background: url('/file/<?= $project['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                 </div>
                 <div class="content-wrap">
-                    <p class="project-title"><?= $project['title'] ?></p>
-                    <p class="title"><?= $reward['title'] ?></p>
+                    <p class="project-title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
+                    <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
                     <p class="price"><?= $purchase_item['price'] ?> KRW</p>
                 </div>
             </div>

@@ -8,6 +8,8 @@ use Crisu83\ShortId\ShortId;
     'price',
     'stock_count',
     'available_count',
+    'select_date',
+    'category',
 ]);
 
 if ($type == 'create') {
@@ -93,17 +95,17 @@ $identifier = $shortid->generate();
                         <p class="input-title"><?= lang('service.status') ?></p>
                         <select class="editable" name="status" value="<?= $data['status'] ?? '' ?>">`
                             <option
-                                value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
+                                value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('Service.opened') ?></option>
                             <option
-                                value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('비공개') ?></option>
+                                value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('Service.closed') ?></option>
                         </select>
                     </div>
                 </div>
                 <div class="form-wrap extra">
                     <div class="line black"></div>
                     <div class="input-wrap artist">
-                        <p class="input-title"><?= lang('아티스트') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist', $data['artists'] ?? []) ?>
+                        <p class="input-title"><?= lang('Service.artist') ?></p>
+                        <?= \App\Helpers\HtmlHelper::getArtistRow('artist', $data['artists'] ?? [], $lang) ?>
                         <div class="button-wrap">
                             <a class="button" href="javascript:searchArtist('artist')">
                             </a>
@@ -112,7 +114,7 @@ $identifier = $shortid->generate();
                     <div class="line black"></div>
                     <div class="input-wrap reward">
                         <p class="input-title"><?= lang('가격 및 리워드') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', $data['rewards'] ?? []) ?>
+                        <?= \App\Helpers\HtmlHelper::getRewardRow('reward', $data['rewards'] ?? []) ?>
                         <div class="button-wrap">
                             <a class="button" href="javascript:addRewardForm('reward')">
                             </a>
