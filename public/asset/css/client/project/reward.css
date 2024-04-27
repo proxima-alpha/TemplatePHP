@@ -92,7 +92,7 @@
     font-weight: 600;
 }
 
-.reward-box .reward-wrap .available-count{
+.reward-box .reward-wrap .available-count {
     text-align: right;
     color: #A3A3A3;
 }
@@ -343,30 +343,6 @@
     height: 120px;
 }
 
-/*체크박스 커스텀*/
-.form-wrap .input-wrap input[type=checkbox] {
-    appearance: none; /* 원래 제공되는 체크박스 없애기 */
-    border-radius: 50%; /* 동그랗게 만들기 */
-    border: 2px solid #FF7A00;
-}
-
-.form-wrap .input-wrap input[type=checkbox]:checked {
-    background: #FF7A00;
-    position: relative;
-}
-
-.form-wrap .input-wrap input[type=checkbox]:checked:before {
-    content: '';
-    color: transparent;
-    display: block;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: url('/asset/images/custom/check.svg') 100%;
-}
-
 .container-inner .container-wrap .button-wrap {
     margin-top: 20px;
 }
@@ -440,25 +416,6 @@
 .container-inner .button-wrap {
     margin-top: 10px;
     text-align: center;
-}
-
-.container-inner .button.button-fill {
-    color: #fff;
-    padding: 10px 40px;
-    font-size: 18px;
-    border-radius: 100px;
-    font-weight: 400;
-    background: #FF7A00;
-}
-
-.container-inner .button.button-line {
-    color: #fff;
-    padding: 8px 38px;
-    font-size: 18px;
-    border-radius: 100px;
-    color: #FF7A00;
-    font-weight: 600;
-    border: 2px solid #FF7A00;
 }
 
 .container-inner .button.button-line.disabled {

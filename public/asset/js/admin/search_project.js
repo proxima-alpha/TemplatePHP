@@ -35,6 +35,7 @@ function onSearchProjectSelected(className, target, id) {
 
 async function openProjectSearchPopup(target, array, pagination) {
     let className = `popup-${target}-search`;
+    const language = getCookie('lang')
 
     function addPagination($parent) {
         if (typeof $parent === 'string') {
@@ -101,7 +102,7 @@ async function openProjectSearchPopup(target, array, pagination) {
                 <li class="row">
                     <a class="button row-button item-${item['id']}" href="javascript:onSearchProjectSelected('${className}', '${target}', ${item['id']});">
                         <span class="column status">${item['status']}</span>
-                        <span class="column title">${item['title']}</span>
+                        <span class="column title">${language == 'ko' ? item['title'] : item['title_en']}</span>
                     </a>
                 </li>`
             }

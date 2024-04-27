@@ -28,7 +28,7 @@ class ProfileController extends BaseClientController
         }
         $queryParams = $this->request->getGet();
         $data = $this->getViewData();
-        if(isset($queryParams['sub'])) {
+        if (isset($queryParams['sub'])) {
             $data['sub'] = $queryParams['sub'];
         }
         try {
@@ -44,7 +44,7 @@ class ProfileController extends BaseClientController
                     '/client/form',
                 ],
                 'js' => [
-                    '/common/profile',
+                    '/client/profile',
                 ],
             ])
             . view('/client/profile', $data)

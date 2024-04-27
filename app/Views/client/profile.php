@@ -32,11 +32,11 @@ if (!isset($sub)) $sub = 'view'
                     </div>
                     <div class="button-wrap" style="margin-top: 40px">
                         <a href="<?= $is_admin_page ? '/admin/profile?sub=password' : '/profile?sub=password' ?>"
-                           class="button change-password white"><?= lang('Service.password_reset') ?></a>
+                           class="button change-password button-line"><?= lang('Service.password_reset') ?></a>
                     </div>
                     <div class="button-wrap">
                         <a href="<?= $is_admin_page ? '/admin/profile?sub=edit' : '/profile?sub=edit' ?>"
-                           class="button edit-profile black"><?= lang('Service.profile_edit') ?></a>
+                           class="button edit-profile button-fill"><?= lang('Service.profile_edit') ?></a>
                     </div>
                 </div>
             </div>
@@ -68,9 +68,9 @@ if (!isset($sub)) $sub = 'view'
                 </div>
                 <div class="button-wrap controls">
                     <a href="javascript:cancelEditProfile()"
-                       class="button cancel white"><?= lang('Service.cancel') ?></a>
+                       class="button cancel button-line"><?= lang('Service.cancel') ?></a>
                     <a href="javascript:confirmChangePassword()"
-                       class="button confirm black"><?= lang('Service.confirm') ?></a>
+                       class="button confirm button-fill"><?= lang('Service.confirm') ?></a>
                 </div>
             </div>
         <?php } ?>

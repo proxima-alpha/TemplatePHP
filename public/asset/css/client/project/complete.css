@@ -20,14 +20,6 @@
     margin-top: 40px;
 }
 
-.container-inner .button.button-fill {
-    color: #fff;
-    padding: 10px 40px;
-    font-size: 18px;
-    border-radius: 100px;
-    font-weight: 400;
-    background: #FF7A00;
-}
 
 @media (max-width: 840px) {
     #image .overlap-text-box .text-wrap {

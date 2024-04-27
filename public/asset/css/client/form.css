@@ -23,6 +23,7 @@
 .form-wrap .input-title {
     color: #fff;
 }
+
 .timer {
     color: #fff;
 }
@@ -74,25 +75,6 @@
 /*for lines class*/
 .container-inner .input-wrap input[type=checkbox] {
     margin: 10px;
-}
-
-.container-inner .button.button-fill {
-    color: #fff;
-    padding: 10px 40px;
-    font-size: 18px;
-    border-radius: 100px;
-    font-weight: 400;
-    background: #FF7A00;
-}
-
-.container-inner .button.button-line {
-    color: #fff;
-    padding: 8px 38px;
-    font-size: 18px;
-    border-radius: 100px;
-    color: #FF7A00;
-    font-weight: 600;
-    border: 2px solid #FF7A00;
 }
 
 @media (max-width: 840px) {

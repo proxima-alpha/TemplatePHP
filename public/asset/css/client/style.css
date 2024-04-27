@@ -111,6 +111,59 @@
     background: #bbb;
 }
 
+.container-inner .button.button-fill {
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 18px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+
+.container-inner .button.button-line {
+    color: #fff;
+    padding: 8px 38px;
+    font-size: 18px;
+    border-radius: 100px;
+    color: #FF7A00;
+    font-weight: 600;
+    border: 2px solid #FF7A00;
+}
+
+.container-inner .button.button-fill.disabled {
+    pointer-events: none;
+    cursor: default;
+    background: #232127;
+}
+
+/* checkbox 커스텀 */
+.container-inner input[type=checkbox] {
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    appearance: none; /* 원래 제공되는 체크박스 없애기 */
+    border-radius: 50%; /* 동그랗게 만들기 */
+    padding: 2px;
+    border: 2px solid #FF7A00;
+}
+
+.container-inner input[type=checkbox]:checked {
+    background: #FF7A00;
+    position: relative;
+}
+
+.container-inner input[type=checkbox]:checked:before {
+    content: '';
+    color: transparent;
+    display: block;
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    top: 2px;
+    bottom: 2px;
+    background: url('/asset/images/custom/check.svg') 100%;
+}
+
 .selector {
     cursor: pointer;
     user-drag: none;

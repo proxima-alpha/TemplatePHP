@@ -277,6 +277,7 @@ function setEditing($parent, target) {
                     <div class="slick-wrap">`;
             html += `
                 <div class="slick uploader ${target}">`;
+            const language = getCookie('lang')
             for (let i in files.get(target)) {
                 let file_id = files.get(target)[i];
                 let extra = files.getExtra(target)[i];
@@ -284,9 +285,9 @@ function setEditing($parent, target) {
                     <div class="slick-item draggable-item upload-item" draggable="true">
                             <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                             <div class="text-item-wrap">
-                                <p class="item-title">${extra['title']}</p>
+                                <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
                                 <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                                <p class="item-content">${extra['content']}</p>
+                                <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
                             </div>
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
@@ -326,6 +327,7 @@ function setEditing($parent, target) {
                     <div class="slick-wrap">`;
                 html += `
                 <div class="slick uploader ${target}">`;
+                const language = getCookie('lang')
                 for (let i in files.get(target)) {
                     let file_id = files.get(target)[i];
                     let extra = files.getExtra(target)[i];
@@ -333,8 +335,8 @@ function setEditing($parent, target) {
                     <div class="slick-item draggable-item upload-item" draggable="true">
                             <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                             <div class="text-item-wrap">
-                                <p class="item-title">${extra['name']}</p>
-                                <p class="item-content">${extra['job']}</p>
+                                <p class="item-title">${language == 'ko' ? extra['name'] : extra['name_en']}</p>
+                                <p class="item-content">${language == 'ko' ? extra['job'] : extra['job_en']}</p>
                             </div>
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
@@ -500,6 +502,7 @@ function setView($parent, target) {
             }
                 break;
             case 'project': {
+                const language = getCookie('lang');
                 html = `
                 <div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick-wrap">`;
@@ -512,9 +515,9 @@ function setView($parent, target) {
                         <div class="slick-item">
                             <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                             <div class="text-item-wrap">
-                                <p class="item-title">${extra['title']}</p>
+                                <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
                                 <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                                <p class="item-content">${extra['content']}</p>
+                                <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
                             </div>
                         </div>`;
                 }
@@ -542,6 +545,7 @@ function setView($parent, target) {
                     <div class="slick-wrap">`;
                     html += `
                     <div class="slick uploader ${target}">`;
+                    const language = getCookie('lang');
                     for (let i in files.get(target)) {
                         let file_id = files.get(target)[i];
                         let extra = files.getExtra(target)[i];
@@ -551,8 +555,8 @@ function setView($parent, target) {
                                 <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
                             </div>
                             <div class="text-item-wrap">
-                                <p class="item-title">${extra['name']}</p>
-                                <p class="item-content">${extra['job']}</p>
+                            <p class="item-title">${language == 'ko' ? extra['name'] : extra['name_en']}</p>
+                            <p class="item-content">${language == 'ko' ? extra['job'] : extra['job_en']}</p>
                             </div>
                         </div>`;
                     }
@@ -656,14 +660,15 @@ function confirmProjectSearch(className, target) {
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {
+                    const language = getCookie('lang');
                     let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index,`
+                    $uploader.addCustomSlickItem(index, `
                 <div class="slick-item draggable-item upload-item" draggable="true">
                     <div class="image-item-wrap"><div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                     <div class="text-item-wrap">
-                        <p class="item-title">${data['title']}</p>
+                        <p class="item-title">${language == 'ko' ? data['title'] : data['title_en']}</p>
                         <p class="item-date">${toDateString(data['start_date'])} ~ ${toDateString(data['end_date'])}</p>
-                        <p class="item-content">${data['content']}</p>
+                        <p class="item-content">${language == 'ko' ? data['content'] : data['content_en']}</p>
                     </div>
                     <div class="upload-item-hover">
                         <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
@@ -714,13 +719,14 @@ function confirmArtistSearch(className, target) {
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {
+                    const language = getCookie('lang');
                     let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index,`
+                    $uploader.addCustomSlickItem(index, `
                 <div class="slick-item draggable-item upload-item" draggable="true">
                     <div class="image-item-wrap"><div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                     <div class="text-item-wrap">
-                        <p class="item-title">${data['name']}</p>
-                        <p class="item-content">${data['job']}</p>
+                        <p class="item-title">${language == 'ko' ? data['name'] : data['name_en']}</p>
+                        <p class="item-content">${language == 'ko' ? data['job'] : data['job_en']}</p>
                     </div>
                     <div class="upload-item-hover">
                         <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"

@@ -8,9 +8,11 @@ $identifier = $shortid->generate();
 \App\Helpers\HtmlHelper::setTranslations([
     'message_info_drag',
     'category',
+    'title',
     'status',
     'message_item_already_selected',
     'message_item_select',
+    'search_artist',
 ]);
 ?>
 <script type="text/javascript">
@@ -26,7 +28,9 @@ $identifier = $shortid->generate();
     files.push(`<?=$code?>`, `<?=$item['id']?>`, {
         profile_id: <?=$item['profile_id']?>,
         name: `<?=$item['name']?>`,
+        name_en: `<?=$item['name_en']?>`,
         job: `<?=$item['job']?>`,
+        job_en: `<?=$item['job_en']?>`,
     });
     <?php }
     }
@@ -39,9 +43,11 @@ $identifier = $shortid->generate();
         project_image_id: <?=$item['project_image_id']?>,
         <?php } ?>
         title: `<?=$item['title']?>`,
+        title_en: `<?=$item['title_en']?>`,
         start_date: `<?=$item['start_date']?>`,
         end_date: `<?=$item['end_date']?>`,
         content: `<?=$item['content']?>`,
+        content_en: `<?=$item['content_en']?>`,
     });
     <?php } else {?>
     files.push(`<?=$key?>`, `<?=$item['id']?>`, {
