@@ -38,26 +38,49 @@ $identifier = $shortid->generate();
                         } ?>
                     </select>
                 </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('Service.name') ?></p>
-                    <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>"/>
+                <div class="tab-box">
+                    <div class="tab-button-wrap">
+                        <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
+                        <a class="button en" onclick="clickTab(this,'en')">English</a>
+                    </div>
+                    <div class="tab-wrap ko active">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.name') ?></p>
+                            <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>"/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.job') ?></p>
+                            <input type="text" name="job" class="editable under-line" value="<?= $data['job'] ?>"/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.introduction') ?></p>
+                            <textarea class="editable" name="introduction" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"><?= $data['introduction'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-wrap en">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.name') ?></p>
+                            <input type="text" name="name_en" class="editable under-line" value="<?= $data['name_en'] ?>"/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.job') ?></p>
+                            <input type="text" name="job_en" class="editable under-line" value="<?= $data['job_en'] ?>"/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.introduction') ?></p>
+                            <textarea class="editable" name="introduction_en" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"><?= $data['introduction_en'] ?></textarea>
+                        </div>
+                    </div>
                 </div>
                 <div class="input-wrap">
-                    <p class="input-title"><?= lang('직업') ?></p>
-                    <input type="text" name="job" class="editable under-line" value="<?= $data['job'] ?>"/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('소개') ?></p>
-                    <textarea class="editable" name="introduction" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)"><?= $data['introduction'] ?></textarea>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('프로필 이미지') ?></p>
+                    <p class="input-title"><?= lang('Service.profile_image') ?></p>
                     <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null) ?>
                 </div>
             </div>
             <div class="slider-box">
-                <p class="title"><?= lang('샘플 영상') ?></p>
+                <p class="title"><?= lang('Service.sample_video') ?></p>
                 <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>

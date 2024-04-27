@@ -450,74 +450,59 @@ final class HtmlHelper
     public static function getRowUploaderReward($target, $items, $view_mode = 'input'): string
     {
         $html = '<div class="row-uploader ' . $target . '">';
-        if ($view_mode == 'input') {
-            foreach ($items as $index => $item) {
-                $html .=
-                    '<div class="draggable-item row-uploader-item" draggable="true">';
-                if (isset($item['id'])) {
-                    $html .= '<input hidden class="editable" type="text" name="id" value="' . $item['id'] . '">';
-                }
-                $html .= '
+        $option = $view_mode == 'input' ? '' : 'readonly';
+        foreach ($items as $index => $item) {
+            $html .=
+                '<div class="draggable-item row-uploader-item" ' . ($view_mode == 'input' ? 'draggable="true"' : '') . '>';
+            if (isset($item['id'])) {
+                $html .= '<input hidden class="editable" type="text" name="id" value="' . $item['id'] . '">';
+            }
+            $html .= '
+                <div class="tab-box">
+                    <div class="tab-button-wrap">
+                        <a class="button ko active" onclick="clickTab(this,\'ko\')">한국어</a>
+                        <a class="button en" onclick="clickTab(this,\'en\')">English</a>
+                    </div>
+                    <div class="tab-wrap ko active">
+                        <div class="input-wrap">
+                            <p class="input-title">' . lang('Service.title') . '</p>
+                            <input type="text" name="title" class="editable under-line" value="' . $item['title'] . '" ' . $option . '/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title">' . lang('Service.content') . '</p>
+                            <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)" ' . $option . '>' . $item['content'] . '</textarea>
+                        </div>
+                    </div>
+                    <div class="tab-wrap en">
+                        <div class="input-wrap">
+                            <p class="input-title">' . lang('Service.title') . '</p>
+                            <input type="text" name="title_en" class="editable under-line" value="' . $item['title_en'] . '" ' . $option . '/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title">' . lang('Service.content') . '</p>
+                            <textarea class="editable" name="content_en" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)" ' . $option . '>' . $item['content_en'] . '</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="line"></div>
                 <div class="input-wrap price">
-                    <p class="input-title">' . lang('가격') . '</p>
-                    <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '"/>
+                    <p class="input-title">' . lang('Service.price') . '</p>
+                    <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '" ' . $option . '/>
                     <p class="description">KRW</p>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title">' . lang('리워드 제목') . '</p>
-                    <input type="text" name="title" class="editable under-line" value="' . $item['title'] . '"/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title">' . lang('리워드') . '</p>
-                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)">' . $item['content'] . '</textarea>
                 </div>
                 <div class="column">
                     <div class="input-wrap">
-                        <p class="input-title">' . lang('재고') . '</p>
-                        <input type="number" name="total_count" class="editable under-line" value="' . $item['total_count'] . '"/>
+                        <p class="input-title">' . lang('Service.stock_count') . '</p>
+                        <input type="number" name="total_count" class="editable under-line" value="' . $item['total_count'] . '" ' . $option . '/>
                     </div>
                     <div class="input-wrap">
-                        <p class="input-title">' . lang('구매가능한 수량') . '</p>
-                        <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '"/>
+                        <p class="input-title">' . lang('Service.available_count') . '</p>
+                        <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '" ' . $option . '/>
                     </div>
                 </div>';
-                $html .= '</div>';
-            }
-        } else {
-            foreach ($items as $index => $item) {
-                $html .=
-                    '<div class="row-uploader-item">';
-                if (isset($item['id'])) {
-                    $html .= '<input hidden type="text" name="id" value="' . $item['id'] . '">';
-                }
-                $html .= '
-                <div class="input-wrap price">
-                    <p class="input-title">' . lang('가격') . '</p>
-                    <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '" readonly/>
-                    <p class="description">KRW</p>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title">' . lang('리워드 제목') . '</p>
-                    <input type="text" name="title" class="editable under-line" value="' . $item['title'] . '" readonly/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title">' . lang('리워드') . '</p>
-                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)" readonly>' . $item['content'] . '</textarea>
-                </div>
-                <div class="column">
-                    <div class="input-wrap">
-                        <p class="input-title">' . lang('재고') . '</p>
-                        <input type="number" name="total_count" class="editable under-line" value="' . $item['total_count'] . '"  readonly/>
-                    </div>
-                    <div class="input-wrap">
-                        <p class="input-title">' . lang('구매가능한 수량') . '</p>
-                        <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '"  readonly/>
-                    </div>
-                </div>';
-                $html .= '</div>';
-            }
+            $html .= '</div>';
         }
         $html .= '</div>';
         return $html;

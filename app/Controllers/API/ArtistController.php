@@ -101,8 +101,24 @@ class ArtistController extends CustomFileController
                 'label' => 'Name',
                 'rules' => 'required|min_length[1]',
             ],
+            'name_en' => [
+                'label' => 'Name',
+                'rules' => 'required|min_length[1]',
+            ],
             'introduction' => [
                 'label' => 'Introduction',
+                'rules' => 'required|min_length[1]',
+            ],
+            'introduction_en' => [
+                'label' => 'Introduction',
+                'rules' => 'required|min_length[1]',
+            ],
+            'job' => [
+                'label' => 'Job',
+                'rules' => 'required|min_length[1]',
+            ],
+            'job_en' => [
+                'label' => 'Job',
                 'rules' => 'required|min_length[1]',
             ],
         ];

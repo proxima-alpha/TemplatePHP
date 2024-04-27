@@ -1,4 +1,4 @@
-<div class="container-inner code-reward-request">
+<div class="container-inner code-reward-request code">
     <div class="container-wrap">
         <h4 class="page-sub-title">
             <?= lang('요청사항 설정') ?>
@@ -19,6 +19,7 @@
                         <div class="row">
                             <span class="column code"><?= lang('Service.code') ?></span>
                             <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column name-en"><?= lang('Service.name_en') ?></span>
                             <span class="column is_active"><?= lang('Service.is_active') ?></span>
                         </div>
                     </div>
@@ -29,6 +30,7 @@
                                    class="button row-button">
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
+                                    <span class="column name-en"><?= $item['name_en'] ?></span>
                                     <span class="column is_active">
                                     <img src="/asset/images/icon/<?= $item['is_active'] == 0 ? 'none.png' : 'check.png' ?>"/>
                                     </span>
@@ -66,10 +68,15 @@
                 code: {
                     type: 'text',
                     name: `<?=lang('Service.code')?>`,
+                    editable: false,
                 },
                 name: {
                     type: 'text',
                     name: `<?=lang('Service.name')?>`,
+                },
+                name_en: {
+                    type: 'text',
+                    name: `<?=lang('Service.name_en')?>`,
                 },
                 is_active: {
                     type: 'bool',

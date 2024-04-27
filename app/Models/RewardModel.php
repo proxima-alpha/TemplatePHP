@@ -10,6 +10,8 @@ class RewardModel extends BasePriorityModel
         'project_id',
         'title',
         'content',
+        'title_en',
+        'content_en',
         'total_count',
         'price',
         'limited_count',

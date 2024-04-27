@@ -8,29 +8,59 @@
                         <option value="1"><?= $data['code_artist'] ?></option>
                     </select>
                 </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('Service.name') ?></p>
-                    <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>" readonly/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('직업') ?></p>
-                    <input type="text" name="job" class="editable under-line" value="<?= $data['job'] ?>" readonly/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('소개') ?></p>
-                    <textarea name="introduction" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)" readonly><?= $data['introduction'] ?></textarea>
+                <div class="tab-box">
+                    <div class="tab-button-wrap">
+                        <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
+                        <a class="button en" onclick="clickTab(this,'en')">English</a>
+                    </div>
+                    <div class="tab-wrap ko active">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.name') ?></p>
+                            <input type="text" name="name" class="editable under-line" value="<?= $data['name'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.job') ?></p>
+                            <input type="text" name="job" class="editable under-line" value="<?= $data['job'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.introduction') ?></p>
+                            <textarea name="introduction" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"
+                                      readonly><?= $data['introduction'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-wrap en">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.name') ?></p>
+                            <input type="text" name="name_en" class="editable under-line"
+                                   value="<?= $data['name_en'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.job') ?></p>
+                            <input type="text" name="job_en" class="editable under-line" value="<?= $data['job_en'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.introduction') ?></p>
+                            <textarea name="introduction_en" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"
+                                      readonly><?= $data['introduction_en'] ?></textarea>
+                        </div>
+                    </div>
                 </div>
                 <?php if (isset($data['profile_id'])) { ?>
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('프로필 이미지') ?></p>
+                        <p class="input-title"><?= lang('Service.profile_image') ?></p>
                         <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null, 'view') ?>
                     </div>
                 <?php } ?>
             </div>
             <?php if (isset($data['previews']) && sizeof($data['previews']) > 0) { ?>
                 <div class="slider-box">
-                    <p class="title"><?= lang('샘플 영상') ?></p>
+                    <p class="title"><?= lang('Service.sample_video') ?></p>
                     <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null) ?>
                 </div>
             <?php }
@@ -51,5 +81,4 @@
         </div>
         <div class="line black"></div>
     </div>
-</div>
 </div>

@@ -61,7 +61,7 @@
 }
 
 .row-uploader.reward .row-uploader-item .column > div {
-    width: calc(50% - 30px);
+    width: 50%;
     display: inline-block;
 }
 

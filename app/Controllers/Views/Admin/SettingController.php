@@ -90,6 +90,7 @@ class SettingController extends BaseAdminController
                     '/common/table',
                     '/common/table_combination',
                     '/admin/setting',
+                    '/admin/code',
                 ],
                 'js' => [
                     '/admin/popup_input',

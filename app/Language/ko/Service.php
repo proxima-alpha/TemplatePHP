@@ -85,6 +85,18 @@ return [
     "footer_logo" => "하단 로고",
     "is_active" => "활성화 여부",
 
+    "job" => "직업",
+    "introduction" => "소개",
+    "profile_image" => "프로필 이미지",
+    "sample_video" => "샘플 영상",
+    "start_date" => "시작일",
+    "end_date" => "마감일",
+    "project_image" => "프로젝트 이미지",
+    "price_reward" => "가격 및 리워드",
+    "price" => "가격",
+    "stock_count" => "재고",
+    "available_count" => "구매 가능한 수량",
+
     //admin
     "board" => "게시판",
     "reply" => "댓글",

@@ -108,7 +108,7 @@ class BaseClientController extends BaseViewController
                 'name' => lang('Client.company_info_name'),
                 'ceo_name' => lang('Client.company_info_ceo_name'),
                 'cs_center' => lang('Client.company_info_cs_center'),
-                'company_number' =>lang('Client.company_info_company_number'),
+                'company_number' => lang('Client.company_info_company_number'),
                 'certification_number' => lang('Client.company_info_certification_number'),
                 'address' => lang('Client.company_info_address'),
                 'email' => lang('Client.company_info_email'),

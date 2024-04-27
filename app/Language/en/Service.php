@@ -85,6 +85,18 @@ return [
     "footer_logo" => "Footer Logo",
     "is_active" => "Active",
 
+    "job" => "Job",
+    "introduction" => "Introduction",
+    "profile_image" => "Profile Image",
+    "sample_video" => "Sample Video",
+    "start_date" => "Start Date",
+    "end_date" => "End Date",
+    "project_image" => "Project Image",
+    "price_reward" => "Price & Reward",
+    "price" => "Price",
+    "stock_count" => "Stocks",
+    "available_count" => "Available",
+
     //main
     "show_detail" => "Show Detail",
 

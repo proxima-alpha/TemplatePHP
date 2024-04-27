@@ -90,6 +90,14 @@ class ProjectController extends CustomFileController
                 'label' => 'Content',
                 'rules' => 'required|min_length[1]',
             ],
+            'title_en' => [
+                'label' => 'Title',
+                'rules' => 'required|min_length[1]',
+            ],
+            'content_en' => [
+                'label' => 'Content',
+                'rules' => 'required|min_length[1]',
+            ],
             'start_date' => [
                 'label' => 'Start Date',
                 'rules' => 'required',

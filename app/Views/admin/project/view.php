@@ -2,41 +2,59 @@
     <div class="container-wrap">
         <div class="project-wrap">
             <div class="form-wrap project">
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('제목') ?></p>
-                    <input type="text" name="title" class="editable under-line" value="<?= $data['title'] ?>" readonly/>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('내용') ?></p>
-                    <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)" readonly><?= $data['content'] ?></textarea>
-                </div>
-                <div class="input-wrap">
-                    <p class="input-title"><?= lang('이용방법') ?></p>
-                    <textarea class="editable" name="guide" onkeydown="resizeInputPopupTextarea(this)"
-                              onkeyup="resizeInputPopupTextarea(this)" readonly><?= $data['guide'] ?></textarea>
+                <div class="tab-box">
+                    <div class="tab-button-wrap">
+                        <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
+                        <a class="button en" onclick="clickTab(this,'en')">English</a>
+                    </div>
+                    <div class="tab-wrap ko active">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.title') ?></p>
+                            <input type="text" name="title" class="editable under-line" value="<?= $data['title'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.content') ?></p>
+                            <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"
+                                      readonly><?= $data['content'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="tab-wrap en">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.title') ?></p>
+                            <input type="text" name="title_en" class="editable under-line" value="<?= $data['title_en'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.content') ?></p>
+                            <textarea class="editable" name="content_en" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"
+                                      readonly><?= $data['content_en'] ?></textarea>
+                        </div>
+                    </div>
                 </div>
                 <?php if (isset($data['project_image_id'])) { ?>
                     <div class="line"></div>
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('타이틀 이미지') ?></p>
+                        <p class="input-title"><?= lang('Service.project_image') ?></p>
                         <?= \App\Helpers\HtmlHelper::getImageUploader('project', $data['project_image_id'] ?? null, 'view') ?>
                     </div>
                 <?php } ?>
                 <div class="line"></div>
                 <div class="input-wrap calendar">
-                    <p class="input-title"><?= lang('시작일') ?></p>
+                    <p class="input-title"><?= lang('Service.start_date') ?></p>
                     <input class="editable" name="start_date"
                            value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) ?>" readonly>
                 </div>
                 <div class="input-wrap calendar">
-                    <p class="input-title"><?= lang('마감일') ?></p>
+                    <p class="input-title"><?= lang('Service.end_date') ?></p>
                     <input class="editable" name="end_date"
                            value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?>" readonly>
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap inline status">
-                    <p class="input-title"><?= lang('상태') ?></p>
+                    <p class="input-title"><?= lang('service.status') ?></p>
                     <select class="editable" name="status" disabled>`
                         <option
                             value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('공개') ?></option>
@@ -50,14 +68,14 @@
                     <?php if (isset($data['artists'])) { ?>
                         <div class="line black"></div>
                         <div class="input-wrap artist">
-                            <p class="input-title"><?= lang('아티스트') ?></p>
+                            <p class="input-title"><?= lang('Service.artist') ?></p>
                             <?= \App\Helpers\HtmlHelper::getRowUploaderArtist('artist_id', $data['artists'], 'view') ?>
                         </div>
                     <?php }
                     if (isset($data['rewards'])) { ?>
                         <div class="line black"></div>
                         <div class="input-wrap reward">
-                            <p class="input-title"><?= lang('가격 및 리워드') ?></p>
+                            <p class="input-title"><?= lang('Service.price_reward') ?></p>
                             <?= \App\Helpers\HtmlHelper::getRowUploaderReward('reward', $data['rewards'], 'view') ?>
                         </div>
                     <?php } ?>

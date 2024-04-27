@@ -1,7 +1,7 @@
 <?php
 
 ?>
-<div class="container-inner code-artist">
+<div class="container-inner code-artist code">
     <div class="container-wrap">
         <h4 class="page-sub-title">
             <?= lang('아티스트 분류 설정') ?>
@@ -25,6 +25,7 @@
                         <div class="row">
                             <span class="column code"><?= lang('Service.code') ?></span>
                             <span class="column name"><?= lang('Service.name') ?></span>
+                            <span class="column name-en"><?= lang('Service.name_en') ?></span>
                         </div>
                     </div>
                     <ul class="code-artist">
@@ -34,6 +35,7 @@
                                 <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
+                                    <span class="column name-en"><?= $item['name_en'] ?></span>
                                 </a>
                             </li>
                         <?php } ?>
@@ -65,11 +67,15 @@
                 code: {
                     type: 'text',
                     name: `<?=lang('Service.code')?>`,
-                    description: `<?=lang('Service.message_info_english')?>`
+                    editable: false,
                 },
                 name: {
                     type: 'text',
                     name: `<?=lang('Service.name')?>`,
+                },
+                name_en: {
+                    type: 'text',
+                    name: `<?=lang('Service.name_en')?>`,
                 },
             }
             let keys = Object.keys(typeSet);

@@ -9,6 +9,7 @@ class CodeArtistModel extends BasePriorityModel
         'id',
         'code',
         'name',
+        'name_en',
         'is_active',
         'is_deleted',
         'priority',
@@ -20,17 +21,20 @@ class CodeArtistModel extends BasePriorityModel
     {
         $this->createIfNotExist(['code' => 'artist'], [
             "code" => "artist",
-            "name" => "ARTIST",
+            "name" => "아티스트",
+            "name_en" => "Artist",
             "priority" => "1",
         ]);
         $this->createIfNotExist(['code' => 'actor'], [
             "code" => "actor",
-            "name" => "ACTOR",
+            "name" => "배우",
+            "name_en" => "Actor",
             "priority" => "2",
         ]);
         $this->createIfNotExist(['code' => 'creator'], [
             "code" => "creator",
-            "name" => "CREATOR",
+            "name" => "크리에이터",
+            "name_en" => "Creator",
             "priority" => "3",
         ]);
     }

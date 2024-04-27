@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers\Utils;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -73,7 +74,7 @@ abstract class BaseController extends Controller
     {
         $language = \Config\Services::language();
         $lang = $this->session->lang;
-        $language->setLocale($lang ?? 'ko');
+        $language->setLocale($lang ?? Utils::startsWith( $_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ko-KR') ? 'ko' : 'en');
     }
 
 }
