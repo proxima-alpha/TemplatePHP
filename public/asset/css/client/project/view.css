@@ -49,6 +49,10 @@
     border-radius: 50%;
 }
 
+#artists .slick-item.selected .image-item {
+    border: 4px solid #FF7A00;
+}
+
 #artists .slick-item p {
     font-size: 18px;
     padding: 0 10px;
@@ -127,7 +131,6 @@
 .artist-box .slick .slick-item {
     height: 250px;
     margin: 10px;
-    border-radius: 10px;
     position: relative;
 }
 

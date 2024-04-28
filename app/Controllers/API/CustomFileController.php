@@ -5,6 +5,7 @@ namespace API;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
 use Exception;
+use getID3;
 use InvalidArgumentException;
 use Models\BaseModel;
 use Models\CustomFileModel;
@@ -76,6 +77,12 @@ class CustomFileController extends BaseApiController
                         $height = $size[1];
                         break;
                     case 'video' :
+                        $getID3 = new getID3;
+                        $ThisFileInfo = $getID3->analyze($path . '/' . $file_name);
+                        $getID3->CopyTagsToComments($ThisFileInfo);
+                        $width = $ThisFileInfo['video']['resolution_x'];
+                        $height = $ThisFileInfo['video']['resolution_y'];
+                        $time = $ThisFileInfo['playtime_seconds'] ?? 0;
 //                        // video load 에 시간이 너무 오래 걸려 수정 페이지에서는 thumbnail 만 보여주도록 적용
 //                        $ffmpeg = FFMpeg::create();
 //                        $video = $ffmpeg->open($path . '/' . $file_name);

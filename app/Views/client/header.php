@@ -20,6 +20,7 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
     <link rel="stylesheet" type="text/css" href="/asset/css/client/style.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/client/include.css"/>
     <link rel="stylesheet" type="text/css" href="/asset/css/common/popup.css"/>
+    <link rel="stylesheet" type="text/css" href="/asset/css/client/popup.css"/>
     <?php
     if (isset($css)) echo $css;
     ?>
@@ -28,6 +29,7 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
     <script type="text/javascript" src="/asset/js/default.js"></script>
     <script type="text/javascript" src="/asset/js/client/navigation.js"></script>
     <script type="text/javascript" src="/asset/js/module/popup.js"></script>
+    <script type="text/javascript" src="/asset/js/client/popup.js"></script>
     <script type="text/javascript" src="/asset/js/common/login.js"></script>
     <?php
     if (isset($js)) echo $js;

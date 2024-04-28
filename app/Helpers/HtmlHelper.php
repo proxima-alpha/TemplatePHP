@@ -282,7 +282,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getGrpahicSettingSlick($files, $isAdmin = false): string
+    public static function getMediaSlick($files, $isAdmin = false): string
     {
         $html =
             '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
@@ -297,13 +297,19 @@ final class HtmlHelper
                         Slider # ' . $file['id'] .
                         '</div>';
                 } else {
-                    $html .=
-                        '<div class="slick-item button">
+                    if (!$isAdmin) {
+                        $html .=
+                            '<div class="slick-item">
+                            <video preload="metadata" controls style="width: 100%; height: 100%" muted>
+                                <source src="' . $file['relative_path'] . '" >
+                            </video>';
+                        $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
+                    } else {
+                        $html .=
+                            '<div class="slick-item button">
                             <video preload="metadata" muted>
                                 <source src="' . $file['relative_path'] . '" >
                             </video>';
-                    if (!$isAdmin) {
-                        $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
                     }
                     $html .= '</div>';
                 }

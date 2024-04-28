@@ -21,7 +21,24 @@ if (isset($data['artists'])) { ?>
     <div class="section" id="artists">
         <div class="page-inner">
             <div class="content-wrap slider-box">
-                <?= \App\Helpers\HtmlHelper::getArtistSlick($data['artists'], 'profile_id', $lang); ?>
+                <div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
+                    <div class="slick">
+                        <?php foreach ($data['artists'] as $index => $item) {
+                            $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
+                            ?>
+                            <div class="slick-item button" id="artist-<?= $item['id'] ?>" onclick="setArtist(<?=$item['id']?>)">
+                                <div class="image-item-wrap">
+                                    <div class="image-item"
+                                         style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>
+                                </div>
+                                <div class="text-item-wrap">
+                                    <p class="item-title"><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></p>
+                                    <p class="item-content"><?= $lang == 'ko' ? $item['job'] : $item['job_en'] ?></p>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
             </div>
             <div class="line"></div>
         </div>

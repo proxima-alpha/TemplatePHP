@@ -71,7 +71,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['main'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['main'], true); ?>
+                    <?= \App\Helpers\HtmlHelper::getMediaSlick($data['main'], true); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -88,7 +88,7 @@ $identifier = $shortid->generate();
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['relation'], true); ?>
+                    <?= \App\Helpers\HtmlHelper::getMediaSlick($data['relation'], true); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">

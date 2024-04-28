@@ -1,4 +1,6 @@
-
+html {
+    scrollbar-color: #fff #121114;
+}
 #container {
     background: #121114;
     width: 100%;
@@ -111,7 +113,7 @@
     background: #bbb;
 }
 
-.container-inner .button.button-fill {
+.button.button-fill {
     color: #fff;
     padding: 10px 40px;
     font-size: 18px;
@@ -120,7 +122,7 @@
     background: #FF7A00;
 }
 
-.container-inner .button.button-line {
+.button.button-line {
     color: #fff;
     padding: 8px 38px;
     font-size: 18px;
@@ -130,14 +132,14 @@
     border: 2px solid #FF7A00;
 }
 
-.container-inner .button.button-fill.disabled {
+.button.button-fill.disabled {
     pointer-events: none;
     cursor: default;
     background: #232127;
 }
 
 /* checkbox 커스텀 */
-.container-inner input[type=checkbox] {
+input[type=checkbox] {
     width: 24px;
     height: 24px;
     margin: 0;
@@ -147,12 +149,12 @@
     border: 2px solid #FF7A00;
 }
 
-.container-inner input[type=checkbox]:checked {
+input[type=checkbox]:checked {
     background: #FF7A00;
     position: relative;
 }
 
-.container-inner input[type=checkbox]:checked:before {
+input[type=checkbox]:checked:before {
     content: '';
     color: transparent;
     display: block;

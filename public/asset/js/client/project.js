@@ -1,13 +1,31 @@
 $(document).ready(function () {
-    const $slick = $('#artists .slick');
-    $slick.slick({
-        infinite: false,
-        autoplay: true,
-        draggable: true,
-        slidesToShow: 6,
-        duration: 2000
+
+    $('body').setOnResolutionChanged((event) => {
+        let isMobile = event.detail.isMobile;
+
+        const $slick = $('#artists .slick');
+        if ($slick.hasClass('slick-initialized')) {
+            $slick.slick("unslick");
+        }
+        if(isMobile) {
+            $slick.slick({
+                infinite: false,
+                autoplay: true,
+                draggable: true,
+                slidesToShow: 3,
+                duration: 2000
+            })
+        } else {
+            $slick.slick({
+                infinite: false,
+                autoplay: true,
+                draggable: true,
+                slidesToShow: 6,
+                duration: 2000
+            })
+        }
+        $slick.setVideoCoverStyle();
     })
-    $slick.setVideoCoverStyle();
 });
 
 function setArtist(id) {
@@ -22,6 +40,8 @@ function setArtist(id) {
             }
             let data = response.data
             const language = getCookie('lang');
+            $('#artists .selected').removeClass('selected')
+            $(`#artist-${id}`).addClass('selected')
             const $container = $('.container-inner .artist-box');
             $container.empty();
             let html = `
@@ -50,7 +70,7 @@ function setArtist(id) {
                     } else {
                         html += `
                         <div class="slick-item button">
-                            <video preload="metadata">
+                            <video preload="metadata" controls style="width: 100%; height: 100%;">
                                 <source src="${file_url}">
                             </video>
                             <p class="time-string">${secToString(preview['time'])}</p>
@@ -63,7 +83,6 @@ function setArtist(id) {
                 </div>`;
             }
             $container.append(html);
-            $container.setVideoCoverStyle();
             const $slick = $container.find('.slick');
             if ($slick.length > 0) {
                 $slick.slick({

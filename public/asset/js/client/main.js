@@ -41,21 +41,34 @@ $(document).ready(function () {
         accessibility: false,
     });
 
-    $('#page-media .slick').slick({
-        infinite: true,
-        autoplay: true,
-        draggable: true,
-        slidesToShow: 6,
-        duration: 2000
-    })
-    $('#page-media .slick').setVideoCoverStyle();
+    // $('#page-media .slick').setVideoCoverStyle();
     // // slick item 이 없는 경우 setOnResolutionChanged 이 작동하지 않으므로
     // // slick과 연관없는 기능들은 body에 연결해준다
-    // $('body').setOnResolutionChanged((event) => {
-    //     let isMobile = event.detail.isMobile;
-    //
-    //     setMainPageHeaderShape(mainPageIndex, mainPageNextIndex, isMobile)
-    // })
+    $('body').setOnResolutionChanged((event) => {
+        let isMobile = event.detail.isMobile;
+
+        const $slick = $('#page-media .slick');
+        if ($slick.hasClass('slick-initialized')) {
+            $slick.slick("unslick");
+        }
+        if(isMobile) {
+            $slick.slick({
+                infinite: true,
+                autoplay: true,
+                draggable: true,
+                slidesToShow: 3,
+                duration: 2000
+            })
+        } else {
+            $slick.slick({
+                infinite: true,
+                autoplay: true,
+                draggable: true,
+                slidesToShow: 6,
+                duration: 2000
+            })
+        }
+    })
 
     checkPagePopup();
 
@@ -198,44 +211,6 @@ function resizeWindow() {
     // }
 
     resizePagePopupWindow();
-}
-
-function setMainPageHeaderShape(index, nextIndex, isMobile = false) {
-    let $header = $('#header');
-    $header.css({
-        'animation-duration': '',
-        'animation-name': '',
-    })
-    if (isMobile) {
-        $header.removeClass('downsized');
-    }
-    if (index === 1) {
-        let $body = $('body')
-        if ($body && $header) {
-            $header.remove()
-            if (!isMobile) {
-                $header.addClass('downsized');
-            }
-            $body.prepend($header)
-            if (!isMobile) {
-                $header.css({
-                    'animation-duration': '0.2s',
-                    'animation-name': 'headerSlideOut',
-                });
-            }
-        }
-    } else if (nextIndex == 1) {
-        let $sectionStart = $('#page-start');
-        if ($sectionStart && $header) {
-            $header.remove();
-            $header.removeClass('downsized')
-            $sectionStart.prepend($header)
-        }
-    } else {
-        if (!isMobile && !$header.hasClass('downsized')) {
-            $header.addClass('downsized');
-        }
-    }
 }
 
 addEventListener("resize", (event) => {

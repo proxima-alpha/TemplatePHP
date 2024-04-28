@@ -28,7 +28,7 @@
             </h4>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getGrpahicSettingSlick($data['relation']); ?>
+                    <?= \App\Helpers\HtmlHelper::getMediaSlick($data['relation']); ?>
                 <?php } ?>
             </div>
         </div>

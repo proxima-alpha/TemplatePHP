@@ -151,7 +151,7 @@
             <div class="page" id="page-3">
                 <div class="purchase-item-box">
                     <h4 class="page-sub-title">
-                        <?= lang('purchase_selected_item') ?>
+                        <?= lang('Client.purchase_selected_item') ?>
                     </h4>
                     <?php if (isset($project)) { ?>
                         <div class="project-wrap">
