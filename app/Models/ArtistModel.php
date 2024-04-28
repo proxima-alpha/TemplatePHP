@@ -15,8 +15,6 @@ class ArtistModel extends BaseModel
         'name_en',
         'job_en',
         'introduction_en',
-        'password',
-        'is_public',
         'is_posted',
         'is_deleted',
         'priority',

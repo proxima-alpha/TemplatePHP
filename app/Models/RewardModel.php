@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use App\Helpers\ServerLogger;
+
 class RewardModel extends BasePriorityModel
 {
     protected $table = 'reward';
@@ -26,7 +28,7 @@ class RewardModel extends BasePriorityModel
     {
         $query = "SELECT COUNT(*) AS cnt FROM purchase" .
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
-            " WHERE purchase.reward_id = '" . $reward_id . "' AND purchase.user_id = '" . $user_id . "' AND purchase.status = 'paid'";
+            " WHERE purchase_item.is_refunded = 0 AND purchase.reward_id = '" . $reward_id . "' AND purchase.user_id = '" . $user_id . "' AND purchase.status = 'paid'";
         $result = BaseModel::transaction($this->db, [
             [
                 "query" => $query,

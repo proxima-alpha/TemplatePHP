@@ -159,7 +159,7 @@ class BaseAdminController extends BaseViewController
     protected function getViewData(): array
     {
         return array_merge(parent::getViewData(), [
-            'is_admin_page' => true
+            'is_admin_page' => true,
         ]);
     }
 }

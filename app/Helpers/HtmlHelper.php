@@ -492,8 +492,8 @@ final class HtmlHelper
                                       onkeyup="resizeInputPopupTextarea(this)" ' . $option . '>' . $item['content_en'] . '</textarea>
                         </div>
                     </div>
+                    <div class="line"></div>
                 </div>
-                <div class="line"></div>
                 <div class="input-wrap price">
                     <p class="input-title">' . lang('Service.price') . '</p>
                     <input type="number" name="price" class="editable under-line" value="' . $item['price'] . '" ' . $option . '/>
@@ -505,8 +505,12 @@ final class HtmlHelper
                         <input type="number" name="total_count" class="editable under-line" value="' . $item['total_count'] . '" ' . $option . '/>
                     </div>
                     <div class="input-wrap">
-                        <p class="input-title">' . lang('Service.available_count') . '</p>
+                        <p class="input-title">' . lang('Service.limited_count') . '</p>
                         <input type="number" name="limited_count" class="editable under-line" value="' . $item['limited_count'] . '" ' . $option . '/>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title">' . lang('Service.remaining_count') . '</p>
+                        <input type="number" name="limited_count" class="editable under-line" value="' . ($item['total_count'] - $item['paid_count']) . '" readonly/>
                     </div>
                 </div>';
             $html .= '</div>';

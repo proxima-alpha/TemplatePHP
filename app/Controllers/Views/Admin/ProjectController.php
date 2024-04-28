@@ -187,6 +187,13 @@ class ProjectController extends BaseAdminController
         $project = $projects[0];
         $artists = $this->artistGroupModel->getArtists($id);
         $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+        foreach ($rewards as $index => $reward) {
+            if (isset($this->session->user_id)) {
+                $rewards[$index]['paid_count'] = $this->rewardModel->getPaidCount($reward['id'], $this->session->user_id);
+            } else {
+                $rewards[$index]['paid_count'] = 0;
+            }
+        }
         $project['artists'] = $artists;
         $project['rewards'] = $rewards;
         $result['data'] = $project;

@@ -1,6 +1,5 @@
 
 .row-uploader-item {
-    width: calc(100% - 40px);
     height: 250px;
     box-sizing: border-box;
     line-height: 250px;

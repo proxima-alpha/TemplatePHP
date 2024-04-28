@@ -1,0 +1,96 @@
+.table-wrap {
+    margin-top: 20px;
+}
+.table-wrap .row .row-button .column {
+    text-overflow: unset;
+    white-space: normal;
+    overflow: auto;
+    vertical-align: top;
+}
+
+.table-wrap .column.title {
+    width: 35%;
+}
+
+.table-wrap .column.purchased-count {
+    width: 10%;
+    text-align: center;
+}
+
+.table-wrap .column.price {
+    width: 25%;
+    text-align: right;
+}
+
+.table-wrap .column.is-deleted {
+    width: 10%;
+    text-align: center;
+}
+
+.table-wrap .column.created-at {
+    width: 20%;
+    text-align: right;
+}
+
+.project-wrap {
+    padding: 20px 15px;
+    border: 1px solid #000;
+}
+
+.project-wrap > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.project-wrap .image-wrap {
+    width: 150px;
+    height: 150px;
+}
+
+.project-wrap .content-wrap {
+    margin-left: 20px;
+    width: calc(100% - 170px);
+    text-align: left;
+}
+
+.project-wrap p {
+    font-size: 18px;
+}
+
+.project-wrap .title {
+    font-size: 22px;
+    line-height: 40px;
+    font-weight: 400;
+}
+
+.project-wrap .content {
+    margin: 5px;
+    min-height: 50px;
+}
+
+@media (max-width: 840px) {
+    .project-wrap {
+        margin: 10px;
+    }
+    .table-wrap .column.title {
+        width: 40%;
+    }
+
+    .table-wrap .column.purchased-count {
+        width: 15%;
+    }
+
+    .table-wrap .column.price {
+        width: 30%;
+        text-align: right;
+    }
+
+    .table-wrap .column.is-deleted {
+        width: 15%;
+        text-align: right;
+    }
+
+    .table-wrap .column.created-at {
+        display: none;
+    }
+}

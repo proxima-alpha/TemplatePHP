@@ -1,6 +1,7 @@
 .table-wrap .column.title {
     width: 30%;
 }
+
 .table-wrap .column.status {
     width: 10%;
 }
@@ -8,6 +9,7 @@
 .table-wrap .column.start-date {
     width: 20%;
 }
+
 .table-wrap .column.end-date {
     width: 20%;
 }
@@ -15,4 +17,27 @@
 .table-wrap .column.created-at {
     width: 20%;
     text-align: right;
+}
+
+
+@media (max-width: 840px) {
+    .table-wrap .column.title {
+        width: 35%;
+    }
+
+    .table-wrap .column.status {
+        width: 15%;
+    }
+
+    .table-wrap .column.start-date {
+        width: 25%;
+    }
+
+    .table-wrap .column.end-date {
+        width: 25%;
+    }
+
+    .table-wrap .column.created-at {
+        display: none;
+    }
 }

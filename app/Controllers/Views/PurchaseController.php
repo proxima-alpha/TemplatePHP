@@ -38,7 +38,7 @@ class PurchaseController extends BaseClientController
         $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
-            $result = $this->purchaseItemModel->getPaginated([
+            $result = $this->purchaseItemModel->getPaginatedForClient([
                 'per_page' => 15,
                 'page' => $page,
             ], [

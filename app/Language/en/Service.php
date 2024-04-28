@@ -96,7 +96,9 @@ return [
     "price_reward" => "Price & Reward",
     "price" => "Price",
     "stock_count" => "Stocks",
-    "available_count" => "Available",
+    "available_count" => "Available Count",
+    "limited_count" => "Limited Count",
+    "remaining_count" => "Remaining Count",
 
     "artist_code" => "Artist Category",
     "reward_request_code" => "Reward Request Category",
@@ -125,6 +127,12 @@ return [
     "relation" => "Relation",
     "show_main" => "Visible in main page",
     "previous_project" => "Previous Project",
+    "manage_reward" => "Manage Reward",
+    "is_deleted" => "Hide",
+    "purchased_count" => "Purchased",
+    "is_mine" => "My Video",
+    "is_agreed" => "Video Open Agreement",
+    "memo" => "Memo",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

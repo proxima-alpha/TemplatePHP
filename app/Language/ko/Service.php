@@ -97,6 +97,8 @@ return [
     "price" => "가격",
     "stock_count" => "재고",
     "available_count" => "구매 가능한 수량",
+    "limited_count" => "한정 수량",
+    "remaining_count" => "남은 수량",
 
     "artist_code" => "아티스트 분류",
     "reward_request_code" => "요청사항 분류",
@@ -122,6 +124,12 @@ return [
     "relation" => "릴레이션",
     "show_main" => "메인 페이지에 게시",
     "previous_project" => "지난 프로젝트",
+    "manage_reward" => "리워드 관리",
+    "is_deleted" => "보관",
+    "purchased_count" => "구매",
+    "is_mine" => "본인을 위한 영상",
+    "is_agreed" => "영상 공개 동의",
+    "memo" => "메모",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

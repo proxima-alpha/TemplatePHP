@@ -18,6 +18,8 @@ class ProjectModel extends BaseModel
         'is_deleted',
         'is_authenticated',
         'is_posted',
+        'access_hash',
+        'password',
         'priority',
         'updated_at',
         'created_at',

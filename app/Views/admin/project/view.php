@@ -69,7 +69,7 @@
                         <div class="line black"></div>
                         <div class="input-wrap artist">
                             <p class="input-title"><?= lang('Service.artist') ?></p>
-                            <?= \App\Helpers\HtmlHelper::getArtistRow('artist_id', $data['artists'], $lang, 'view') ?>
+                            <?= \App\Helpers\HtmlHelper::getArtistRow('artist', $data['artists'], $lang, 'view') ?>
                         </div>
                     <?php }
                     if (isset($data['rewards'])) { ?>
@@ -81,8 +81,14 @@
                     <?php } ?>
                 </div>
             <?php }
-            if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>
+            if ($is_login && $is_admin) { ?>
+                <div class="line black"></div>
                 <div class="control-button-wrap">
+                    <a href="<?= '/admin/project/'.$data['access_hash'].'/reward' ?>"
+                       class="button under-line edit">
+                        <img src="/asset/images/icon/detail.png"/>
+                        <span><?= lang('Service.manage_reward') ?></span>
+                    </a>
                     <a href="<?= $is_admin_page ? '/admin/project/' . $data['id'] . '/edit' : '/project/' . $data['id'] . '/edit' ?>"
                        class="button under-line edit">
                         <img src="/asset/images/icon/edit.png"/>

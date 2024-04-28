@@ -1,0 +1,93 @@
+
+.reward-wrap {
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #000;
+}
+
+.reward-wrap p {
+    font-size: 18px;
+}
+
+.reward-wrap .title {
+    font-size: 22px;
+    line-height: 40px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.reward-wrap .content {
+    margin: 5px;
+    min-height: 50px;
+    max-height: 150px;
+    overflow: hidden;
+}
+
+.reward-wrap .limited-count {
+    text-align: right;
+}
+
+.purchase-item-wrap {
+    text-align: left;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+}
+
+.purchase-item-wrap .uploader {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.purchase-item-wrap .button {
+    box-sizing: border-box;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.purchase-item-wrap .button.info {
+    width: calc(100% - 160px);
+    margin-right: 10px;
+}
+
+.purchase-item-wrap .uploader .upload-item-add {
+    width: 150px;
+    height: 150px;
+}
+
+.purchase-item-wrap .button .text-wrap * {
+    display: inline-block;
+    line-height: 30px;
+    vertical-align: top;
+}
+
+.purchase-item-wrap .text-wrap .title {
+    width: 30%;
+    font-weight: 400;
+    font-size: 16px;
+    text-align: left;
+}
+
+.purchase-item-wrap .text-wrap .content {
+    width: 70%;
+    color: #888;
+    font-size: 16px;
+    text-align: right;
+}
+
+.purchase-item-wrap .text-wrap.comment .content {
+    height: 80px;
+    overflow: hidden;
+}
+
+@media (max-width: 840px) {
+    .reward-wrap {
+        margin: 10px;
+    }
+
+    .purchase-item-box {
+        margin: 10px;
+    }
+}
