@@ -126,5 +126,6 @@ nb-configuration.xml
 /.phpunit.*.cache
 
 /public/uploads/*
+/public/rewards/*
 
 public/.well-known/*

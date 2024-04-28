@@ -53,7 +53,6 @@ class CustomFileController extends BaseApiController
                 if (!isset($mime_type)) {
                     throw new Exception($file->getErrorString() . '(' . $file->getError() . ')');
                 }
-                $uploadedType = null;
                 if (str_starts_with($mime_type, 'image')) {
                     $uploadedType = 'image';
                 } else if (str_starts_with($mime_type, 'video')) {
@@ -69,7 +68,6 @@ class CustomFileController extends BaseApiController
                 $width = 0;
                 $height = 0;
                 $time = 0;
-                $thumb_file_name = null;
                 switch ($uploadedType) {
                     case 'image' :
                         $size = getimagesize($path . '/' . $file_name);

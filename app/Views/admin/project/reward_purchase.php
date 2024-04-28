@@ -10,38 +10,94 @@
         <div class="purchase-item-box">
             <ul>
                 <?php foreach ($array as $index => $item) { ?>
-                    <li class="purchase-item-wrap">
-                        <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
-                            <div class="text-wrap">
-                                <p class="title"><?= lang('Client.reward_reaction') ?></p>
-                                <p class="content"><?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?></p>
-                            </div>
-                            <div class="text-wrap">
-                                <p class="title"><?= lang('Service.is_agreed') ?></p>
-                                <p class="content"><?= $item['is_agreed'] == 1 ? lang('Service.opened') : lang('Service.closed') ?></p>
-                            </div>
-                            <div class="text-wrap">
-                                <p class="title"><?= lang('Service.name') ?></p>
-                                <p class="content"><?= $item['inquirer_name'] ?></p>
-                            </div>
-                            <div class="text-wrap">
-                                <p class="title"><?= lang('Service.email') ?></p>
-                                <p class="content"><?= $item['inquirer_email'] ?></p>
-                            </div>
-                            <div class="text-wrap comment">
-                                <p class="title"><?= lang('Client.reward_request') ?></p>
-                                <p class="content"><?= $item['inquirer_comment'] ?></p>
-                            </div>
-                        </a>
-                        <div class="uploader">
-                            <div class="upload-item-add button"
-                                 style="background: url('/asset/images/icon/upload.png') no-repeat center; font-size: 0;">
-                                <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
-                                <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
-                                       onchange="onFileUpload(this,'purchase-<?= $item['id'] ?>');"
-                                       accept="video/mp4"/>
-                            </div>
+                    <li>
+                        <div class="purchase-item-wrap">
+                            <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
+                                <div class="text-wrap">
+                                    <p class="title"><?= lang('Client.reward_reaction') ?></p>
+                                    <p class="content"><?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?></p>
+                                </div>
+                                <div class="text-wrap">
+                                    <p class="title"><?= lang('Service.is_agreed') ?></p>
+                                    <p class="content"><?= $item['is_agreed'] == 1 ? lang('Service.opened') : lang('Service.closed') ?></p>
+                                </div>
+                                <div class="text-wrap">
+                                    <p class="title"><?= lang('Service.name') ?></p>
+                                    <p class="content"><?= $item['inquirer_name'] ?></p>
+                                </div>
+                                <div class="text-wrap">
+                                    <p class="title"><?= lang('Service.email') ?></p>
+                                    <p class="content"><?= $item['inquirer_email'] ?></p>
+                                </div>
+                                <div class="text-wrap comment">
+                                    <p class="title"><?= lang('Client.reward_request') ?></p>
+                                    <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($item['inquirer_comment']) ?></p>
+                                </div>
+                            </a>
+                            <?php if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
+                                <div class="uploader">
+                                    <div class="upload-item-add button"
+                                         style="background: url('/asset/images/icon/upload.svg') no-repeat center / 60%; font-size: 0;">
+                                        <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
+                                        <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
+                                               onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                               accept="video/mp4"/>
+                                        <p><?= lang('Service.upload_file') ?></p>
+                                    </div>
+                                </div>
+                            <?php } else if ($item['status'] != 'received') { ?>
+                                <div class="uploader uploaded">
+                                    <div class="upload-item-add button"
+                                         style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
+                                        <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
+                                        <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
+                                               onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                               accept="video/mp4"/>
+                                        <p><?= lang('Service.reupload_file') ?></p>
+                                    </div>
+                                    <div class="button-wrap">
+                                        <a href="/reward-file/<?= $item['reward_file_id'] ?>"
+                                           class="button under-line download">
+                                            <img src="/asset/images/icon/download.png"/>
+                                            <span><?= lang('Service.download_file') ?></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="uploader finished">
+                                    <div class="upload-item-add"
+                                         style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
+                                        <p><?= lang('Service.downloaded') ?></p>
+                                    </div>
+                                    <?php if (isset($item['reward_file_id'])) { ?>
+                                        <div class="button-wrap">
+                                            <a href="/reward-file/<?= $item['reward_file_id'] ?>"
+                                               class="button under-line download">
+                                                <img src="/asset/images/icon/download.png"/>
+                                                <span><?= lang('Service.download_file') ?></span>
+                                            </a>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            <?php } ?>
                         </div>
+                        <?php if (isset($item['reward_file_id']) && $is_admin) { ?>
+                            <div class="control-button-wrap">
+                                <?php if ($item['status'] == 'waiting') { ?>
+                                    <a href="javascript:confirmReward(<?= $item['id'] ?>)"
+                                       class="button under-line delete">
+                                        <img src="/asset/images/icon/check.png"/>
+                                        <span><?= lang('Service.reward_confirm') ?></span>
+                                    </a>
+                                <?php } else if ($item['status'] == 'received') { ?>
+                                    <a href="javascript:openPopupDelete('/api/reward-file/delete/<?= $item['reward_file_id'] ?>')"
+                                       class="button under-line delete">
+                                        <img src="/asset/images/icon/delete.png"/>
+                                        <span><?= lang('Service.delete_file') ?></span>
+                                    </a>
+                                <?php } ?>
+                            </div>
+                        <?php } ?>
                     </li>
                 <?php } ?>
             </ul>
@@ -97,11 +153,13 @@
             let keys = Object.keys(typeSet);
             let html = ``;
 
+            <?php if(isset($item)) {?>
             html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title"><?=lang('Client.reward_reaction')?></p>
                 <input type="text" name="link" class="under-line" readonly value="<?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?>">
             </div>`
+            <?php } ?>
 
             for (let i in keys) {
                 let key = keys[i];

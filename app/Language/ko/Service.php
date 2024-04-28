@@ -127,9 +127,16 @@ return [
     "manage_reward" => "리워드 관리",
     "is_deleted" => "보관",
     "purchased_count" => "구매",
+    "uploaded_count" => "업로드",
     "is_mine" => "본인을 위한 영상",
     "is_agreed" => "영상 공개 동의",
     "memo" => "메모",
+    "upload_file" => "파일 업로드",
+    "reupload_file" => "파일 재업로드",
+    "download_file" => "파일 다운로드",
+    "delete_file" => "파일 삭제",
+    "reward_confirm" => "리워드 확정",
+    "downloaded" => "다운로드됨",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

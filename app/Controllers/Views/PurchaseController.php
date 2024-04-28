@@ -43,6 +43,7 @@ class PurchaseController extends BaseClientController
                 'page' => $page,
             ], [
                 'is_refunded' => 0,
+                'purchase.status' => 'paid',
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
@@ -94,8 +95,9 @@ class PurchaseController extends BaseClientController
      */
     private function getPurchasedData($id): array
     {
-        $purchaseItem = $this->purchaseItemModel->getLatest(['id' => $id]);
-        if (!isset($purchaseItem)) throw new Exception('deleted');
+        $purchaseItems = $this->purchaseItemModel->get(['id' => $id]);
+        if (sizeof($purchaseItems) != 1) throw new Exception('deleted');
+        $purchaseItem = $purchaseItems[0];
         $purchase = $this->purchaseModel->getLatest(['id' => $purchaseItem['purchase_id']]);
         if (!isset($purchase)) throw new Exception('deleted');
         $rewards = $this->rewardModel->get(['id' => $purchase['reward_id'], 'is_deleted' => 0]);

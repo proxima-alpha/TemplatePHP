@@ -130,9 +130,16 @@ return [
     "manage_reward" => "Manage Reward",
     "is_deleted" => "Hide",
     "purchased_count" => "Purchased",
+    "uploaded_count" => "Uploaded",
     "is_mine" => "My Video",
     "is_agreed" => "Video Open Agreement",
     "memo" => "Memo",
+    "upload_file" => "Upload File",
+    "reupload_file" => "Repload File",
+    "download_file" => "Download File",
+    "delete_file" => "Remove File",
+    "reward_confirm" => "Confirm Reward",
+    "downloaded" => "Downloaded",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

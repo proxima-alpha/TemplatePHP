@@ -97,8 +97,9 @@ $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::c
 
 $routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
 
-$routes->get('/file/(:any)/thumbnail', [\Views\CustomFileController::class, 'getFileThumbnail']);
-$routes->get('/file/(:any)', [\Views\CustomFileController::class, 'getFile']);
+$routes->get('/file/(:any)/thumbnail', [\Views\FileController::class, 'getFileThumbnail']);
+$routes->get('/file/(:any)', [\Views\FileController::class, 'getFile']);
+$routes->get('/reward-file/(:any)', [\Views\FileController::class, 'getRewardFile']);
 
 /**
  * API Routes
@@ -111,6 +112,8 @@ $routes->post('/api/file/(' . $TARGET_RULE . '|all)/refresh/([a-zA-Z0-9\-\_]*)',
 $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
 $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/' . $ID_RULE, [\API\CustomFileController::class, 'deleteFile']);
+
+$routes->delete('/api/reward-file/delete/'.$ID_RULE, [\API\RewardFileController::class, 'deleteFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/' . $ID_RULE, [\API\UserController::class, 'getUser']);
@@ -177,6 +180,8 @@ $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseControlle
 
 $routes->get('/api/purchase-item/get/'.$ID_RULE, [\API\PurchaseItemController::class, 'get']);
 $routes->post('/api/purchase-item/update/'.$ID_RULE, [\API\PurchaseItemController::class, 'update']);
+$routes->post('/api/purchase-item/confirm/'.$ID_RULE, [\API\PurchaseItemController::class, 'confirm']);
+$routes->post('/api/reward-file/upload/'.$ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 

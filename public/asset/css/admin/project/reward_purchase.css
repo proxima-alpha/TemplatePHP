@@ -35,26 +35,62 @@
     border: 1px solid #ddd;
 }
 
-.purchase-item-wrap .uploader {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.purchase-item-wrap .button {
+.purchase-item-wrap > div,
+.purchase-item-wrap > a {
     box-sizing: border-box;
-    padding: 10px;
     display: inline-block;
     vertical-align: middle;
+    font-size: 0;
 }
 
 .purchase-item-wrap .button.info {
     width: calc(100% - 160px);
     margin-right: 10px;
+    padding: 10px;
+}
+
+.purchase-item-wrap .uploader {
+    width: 150px;
+    text-align: center;
 }
 
 .purchase-item-wrap .uploader .upload-item-add {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    position: relative;
+}
+
+.purchase-item-wrap .uploader .upload-item-add p {
+    font-size: 16px;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+}
+
+.purchase-item-wrap .uploader .button-wrap {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.purchase-item-wrap .uploader .button.download {
+    line-height: 20px;
+    font-size: 0;
+}
+
+.purchase-item-wrap .uploader .button.download * {
+    vertical-align: middle;
+}
+
+.purchase-item-wrap .uploader .button.download span {
+    font-size: 16px;
+}
+
+.container-inner .control-button-wrap {
+    margin: -10px 5px 20px 5px;
 }
 
 .purchase-item-wrap .button .text-wrap * {
@@ -78,7 +114,7 @@
 }
 
 .purchase-item-wrap .text-wrap.comment .content {
-    height: 80px;
+    height: 60px;
     overflow: hidden;
 }
 

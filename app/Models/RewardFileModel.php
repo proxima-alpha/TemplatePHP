@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class RewardFileModel extends BasePriorityModel
+class RewardFileModel extends BaseModel
 {
     protected $table = 'reward_file';
     protected $allowedFields = [

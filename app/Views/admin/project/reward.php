@@ -20,6 +20,7 @@
                         <div class="row">
                             <span class="column title"><?= lang('Service.title') ?></span>
                             <span class="column purchased-count"><?= lang('Service.purchased_count') ?></span>
+                            <span class="column uploaded-count"><?= lang('Service.uploaded_count') ?></span>
                             <span class="column price"><?= lang('Service.price') ?></span>
                             <span class="column is-deleted"><?= lang('Service.is_deleted') ?></span>
                             <span class="column created-at"><?= lang('Service.created_at') ?></span>
@@ -32,7 +33,9 @@
                                     <span
                                         class="column title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></span>
                                     <span
-                                        class="column purchased-count"><?= $item['purchased_count'] ?></span>
+                                        class="column purchased-count"><?= $item['total_paid_count'] ?></span>
+                                    <span
+                                        class="column purchased-count"><?= $item['uploaded_count'] ?></span>
                                     <span
                                         class="column price"><?= $item['price'] ?> KRW</span>
                                     <span class="column is-deleted">

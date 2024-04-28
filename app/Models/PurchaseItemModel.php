@@ -32,9 +32,11 @@ class PurchaseItemModel extends BaseModel
      */
     public function get($condition = null, $limit = null): array
     {
-        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en" .
+        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en," .
+            " reward_file.id AS reward_file_id, purchase.user_id AS user_id".
             " FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
+            " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
             " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id";
         $values = [];
         if ($condition) {
@@ -83,8 +85,11 @@ class PurchaseItemModel extends BaseModel
     public function getForClient($condition = null, $limit = null): array
     {
         $query = "SELECT reward.*, project.title AS project_title, project.title_en AS project_title_en, project.project_image_id AS project_image_id," .
-            " purchase_item.id AS id, purchase_item.status, purchase_item.price FROM purchase_item" .
+            " purchase_item.id AS id, purchase_item.status, purchase_item.price,".
+            " reward_file.id AS reward_file_id".
+            " FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
+            " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
             " LEFT JOIN reward ON reward.id = purchase.reward_id" .
             " LEFT JOIN project ON project.id = reward.project_id";
         $values = [];

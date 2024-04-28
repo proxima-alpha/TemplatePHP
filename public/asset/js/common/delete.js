@@ -11,12 +11,12 @@ async function openPopupDelete(url) {
     let css = await loadStyleFile('/asset/css/common/popup/delete.css', "." + className);
     let html = `
     <div class="text-wrap">
-        Are you sure to delete?
+        ${lang('message_popup_delete')}
     </div>`;
     html += `
     <div class="button-wrap controls">
-        <a href="javascript:closePopup('${className}')" class="button cancel white">Cancel</a>
-        <a href="javascript:confirmDelete('${url}')" class="button confirm black">Delete</a>
+        <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('cancel')}</a>
+        <a href="javascript:confirmDelete('${url}')" class="button confirm black">${lang('delete')}</a>
     </div>`;
     openPopup({
         className: className,

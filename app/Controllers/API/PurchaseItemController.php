@@ -3,11 +3,7 @@
 namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
-use Exception;
-use Models\BoardModel;
-use Models\CustomFileModel;
 use Models\PurchaseItemModel;
-use Models\TopicModel;
 
 class PurchaseItemController extends BaseApiController
 {
@@ -39,6 +35,22 @@ class PurchaseItemController extends BaseApiController
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->purchaseItemModel, $id, [
             'memo' => $data['memo']
+        ]);
+    }
+
+    public function confirm($id): ResponseInterface
+    {
+        $this->checkAdmin();
+
+        $purchaseItem = $this->purchaseItemModel->find($id);
+        if ($purchaseItem['status'] != 'waiting') {
+            return [
+                'success' => false,
+                'message' => 'Invalid action.'
+            ];
+        }
+        return $this->typicallyUpdate($this->purchaseItemModel, $id, [
+            'status' => 'confirm'
         ]);
     }
 }

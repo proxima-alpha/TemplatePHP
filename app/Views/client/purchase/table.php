@@ -18,9 +18,14 @@
                             </div>
                             <div class="line"></div>
                             <div class="button-wrap">
-                                <a class="button button-fill <?= $item['status'] == 'confirmed' ? '' : 'disabled' ?>"
-                                   onclick="onClickDownload()}"><?= lang('Client.status_' . $item['status']) ?>
-                                </a>
+                                <?php if($item['status'] != 'received' || isset($item['reward_file_id'])) {?>
+                                    <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"
+                                       href="/reward-file/<?=$item['reward_file_id']?>"><?= lang('Client.status_' . $item['status']) ?>
+                                    </a>
+                                <?php } else { ?>
+                                    <a class="button button-fill disabled"><?= lang('Client.status_expired') ?>
+                                    </a>
+                                <?php }?>
                                 <a class="button button-line"
                                    href="/purchase/<?= $item['id'] ?>/view"><?= lang('Client.show_detail') ?> </a>
                             </div>
@@ -33,8 +38,3 @@
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
-<script type="text/javascript">
-    function onClickDownload() {
-        //todo link
-    }
-</script>

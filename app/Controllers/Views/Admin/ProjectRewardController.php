@@ -2,6 +2,7 @@
 
 namespace Views\Admin;
 
+use App\Helpers\ServerLogger;
 use Exception;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
@@ -38,7 +39,7 @@ class ProjectRewardController extends BaseAdminController
                 'is_deleted' => 0
             ]);
             if (!isset($project)) throw new Exception('deleted');
-            $result = $this->rewardModel->getPaginated([
+            $result = $this->rewardModel->getPaginatedForAdmin([
                 'per_page' => $this->per_page,
                 'page' => $page,
             ]);
@@ -79,11 +80,13 @@ class ProjectRewardController extends BaseAdminController
             ]);
             if (!isset($reward)) throw new Exception('deleted');
             $result = $this->purchaseItemModel->getPaginated([
-                'per_page' => $this->per_page,
+                'per_page' => 10,
                 'page' => $page,
             ], [
-                'purchase.reward_id' => $reward_id
+                'purchase.reward_id' => $reward_id,
+                'purchase.status' => 'paid',
             ]);
+            ServerLogger::log($result['array']);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
                 'pagination_link' => '/admin/project/' . $access_hash . '/reward/get/'.$reward_id,
@@ -101,7 +104,9 @@ class ProjectRewardController extends BaseAdminController
                     '/admin/project/reward_purchase',
                 ],
                 'js' => [
+                    '/common/delete',
                     '/admin/popup_input',
+                    '/admin/reward_uploader',
                 ],
             ])
             . view('/admin/project/reward_purchase', $data)

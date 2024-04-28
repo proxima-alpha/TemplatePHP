@@ -30,7 +30,7 @@
                 </div>
                 <div class="text-wrap comment">
                     <p class="title"><?= lang('Client.reward_request') ?></p>
-                    <p class="content"><?= $purchase_item['inquirer_comment'] ?></p>
+                    <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($purchase_item['inquirer_comment']) ?></p>
                 </div>
             </div>
             <div class="line"></div>
@@ -46,9 +46,14 @@
             </div>
             <div class="line"></div>
             <div class="button-wrap">
-                <a class="button button-fill <?= $purchase_item['status'] == 'confirmed' ? '' : 'disabled' ?>"
-                   onclick="onClickDownload()}"><?= lang('Client.status_' . $purchase_item['status']) ?>
-                </a>
+                <?php if($purchase_item['status'] != 'received' || isset($purchase_item['reward_file_id'])) {?>
+                    <a class="button button-fill <?= $purchase_item['status'] == 'waiting' ? 'disabled' : '' ?>"
+                       href="/reward-file/<?=$purchase_item['reward_file_id']?>"><?= lang('Client.status_' . $purchase_item['status']) ?>
+                    </a>
+                <?php } else { ?>
+                    <a class="button button-fill disabled"><?= lang('Client.status_expired') ?>
+                    </a>
+                <?php }?>
             </div>
         </div>
     </div>

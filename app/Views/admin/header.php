@@ -57,7 +57,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
                     </ul>
                 <?php } ?>
             </div>
-            <?php if ($is_not_login_page && $is_not_registration_page) { ?>
+            <?php if ($is_login && $is_not_login_page && $is_not_registration_page) { ?>
                 <div class="gnb-wrap fixed<?= $is_admin_navigation_closed ? ' closed' : '' ?>">
                     <div class="gnb">
                         <ul class="cf">

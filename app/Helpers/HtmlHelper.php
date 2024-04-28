@@ -105,8 +105,7 @@ final class HtmlHelper
 
     public static function setTranslationsAdmin()
     {
-        $defaultTranslations = HtmlHelper::getDefaultTranslationKeys();
-        return HtmlHelper::setTranslations($defaultTranslations);
+        return HtmlHelper::setTranslations(HtmlHelper::getDefaultTranslationKeys());
     }
 
     public static function setTranslationsClient()
