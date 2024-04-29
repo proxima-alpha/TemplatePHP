@@ -97,6 +97,8 @@ $routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE,
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
 $routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
+$routes->get('/admin/purchase/' . $PAGE_RULE, [\Views\Admin\PurchaseController::class, 'index']);
+$routes->addRedirect('/admin/purchase', '/admin/purchase/1');
 
 $routes->get('/file/(:any)/thumbnail', [\Views\FileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\Views\FileController::class, 'getFile']);
@@ -114,7 +116,7 @@ $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm/([a-zA-Z0-9\-\_]*)', [\A
 $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/' . $ID_RULE, [\API\CustomFileController::class, 'deleteFile']);
 
-$routes->delete('/api/reward-file/delete/'.$ID_RULE, [\API\RewardFileController::class, 'deleteFile']);
+$routes->delete('/api/reward-file/delete/' . $ID_RULE, [\API\RewardFileController::class, 'deleteFile']);
 
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/' . $ID_RULE, [\API\UserController::class, 'getUser']);
@@ -180,10 +182,11 @@ $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
 $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseController::class, 'complete']);
 
-$routes->get('/api/purchase-item/get/'.$ID_RULE, [\API\PurchaseItemController::class, 'get']);
-$routes->post('/api/purchase-item/update/'.$ID_RULE, [\API\PurchaseItemController::class, 'update']);
-$routes->post('/api/purchase-item/confirm/'.$ID_RULE, [\API\PurchaseItemController::class, 'confirm']);
-$routes->post('/api/reward-file/upload/'.$ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
+$routes->get('/api/purchase-item/get/' . $ID_RULE, [\API\PurchaseItemController::class, 'get']);
+$routes->post('/api/purchase-item/update/' . $ID_RULE, [\API\PurchaseItemController::class, 'update']);
+$routes->post('/api/purchase-item/confirm/' . $ID_RULE, [\API\PurchaseItemController::class, 'confirm']);
+$routes->delete('/api/purchase-item/refund/' . $ID_RULE, [\API\PurchaseItemController::class, 'refund']);
+$routes->post('/api/reward-file/upload/' . $ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 

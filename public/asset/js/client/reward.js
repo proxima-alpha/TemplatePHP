@@ -101,7 +101,6 @@ function onCountChange(element, price) {
         } else {
             const user_name = getCookie('user_name')
             const user_email = getCookie('user_email')
-            console.log(user_email)
             html += getPurchaseItemHtml(i, {
                 inquirer_name: user_name,
                 inquirer_email: user_email,
@@ -198,6 +197,11 @@ function refreshViews() {
 function requestPayment() {
     let data = parseInputToData($(`.payment-box .form-wrap .editable`))
     data['purchase_items'] = purchaseItems.slice(0, purchaseItemsCount);
+    // DB 저장은 동의 유무인데 지문이 비동의 유무이기 때문에 request 시에 변경
+    for(let i in data['purchase_items']) {
+        const isAgree = data['purchase_items'][i]['is_agreed'];
+        data['purchase_items'][i]['is_agreed'] = isAgree == 0 ? 1 : 0;
+    }
     apiRequest({
         type: 'POST',
         url: `/api/purchase`,

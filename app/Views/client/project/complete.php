@@ -9,7 +9,7 @@
         <h4 class="message"><?=lang('Client.purchase_complete')?></>
         <div class="button-wrap">
             <a class="button button-fill"
-               href="/"><?= lang('Client.purchase_next') ?></a>
+               href="/purchase"><?= lang('Client.purchase_next') ?></a>
         </div>
     </div>
 </div>

@@ -104,6 +104,7 @@ return [
     "datetime" => "일시",
     "prev" => "이전",
     "next" => "다음",
+    "refunded" => "환불 처리됨",
 
     // footer
     "artist_registration" => "아티스트 가입하기",

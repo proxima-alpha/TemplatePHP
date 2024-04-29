@@ -45,6 +45,10 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/project',
             ],
             [
+                'name' => lang('Service.purchase'),
+                'link' => '/admin/purchase',
+            ],
+            [
                 'name' => lang('Service.board'),
                 'link' => '/admin/board',
             ],

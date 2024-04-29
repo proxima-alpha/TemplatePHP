@@ -64,4 +64,40 @@ class IMPHelper
             ];
         }
     }
+
+    public static function refund($data)
+    {
+        $token = IMPHelper::getToken();
+        $header = array(
+            'Authorization: Bearer ' . $token,
+        );
+        $postdata = array(
+            'imp_uid' => $data['imp_uid'],
+            'amount' => $data['amount']
+        );
+
+        $url = IMPHelper::$host . "/payments/cancel";
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+
+        $json_response = curl_exec($curl);
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        curl_close($curl);
+        $json = json_decode($json_response, true);
+        if ($json['code'] == 0) {
+            return [
+                'success' => true,
+                'data' => $json['response']
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => $json['message']
+            ];
+        }
+    }
 }

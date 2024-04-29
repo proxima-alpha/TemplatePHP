@@ -2,7 +2,6 @@
 
 namespace Views\Admin;
 
-use App\Helpers\ServerLogger;
 use Exception;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
@@ -88,10 +87,9 @@ class ProjectRewardController extends BaseAdminController
                 'purchase.reward_id' => $reward_id,
                 'purchase.status' => 'paid',
             ]);
-            ServerLogger::log($result['array']);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
-                'pagination_link' => '/admin/project/' . $access_hash . '/reward/get/'.$reward_id,
+                'pagination_link' => '/admin/project/' . $access_hash . '/reward/get/' . $reward_id,
             ]);
             $data = array_merge($data, [
                 'reward' => $reward

@@ -440,15 +440,8 @@ function getSuccessCallback(className) {
     return function (response, status, request) {
         if (response.success) {
             location.reload();
-        }
-        if (response.messages) {
-            for (let key in response.messages) {
-                let message = response.messages[key];
-                $(`.${className} .error-message-wrap`).append(`<div>${message}</div>`)
-            }
-        }
-        if (response.message) {
-            $(`.${className} .error-message-wrap`).append(`<div>${response.message}</div>`)
+        } else {
+            openPopupErrors('popup-error', response, status, request);
         }
     }
 }

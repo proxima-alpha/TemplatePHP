@@ -39,11 +39,8 @@ class PurchaseController extends BaseClientController
         $data = $this->getViewData();
         try {
             $result = $this->purchaseItemModel->getPaginatedForClient([
-                'per_page' => 15,
+                'per_page' => $this->per_page,
                 'page' => $page,
-            ], [
-                'is_refunded' => 0,
-                'purchase.status' => 'paid',
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [

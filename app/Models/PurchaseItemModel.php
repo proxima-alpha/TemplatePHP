@@ -33,16 +33,19 @@ class PurchaseItemModel extends BaseModel
     public function get($condition = null, $limit = null): array
     {
         $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en," .
-            " reward_file.id AS reward_file_id, purchase.user_id AS user_id".
+            " reward_file.id AS reward_file_id, purchase.user_id AS user_id, user.name AS user_name" .
             " FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
+            " LEFT JOIN user ON user.id = purchase.user_id" .
             " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
             " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id";
         $values = [];
-        if ($condition) {
+        if (isset($condition)) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
-            $query .= " " . $set['query'];
+            $query .= " " . $set['query'] . " AND purchase_item.status != 'created'";
+        } else {
+            $query .= " WHERE purchase.status != 'created'";
         }
         $query .= " ORDER BY " . $this->table . ".created_at DESC";
         if (isset($limit)) {
@@ -55,16 +58,19 @@ class PurchaseItemModel extends BaseModel
             ],
         ]);
     }
+
     protected function getCountAll($condition = null)
     {
         $query = "SELECT COUNT(*) AS cnt FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
             " LEFT JOIN reward ON reward.id = purchase.reward_id";
         $values = [];
-        if ($condition) {
+        if (isset($condition)) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
-            $query .= " " . $set['query'];
+            $query .= " " . $set['query'] . " AND purchase_item.status != 'created'";
+        } else {
+            $query .= " WHERE purchase.status != 'created'";
         }
         $result = BaseModel::transaction($this->db, [
             [
@@ -85,18 +91,20 @@ class PurchaseItemModel extends BaseModel
     public function getForClient($condition = null, $limit = null): array
     {
         $query = "SELECT reward.*, project.title AS project_title, project.title_en AS project_title_en, project.project_image_id AS project_image_id," .
-            " purchase_item.id AS id, purchase_item.status, purchase_item.price,".
-            " reward_file.id AS reward_file_id".
+            " purchase_item.id AS id, purchase_item.status, purchase_item.price, purchase_item.is_refunded," .
+            " reward_file.id AS reward_file_id" .
             " FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
             " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
             " LEFT JOIN reward ON reward.id = purchase.reward_id" .
             " LEFT JOIN project ON project.id = reward.project_id";
         $values = [];
-        if ($condition) {
+        if (isset($condition)) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
-            $query .= " " . $set['query'];
+            $query .= " " . $set['query'] . " AND purchase_item.status != 'created'";
+        } else {
+            $query .= " WHERE purchase.status != 'created'";
         }
         $query .= " ORDER BY " . $this->table . ".created_at DESC";
         if (isset($limit)) {

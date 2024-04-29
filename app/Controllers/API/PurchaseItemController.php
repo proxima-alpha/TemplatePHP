@@ -2,16 +2,23 @@
 
 namespace API;
 
+use App\Helpers\IMPHelper;
 use CodeIgniter\HTTP\ResponseInterface;
+use Exception;
+use Models\BaseModel;
 use Models\PurchaseItemModel;
+use Models\PurchaseModel;
 
 class PurchaseItemController extends BaseApiController
 {
     protected PurchaseItemModel $purchaseItemModel;
+    protected PurchaseModel $purchaseModel;
 
     public function __construct()
     {
+        $this->db = db_connect();
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
+        $this->purchaseModel = model('Models\PurchaseModel');
     }
 
     /**
@@ -38,19 +45,71 @@ class PurchaseItemController extends BaseApiController
         ]);
     }
 
+    /**
+     * [post] /api/purchase-item/confirm/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
     public function confirm($id): ResponseInterface
     {
         $this->checkAdmin();
 
         $purchaseItem = $this->purchaseItemModel->find($id);
         if ($purchaseItem['status'] != 'waiting') {
-            return [
+            return $this->response->setJSON([
                 'success' => false,
                 'message' => 'Invalid action.'
-            ];
+            ]);
         }
         return $this->typicallyUpdate($this->purchaseItemModel, $id, [
             'status' => 'confirm'
         ]);
+    }
+
+    /**
+     * [delete] /api/purchase-item/refund/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function refund($id): ResponseInterface
+    {
+        $this->checkAdmin();
+
+        try {
+            $purchaseItem = $this->purchaseItemModel->find($id);
+            if (!isset($purchaseItem)) {
+                throw new Exception('Data does not exist.');
+            }
+            $purchase = $this->purchaseModel->find($purchaseItem['purchase_id']);
+            if (!isset($purchase)) {
+                throw new Exception('Data does not exist.');
+            }
+            if($purchase['status'] != 'paid' || $purchase['paid'] - $purchase['refunded'] - $purchaseItem['price'] <0) {
+                throw new Exception('Invalid action.');
+            }
+            $requestData = [
+                'imp_uid' => $purchase['imp_uid'],
+                'merchant_uid' => $purchase['merchant_uid'],
+                'amount' => $purchaseItem['price']
+            ];
+
+            $impResponse = IMPHelper::refund($requestData);
+            if (!isset($impResponse['success']) || !$impResponse['success']) {
+                throw new Exception('IMP::' . ($impResponse['message'] ?? 'Payment failed'));
+            }
+            $queries[] = "UPDATE purchase_item SET is_refunded = 1 WHERE id = '" . $purchaseItem['id'] . "';";
+            $queries[] = "UPDATE purchase SET refunded = refunded + " . $purchaseItem['price'] . " WHERE id = '" . $purchase['id'] . "';";
+            if($purchase['paid'] - $purchase['refunded'] - $purchaseItem['price'] == 0) {
+                $queries[] = "UPDATE purchase SET status = 'refunded'  WHERE id = '" . $purchase['id'] . "';";
+            }
+            BaseModel::transaction($this->db, $queries);
+            $response['success'] = true;
+        } catch (Exception $e) {
+            //todo(log)
+            if (!isset($response['message'])) {
+                $response['message'] = $e->getMessage();
+            }
+        }
+        return $this->response->setJSON($response);
     }
 }

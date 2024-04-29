@@ -98,6 +98,12 @@
     min-height: 100px;
 }
 
+.button.button-fill.refunded {
+    pointer-events: none;
+    cursor: default;
+    background: #666;
+}
+
 @media (max-width: 840px) {
     .container-inner .container-wrap {
         padding-left: 10px;

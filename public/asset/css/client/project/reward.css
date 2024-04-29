@@ -166,6 +166,9 @@
     vertical-align: middle;
     line-height: 35px;
 }
+#page-2 .form-wrap .input-wrap * {
+    vertical-align: middle;
+}
 
 #page-2 .form-wrap .agree .input-title {
     width: auto;
