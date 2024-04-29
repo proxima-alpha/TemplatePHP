@@ -23,7 +23,8 @@
                     <div class="tab-wrap en">
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.title') ?></p>
-                            <input type="text" name="title_en" class="editable under-line" value="<?= $data['title_en'] ?>"
+                            <input type="text" name="title_en" class="editable under-line"
+                                   value="<?= $data['title_en'] ?>"
                                    readonly/>
                         </div>
                         <div class="input-wrap">
@@ -62,6 +63,17 @@
                             value="close" <?= isset($data['status']) && $data['status'] == 'close' ? 'selected' : '' ?>><?= lang('Service.closed') ?></option>
                     </select>
                 </div>
+                <div class="line"></div>
+                <div class="input-wrap hash">
+                    <p class="input-title"><?= lang('Service.access_hash') ?></p>
+                    <a class="button out-line"
+                       href="javascript:regenerateHash(<?= $data['id'] ?>)">
+                        <img src="/asset/images/icon/plus.png"/>
+                        <span><?= lang('Service.regenerate_hash') ?></span>
+                    </a>
+                    <input type="text" name="title_en" class="editable under-line" value="<?= $data['access_hash'] ?>"
+                           readonly/>
+                </div>
             </div>
             <?php if (isset($data['artists']) || isset($data['rewards'])) { ?>
                 <div class="form-wrap extra">
@@ -84,7 +96,7 @@
             if ($is_login && $is_admin) { ?>
                 <div class="line black"></div>
                 <div class="control-button-wrap">
-                    <a href="<?= '/admin/project/'.$data['access_hash'].'/reward' ?>"
+                    <a href="<?= '/admin/project/' . $data['access_hash'] . '/reward' ?>"
                        class="button under-line edit">
                         <img src="/asset/images/icon/detail.png"/>
                         <span><?= lang('Service.manage_reward') ?></span>
@@ -104,3 +116,22 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    function regenerateHash(id) {
+        apiRequest({
+            type: 'POST',
+            url: `/api/project/regenerate-hash/${id}`,
+            dataType: 'json',
+            success: function (response, status, request) {
+                if (!response.success) {
+                    openPopupErrors('popup-error', response, status, request);
+                    return;
+                }
+                window.location.reload();
+            },
+            error: function (response, status, error) {
+                openPopupErrors('popup-error', response, status, error);
+            },
+        });
+    }
+</script>

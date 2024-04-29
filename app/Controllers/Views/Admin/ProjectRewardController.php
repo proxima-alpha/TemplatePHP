@@ -42,6 +42,8 @@ class ProjectRewardController extends BaseAdminController
             $result = $this->rewardModel->getPaginatedForAdmin([
                 'per_page' => $this->per_page,
                 'page' => $page,
+            ], [
+                'project_id' => $project['id']
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [

@@ -5,6 +5,7 @@ namespace Views;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
+use Models\CodeArtistModel;
 use Models\CustomFileModel;
 use Models\SettingModel;
 use Psr\Log\LoggerInterface;
@@ -13,6 +14,7 @@ class BaseClientController extends BaseViewController
 {
     protected SettingModel $settingModel;
     protected CustomFileModel $customFileModel;
+    protected CodeArtistModel $codeArtistModel;
     /**
      * to check login when user access page automatically
      * @var bool
@@ -23,6 +25,7 @@ class BaseClientController extends BaseViewController
     {
         $this->settingModel = model('Models\SettingModel');
         $this->customFileModel = model('Models\CustomFileModel');
+        $this->codeArtistModel = model('Models\CodeArtistModel');
     }
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -75,8 +78,9 @@ class BaseClientController extends BaseViewController
     protected function loadHeader(array $data, array $initData = []): string
     {
         $logos = $this->customFileModel->getLogos();
+        $codeArtistResult = $this->codeArtistModel->get([]);
         $initData = array_merge($initData, [
-            'logos' => $logos,
+            'artists' => $codeArtistResult,
         ]);
         return view('/client/header', parent::loadDataForHeader($data, $initData));
     }

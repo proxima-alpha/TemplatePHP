@@ -140,6 +140,8 @@ return [
     "delete_file" => "Remove File",
     "reward_confirm" => "Confirm Reward",
     "downloaded" => "Downloaded",
+    "access_hash" => "Project Access Hash",
+    "regenerate_hash" => "Regenerate Hash",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

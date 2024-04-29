@@ -78,9 +78,20 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
             </div>
             <ul class="gnb cf">
                 <li>
-                    <a href="#" class="button gnb-menu">
+                    <a <?= "onclick=\"clickClientNavigation(this, '#')\"" ?>class="button gnb-menu">
                         <?= lang('Client.menu_artist_list') ?>
                     </a>
+                    <ul class="lnb">
+                        <?php foreach ($artists as $index => $item) { ?>
+                            <li>
+                                <a <?= "onclick=\"clickClientNavigation(this, '/artist/" . $item['code'] . "')\"" ?>
+                                    href="/artist/<?= $item['code'] ?>"
+                                   class="button lnb-menu">
+                                    <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
+                                </a>
+                            </li>
+                        <?php } ?>
+                    </ul>
                 </li>
                 <li>
                     <a href="#" class="button gnb-menu">
@@ -98,7 +109,7 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
                             <?= lang('Client.menu_purchase_list') ?>
                         </a>
                     </li>
-                <?php }?>
+                <?php } ?>
             </ul>
         </div>
     </header>

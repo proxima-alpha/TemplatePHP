@@ -56,6 +56,7 @@ $routes->get('/project/purchase/complete', [\Views\ProjectController::class, 'ge
 $routes->get('/purchase/' . $PAGE_RULE, [\Views\PurchaseController::class, 'index']);
 $routes->addRedirect('/purchase', '/purchase/1');
 $routes->get('/purchase/' . $ID_RULE . '/view', [\Views\PurchaseController::class, 'getView']);
+$routes->get('/artist/' . $CODE_RULE, [\Views\ArtistController::class, 'index']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/artist');
@@ -172,6 +173,7 @@ $routes->get('/api/project', [\API\ProjectController::class, 'index']);
 $routes->get('/api/project/get/' . $ID_RULE, [\API\ProjectController::class, 'get']);
 $routes->post('/api/project/create', [\API\ProjectController::class, 'create']);
 $routes->post('/api/project/update/' . $ID_RULE, [\API\ProjectController::class, 'update']);
+$routes->post('/api/project/regenerate-hash/' . $ID_RULE, [\API\ProjectController::class, 'regenerateHash']);
 $routes->delete('/api/project/delete/' . $ID_RULE, [\API\ProjectController::class, 'delete']);
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 

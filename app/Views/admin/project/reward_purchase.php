@@ -7,6 +7,7 @@
             <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
         </div>
+        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
         <div class="purchase-item-box">
             <ul>
                 <?php foreach ($array as $index => $item) { ?>
@@ -102,7 +103,7 @@
                 <?php } ?>
             </ul>
         </div>
-
+        <?php } ?>
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>

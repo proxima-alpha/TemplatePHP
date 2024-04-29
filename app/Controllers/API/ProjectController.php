@@ -5,6 +5,7 @@ namespace API;
 use App\Helpers\QueryHelper;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
+use Crisu83\ShortId\ShortId;
 use Exception;
 use Models\ArtistGroupModel;
 use Models\BaseModel;
@@ -276,6 +277,22 @@ class ProjectController extends CustomFileController
     }
 
     /**
+     * [post] /api/project/regenerate-hash/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function regenerateHash($id): ResponseInterface
+    {
+        $this->checkAdmin();
+        $shortid = ShortId::create();
+        $shortid->setLength(10);
+        $body = [
+            'access_hash' => $shortid->generate(),
+        ];
+        return $this->typicallyUpdate($this->projectModel, $id, $body);
+    }
+
+    /**
      * [delete] /api/project/delete/{id}
      * @param $id
      * @return ResponseInterface
@@ -286,7 +303,7 @@ class ProjectController extends CustomFileController
         $body = [
             'is_deleted' => 1,
         ];
-        return $this->typicallyUpdate($this->artistModel, $id, $body);
+        return $this->typicallyUpdate($this->projectModel, $id, $body);
     }
 
     /**

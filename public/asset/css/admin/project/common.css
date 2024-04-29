@@ -43,6 +43,7 @@
     width: calc(100% - 40px);
     margin: 5px 10px 10px 10px;
 }
+
 .row-uploader.reward .row-uploader-item .input-wrap {
     margin: 0;
 }
@@ -58,8 +59,9 @@
     vertical-align: middle;
     font-weight: 400;
 }
+
 .form-wrap .row-uploader.reward .row-uploader-item .input-wrap input:not([type=checkbox]):not([type=radio]),
-.form-wrap .row-uploader.reward .row-uploader-item .input-wrap textarea{
+.form-wrap .row-uploader.reward .row-uploader-item .input-wrap textarea {
     margin: 0 10px 10px 10px
 }
 
@@ -71,6 +73,18 @@
     width: 50%;
     display: inline-block;
     box-sizing: border-box;
+}
+
+.input-wrap.hash .button {
+    margin: 10px 10px 0px 10px;
+}
+.input-wrap.hash .button * {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.input-wrap.hash .button span {
+    font-size: 18px;
 }
 
 @media (max-width: 840px) {
@@ -86,6 +100,7 @@
         height: auto;
         line-height: normal;
     }
+
     .row-uploader.artist .row-uploader-item .info-wrap {
         width: calc(100% - 170px);
         height: auto;
