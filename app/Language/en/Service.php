@@ -147,6 +147,9 @@ return [
     "refunded" => "Refunded",
     "purchase_number" => "Number",
     "refund" => "Refund",
+    "total_reward_count" => "Total Reward Count",
+    "active_reward_count" => "Active Reward Count",
+    "inactive_reward_count" => "Inactive Reward Count",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

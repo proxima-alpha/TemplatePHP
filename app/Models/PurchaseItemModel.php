@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use App\Helpers\ServerLogger;
+
 class PurchaseItemModel extends BaseModel
 {
     protected $table = 'purchase_item';
@@ -51,6 +53,7 @@ class PurchaseItemModel extends BaseModel
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
+        ServerLogger::log($query);
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,

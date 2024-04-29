@@ -38,6 +38,7 @@ class ProjectRewardController extends BaseAdminController
                 'is_deleted' => 0
             ]);
             if (!isset($project)) throw new Exception('deleted');
+            $report = $this->projectModel->getReport($project['id']);
             $result = $this->rewardModel->getPaginatedForAdmin([
                 'per_page' => $this->per_page,
                 'page' => $page,
@@ -49,7 +50,8 @@ class ProjectRewardController extends BaseAdminController
                 'pagination_link' => '/admin/project/' . $access_hash . '/reward',
             ]);
             $data = array_merge($data, [
-                'project' => $project
+                'project' => $project,
+                'report' => $report
             ]);
         } catch (Exception $e) {
             //todo(log)
@@ -76,14 +78,17 @@ class ProjectRewardController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $reward = $this->rewardModel->getLatest([
+            $rewards = $this->rewardModel->getForAdmin([
+                'id' => $reward_id,
                 'is_deleted' => 0
             ]);
-            if (!isset($reward)) throw new Exception('deleted');
+            if (sizeof($rewards) != 1) throw new Exception('deleted');
+            $reward = $rewards[0];
             $result = $this->purchaseItemModel->getPaginated([
                 'per_page' => 10,
                 'page' => $page,
             ], [
+                'is_refunded' => 0,
                 'purchase.reward_id' => $reward_id,
                 'purchase.status' => 'paid',
             ]);
@@ -92,7 +97,7 @@ class ProjectRewardController extends BaseAdminController
                 'pagination_link' => '/admin/project/' . $access_hash . '/reward/get/' . $reward_id,
             ]);
             $data = array_merge($data, [
-                'reward' => $reward
+                'reward' => $reward,
             ]);
         } catch (Exception $e) {
             //todo(log)

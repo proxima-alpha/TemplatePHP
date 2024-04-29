@@ -1,21 +1,29 @@
 .table-wrap {
     margin-top: 20px;
 }
-.table-wrap .row .row-button .column {
+
+#container .table-wrap .row .row-button .column {
     text-overflow: unset;
     white-space: normal;
     overflow: auto;
     vertical-align: top;
+    word-break: normal;
 }
 
 .table-wrap .column.title {
-    width: 35%;
+    width: 25%;
+}
+
+.table-wrap .column.remaining-count {
+    width: 10%;
+    text-align: center;
 }
 
 .table-wrap .column.purchased-count {
     width: 10%;
     text-align: center;
 }
+
 .table-wrap .column.uploaded-count {
     width: 10%;
     text-align: center;
@@ -39,6 +47,7 @@
 .project-wrap {
     padding: 20px 15px;
     border: 1px solid #000;
+    margin: 10px 0;
 }
 
 .project-wrap > div {
@@ -72,12 +81,31 @@
     min-height: 50px;
 }
 
+.report-wrap .text-wrap {
+    display: inline-block;
+    width: 33%;
+    padding: 20px 0;
+}
+
+.report-wrap .text-wrap div {
+    font-size: 18px;
+}
+
+.report-wrap .text-wrap .title {
+    font-weight: 600;
+}
+
 @media (max-width: 840px) {
     .project-wrap {
         margin: 10px;
     }
+
     .table-wrap .column.title {
-        width: 35%;
+        width: 20%;
+    }
+
+    .table-wrap .column.remaining-count {
+        width: 15%;
     }
 
     .table-wrap .column.purchased-count {

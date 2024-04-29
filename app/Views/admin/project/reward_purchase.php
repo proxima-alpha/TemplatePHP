@@ -3,74 +3,75 @@
         <h3 class="page-title">
             <?= lang('Service.manage_reward') ?>
         </h3>
-        <div class="reward-wrap">
-            <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
-            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
+        <div class="reward-box">
+            <div class="reward-wrap">
+                <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
+                <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
+            </div>
+            <div class="count-wrap">
+                <div class="text-wrap">
+                    <p class="title"><?= lang('Service.remaining_count') ?></p>
+                    <p class="content"><?= ($reward['total_count'] - $reward['purchased_count'])?></p>
+                </div>
+                <div class="text-wrap">
+                    <p class="title"><?= lang('Service.purchased_count') ?></p>
+                    <p class="content"><?= ($reward['total_paid_count'])?></p>
+                </div>
+                <div class="text-wrap">
+                    <p class="title"><?= lang('Service.uploaded_count') ?></p>
+                    <p class="content"><?= ($reward['uploaded_count'])?></p>
+                </div>
+            </div>
         </div>
         <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
-        <div class="purchase-item-box">
-            <ul>
-                <?php foreach ($array as $index => $item) { ?>
-                    <li>
-                        <div class="purchase-item-wrap">
-                            <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
-                                <div class="text-wrap">
-                                    <p class="title"><?= lang('Client.reward_reaction') ?></p>
-                                    <p class="content"><?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?></p>
-                                </div>
-                                <div class="text-wrap">
-                                    <p class="title"><?= lang('Service.is_agreed') ?></p>
-                                    <p class="content"><?= $item['is_agreed'] == 1 ? lang('Service.opened') : lang('Service.closed') ?></p>
-                                </div>
-                                <div class="text-wrap">
-                                    <p class="title"><?= lang('Service.name') ?></p>
-                                    <p class="content"><?= $item['inquirer_name'] ?></p>
-                                </div>
-                                <div class="text-wrap">
-                                    <p class="title"><?= lang('Service.email') ?></p>
-                                    <p class="content"><?= $item['inquirer_email'] ?></p>
-                                </div>
-                                <div class="text-wrap comment">
-                                    <p class="title"><?= lang('Client.reward_request') ?></p>
-                                    <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($item['inquirer_comment']) ?></p>
-                                </div>
-                            </a>
-                            <?php if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
-                                <div class="uploader">
-                                    <div class="upload-item-add button"
-                                         style="background: url('/asset/images/icon/upload.svg') no-repeat center / 60%; font-size: 0;">
-                                        <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
-                                        <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
-                                               onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
-                                               accept="video/mp4"/>
-                                        <p><?= lang('Service.upload_file') ?></p>
+            <div class="purchase-item-box">
+                <ul>
+                    <?php foreach ($array as $index => $item) { ?>
+                        <li>
+                            <div class="purchase-item-wrap">
+                                <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
+                                    <div class="text-wrap">
+                                        <p class="title"><?= lang('Client.reward_reaction') ?></p>
+                                        <p class="content"><?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?></p>
                                     </div>
-                                </div>
-                            <?php } else if ($item['status'] != 'received') { ?>
-                                <div class="uploader uploaded">
-                                    <div class="upload-item-add button"
-                                         style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
-                                        <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
-                                        <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
-                                               onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
-                                               accept="video/mp4"/>
-                                        <p><?= lang('Service.reupload_file') ?></p>
+                                    <div class="text-wrap">
+                                        <p class="title"><?= lang('Service.is_agreed') ?></p>
+                                        <p class="content"><?= $item['is_agreed'] == 1 ? lang('Service.opened') : lang('Service.closed') ?></p>
                                     </div>
-                                    <div class="button-wrap">
-                                        <a href="/reward-file/<?= $item['reward_file_id'] ?>"
-                                           class="button under-line download">
-                                            <img src="/asset/images/icon/download.png"/>
-                                            <span><?= lang('Service.download_file') ?></span>
-                                        </a>
+                                    <div class="text-wrap">
+                                        <p class="title"><?= lang('Service.name') ?></p>
+                                        <p class="content"><?= $item['inquirer_name'] ?></p>
                                     </div>
-                                </div>
-                            <?php } else { ?>
-                                <div class="uploader finished">
-                                    <div class="upload-item-add"
-                                         style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
-                                        <p><?= lang('Service.downloaded') ?></p>
+                                    <div class="text-wrap">
+                                        <p class="title"><?= lang('Service.email') ?></p>
+                                        <p class="content"><?= $item['inquirer_email'] ?></p>
                                     </div>
-                                    <?php if (isset($item['reward_file_id'])) { ?>
+                                    <div class="text-wrap comment">
+                                        <p class="title"><?= lang('Client.reward_request') ?></p>
+                                        <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($item['inquirer_comment']) ?></p>
+                                    </div>
+                                </a>
+                                <?php if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
+                                    <div class="uploader">
+                                        <div class="upload-item-add button"
+                                             style="background: url('/asset/images/icon/upload.svg') no-repeat center / 60%; font-size: 0;">
+                                            <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
+                                            <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
+                                                   onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                                   accept="video/mp4"/>
+                                            <p><?= lang('Service.upload_file') ?></p>
+                                        </div>
+                                    </div>
+                                <?php } else if ($item['status'] != 'received') { ?>
+                                    <div class="uploader uploaded">
+                                        <div class="upload-item-add button"
+                                             style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
+                                            <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
+                                            <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
+                                                   onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                                   accept="video/mp4"/>
+                                            <p><?= lang('Service.reupload_file') ?></p>
+                                        </div>
                                         <div class="button-wrap">
                                             <a href="/reward-file/<?= $item['reward_file_id'] ?>"
                                                class="button under-line download">
@@ -78,31 +79,46 @@
                                                 <span><?= lang('Service.download_file') ?></span>
                                             </a>
                                         </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="uploader finished">
+                                        <div class="upload-item-add"
+                                             style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
+                                            <p><?= lang('Service.downloaded') ?></p>
+                                        </div>
+                                        <?php if (isset($item['reward_file_id'])) { ?>
+                                            <div class="button-wrap">
+                                                <a href="/reward-file/<?= $item['reward_file_id'] ?>"
+                                                   class="button under-line download">
+                                                    <img src="/asset/images/icon/download.png"/>
+                                                    <span><?= lang('Service.download_file') ?></span>
+                                                </a>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                            <?php if (isset($item['reward_file_id']) && $is_admin) { ?>
+                                <div class="control-button-wrap">
+                                    <?php if ($item['status'] == 'waiting') { ?>
+                                        <a href="javascript:confirmReward(<?= $item['id'] ?>)"
+                                           class="button under-line delete">
+                                            <img src="/asset/images/icon/check.png"/>
+                                            <span><?= lang('Service.reward_confirm') ?></span>
+                                        </a>
+                                    <?php } else if ($item['status'] == 'received') { ?>
+                                        <a href="javascript:openPopupDelete('/api/reward-file/delete/<?= $item['reward_file_id'] ?>')"
+                                           class="button under-line delete">
+                                            <img src="/asset/images/icon/delete.png"/>
+                                            <span><?= lang('Service.delete_file') ?></span>
+                                        </a>
                                     <?php } ?>
                                 </div>
                             <?php } ?>
-                        </div>
-                        <?php if (isset($item['reward_file_id']) && $is_admin) { ?>
-                            <div class="control-button-wrap">
-                                <?php if ($item['status'] == 'waiting') { ?>
-                                    <a href="javascript:confirmReward(<?= $item['id'] ?>)"
-                                       class="button under-line delete">
-                                        <img src="/asset/images/icon/check.png"/>
-                                        <span><?= lang('Service.reward_confirm') ?></span>
-                                    </a>
-                                <?php } else if ($item['status'] == 'received') { ?>
-                                    <a href="javascript:openPopupDelete('/api/reward-file/delete/<?= $item['reward_file_id'] ?>')"
-                                       class="button under-line delete">
-                                        <img src="/asset/images/icon/delete.png"/>
-                                        <span><?= lang('Service.delete_file') ?></span>
-                                    </a>
-                                <?php } ?>
-                            </div>
-                        <?php } ?>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
         <?php } ?>
         <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>

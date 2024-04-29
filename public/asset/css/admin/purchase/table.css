@@ -2,11 +2,12 @@
     margin-top: 20px;
 }
 
-.table-wrap .row .row-button .column {
+#container .table-wrap .row .row-button .column {
     text-overflow: unset;
     white-space: normal;
     overflow: auto;
     vertical-align: top;
+    word-break: normal;
 }
 
 .table-wrap .column.purchase-number {

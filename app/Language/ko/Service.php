@@ -144,6 +144,9 @@ return [
     "refunded" => "환불됨",
     "purchase_number" => "주문번호",
     "refund" => "환불하기",
+    "total_reward_count" => "총 리워드 수",
+    "active_reward_count" => "활성화된 리워드 수",
+    "inactive_reward_count" => "보관된 리워드 수",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

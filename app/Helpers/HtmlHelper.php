@@ -509,7 +509,7 @@ final class HtmlHelper
                     </div>
                     <div class="input-wrap">
                         <p class="input-title">' . lang('Service.remaining_count') . '</p>
-                        <input type="number" name="limited_count" class="editable under-line" value="' . ($item['total_count'] - $item['paid_count']) . '" readonly/>
+                        <input type="number" name="limited_count" class="editable under-line" value="' . ($item['total_count'] - $item['purchased_count']) . '" readonly/>
                     </div>
                 </div>';
             $html .= '</div>';

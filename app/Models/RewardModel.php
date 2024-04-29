@@ -2,8 +2,6 @@
 
 namespace Models;
 
-use App\Helpers\ServerLogger;
-
 class RewardModel extends BasePriorityModel
 {
     protected $table = 'reward';
@@ -26,7 +24,6 @@ class RewardModel extends BasePriorityModel
 
     /**
      * select 문을 호출하는 기능
-     * artist_code 를 조인하기 위해서 override
      * @return array
      * @throws Exception
      */
@@ -35,15 +32,14 @@ class RewardModel extends BasePriorityModel
         $query = "SELECT reward.*, (" .
             "SELECT COUNT(*) AS cnt FROM purchase" .
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
-            " WHERE purchase_item.is_refunded = 0 AND purchase.reward_id = reward.id  AND purchase.status = 'paid'" .
+            " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND purchase.status != 'created'" .
             " ) AS total_paid_count, (" .
             "SELECT COUNT(*) AS cnt FROM purchase" .
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
             " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
-            " WHERE purchase_item.is_refunded = 0 AND (purchase_item.status != 'waiting' OR reward_file.id IS NOT NULL) AND purchase.reward_id = reward.id  AND purchase.status = 'paid'" .
+            " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND (purchase_item.status != 'waiting' OR reward_file.id IS NOT NULL) AND purchase.status != 'created'" .
             " ) AS uploaded_count" .
             " FROM reward";
-        ServerLogger::log($query);
         $values = [];
         if ($condition) {
             $set = $this->getConditionSet($condition);

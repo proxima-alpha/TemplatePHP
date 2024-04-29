@@ -37,13 +37,26 @@ class ProjectModel extends BaseModel
 
     public function getPreviousProjects(): array
     {
-        $today  = date("Y-m-d");
-        $query = "SELECT * FROM project WHERE status = 'open' AND end_date < '".$today."' ORDER BY created_at DESC";
+        $today = date("Y-m-d");
+        $query = "SELECT * FROM project WHERE status = 'open' AND end_date < '" . $today . "' ORDER BY created_at DESC";
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,
                 "values" => [],
             ],
         ]);
+    }
+
+    public function getReport($id)
+    {
+        $query = "SELECT (SELECT COUNT(*) AS cnt FROM reward WHERE project_id = '" . $id . "') AS total_count," .
+            " (SELECT COUNT(*) AS cnt FROM reward WHERE is_deleted = 0 AND project_id = '" . $id . "') AS active_count";
+        $result = BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => [],
+            ],
+        ]);
+        return $result[0];
     }
 }
