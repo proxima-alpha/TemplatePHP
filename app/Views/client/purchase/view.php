@@ -11,7 +11,7 @@
                 <div class="content-wrap">
                     <p class="project-title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
                     <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
-                    <p class="price"><?= $purchase_item['price'] ?> KRW</p>
+                    <p class="price"><?= number_format($purchase_item['price']) ?> KRW</p>
                 </div>
             </div>
             <div class="line"></div>

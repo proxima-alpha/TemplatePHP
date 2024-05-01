@@ -82,7 +82,7 @@
                             <p class="limited-count"><?= sprintf(lang("Client.reward_limited_count_string"), $reward['limited_count']) ?></p>
                             <p class="available-count"><?= sprintf(lang("Client.reward_available_count_string"), $reward['available_count']) ?></p>
                             <div class="line"></div>
-                            <p class="price"><?= $reward['price'] ?> KRW</p>
+                            <p class="price"><?= number_format($reward['price']) ?> KRW</p>
                         </div>
                     </div>
                 <?php } ?>
@@ -92,9 +92,9 @@
                         <span class="content"><?= $reward['available_count'] ?></span>
                     </div>
                     <input type="number" name="count" class="editable" value="1"
-                           onchange="onCountChange(this, <?= $reward['price'] ?>)"/>
+                           onchange="onCountChange(this)"/>
                     <div class="total-price">
-                        <input type="number" name="paid" value="<?= $reward['price'] ?>" readonly/>
+                        <input type="text" name="paid" value="<?= number_format($reward['price']) ?>" readonly/>
                         <p>KRW</p>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                             <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
                             <p class="total-count"><?= sprintf(lang('Client.reward_limited_count_string'), $reward['total_count']) ?></p>
                             <div class="line"></div>
-                            <p class="price"><?= $reward['price'] ?> KRW</p>
+                            <p class="price"><?= number_format($reward['price']) ?> KRW</p>
                         </div>
                     <?php } ?>
                     <div class="purchase-item-wrap">
@@ -224,7 +224,7 @@
                         </div>
                         <h4 class="page-sub-title"><?= lang('Client.payment_expected_price') ?></h4>
                         <div class="total-price">
-                            <input class="editable" type="number" name="paid" value="<?= $reward['price'] ?>" readonly/>
+                            <input class="editable" type="text" name="paid" value="<?= number_format($reward['price']) ?>" readonly/>
                             <p>KRW</p>
                         </div>
                         <div class="terms">

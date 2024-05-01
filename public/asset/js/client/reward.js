@@ -77,7 +77,7 @@ function getPurchaseItemHtmlInShort(item) {
     return html
 }
 
-function onCountChange(element, price) {
+function onCountChange(element) {
     const count = $(element).val()
     if (count < 1) {
         $(element).val(1);
@@ -89,7 +89,7 @@ function onCountChange(element, price) {
     }
     purchaseItemsCount = count;
     const $totalPrice = $('.total-price input');
-    $totalPrice.val(`${count * price}`)
+    $totalPrice.val(toFormatNumber(`${count * rewardPrice}`))
 
     //page-2 에서 구매 수량 세트 생성
     const $page2 = $('#page-2');
@@ -196,9 +196,10 @@ function refreshViews() {
 
 function requestPayment() {
     let data = parseInputToData($(`.payment-box .form-wrap .editable`))
+    if (data['paid']) data['paid'] = data['paid'].replaceAll(',', '');
     data['purchase_items'] = purchaseItems.slice(0, purchaseItemsCount);
     // DB 저장은 동의 유무인데 지문이 비동의 유무이기 때문에 request 시에 변경
-    for(let i in data['purchase_items']) {
+    for (let i in data['purchase_items']) {
         const isAgree = data['purchase_items'][i]['is_agreed'];
         data['purchase_items'][i]['is_agreed'] = isAgree == 0 ? 1 : 0;
     }

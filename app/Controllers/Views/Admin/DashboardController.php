@@ -27,7 +27,7 @@ class DashboardController extends BaseAdminController
         try {
             $queries = [];
             $queries[] = "SELECT (" .
-                " SELECT SUM(price) FROM purchase_item WHERE is_refunded = 0) AS total_amount, (" .
+                " SELECT SUM(purchase_item.price) FROM purchase_item LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id WHERE purchase_item.is_refunded = 0 AND purchase.status != 'created') AS total_amount, (" .
                 " SELECT SUM(purchased_count) FROM reward WHERE is_deleted = 0) AS purchased_count, (" .
                 " SELECT SUM(total_count) FROM reward WHERE is_deleted = 0) AS stock_count, (" .
                 " SELECT COUNT(id) FROM reward WHERE is_deleted = 0) AS total_reward_count";

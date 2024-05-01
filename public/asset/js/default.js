@@ -30,6 +30,10 @@ function openWindow(url) {
     window.open(url)
 }
 
+function toFormatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+
 function toDateString(dateString) {
     if (!dateString) return '';
     try {

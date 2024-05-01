@@ -22,7 +22,7 @@
                                 <a href="javascript:openInputPopup('<?= $item['id'] ?>')" class="button row-button">
                                     <span class="column purchase-number"><?= $item['id'] ?></span>
                                     <span class="column name"><?= $item['user_name'] ?></span>
-                                    <span class="column price"><?= $item['price'] ?> KRW</span>
+                                    <span class="column price"><?= number_format($item['price']) ?> KRW</span>
                                     <span class="column status"
                                           style="<?= $item['is_refunded'] == 1 ? 'color:red;' : 'color:green;' ?>"><?= $item['is_refunded'] == 1 ? lang('Service.refunded') : lang('Service.paid') ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>

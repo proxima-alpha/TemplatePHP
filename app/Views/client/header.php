@@ -86,7 +86,7 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
                             <li>
                                 <a <?= "onclick=\"clickClientNavigation(this, '/artist/" . $item['code'] . "')\"" ?>
                                     href="/artist/<?= $item['code'] ?>"
-                                   class="button lnb-menu">
+                                    class="button lnb-menu">
                                     <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
                                 </a>
                             </li>

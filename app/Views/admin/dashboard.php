@@ -6,7 +6,7 @@
         <div class="report-amount-wrap">
             <div class="text-wrap">
                 <span class="title"><?= lang('Service.total_amount') ?></span>
-                <span class="content"><?= $total_amount ?> KRW</span>
+                <span class="content"><?= number_format($total_amount) ?> KRW</span>
             </div>
         </div>
         <div class="report-wrap">

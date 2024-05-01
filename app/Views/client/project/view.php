@@ -101,7 +101,7 @@ if (isset($data['artists'])) { ?>
                             <p class="limited-count"><?= sprintf(lang("Client.reward_limited_count_string"), $reward['limited_count']) ?></p>
                             <p class="available-count"><?= sprintf(lang("Client.reward_available_count_string"), $reward['available_count']) ?></p>
                             <div class="line"></div>
-                            <p class="price"><?= $reward['price'] ?> KRW</p>
+                            <p class="price"><?= number_format($reward['price']) ?> KRW</p>
                             <div class="button-wrap">
                                 <a class="button button-fill"
                                    href="javascript:purchaseReward(<?= $reward['id'] ?>, '<?= $data['start_date'] ?>', '<?= $data['end_date'] ?>',  <?= $reward['available_count'] ?>);"><?= lang('Client.purchase') ?></a>

@@ -49,7 +49,7 @@
                                     <span class="column remaining-count"><?= ($item['total_count'] - $item['purchased_count']) ?></span>
                                     <span class="column purchased-count"><?= $item['total_paid_count'] ?></span>
                                     <span class="column uploaded-count"><?= $item['uploaded_count'] ?></span>
-                                    <span class="column price"><?= $item['price'] ?> KRW</span>
+                                    <span class="column price"><?= number_format($item['price']) ?> KRW</span>
                                     <span class="column is-deleted">
                                     <img
                                         src="/asset/images/icon/<?= $item['is_deleted'] == 0 ? 'none.png' : 'check.png' ?>"/>
