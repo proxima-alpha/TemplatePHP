@@ -20,24 +20,32 @@ if (isset($data['project_image_id'])) { ?>
 if (isset($data['artists'])) { ?>
     <div class="section" id="artists">
         <div class="page-inner">
-            <div class="content-wrap slider-box">
-                <div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
-                    <div class="slick">
-                        <?php foreach ($data['artists'] as $index => $item) {
-                            $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
-                            ?>
-                            <div class="slick-item button" id="artist-<?= $item['id'] ?>" onclick="setArtist(<?=$item['id']?>)">
-                                <div class="image-item-wrap">
-                                    <div class="image-item"
-                                         style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>
-                                </div>
-                                <div class="text-item-wrap">
-                                    <p class="item-title"><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></p>
-                                    <p class="item-content"><?= $lang == 'ko' ? $item['job'] : $item['job_en'] ?></p>
-                                </div>
+            <div class="scroll-control-button-wrap">
+                <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
+                    <img src="/asset/images/icon/button_left.png"/>
+                </a>
+                <a href="javascript:;" onclick="onClickScrollRight(this)" class="button right">
+                    <img src="/asset/images/icon/button_right.png"/>
+                </a>
+            </div>
+            <div class="content-wrap scroll-horizontal-wrap">
+                <div class="content-wrap-inner" style="width: <?= (sizeof($data['artists']) * 180) ?>px;">
+                    <?php foreach ($data['artists'] as $index => $item) {
+                        $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg'; ?>
+                        <div class="content-item button" id="artist-<?= $item['id'] ?>"
+                             onclick="setArtist(<?= $item['id'] ?>)">
+                            <div class="image-item-wrap">
+                                <div class="image-item"
+                                     style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
                             </div>
-                        <?php } ?>
-                    </div>
+                            <div class="text-item-wrap">
+                                <p class="item-title"><?= $lang == 'ko' ? $item['name'] :
+                                        $item['name_en'] ?></p>
+                                <p class="item-content"><?= $lang == 'ko' ? $item['job'] :
+                                        $item['job_en'] ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
             <div class="line"></div>

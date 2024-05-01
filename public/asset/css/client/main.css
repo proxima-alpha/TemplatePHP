@@ -28,7 +28,7 @@
 }
 
 .section .page-inner {
-    width: 1200px;
+    width: 1440px;
     position: relative;
     text-align: left;
 }
@@ -105,7 +105,7 @@ slider 페이지
 }
 
 #page-start .overlap-text-box .overlap-text-wrap {
-    max-width: 1200px;
+    max-width: 1440px;
     height: 100%;
     margin: 0 auto;
     position: relative;
@@ -147,15 +147,58 @@ slider 페이지
     background: #FF7A00;
 }
 
-#page-media .content-box.relation .slick .slick-item {
-    height: 320px;
-    margin: 10px;
+.scroll-control-button-wrap {
+    position: absolute;
+    right: 10px;
+    top: 65px;
+    font-size: 0;
+}
+
+.scroll-control-button-wrap .button {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.scroll-control-button-wrap .button img {
+    vertical-align: middle;
+}
+
+.scroll-horizontal-wrap {
+    overflow-x: scroll;
+    font-size: 0;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+#page-media .content-box.relation {
+    position: relative;
+}
+
+
+#page-media .content-box.relation .content-wrap::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+#page-media .content-box.relation .content-wrap-inner {
+    height: 313px;
+}
+
+#page-media .content-box.relation .content-item {
+    width: 170px;
+    height: 303px;
+    margin: 5px;
+    display: inline-block;
     border-radius: 20px;
     position: relative;
     overflow: hidden
 }
 
-#page-media .content-box.relation .slick .slick-item .time-string {
+#page-media .content-box.relation .content-item .time-string {
     font-size: 16px;
     color: white;
     font-weight: 400;
@@ -164,16 +207,26 @@ slider 페이지
     left: 10px;
 }
 
-#page-media .content-box.project .slick .slick-item {
+#page-media .content-box.relation .content-item video {
+    width: 100%;
+    height: 100%;
+}
+
+#page-media .content-box {
+    position: relative;
+}
+
+#page-media .content-box.project .content-item {
+    width: 218px;
     margin: 10px;
     border-radius: 20px;
     border: 1px solid #E2E8F0;
     overflow: hidden;
+    display: inline-block;
 }
 
 #page-media .content-box.previous-project .content-item {
-    width: calc(16% - 20px);
-    height: 340px;
+    width: 218px;
     margin: 10px;
     border-radius: 20px;
     border: 1px solid #E2E8F0;
@@ -182,8 +235,8 @@ slider 페이지
     vertical-align: middle;
 }
 
-#page-media .content-box.artists .slick .slick-item {
-    height: 320px;
+#page-media .content-box.artists .content-item {
+    width: 218px;
     margin: 10px;
     border-radius: 20px;
     border: 1px solid #E2E8F0;
@@ -191,7 +244,6 @@ slider 페이지
     display: inline-block;
 }
 
-#page-media .slick-item .image-item-wrap,
 #page-media .content-item .image-item-wrap {
     height: 250px;
     line-height: 250px;
@@ -199,17 +251,15 @@ slider 페이지
     position: relative;
 }
 
-#page-media .slick-item .text-item-wrap,
 #page-media .content-item .text-item-wrap {
-    margin: 10px 0;
+    margin: 10px 0 20px 0;
 }
 
-#page-media .slick-item .image-item-wrap .image-item,
 #page-media .content-item .image-item-wrap .image-item {
     height: 100%;
 }
 
-#page-media .slick .slick-item:hover .image-item {
+#page-media .content-item:hover .image-item {
     position: absolute;
     right: 0;
     left: 0;
@@ -221,22 +271,6 @@ slider 페이지
     animation-fill-mode: both;
 }
 
-/*slick override*/
-#page-media .slider-box .slider-wrap .slick button {
-    width: 30px;
-    height: 30px;
-    background-size: auto 80%;
-}
-
-#page-media .slider-box .slider-wrap .slick button.slick-prev {
-    left: 10px;
-}
-
-#page-media .slider-box .slider-wrap .slick button.slick-next {
-    right: 10px;
-}
-
-#page-media .slick-item p,
 #page-media .content-item p {
     font-size: 18px;
     padding: 0 10px;
@@ -249,11 +283,10 @@ slider 페이지
     overflow: hidden;
 }
 
-#page-media .slick-item p.item-date {
-    font-size: 13px;
+#page-media .content-item p.item-date {
+    font-size: 16px;
 }
 
-#page-media .slick-item p.item-title,
 #page-media .content-item p.item-title {
     font-weight: 600;
 }
@@ -422,9 +455,5 @@ slider 페이지
 
     .section .page-inner {
         width: 100%;
-    }
-
-    #page-media .content-box.previous-project .content-item {
-        width: calc(33% - 20px);
     }
 }

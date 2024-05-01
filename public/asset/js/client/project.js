@@ -1,32 +1,3 @@
-$(document).ready(function () {
-
-    $('body').setOnResolutionChanged((event) => {
-        let isMobile = event.detail.isMobile;
-
-        const $slick = $('#artists .slick');
-        if ($slick.hasClass('slick-initialized')) {
-            $slick.slick("unslick");
-        }
-        if(isMobile) {
-            $slick.slick({
-                infinite: false,
-                autoplay: true,
-                draggable: true,
-                slidesToShow: 3,
-                duration: 2000
-            })
-        } else {
-            $slick.slick({
-                infinite: false,
-                autoplay: true,
-                draggable: true,
-                slidesToShow: 6,
-                duration: 2000
-            })
-        }
-        $slick.setVideoCoverStyle();
-    })
-});
 
 function setArtist(id) {
     apiRequest({
@@ -53,23 +24,30 @@ function setArtist(id) {
 
             if (data.previews.length > 0) {
                 html += `
-                <div class="content-wrap-inner slider-wrap">
-                    <div class="slick-wrap">
-                        <div class="slick">`;
-
+                <div class="preview-wrap">
+                <div class="scroll-control-button-wrap">
+                    <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
+                        <img src="/asset/images/icon/button_left.png"/>
+                    </a>
+                    <a href="javascript:;" onclick="onClickScrollRight(this)" class="button right">
+                        <img src="/asset/images/icon/button_right.png"/>
+                    </a>
+                </div>
+                <div class="content-wrap scroll-horizontal-wrap">
+                    <div class="content-wrap-inner" style="width: ${data['previews'].length * 180}px;">`;
                 for (let preview of data.previews) {
                     let file_id = preview['id'];
                     let type = preview['type'];
                     let file_url = preview['relative_path'];
                     if (type == 'image') {
                         html += `
-                        <div class="slick-item button"
+                        <div class="content-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
                              onclick="openImagePopup(${file_id})">
                         </div>`;
                     } else {
                         html += `
-                        <div class="slick-item button">
+                        <div class="content-item">
                             <video preload="metadata" controls style="width: 100%; height: 100%;">
                                 <source src="${file_url}">
                             </video>
@@ -83,15 +61,6 @@ function setArtist(id) {
                 </div>`;
             }
             $container.append(html);
-            const $slick = $container.find('.slick');
-            if ($slick.length > 0) {
-                $slick.slick({
-                    infinite: false,
-                    autoplay: false,
-                    draggable: true,
-                    slidesToShow: 4,
-                })
-            }
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);
@@ -121,4 +90,23 @@ function purchaseReward(id, start_date, end_date, available_count) {
         }
     }
     window.location.href = `/project/purchase/reward/${id}`;
+}
+
+function onClickScrollLeft(element) {
+    const $parent = $(element).parent().parent();
+    const $container = $parent.find('.content-wrap');
+    let offset = 0;
+    if ($container.scrollLeft()) offset = $container.scrollLeft()
+    offset -= $container.width()
+    if (offset < 0) offset = 0
+    $container.animate({scrollLeft: offset}, 500);
+}
+
+function onClickScrollRight(element) {
+    const $parent = $(element).parent().parent();
+    const $container = $parent.find('.content-wrap');
+    let offset = 0;
+    if ($container.scrollLeft()) offset = $container.scrollLeft()
+    offset += $container.width()
+    $container.animate({scrollLeft: offset}, 500);
 }

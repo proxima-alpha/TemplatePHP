@@ -1,4 +1,9 @@
-<?= \App\Helpers\HtmlHelper::setTranslations(['message_popup_page']) ?>
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
+<?= HtmlHelper::setTranslations(['message_popup_page']) ?>
 <div class="section " id="page-start">
     <div class="main-slider-wrap">
         <div class="slider-box">
@@ -24,37 +29,105 @@
     <div class="page-inner">
         <div class="content-box relation">
             <h4 class="page-sub-title">
-                <?=lang("Client.relation")?>
+                <?= lang("Client.relation") ?>
             </h4>
-            <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getMediaSlick($data['relation']); ?>
-                <?php } ?>
-            </div>
+            <?php if (HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
+                <div class="scroll-control-button-wrap">
+                    <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
+                        <img src="/asset/images/icon/button_left.png"/>
+                    </a>
+                    <a href="javascript:;" onclick="onClickScrollRight(this)" class="button right">
+                        <img src="/asset/images/icon/button_right.png"/>
+                    </a>
+                </div>
+                <div class="content-wrap scroll-horizontal-wrap">
+                    <div class="content-wrap-inner" style="width: <?= (sizeof($data['relation']) * 205) ?>px;">
+                        <?php foreach ($data['relation'] as $index => $file) { ?>
+                            <div class="content-item">
+                                <video preload="metadata" muted>
+                                    <source src="<?= $file['relative_path'] ?>">
+                                </video>
+                                <p class="time-string"><?= HtmlHelper::secToString($file['time']) ?></p>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
         <?php if ($data_settings['main-show-project'] == 1) { ?>
             <div class="content-box project">
                 <h4 class="page-sub-title">
-                    <?=lang("Client.popular_project")?>
+                    <?= lang("Client.popular_project") ?>
                 </h4>
-                <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 368)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'project_image_id', $lang); ?>
-                    <?php } ?>
-                </div>
+                <?php if (HtmlHelper::showDataEmpty($data['project'] ?? null, 368)) { ?>
+                    <div class="scroll-control-button-wrap">
+                        <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
+                            <img src="/asset/images/icon/button_left.png"/>
+                        </a>
+                        <a href="javascript:;" onclick="onClickScrollRight(this)" class="button right">
+                            <img src="/asset/images/icon/button_right.png"/>
+                        </a>
+                    </div>
+                    <div class="content-wrap scroll-horizontal-wrap">
+                        <div class="content-wrap-inner" style="width: <?= (sizeof($data['project']) * 240) ?>px;">
+                            <?php foreach ($data['project'] as $index => $item) {
+                                $url = isset($item['project_image_id']) ? '/file/' . $item['project_image_id'] : '/asset/images/custom/object.svg'; ?>
+                                <div class="content-item">
+                                    <a href="/project/<?= $item['id'] ?>/view">
+                                        <div class="image-item-wrap">
+                                            <div class="image-item"
+                                                 style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
+                                        </div>
+                                        <div class="text-item-wrap">
+                                            <p class="item-title"><?= $lang == 'ko' ? $item['title'] :
+                                                    $item['title_en'] ?></p>
+                                            <p class="item-date"><?= (HtmlHelper::toDateString($item['start_date'])
+                                                    . ' ~'
+                                                    . HtmlHelper::toDateString($item['end_date'])) ?></p>
+                                            <p class="item-content"><?= $lang == 'ko' ? $item['content'] :
+                                                    $item['content_en'] ?></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
         <?php }
-        foreach ($data['artists'] as $code => $item) {
+        foreach ($data['artists'] as $code => $codeItem) {
             if ($data_settings['main-show-' . $code] == 1) { ?>
                 <div class="content-box artists <?= $code ?>">
                     <h4 class="page-sub-title">
-                        <?= $lang == 'ko' ? $item['code']['name'] :   $item['code']['name_en']  ?>
+                        <?= $lang == 'ko' ? $codeItem['code']['name'] : $codeItem['code']['name_en'] ?>
                     </h4>
-                    <div class="content-wrap slider-box">
-                        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($item['items'] ?? null, 340)) { ?>
-                            <?= \App\Helpers\HtmlHelper::getArtistSlick($item['items'], 'profile_id', $lang); ?>
-                        <?php } ?>
-                    </div>
+                    <?php if (HtmlHelper::showDataEmpty($codeItem['items'] ?? null, 340)) { ?>
+                        <div class="scroll-control-button-wrap">
+                            <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
+                                <img src="/asset/images/icon/button_left.png"/>
+                            </a>
+                            <a href="javascript:;" onclick="onClickScrollRight(this)" class="button right">
+                                <img src="/asset/images/icon/button_right.png"/>
+                            </a>
+                        </div>
+                        <div class="content-wrap scroll-horizontal-wrap">
+                            <div class="content-wrap-inner" style="width: <?= (sizeof($codeItem['items']) * 240) ?>px;">
+                                <?php foreach ($codeItem['items'] as $index => $item) {
+                                    $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg'; ?>
+                                    <div class="content-item">
+                                        <div class="image-item-wrap">
+                                            <div class="image-item"
+                                                 style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
+                                        </div>
+                                        <div class="text-item-wrap">
+                                            <p class="item-title"><?= $lang == 'ko' ? $item['name'] :
+                                                    $item['name_en'] ?></p>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
                 <?php
             }
@@ -62,11 +135,11 @@
         if ($data_settings['main-show-previous-project'] == 1) { ?>
             <div class="content-box previous-project">
                 <h4 class="page-sub-title">
-                    <?=lang("Client.previous_project")?>
+                    <?= lang("Client.previous_project") ?>
                 </h4>
-                <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getProjectItem($data['previous-project'], 'project_image_id'); ?>
+                <div class="content-wrap">
+                    <?php if (HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>
+                        <?= HtmlHelper::getProjectItem($data['previous-project'], 'project_image_id'); ?>
                     <?php } ?>
                 </div>
             </div>

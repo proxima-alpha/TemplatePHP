@@ -1,3 +1,39 @@
+.section .page-inner {
+    width: 1440px;
+}
+
+.container-inner {
+    width: 1400px;
+}
+
+.scroll-control-button-wrap {
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    font-size: 0;
+}
+
+.scroll-control-button-wrap .button {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.scroll-control-button-wrap .button img {
+    vertical-align: middle;
+}
+
+.scroll-horizontal-wrap {
+    overflow-x: scroll;
+    font-size: 0;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
 #image {
     height: 350px;
     position: relative;
@@ -38,23 +74,41 @@
     letter-spacing: -2px;
 }
 
-#artists .slick-item .image-item-wrap {
+#artists .content-box.relation .content-wrap::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+#artists .content-box.relation .content-wrap-inner {
+    height: 205px;
+}
+
+#artists {
+    position: relative;
+}
+
+#artists .content-item {
+    width: 170px;
+    display: inline-block;
+    margin: 0 5px;
+}
+
+#artists .content-item .image-item-wrap {
     text-align: center;
 }
 
-#artists .slick-item .image-item {
+#artists .content-item .image-item {
     width: 150px;
     height: 150px;
     display: inline-block;
     border-radius: 50%;
 }
 
-#artists .slick-item.selected .image-item {
+#artists .content-item.selected .image-item {
     border: 4px solid #FF7A00;
 }
 
-#artists .slick-item p {
-    font-size: 18px;
+#artists .content-item p {
+    font-size: 20px;
     padding: 0 10px;
     line-height: 25px;
     text-align: center;
@@ -65,11 +119,11 @@
     overflow: hidden;
 }
 
-#artists .slick-item p.item-content {
+#artists .content-item p.item-content {
     display: none;
 }
 
-#artists .slick-item p.item-title {
+#artists .content-item p.item-title {
     margin-top: 10px;
     font-weight: 600;
 }
@@ -128,10 +182,20 @@
     margin: 5px;
 }
 
-.artist-box .slick .slick-item {
-    height: 250px;
-    margin: 10px;
+.artist-box .preview-wrap {
+    padding-top: 40px;
     position: relative;
+}
+.artist-box .preview-wrap .scroll-control-button-wrap {
+    top: 0;
+}
+
+.artist-box .content-item {
+    width: 170px;
+    height: 303px;
+    margin: 5px;
+    position: relative;
+    display: inline-block;
 }
 
 .artist-box .slick .slick-item .time-string {
@@ -286,6 +350,14 @@
 }
 
 @media (max-width: 840px) {
+    .section .page-inner {
+        width: 100%;
+    }
+
+    .container-inner {
+        width: 100%;
+    }
+
     #image .overlap-text-box .text-wrap {
         max-width: calc(100% - 40px);
     }

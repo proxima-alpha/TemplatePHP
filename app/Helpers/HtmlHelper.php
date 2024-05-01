@@ -281,10 +281,10 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getMediaSlick($files, $isAdmin = false): string
+    public static function getMediaSlick($files): string
     {
         $html =
-            '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
+            '<div class="content-wrap-inner slider-wrap lines-horizontal">
                     <div class="slick">';
         if (isset($files)) {
             foreach ($files as $index => $file) {
@@ -296,21 +296,12 @@ final class HtmlHelper
                         Slider # ' . $file['id'] .
                         '</div>';
                 } else {
-                    if (!$isAdmin) {
-                        $html .=
-                            '<div class="slick-item">
-                            <video preload="metadata" controls style="width: 100%; height: 100%" muted>
-                                <source src="' . $file['relative_path'] . '" >
-                            </video>';
-                        $html .= '<p class="time-string">' . HtmlHelper::secToString($file['time']) . '</p>';
-                    } else {
-                        $html .=
-                            '<div class="slick-item button">
+                    $html .=
+                        '<div class="slick-item button">
                             <video preload="metadata" muted>
                                 <source src="' . $file['relative_path'] . '" >
-                            </video>';
-                    }
-                    $html .= '</div>';
+                            </video>
+                        </div>';
                 }
             }
         }
@@ -320,10 +311,10 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getArtistSlick($items, $image_file_key, $lang = 'ko', $isAdmin = false): string
+    public static function getArtistSlick($items, $image_file_key, $lang = 'ko'): string
     {
         $html =
-            '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
+            '<div class="content-wrap-inner slider-wrap lines-horizontal">
                 <div class="slick">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
@@ -346,21 +337,17 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getProjectSlick($items, $image_file_key, $lang = 'ko', $isAdmin = false): string
+    public static function getProjectSlick($items, $image_file_key, $lang = 'ko'): string
     {
         $html =
-            '<div class="content-wrap-inner slider-wrap ' . ($isAdmin ? 'lines-horizontal' : '') . '">
+            '<div class="content-wrap-inner slider-wrap lines-horizontal">
                 <div class="slider-wrap">
                     <div class="slick">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
                 $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
                 $html .=
-                    '<div class="slick-item">';
-                if (!$isAdmin) {
-                    $html .= '<a href="/project/' . $item['id'] . '/view">';
-                }
-                $html .= '
+                    '<div class="slick-item">
                         <div class="image-item-wrap">
                             <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
                         </div>
@@ -368,11 +355,8 @@ final class HtmlHelper
                             <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
                             <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
                             <p class="item-content">' . ($lang == 'ko' ? $item['content'] : $item['content_en']) . '</p>
-                        </div>';
-                if (!$isAdmin) {
-                    $html .= '</a>';
-                }
-                $html .= '</div>';
+                        </div>
+                    </div>';
             }
         }
         $html .=
@@ -385,7 +369,7 @@ final class HtmlHelper
 
     public static function getProjectItem($items, $image_file_key): string
     {
-        $html = '<div class="content-wrap-inner slider-wrap">';
+        $html = '<div class="content-wrap-inner">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
                 $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';

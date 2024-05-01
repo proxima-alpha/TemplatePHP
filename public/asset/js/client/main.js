@@ -29,6 +29,7 @@ let handleStorage = {
 
 $(document).ready(function () {
     resizeWindow();
+    checkPagePopup();
 
     // activate slick
     $('#page-start .main-slider-wrap .slick').slick({
@@ -41,42 +42,15 @@ $(document).ready(function () {
         accessibility: false,
     });
 
-    // $('#page-media .slick').setVideoCoverStyle();
-    // // slick item 이 없는 경우 setOnResolutionChanged 이 작동하지 않으므로
-    // // slick과 연관없는 기능들은 body에 연결해준다
-    $('body').setOnResolutionChanged((event) => {
-        let isMobile = event.detail.isMobile;
-
-        const $slick = $('#page-media .slick');
-        if ($slick.hasClass('slick-initialized')) {
-            $slick.slick("unslick");
-        }
-        if(isMobile) {
-            $slick.slick({
-                infinite: true,
-                autoplay: true,
-                draggable: true,
-                slidesToShow: 3,
-                duration: 2000
-            })
-        } else {
-            $slick.slick({
-                infinite: true,
-                autoplay: true,
-                draggable: true,
-                slidesToShow: 6,
-                duration: 2000
-            })
-        }
-    })
-
-    checkPagePopup();
-
     $('video').on('mouseenter', event => {
         event.target.play();
+        event.target.setAttribute("controls", "controls")
     })
     $('video').on('mouseleave', event => {
         event.target.pause();
+        if (event.target.hasAttribute("controls")) {
+            event.target.removeAttribute("controls")
+        }
     })
 });
 
@@ -217,3 +191,21 @@ addEventListener("resize", (event) => {
     resizeWindow();
 });
 
+function onClickScrollLeft(element) {
+    const $parent = $(element).parent().parent();
+    const $container = $parent.find('.content-wrap');
+    let offset = 0;
+    if ($container.scrollLeft()) offset = $container.scrollLeft()
+    offset -= $container.width()
+    if (offset < 0) offset = 0
+    $container.animate({scrollLeft: offset}, 500);
+}
+
+function onClickScrollRight(element) {
+    const $parent = $(element).parent().parent();
+    const $container = $parent.find('.content-wrap');
+    let offset = 0;
+    if ($container.scrollLeft()) offset = $container.scrollLeft()
+    offset += $container.width()
+    $container.animate({scrollLeft: offset}, 500);
+}
