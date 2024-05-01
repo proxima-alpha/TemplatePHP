@@ -37,6 +37,10 @@ class BaseAdminController extends BaseViewController
     {
         $this->links = [
             [
+                'name' => lang('Service.dashboard'),
+                'link' => '/admin/dashboard',
+            ],
+            [
                 'name' => lang('Service.artist'),
                 'link' => '/admin/artist',
             ],

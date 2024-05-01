@@ -59,7 +59,8 @@ $routes->get('/purchase/' . $ID_RULE . '/view', [\Views\PurchaseController::clas
 $routes->get('/artist/' . $CODE_RULE, [\Views\ArtistController::class, 'index']);
 
 //admin pages
-$routes->addRedirect('/admin', '/admin/artist');
+$routes->addRedirect('/admin', '/admin/dashboard');
+$routes->get('/admin/dashboard', [\Views\Admin\DashboardController::class, 'index']);
 $routes->get('/admin/login', [\Views\Admin\LoginController::class, 'index']);
 $routes->get('/admin/registration', [\Views\Admin\RegistrationController::class, 'index']);
 $routes->get('/admin/reset-password', [\Views\Admin\RegistrationController::class, 'resetPassword']);

@@ -1,0 +1,42 @@
+.report-amount-wrap {padding: 15px 10px}
+.report-amount-wrap .text-wrap span {
+    font-size: 18px;
+    display: inline-block;
+    line-height: 30px;
+}
+
+.report-amount-wrap .text-wrap .title {
+    width: 30%;
+    text-align: left;
+}
+
+.report-amount-wrap .text-wrap .content {
+    width: 70%;
+    text-align: right;
+}
+
+.report-wrap {
+    border: 1px solid #000;
+}
+
+.report-wrap .text-wrap {
+    display: inline-block;
+    width: 33%;
+    padding: 20px 0;
+}
+
+.report-wrap .text-wrap div {
+    font-size: 18px;
+}
+
+.report-amount-wrap .text-wrap .title,
+.report-wrap .text-wrap .title {
+    font-weight: 600;
+}
+
+@media (max-width: 840px) {
+    .report-amount-wrap,
+    .report-wrap {
+        margin: 10px;
+    }
+}

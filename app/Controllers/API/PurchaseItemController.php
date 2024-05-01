@@ -99,6 +99,7 @@ class PurchaseItemController extends BaseApiController
             }
             $queries[] = "UPDATE purchase_item SET is_refunded = 1 WHERE id = '" . $purchaseItem['id'] . "';";
             $queries[] = "UPDATE purchase SET refunded = refunded + " . $purchaseItem['price'] . " WHERE id = '" . $purchase['id'] . "';";
+            $queries[] = "UPDATE reward SET purchased_count = purchased_count - 1 WHERE id = '" . $purchase['reward_id'] . "';";
             if($purchase['paid'] - $purchase['refunded'] - $purchaseItem['price'] == 0) {
                 $queries[] = "UPDATE purchase SET status = 'refunded'  WHERE id = '" . $purchase['id'] . "';";
             }

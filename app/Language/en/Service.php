@@ -110,6 +110,7 @@ return [
     "show_detail" => "Show Detail",
 
     //admin
+    "dashboard" => "Dashboard",
     "board" => "Board",
     "reply" => "Reply",
     "reservation" => "Reservation",
@@ -150,6 +151,9 @@ return [
     "total_reward_count" => "Total Reward Count",
     "active_reward_count" => "Active Reward Count",
     "inactive_reward_count" => "Inactive Reward Count",
+    "total_amount" => "Total Purchased Amount",
+    "total_purchased_count" => "Total Purchased Count",
+    "total_stock_count" => "Total Stock Count",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

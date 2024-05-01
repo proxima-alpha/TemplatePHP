@@ -107,6 +107,7 @@ return [
     "closed" => "비공개",
 
     //admin
+    "dashboard" => "대시보드",
     "board" => "게시판",
     "reply" => "댓글",
     "reservation" => "예약",
@@ -147,6 +148,9 @@ return [
     "total_reward_count" => "총 리워드 수",
     "active_reward_count" => "활성화된 리워드 수",
     "inactive_reward_count" => "보관된 리워드 수",
+    "total_amount" => "총 주문 금액",
+    "total_purchased_count" => "총 판매 수량",
+    "total_stock_count" => "총 재고량",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
