@@ -33,8 +33,9 @@ html {
 .page-title {
     margin: 40px 20px;
     text-align: center;
-    font-size: 26px;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 38px;
     color: #fff;
 }
 
@@ -517,9 +518,5 @@ input[readonly] {
 
     .pc-only {
         display: none !important;
-    }
-
-    .info-text-wrap {
-        margin: 0 10px;
     }
 }

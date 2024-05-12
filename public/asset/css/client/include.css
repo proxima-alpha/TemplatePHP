@@ -125,7 +125,7 @@ body {
     font-weight: 200;
     background: none;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     color: #fff;
     vertical-align: middle;
 }
@@ -213,9 +213,9 @@ body {
     height: 60px;
     line-height: 60px;
     padding: 0 15px;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 700;
     box-sizing: border-box;
-    font-weight: 400;
     color: #fff;
     display: block;
 }
@@ -237,8 +237,8 @@ body {
 
 .gnb .lnb > li > a {
     padding: 10px;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 700;
     color: #fff;
     background: #444;
     display: block;

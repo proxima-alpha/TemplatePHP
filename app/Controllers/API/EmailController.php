@@ -41,7 +41,7 @@ class EmailController extends BaseApiController
     private function getVerificationStyle(string $type, string $title, array $data): string
     {
         $result = '
-        <div class="email-container" style="text-align: center; background: #eee;">
+        <div class="email-container" style="text-align: center; background: #eee; position: absolute; padding: 20px">
             <div class="email-wrap" style="
                 text-align: center;
                 width: 700px;
@@ -127,7 +127,7 @@ class EmailController extends BaseApiController
     private function getReservationMailStyle($service, string $title, array $data): string
     {
         $result = '
-        <div class="email-container" style="text-align: center; background: #eee;">
+        <div class="email-container" style="text-align: center; background: #eee; position: absolute; padding: 20px"">
             <div class="email-box" style="
                 text-align: center;
                 width: 640px;

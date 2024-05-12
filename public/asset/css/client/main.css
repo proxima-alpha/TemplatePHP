@@ -245,14 +245,14 @@ slider 페이지
 }
 
 #page-media .content-item .image-item-wrap {
-    height: 250px;
-    line-height: 250px;
+    height: 248px;
+    line-height: 256px;
     overflow: hidden;
     position: relative;
 }
 
 #page-media .content-item .text-item-wrap {
-    margin: 10px 0 20px 0;
+    margin: 8px;
 }
 
 #page-media .content-item .image-item-wrap .image-item {
@@ -272,9 +272,9 @@ slider 페이지
 }
 
 #page-media .content-item p {
-    font-size: 18px;
-    padding: 0 10px;
-    line-height: 25px;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 400;
     text-align: left;
     color: #fff;
 
@@ -283,19 +283,22 @@ slider 페이지
     overflow: hidden;
 }
 
-#page-media .content-item p.item-date {
-    font-size: 16px;
-}
-
 #page-media .content-item p.item-title {
-    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 500;
 }
 
 #page-intro .page-title {
-    font-size: 40px;
+    font-size: 70px;
+    font-weight: 600;
+    line-height: 38px;
 }
 
 #page-intro .page-sub-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 34px;
     text-align: center;
     margin: 40px 0;
 }
@@ -447,6 +450,14 @@ slider 페이지
     #page-intro .content-wrap {
         width: 100%;
         display: block;
+    }
+
+    #page-intro .page-title {
+        font-size: 50px;
+    }
+
+    #page-intro .content-wrap.list {
+        padding: 0 40px 0 40px;
     }
 
     #page-intro .content-wrap.list ul {

@@ -116,7 +116,6 @@ class BaseClientController extends BaseViewController
                 'certification_number' => lang('Client.company_info_certification_number'),
                 'address' => lang('Client.company_info_address'),
                 'email' => lang('Client.company_info_email'),
-                'manager_name' => lang('Client.company_info_manager_name'),
             ],
             'terms' => [
                 lang('Client.terms_01'),

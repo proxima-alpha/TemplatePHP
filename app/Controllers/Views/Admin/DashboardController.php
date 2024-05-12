@@ -13,6 +13,7 @@ class DashboardController extends BaseAdminController
     public function __construct()
     {
         parent::__construct();
+        $this->isRestricted = true;
         $this->db = db_connect();
     }
 

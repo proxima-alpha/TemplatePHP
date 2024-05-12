@@ -9,10 +9,7 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
         <div class="text-wrap">
             <div class="button-wrap">
                 <ul class="cf">
-                    <li><a href="#"><?= lang('Client.artist_registration') ?></a></li>
-                    <li><a href="#"><?= lang('Client.label_registration') ?></a></li>
                     <li><a href="#"><?= lang('Client.guide_qna') ?></a></li>
-                    <li><a href="#"><?= lang('Client.request_demo') ?></a></li>
                     <li><a href="#"><?= lang('Client.agreement_service') ?></a></li>
                     <li><a href="#"><?= lang('Client.agreement_personal') ?></a></li>
                 </ul>
