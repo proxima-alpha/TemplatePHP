@@ -206,6 +206,14 @@ class ProjectController extends CustomFileController
             $response['message'] = "field 'id' should not be empty.";
         } else {
             try {
+                // 날짜 체크
+                $endDateString = $data['end_date'] ?? $previousData['end_date'];
+                $startDateString = $data['start_date'] ?? $previousData['start_date'];
+                $startTimeRaw = strtotime($startDateString);
+                $endTimeRaw = strtotime($endDateString);
+                if ($startTimeRaw > $endTimeRaw)
+                    throw new Exception('End Date should be later than Start Date.');
+
                 $this->db->transBegin();
                 $inserted_id = $this->projectModel->update($id, $data);
                 if (!$inserted_id) {

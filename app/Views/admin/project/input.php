@@ -74,7 +74,7 @@ $identifier = $shortid->generate();
                         <?= \App\Helpers\HtmlHelper::getImageUploader('project', $data['project_image_id'] ?? null) ?>
                     </div>
                     <div class="line"></div>
-                    <div class="input-wrap calendar">
+                    <div class="input-wrap column calendar">
                         <p class="input-title"><?= lang('Service.start_date') ?></p>
                         <a class="button" href="javascript:openCalendarPopup('start_date')">
                             <input class="editable" name="start_date"
@@ -82,7 +82,7 @@ $identifier = $shortid->generate();
                                    readonly>
                         </a>
                     </div>
-                    <div class="input-wrap calendar">
+                    <div class="input-wrap column calendar">
                         <p class="input-title"><?= lang('Service.end_date') ?></p>
                         <a class="button" href="javascript:openCalendarPopup('end_date')">
                             <input class="editable" name="end_date"

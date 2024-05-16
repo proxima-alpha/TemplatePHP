@@ -4,6 +4,12 @@
     font-size: 0;
 }
 
+.form-wrap .input-wrap.column {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
 .form-wrap .input-wrap p,
 .form-wrap .input-wrap input:not([hidden]),
 .form-wrap .input-wrap textarea,

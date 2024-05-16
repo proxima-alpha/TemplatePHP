@@ -1,9 +1,9 @@
 /*날짜 선택 버튼*/
-.form-wrap .input-wrap.calendar a {
+.form-wrap .input-wrap.column a {
     width: 100%;
 }
 
-.form-wrap .input-wrap.calendar input {
+.form-wrap .input-wrap.column input {
     width: calc(100% - 40px);
     cursor: pointer;
 }

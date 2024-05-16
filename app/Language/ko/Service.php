@@ -152,6 +152,9 @@ return [
     "total_purchased_count" => "총 판매 수량",
     "total_stock_count" => "총 재고량",
 
+    "filter_start_date" => "시작일",
+    "filter_end_date" => "종료일",
+
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
     "message_popup_delete" => "삭제하시겠습니까?",

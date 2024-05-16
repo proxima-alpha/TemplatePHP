@@ -2,8 +2,6 @@
 
 namespace Models;
 
-use App\Helpers\ServerLogger;
-
 class PurchaseItemModel extends BaseModel
 {
     protected $table = 'purchase_item';
@@ -43,9 +41,27 @@ class PurchaseItemModel extends BaseModel
             " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id";
         $values = [];
         if (isset($condition)) {
-            $set = $this->getConditionSet($condition);
-            $values = array_merge($values, $set['values']);
-            $query .= " " . $set['query'] . " AND purchase_item.status != 'created'";
+            $dateQueries = [];
+            if (isset($condition['start_date'])) {
+                $dateQueries[] = $this->table . ".created_at >= '" . $condition['start_date'] . "'";
+                unset($condition['start_date']);
+            }
+            if (isset($condition['end_date'])) {
+                $dateQueries[] = $this->table . ".created_at <= '" . $condition['end_date'] . "'";
+                unset($condition['end_date']);
+            }
+
+            if (sizeof($condition) > 0) {
+                $set = $this->getConditionSet($condition);
+                $values = array_merge($values, $set['values']);
+                $query .= " " . $set['query'];
+                if (sizeof($dateQueries) > 0) {
+                    $query .= " AND " . join(' AND ', $dateQueries);
+                }
+            } else {
+                $query .= " WHERE " . join(' AND ', $dateQueries);
+            }
+            $query .= " AND purchase_item.status != 'created'";
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
@@ -53,7 +69,6 @@ class PurchaseItemModel extends BaseModel
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
-        ServerLogger::log($query);
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,
@@ -69,9 +84,27 @@ class PurchaseItemModel extends BaseModel
             " LEFT JOIN reward ON reward.id = purchase.reward_id";
         $values = [];
         if (isset($condition)) {
-            $set = $this->getConditionSet($condition);
-            $values = array_merge($values, $set['values']);
-            $query .= " " . $set['query'] . " AND purchase_item.status != 'created'";
+            $dateQueries = [];
+            if (isset($condition['start_date'])) {
+                $dateQueries[] = $this->table . ".created_at >= '" . $condition['start_date'] . "'";
+                unset($condition['start_date']);
+            }
+            if (isset($condition['end_date'])) {
+                $dateQueries[] = $this->table . ".created_at <= '" . $condition['end_date'] . "'";
+                unset($condition['end_date']);
+            }
+
+            if (sizeof($condition) > 0) {
+                $set = $this->getConditionSet($condition);
+                $values = array_merge($values, $set['values']);
+                $query .= " " . $set['query'];
+                if (sizeof($dateQueries) > 0) {
+                    $query .= " AND " . join(' AND ', $dateQueries);
+                }
+            } else {
+                $query .= " WHERE " . join(' AND ', $dateQueries);
+            }
+            $query .= " AND purchase_item.status != 'created'";
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }

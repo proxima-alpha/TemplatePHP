@@ -43,12 +43,12 @@
                     </div>
                 <?php } ?>
                 <div class="line"></div>
-                <div class="input-wrap calendar">
+                <div class="input-wrap column calendar">
                     <p class="input-title"><?= lang('Service.start_date') ?></p>
                     <input class="editable" name="start_date"
                            value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) ?>" readonly>
                 </div>
-                <div class="input-wrap calendar">
+                <div class="input-wrap column calendar">
                     <p class="input-title"><?= lang('Service.end_date') ?></p>
                     <input class="editable" name="end_date"
                            value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?>" readonly>

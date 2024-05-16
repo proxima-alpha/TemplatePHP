@@ -1,9 +1,27 @@
-<?= \App\Helpers\HtmlHelper::setTranslations(['refund', 'message_popup_refund']) ?>
+<?= \App\Helpers\HtmlHelper::setTranslations(['refund', 'message_popup_refund', 'select_date']) ?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
             <?= lang('Service.purchase') ?>
         </h3>
+        <div class="filter-wrap">
+            <div class="input-wrap column">
+                <p class="input-title"><?= lang('Service.filter_start_date') ?></p>
+                <a class="button" href="javascript:openCalendarPopup('start_date')">
+                    <input class="editable" name="start_date"
+                           value="<?= \App\Helpers\HtmlHelper::toDateString($start_date ?? null) ?>"
+                           readonly>
+                </a>
+            </div>
+            <div class="input-wrap column">
+                <p class="input-title"><?= lang('Service.filter_end_date') ?></p>
+                <a class="button" href="javascript:openCalendarPopup('end_date')">
+                    <input class="editable" name="end_date"
+                           value="<?= \App\Helpers\HtmlHelper::toDateString($end_date ?? null) ?>"
+                           readonly>
+                </a>
+            </div>
+        </div>
         <div class="table-box">
             <div class="table-wrap">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>

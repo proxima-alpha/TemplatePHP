@@ -155,6 +155,9 @@ return [
     "total_purchased_count" => "Total Purchased Count",
     "total_stock_count" => "Total Stock Count",
 
+    "filter_start_date" => "Start Date",
+    "filter_end_date" => "End Date",
+
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",
     "message_popup_delete" => "Are you sure to delete?",

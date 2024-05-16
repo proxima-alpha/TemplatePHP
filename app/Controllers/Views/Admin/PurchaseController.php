@@ -27,10 +27,34 @@ class PurchaseController extends BaseAdminController
     function index($page = 1): string
     {
         $data = $this->getViewData();
+        $queryParams = $this->request->getGet();
         try {
+            $endDate = $queryParams['end_date'] ?? date("Y-m-d");
+            $endDateString = $endDate . " 23:59:59";
+            $startDate = $queryParams['start_date'] ?? date("Y-m-d", strtotime('-1 month', strtotime($endDate)));
+            $startDateString = $startDate . " 00:00:00";
+            if (strtotime($startDate) > strtotime($endDate) ||
+                abs((strtotime($endDate) - strtotime($startDate)) / 86400) > 31) {
+                if(!isset($queryParams['end_date'])) {
+                    return view('/redirect', [
+                        'path' => '/admin/purchase'
+                    ]);
+                } else {
+                    return view('/redirect', [
+                        'path' => '/admin/purchase?end_date=' . $endDate
+                    ]);
+                }
+            }
+            $data = array_merge($data, [
+                "start_date" => $startDateString,
+                "end_date" => $endDateString,
+            ]);
             $result = $this->purchaseItemModel->getPaginated([
-                'per_page' => 10,
+                'per_page' => $this->per_page,
                 'page' => $page,
+            ], [
+                'start_date' => $startDateString,
+                'end_date' => $endDateString,
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
@@ -42,10 +66,13 @@ class PurchaseController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/common/filter',
                     '/common/table',
                     '/admin/purchase/table',
                 ],
                 'js' => [
+                    '/module/calendar',
+                    '/common/filter',
                     '/admin/popup_input',
                 ],
             ])

@@ -1,0 +1,40 @@
+
+.filter-wrap .input-wrap {
+    text-align: left;
+    margin: 10px 0;
+    font-size: 0;
+}
+
+.filter-wrap .input-wrap.column {
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.filter-wrap .input-wrap.column * {
+    display: inline-block;
+    line-height: 30px;
+}
+/*날짜 선택 버튼*/
+.filter-wrap .input-wrap.column a {
+    width: 80%;
+}
+
+.filter-wrap .input-wrap .input-title {
+    width: 20%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 400;
+    word-break: keep-all;
+}
+.filter-wrap .input-wrap input:not([type=checkbox]):not([type=radio]){
+    width: 100%;
+    font-size: 18px;
+    font-weight: 200;
+}
+
+.filter-wrap .input-wrap.column a input {
+    cursor: pointer;
+}

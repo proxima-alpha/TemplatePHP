@@ -352,9 +352,9 @@ jQuery.prototype.initCalendar = function (option) {
         let weekKey = calendarWeekKeys[i];
         let weekOptionString = dayOfWeek[weekKey];
         if (weekOptionString) {
-            html += `<li>${weekOptionString}</li>`;
+            html += `<li style="user-select: none">${weekOptionString}</li>`;
         } else {
-            html += `<li>${weekKey.toUpperCase()}</li>`;
+            html += `<li style="user-select: none">${weekKey.toUpperCase()}</li>`;
         }
     }
 
