@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use App\Helpers\ServerLogger;
+
 class PurchaseItemModel extends BaseModel
 {
     protected $table = 'purchase_item';
@@ -61,10 +63,11 @@ class PurchaseItemModel extends BaseModel
             } else {
                 $query .= " WHERE " . join(' AND ', $dateQueries);
             }
-            $query .= " AND purchase_item.status != 'created'";
+            $query .= " AND purchase.status != 'created'";
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
+        ServerLogger::log($query);
         $query .= " ORDER BY " . $this->table . ".created_at DESC";
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
