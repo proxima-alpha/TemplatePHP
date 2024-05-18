@@ -1,3 +1,9 @@
+if (window.performance) {
+    if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+        window.location.replace(window.location.pathname)
+    } else {
+    }
+}
 async function openCalendarPopup(target, expect_date = null, expect_time = null) {
     let className = 'popup-calendar';
     let html = `
@@ -37,8 +43,9 @@ async function openCalendarPopup(target, expect_date = null, expect_time = null)
             cellSize: 60,
             selectedDate: expect_date ?? null,
             standardDate: expect_date ?? null,
-            limitStandard: false,
+            limitStandard: true,
             limitPrevious: false,
+            endDate: new Date()
         })
     })
 }
@@ -61,9 +68,29 @@ function confirmCalendarSelect(className, target) {
             newSearches.push(item)
         }
     }
-    let prefix = newSearches.length > 0 ? "&" : "";
-    let search = "?" + newSearches.join("&") + prefix
-    console.log(window.location.pathname + search + `${target}=${data['date']}`)
-    window.location.replace(window.location.pathname + search + `${target}=${data['date']}`)
-    closePopup(className);
+
+    let start_date = $(`.filter-wrap input[name=start_date]`).val();
+    let end_date = $(`.filter-wrap input[name=end_date]`).val();
+    if (target == 'end_date') {
+        end_date = data['date'];
+    } else if (target == 'start_date') {
+        start_date = data['date']
+    }
+
+    if (target != 'start_date') {
+        if (start_date && end_date) {
+            const rawTimeStart = new Date(start_date).getTime()
+            const rawTimeEnd = new Date(end_date).getTime()
+            if (Math.floor((rawTimeEnd - rawTimeStart) / 86400000) > 31) {
+                openPopupMessage("날짜는 최대 한달 동안 선택 가능합니다")
+                return;
+            }
+        }
+        // let prefix = newSearches.length > 0 ? "&" : "";
+        // let search = "?" + newSearches.join("&") + prefix
+        let search = `?start_date=${start_date}&end_date=${end_date}`
+        window.location.replace(window.location.pathname + search)
+    } else {
+        closePopup(className);
+    }
 }

@@ -8,16 +8,16 @@
  * @param isAdmin
  */
 function sendVerificationCode(isAdmin = 0) {
-    let $inputUsername = $('#container .form-wrap input[name=username]');
+    let $inputEmail = $('#container .form-wrap input[name=email]');
     let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
-    if (isEmpty($inputUsername.val())) {
-        $wrapErrorMessage.append(`<p>username field is empty.</p>`)
+    if (isEmpty($inputEmail.val())) {
+        $wrapErrorMessage.append(`<p>email field is empty.</p>`)
         return;
     }
 
     let data = {
-        'username': $inputUsername.val(),
+        'email': $inputEmail.val(),
         'is_admin': isAdmin,
     }
 
@@ -32,7 +32,7 @@ function sendVerificationCode(isAdmin = 0) {
                 return;
             }
 
-            $inputUsername.attr({
+            $inputEmail.attr({
                 'readonly': true,
             })
             $(`#container .form-wrap .disappear-at-next-step`).remove();
@@ -73,9 +73,9 @@ function resendVerificationCode(isAdmin = 0) {
     stopTimer();
     clearErrors();
 
-    let $inputUsername = $('#container .form-wrap input[name=username]');
+    let $inputEmail = $('#container .form-wrap input[name=email]');
     let data = {
-        'username': $inputUsername.val(),
+        'email': $inputEmail.val(),
         'is_admin': isAdmin,
     }
     let $inputCode = $('#container .form-wrap input[name=code]');
@@ -108,10 +108,10 @@ function resendVerificationCode(isAdmin = 0) {
 function confirmVerificationCode(isAdmin = 0) {
     clearErrors();
 
-    let $inputUsername = $('#container .form-wrap input[name=username]');
+    let $inputEmail = $('#container .form-wrap input[name=email]');
     let $inputCode = $('#container .form-wrap input[name=code]');
     let data = {
-        'username': $inputUsername.val(),
+        'email': $inputEmail.val(),
         'code': $inputCode.val(),
     }
 
@@ -128,6 +128,14 @@ function confirmVerificationCode(isAdmin = 0) {
             stopTimer();
 
             $(`#container .form-wrap .disappear-at-next-step`).remove();
+            if(response.data && response.data['username']) {
+                $('#container .form-wrap').prepend(`
+                    <div class="input-wrap">
+                        <p class="input-title">${lang('username')}</p>
+                        <input type="username" name="username" class="under-line" readonly value="${response.data['username']}"/>
+                    </div>
+                `)
+            }
             $('#container .form-wrap').append(`
             <div class="input-wrap" style="margin-top: 40px">
                 <p class="input-title">${lang('password_new')}</p>

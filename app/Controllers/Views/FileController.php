@@ -2,7 +2,9 @@
 
 namespace Views;
 
+use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\DownloadResponse;
+use Config\Services;
 use Exception;
 use Models\CustomFileModel;
 use Models\PurchaseItemModel;
@@ -111,6 +113,66 @@ class FileController extends BaseClientController
             }
         } catch (Exception $e) {
             $this->handleException($e);
+        }
+    }
+
+    /**
+     * [get] /file/purchase-item
+     */
+    public function downloadPurchaseItem()
+    {
+        if (!$this->session->is_admin) {
+            $response = Services::response();
+            $response->setBody(view('/error', [
+                'code' => '403',
+                'title' => 'Forbidden',
+                'message' => 'this page is not allowed for your account.<br/> please check your account type is \'admin\' or \'member\'.',
+            ]));
+            $response->sendBody();
+            exit;
+        }
+        $queryParams = $this->request->getGet();
+        $endDate = $queryParams['end_date'] ?? date("Y-m-d");
+        $endDateString = $endDate . " 23:59:59";
+        $startDate = $queryParams['start_date'] ?? date("Y-m-d", strtotime('-1 month', strtotime($endDate)));
+        $startDateString = $startDate . " 00:00:00";
+        if (strtotime($startDate) > strtotime($endDate) ||
+            abs((strtotime($endDate) - strtotime($startDate)) / 86400) > 31) {
+            if (!isset($queryParams['end_date'])) {
+                return view('/redirect', [
+                    'path' => '/purchase-item'
+                ]);
+            } else {
+                return view('/redirect', [
+                    'path' => '/purchase-item?end_date=' . $endDate
+                ]);
+            }
+        }
+        $file_name = "결제내역_" . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
+        $result = $this->purchaseItemModel->get([
+            'start_date' => $startDateString,
+            'end_date' => $endDateString,
+        ], null, "ASC");
+        ob_get_clean();
+        header("Content-type: application/octet-stream; charset=utf-8");
+        header('Content-Disposition: attachment; filename=' . $file_name);
+        $output = fopen('php://output', 'w');
+        fputcsv($output, array('번호',
+            lang('Service.name'),
+            lang('Service.email'),
+            lang('Service.price'),
+            lang('Service.currency'),
+            lang('Service.paid_at'),
+        ));
+        foreach ($result as $i => $item) {
+            $row = array($i + 1,
+                $item['inquirer_name'],
+                $item['inquirer_email'],
+                $item['price'],
+                'KRW',
+                $item['created_at'],
+            );
+            fputcsv($output, $row);
         }
     }
 }

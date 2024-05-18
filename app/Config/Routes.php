@@ -104,6 +104,7 @@ $routes->addRedirect('/admin/purchase', '/admin/purchase/1');
 $routes->get('/file/(:any)/thumbnail', [\Views\FileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\Views\FileController::class, 'getFile']);
 $routes->get('/reward-file/(:any)', [\Views\FileController::class, 'getRewardFile']);
+$routes->get('/purchase-item-file', [\Views\FileController::class, 'downloadPurchaseItem']);
 
 /**
  * API Routes

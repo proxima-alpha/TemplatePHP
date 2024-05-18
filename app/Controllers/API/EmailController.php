@@ -304,13 +304,6 @@ class EmailController extends BaseApiController
         $type = strlen($type) > 0 ? $type : 'registration';
         switch ($type) {
             case 'reset-password':
-                $validationRules = [
-                    'username' => [
-                        'label' => 'Username',
-                        'rules' => 'required|min_length[1]',
-                    ],
-                ];
-                break;
             case 'registration':
                 $validationRules = [
                     'email' => [
@@ -348,7 +341,7 @@ class EmailController extends BaseApiController
                 $email_title = $title;
                 switch ($type) {
                     case 'reset-password':
-                        $users = $this->userModel->get(['username' => $data['username']]);
+                        $users = $this->userModel->get(['email' => $data['email']]);
                         if (sizeof($users) == 0) {
                             throw new Exception('user does not exist');
                         }

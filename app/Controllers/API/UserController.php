@@ -239,8 +239,8 @@ class UserController extends BaseApiController
         //TODO need to check user is already exist
         $data = $this->request->getPost();
         $validationRules = [
-            'username' => [
-                'label' => 'Username',
+            'email' => [
+                'label' => 'email',
                 'rules' => 'required|min_length[1]',
             ],
             'code' => [
@@ -256,7 +256,7 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $users = $this->userModel->get(['username' => $data['username']]);
+                $users = $this->userModel->get(['email' => $data['email']]);
                 if (sizeof($users) == 0) {
                     throw new Exception('user does not exist');
                 }
@@ -270,6 +270,9 @@ class UserController extends BaseApiController
                     'is_used' => 1,
                 ]);
                 $response['success'] = true;
+                $response['data'] = [
+                    'username'=> $user['username']
+                ];
             } catch (Exception $e) {
                 $response['message'] = $e->getMessage();
             }

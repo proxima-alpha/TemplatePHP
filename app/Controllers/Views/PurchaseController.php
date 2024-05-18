@@ -35,12 +35,15 @@ class PurchaseController extends BaseClientController
      */
     function index($page = 1): string
     {
+        $this->checkLogout();
         $page = Utils::toInt($page);
         $data = $this->getViewData();
         try {
             $result = $this->purchaseItemModel->getPaginatedForClient([
                 'per_page' => $this->per_page,
                 'page' => $page,
+            ], [
+                'purchase.user_id' => $this->session->user_id
             ]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [

@@ -32,7 +32,7 @@ class PurchaseItemModel extends BaseModel
      * @return array
      * @throws \Exception
      */
-    public function get($condition = null, $limit = null): array
+    public function get($condition = null, $limit = null, $order = 'DESC'): array
     {
         $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en," .
             " reward_file.id AS reward_file_id, purchase.user_id AS user_id, user.name AS user_name" .
@@ -67,8 +67,7 @@ class PurchaseItemModel extends BaseModel
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
-        ServerLogger::log($query);
-        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        $query .= " ORDER BY " . $this->table . ".created_at ".$order;
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
@@ -107,7 +106,7 @@ class PurchaseItemModel extends BaseModel
             } else {
                 $query .= " WHERE " . join(' AND ', $dateQueries);
             }
-            $query .= " AND purchase_item.status != 'created'";
+            $query .= " AND purchase.status != 'created'";
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
@@ -141,7 +140,7 @@ class PurchaseItemModel extends BaseModel
         if (isset($condition)) {
             $set = $this->getConditionSet($condition);
             $values = array_merge($values, $set['values']);
-            $query .= " " . $set['query'] . " AND purchase_item.status != 'created'";
+            $query .= " " . $set['query'] . " AND purchase.status != 'created'";
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }

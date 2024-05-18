@@ -95,6 +95,8 @@ return [
     "project_image" => "Project Image",
     "price_reward" => "Price & Reward",
     "price" => "Price",
+    "currency" => "Currency",
+    "paid_at" => "Paid At",
     "stock_count" => "Stocks",
     "available_count" => "Available Count",
     "limited_count" => "Limited Count",
@@ -157,6 +159,7 @@ return [
 
     "filter_start_date" => "Start Date",
     "filter_end_date" => "End Date",
+    "filter_download_excel" => "Download Excel",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

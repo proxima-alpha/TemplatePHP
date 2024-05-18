@@ -5,6 +5,13 @@
             <?= lang('Service.purchase') ?>
         </h3>
         <div class="filter-wrap">
+            <div class="control-button-wrap">
+                <a href="/purchase-item-file<?= strlen($_SERVER['QUERY_STRING']) > 0 ? '?' . $_SERVER['QUERY_STRING'] : '' ?>"
+                   class="button under-line create">
+                    <img src="/asset/images/icon/download.png"/>
+                    <span><?= lang('Service.filter_download_excel') ?></span>
+                </a>
+            </div>
             <div class="input-wrap column">
                 <p class="input-title"><?= lang('Service.filter_start_date') ?></p>
                 <a class="button" href="javascript:openCalendarPopup('start_date')">

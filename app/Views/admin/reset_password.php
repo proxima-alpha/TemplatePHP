@@ -1,3 +1,4 @@
+<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'username', 'password', 'password_new', 'password_confirm_new', 'verification_code', 'resend']) ?>
 <div class="container-inner form-container">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -7,8 +8,8 @@
             <div class="form-box">
                 <div class="form-wrap">
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.username') ?></p>
-                        <input type="email" name="username" class="under-line" readonly value="<?= $username ?>"/>
+                        <p class="input-title"><?= lang('Service.email') ?></p>
+                        <input type="email" name="email" class="under-line" readonly value="<?= $username ?>"/>
                     </div>
                     <div class="input-wrap disappear-at-next-step">
                         <p class="input-title"><?= lang('Service.verification_code') ?></p>
@@ -25,8 +26,8 @@
             <div class="form-box">
                 <div class="form-wrap">
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.username') ?></p>
-                        <input type="email" name="username" class="under-line"/>
+                        <p class="input-title"><?= lang('Service.email') ?></p>
+                        <input type="email" name="email" class="under-line"/>
                     </div>
                     <div class="error-message-wrap disappear-at-next-step">
                     </div>
@@ -41,4 +42,3 @@
         <?php } ?>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'password', 'password_new', 'password_confirm_new', 'verification_code', 'resend']) ?>

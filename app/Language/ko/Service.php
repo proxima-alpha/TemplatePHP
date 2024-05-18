@@ -95,6 +95,8 @@ return [
     "project_image" => "프로젝트 이미지",
     "price_reward" => "가격 및 리워드",
     "price" => "가격",
+    "currency" => "통화",
+    "paid_at" => "구매 일시",
     "stock_count" => "재고",
     "available_count" => "구매 가능한 수량",
     "limited_count" => "한정 수량",
@@ -154,6 +156,7 @@ return [
 
     "filter_start_date" => "시작일",
     "filter_end_date" => "종료일",
+    "filter_download_excel" => "엑셀 다운로드",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
