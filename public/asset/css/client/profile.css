@@ -1,0 +1,29 @@
+
+.auto-login-box {
+    margin-top: 20px;
+    border-radius: 5px;
+    border: 1px solid #E2E8F0;
+    padding: 10px;
+}
+
+.auto-login-box > p.title {
+    color: #fff;
+    font-weight: 400;
+}
+
+.auto-login-box .auto-login-wrap {
+    padding: 10px;
+}
+
+.auto-login-box .auto-login-wrap p {
+    color: #E2E8F0;
+}
+
+.auto-login-box .auto-login-wrap p.title {
+    font-weight: 400;
+}
+
+#kakao-login-btn {
+    display: inline-block;
+    margin-top: 10px;
+}

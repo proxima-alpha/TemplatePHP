@@ -28,6 +28,7 @@ class UserModel extends BaseModel
         'name',
         'email',
         'is_notification',
+        'kakao_id',
         'created_at',
         'updated_at',
     ];

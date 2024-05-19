@@ -132,36 +132,45 @@ function confirmVerificationCode(isAdmin = 0) {
             }
             stopTimer();
 
-            $(`#container .form-wrap .disappear-at-next-step`).remove();
-            $('#container .form-wrap').append(`
-            <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">${lang('username')}</p>
-                <input type="text" name="username" class="under-line"/>
-            </div>
-            <div class="input-wrap">
-                <p class="input-title">${lang('name')}</p>
-                <input type="text" name="name" class="under-line"/>
-            </div>
-            <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">${lang('password')}</p>
-                <input type="password" name="password" class="under-line"/>
-            </div>
-            <div class="input-wrap">
-                <p class="input-title">${lang('password_confirm')}</p>
-                <input type="password" name="confirm_password" class="under-line"/>
-            </div>
-            <div class="error-message-wrap">
-            </div>`)
-            $('#container .form-box').append(`
-            <div class="button-wrap controls">
-                <a href="javascript:confirmRegistration(${isAdmin})" class="button confirm button-fill">${lang('confirm')}</a>
-            </div>`)
+            replaceRegistration(isAdmin)
 
         },
         error: function (response, status, error) {
             showErrors(response, status, error);
         },
     });
+}
+
+/**
+ * 자동로그인 시 시스템 내에 사용자 없을 때, 자동로그인에서 받은 email 도 등록이 되어있지 않은 경우 호출
+ * (링크가 된 경우 로그인 되지만 안된경우 email 로 registration 진행시켜야 하는데, email 은 unique 를 유지하기 위해)
+ * @param isAdmin
+ */
+function replaceRegistration(isAdmin = 0) {
+    $(`#container .form-wrap .disappear-at-next-step`).remove();
+    $('#container .form-wrap').append(`
+    <div class="input-wrap" style="margin-top: 40px">
+        <p class="input-title">${lang('username')}</p>
+        <input type="text" name="username" class="under-line"/>
+    </div>
+    <div class="input-wrap">
+        <p class="input-title">${lang('name')}</p>
+        <input type="text" name="name" class="under-line"/>
+    </div>
+    <div class="input-wrap" style="margin-top: 40px">
+        <p class="input-title">${lang('password')}</p>
+        <input type="password" name="password" class="under-line"/>
+    </div>
+    <div class="input-wrap">
+        <p class="input-title">${lang('password_confirm')}</p>
+        <input type="password" name="confirm_password" class="under-line"/>
+    </div>
+    <div class="error-message-wrap">
+    </div>`)
+    $('#container .form-box').append(`
+    <div class="button-wrap controls">
+        <a href="javascript:confirmRegistration(${isAdmin})" class="button confirm button-fill">${lang('confirm')}</a>
+    </div>`)
 }
 
 /**

@@ -128,5 +128,9 @@ return [
     "message_error_exceed" => "You have exceeded the available items for purchase.",
     "message_error_expired" => "The project has expired.",
     "message_error_not_started" => "The project has not started yet.",
+
+    "auto_login" => "Auto Login",
+    "auto_login_kakao" => "Kakao Talk",
+    "auto_login_message_linked" => "Account is already linked.",
 ];
 ?>

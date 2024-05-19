@@ -110,6 +110,43 @@ function login(className) {
 }
 
 /**
+ * 자동 로그인 기능
+ * 연결 후 시스템 내에 id 없을 경우 register 화면으로 감
+ * @param className
+ * @param channel
+ * @param channel_id
+ * @param email
+ */
+function autoLogin(className, channel = 'kakao', channel_id, email) {
+    clearErrorsByClassName(className);
+
+    apiRequest({
+        type: 'POST',
+        url: `/api/user/auto-login`,
+        data: {
+            channel: channel,
+            channel_id : channel_id,
+            email : email
+        },
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                if(response.message == 'user is not registered.') {
+                    location.href = `/registration?email=${email}&channel=${channel}&channel_id=${channel_id}`
+                } else {
+                    showErrorsByClassName(className, response, status, request);
+                }
+                return;
+            }
+            location.reload();
+        },
+        error: function (response, status, error) {
+            showErrorsByClassName(className, response, status, error);
+        },
+    });
+}
+
+/**
  * 로그아웃 기능
  */
 function logout() {

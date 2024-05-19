@@ -48,22 +48,22 @@ class UserController extends BaseApiController
             $response['message'] = 'session is expired';
             return $this->response->setJSON($response);
         } else {
-            $validationRules = [
-                'email' => [
-                    'label' => 'Email',
-                    'rules' => 'regex_match[[a-z0-9]+@[a-z]+\.[a-z]{2,3}]',
-                    'errors' => [
-                        'regex_match' => '{field} format is not valid'
-                    ],
-                ],
-            ];
-
-            if ($validationRules != null && !$this->validate($validationRules)) {
-                $response['messages'] = $this->validator->getErrors();
-            } else {
-                $data = $this->request->getPost();
-                return $this->typicallyUpdate($this->userModel, $this->session->user_id, $data);
+            $data = $this->request->getPost();
+            if(isset($data['kakao_id'])) {
+                $user = $this->userModel->getLatest(['kakao_id' => $data['kakao_id']]);
+                if($user) {
+                    $response['message'] = 'this account is already in used.';
+                    return $this->response->setJSON($response);
+                }
             }
+            if($this->session->is_admin && isset($data['email'])) {
+                $user = $this->userModel->getLatest(['email' => $data['email']]);
+                if(isset($user) && $user['id'] != $this->session->user_id) {
+                    $response['message'] = 'this email is already in used.';
+                    return $this->response->setJSON($response);
+                }
+            }
+            return $this->typicallyUpdate($this->userModel, $this->session->user_id, $data);
             return $this->response->setJSON($response);
         }
     }
@@ -220,6 +220,11 @@ class UserController extends BaseApiController
                     throw new Exception('this email is already in used.');
                 }
                 $data['password'] = password_hash($data['password'], '2y', ["cost" => 5]);
+                if (isset($data['channel'])) {
+                    if ($data['channel'] == 'kakao') {
+                        $data['kakao_id'] = $data['channel_id'];
+                    }
+                }
                 $this->userModel->insert($data);
                 $response['success'] = true;
             } catch (Exception $e) {
@@ -271,7 +276,7 @@ class UserController extends BaseApiController
                 ]);
                 $response['success'] = true;
                 $response['data'] = [
-                    'username'=> $user['username']
+                    'username' => $user['username']
                 ];
             } catch (Exception $e) {
                 $response['message'] = $e->getMessage();
@@ -363,12 +368,71 @@ class UserController extends BaseApiController
             try {
                 $users = $this->userModel->get(['username' => $data['username']]);
                 if (sizeof($users) == 0) {
-                    throw new Exception('username is registered.');
+                    throw new Exception('user is not registered.');
                 }
                 $user = $users[0];
                 if (!password_verify($data['password'], $user['password'])) {
                     throw new Exception('password is not correct.');
                 }
+                $this->session->set([
+                    'username' => $user['username'],
+                    'user_email' => $user['email'],
+                    'user_name' => strlen($user['name']) == 0 ? $user['username'] : $user['name'],
+                    'user_id' => $user['id'],
+                    'user_type' => $user['type'],
+                    'is_login' => true,
+                    'is_admin' => $user['type'] == 'admin' || $user['type'] == 'member',
+                ]);
+                $response['success'] = true;
+            } catch (Exception $e) {
+                $response['message'] = $e->getMessage();
+                return $this->response->setJSON($response);
+            }
+        }
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [post] /api/user/auto-login
+     * @return ResponseInterface
+     */
+    public function autoLogin(): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        $validationRules = [
+            'channel' => [
+                'label' => 'Channel',
+                'rules' => 'required',
+            ],
+            'channel_id' => [
+                'label' => 'Channel Id',
+                'rules' => 'required',
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required',
+            ],
+        ];
+
+        $response = [
+            'success' => false,
+        ];
+        if ($validationRules != null && !$this->validate($validationRules)) {
+            $response['messages'] = $this->validator->getErrors();
+        } else {
+            try {
+                if ($data['channel'] != 'kakao') {
+                    throw new Exception('This channel is not supported.');
+                }
+                $users = $this->userModel->get(['kakao_id' => $data['channel_id']]);
+                if (sizeof($users) == 0) {
+                    $users = $this->userModel->get(['email' => $data['email']]);
+                    if (sizeof($users) > 0) {
+                        throw new Exception('this email is already in used.');
+                    }
+                    throw new Exception('user is not registered.');
+                }
+                $user = $users[0];
                 $this->session->set([
                     'username' => $user['username'],
                     'user_email' => $user['email'],

@@ -1,3 +1,4 @@
+<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'password', 'password_confirm', 'verification_code', 'resend']) ?>
 <div class="container-inner form-container">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -41,4 +42,3 @@
         <?php } ?>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'password', 'password_confirm', 'verification_code', 'resend']) ?>

@@ -2,6 +2,7 @@
 .login-container {
     color: #fff;
 }
+
 .login-container h3.title {
     margin: 0 0 20px 0;
     font-size: 20px;
@@ -52,4 +53,36 @@
     border: none;
     border-radius: 5px;
     line-height: 35px;
+}
+
+.auto-login-box .divider {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+.auto-login-box .divider:after {
+    content: "";
+    display: block;
+    position: absolute;
+    background: #fff;
+    height: 1px;
+    left: 0;
+    right: 0;
+    top: 19px;
+}
+
+.auto-login-box .divider span {
+    width: 40px;
+    position: absolute;
+    left: 50%;
+    margin-left: -20px;
+    font-weight: 400;
+    background: #121114;
+    z-index: 1;
+}
+
+.auto-login-box .auto-login-wrap {
+    margin-top: 20px;
 }

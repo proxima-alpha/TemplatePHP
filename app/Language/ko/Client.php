@@ -128,5 +128,9 @@ return [
     "message_error_exceed" => "구매 가능한 수량을 초과하였습니다.",
     "message_error_expired" => "프로젝트가 만료되었습니다.",
     "message_error_not_started" => "프로젝트가 아직 시작되지 않았습니다.",
+
+    "auto_login" => "자동로그인",
+    "auto_login_kakao" => "카카오톡",
+    "auto_login_message_linked" => "계정이 이미 연동되었습니다.",
 ];
 ?>

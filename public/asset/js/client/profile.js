@@ -149,3 +149,38 @@ function clearErrors() {
     let $wrapErrorMessage = $('#container .form-box .error-message-wrap');
     $wrapErrorMessage.empty();
 }
+
+/**
+ * 자동 로그인 내용 업데이트
+ * 기존의 /api/user/update/profile API 를 사용하지만
+ * validation 을 위해 함수 분리
+ * @param channel
+ * @param channel_id
+ */
+function updateAutoLogin(channel = 'kakao', channel_id) {
+    clearErrors();
+
+    let data = {};
+    if(channel == 'kakao') {
+        data['kakao_id'] = channel_id
+    } else {
+        return;
+    }
+
+    apiRequest({
+        type: 'POST',
+        url: `/api/user/update/profile`,
+        data: data,
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                showErrors(response, status, request);
+                return;
+            }
+            window.location.reload();
+        },
+        error: function (response, status, error) {
+            showErrors(response, status, error);
+        },
+    });
+}

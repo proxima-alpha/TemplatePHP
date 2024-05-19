@@ -1,3 +1,4 @@
+<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'password', 'password_confirm', 'verification_code', 'resend']) ?>
 <div class="container-inner form-container">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -21,6 +22,22 @@
             <script type="text/javascript">
                 confirmVerificationCode();
             </script>
+        <?php } else if (isset($email) && isset($channel) && isset($channel_id)) { ?>
+            <div class="form-box">
+                <div class="form-wrap">
+                    <input hidden type="text" name="channel" class="under-line" readonly value="<?= $channel ?>"/>
+                    <input hidden type="text" name="channel_id" class="under-line" readonly value="<?= $channel_id ?>"/>
+                    <div class="input-wrap">
+                        <p class="input-title"><?= lang('Service.email') ?></p>
+                        <input type="email" name="email" class="under-line" readonly value="<?= $email ?>"/>
+                    </div>
+                    <div class="error-message-wrap disappear-at-next-step">
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+                replaceRegistration();
+            </script>
         <?php } else { ?>
             <div class="form-box">
                 <div class="form-wrap">
@@ -41,4 +58,3 @@
         <?php } ?>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'password', 'password_confirm', 'verification_code', 'resend']) ?>

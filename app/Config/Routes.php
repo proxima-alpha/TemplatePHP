@@ -129,6 +129,7 @@ $routes->post('/api/user/registration/register', [\API\UserController::class, 'r
 $routes->post('/api/user/reset-password/verify', [\API\UserController::class, 'verifyResetPassword']);
 $routes->post('/api/user/reset-password/confirm', [\API\UserController::class, 'confirmResetPassword']);
 $routes->post('/api/user/login', [\API\UserController::class, 'login']);
+$routes->post('/api/user/auto-login', [\API\UserController::class, 'autoLogin']);
 $routes->post('/api/user/logout', [\API\UserController::class, 'logout']);
 $routes->post('/api/user/password-change', [\API\UserController::class, 'changePassword']);
 

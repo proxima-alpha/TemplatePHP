@@ -44,6 +44,11 @@ class SettingModel extends BaseModel
             "code" => "imp-api-secret",
             "type" => "text",
             "name" => "REST API Secret",
+        ]);;
+        $this->createIfNotExist(['code' => 'kakao-appkey'], [
+            "code" => "kakao-appkey",
+            "type" => "text",
+            "name" => "카카오 맵 APPKEY",
         ]);
         $this->createIfNotExist(['code' => 'gmail-password-key'], [
             "code" => "gmail-password-key",

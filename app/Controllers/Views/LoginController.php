@@ -2,8 +2,18 @@
 
 namespace Views;
 
+use Models\SettingModel;
+
 class LoginController extends BaseClientController
 {
+    protected SettingModel $settingModel;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->settingModel = model('Models\SettingModel');
+    }
+
     /**
      * /login
      * @return string
@@ -16,6 +26,15 @@ class LoginController extends BaseClientController
             ]);
         }
         $data = $this->getViewData();
+        try {
+            $kakaoAppKey = $this->settingModel->getInitialValue(['code' => 'kakao-appkey'], 'value');
+            $data = array_merge($data, [
+                'kakaoAppKey' => $kakaoAppKey,
+            ]);
+        } catch (Exception $e) {
+            //todo(log)
+            $this->handleException($e);
+        }
         return parent::loadHeader([
                 'css' => [
                     '/common/input',

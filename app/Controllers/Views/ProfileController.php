@@ -3,16 +3,19 @@
 namespace Views;
 
 use Exception;
+use Models\SettingModel;
 use Models\UserModel;
 
 class ProfileController extends BaseClientController
 {
     protected UserModel $userModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
         parent::__construct();
         $this->userModel = model('Models\UserModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -34,6 +37,10 @@ class ProfileController extends BaseClientController
         try {
             $data = array_merge($data, $this->userModel->find($this->session->user_id));
             if (!$data) throw new Exception('not exist');
+            $kakaoAppKey = $this->settingModel->getInitialValue(['code' => 'kakao-appkey'], 'value');
+            $data = array_merge($data, [
+                'kakaoAppKey' => $kakaoAppKey,
+            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
@@ -42,6 +49,7 @@ class ProfileController extends BaseClientController
                 'css' => [
                     '/common/input',
                     '/client/form',
+                    '/client/profile',
                 ],
                 'js' => [
                     '/client/profile',
