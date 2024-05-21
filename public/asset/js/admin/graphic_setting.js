@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    let $slick = $('.slider-wrap .slick');
-    $slick.setVideoCoverStyle();
     $('body').setOnResolutionChanged((event) => {
         const $slick = $('.slider-wrap .slick');
         $slick.setCustomSlick(event.detail.isMobile, {
@@ -68,7 +66,9 @@ function refreshViews(target) {
                     } else {
                         files.push(target, item['id'], {
                             type: item['type'],
-                            relative_path: item['relative_path']
+                            relative_path: item['relative_path'],
+                            width: item['width'],
+                            height: item['height'],
                         });
                     }
                 }
@@ -260,7 +260,6 @@ function setEditing($parent, target) {
             $container.append(html);
 
             let $slick = $container.find('.slick');
-            $slick.setVideoCoverStyle();
             $slick.setCustomSlick(isMobile(), {
                 infinite: false,
                 autoplay: false,
@@ -309,7 +308,6 @@ function setEditing($parent, target) {
             $container.append(html);
 
             let $slick = $container.find('.slick');
-            $slick.setVideoCoverStyle();
             $slick.setCustomSlick(isMobile(), {
                 infinite: false,
                 autoplay: false,
@@ -358,7 +356,6 @@ function setEditing($parent, target) {
                 $container.append(html);
 
                 let $slick = $container.find('.slick');
-                $slick.setVideoCoverStyle();
                 $slick.setCustomSlick(isMobile(), {
                     infinite: false,
                     autoplay: false,
@@ -412,7 +409,6 @@ function setEditing($parent, target) {
                 html += `
                 </div>`;
                 $container.append(html);
-                $container.setVideoCoverStyle();
             }
     }
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
@@ -490,7 +486,6 @@ function setView($parent, target) {
                 $container.append(html);
 
                 let $slick = $container.find('.slick');
-                $slick.setVideoCoverStyle();
                 $slick.setCustomSlick(isMobile(), {
                     infinite: false,
                     autoplay: false,
@@ -598,7 +593,6 @@ function setView($parent, target) {
                     html += `</div>`;
 
                     $container.append(html);
-                    $container.setVideoCoverStyle();
                 }
         }
     }

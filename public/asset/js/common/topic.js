@@ -8,7 +8,6 @@ $(document).ready(function () {
         // topic view page doesn't need initDraggable
     }
     let $slick = $('.slider-wrap .slick');
-    $slick.setVideoCoverStyle();
     $slick.setOnResolutionChanged((event) => {
         let isSwipe = $slick.hasClass('uploader') ? false : true;
         $slick.setCustomSlick(event.detail.isMobile, {

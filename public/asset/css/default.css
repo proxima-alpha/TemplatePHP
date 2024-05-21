@@ -33,6 +33,11 @@ a {
 
 img {
     border: 0;
+    background-size: cover;
+}
+
+video {
+    object-fit: cover;
 }
 
 .cf:after {

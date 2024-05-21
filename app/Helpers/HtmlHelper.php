@@ -393,7 +393,6 @@ final class HtmlHelper
 
     public static function getArtistRow($target, $items, $lang = 'ko', $view_mode = 'input'): string
     {
-        ServerLogger::log($lang);
         $html = '';
         $html .=
             '<div class="row-uploader ' . $target . '">';

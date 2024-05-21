@@ -49,17 +49,17 @@ class UserController extends BaseApiController
             return $this->response->setJSON($response);
         } else {
             $data = $this->request->getPost();
-            if(isset($data['kakao_id'])) {
+            if (isset($data['kakao_id'])) {
                 $user = $this->userModel->getLatest(['kakao_id' => $data['kakao_id']]);
-                if($user) {
-                    $response['message'] = 'this account is already in used.';
+                if ($user) {
+                    $response['message'] = 'This account is already in used.';
                     return $this->response->setJSON($response);
                 }
             }
-            if($this->session->is_admin && isset($data['email'])) {
+            if ($this->session->is_admin && isset($data['email'])) {
                 $user = $this->userModel->getLatest(['email' => $data['email']]);
-                if(isset($user) && $user['id'] != $this->session->user_id) {
-                    $response['message'] = 'this email is already in used.';
+                if (isset($user) && $user['id'] != $this->session->user_id) {
+                    $response['message'] = 'This email is already in used.';
                     return $this->response->setJSON($response);
                 }
             }
@@ -217,7 +217,11 @@ class UserController extends BaseApiController
                 }
                 $users = $this->userModel->get(['email' => $data['email']]);
                 if (sizeof($users) > 0) {
-                    throw new Exception('this email is already in used.');
+                    throw new Exception('This email is already in used.');
+                }
+                $users = $this->userModel->get(['username' => $data['username']]);
+                if (sizeof($users) > 0) {
+                    throw new Exception('This username is already in used.');
                 }
                 $data['password'] = password_hash($data['password'], '2y', ["cost" => 5]);
                 if (isset($data['channel'])) {
@@ -428,7 +432,7 @@ class UserController extends BaseApiController
                 if (sizeof($users) == 0) {
                     $users = $this->userModel->get(['email' => $data['email']]);
                     if (sizeof($users) > 0) {
-                        throw new Exception('this email is already in used.');
+                        throw new Exception('This email is already in used.');
                     }
                     throw new Exception('user is not registered.');
                 }

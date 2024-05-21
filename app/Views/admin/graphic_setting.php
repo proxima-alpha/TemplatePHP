@@ -52,7 +52,9 @@ $identifier = $shortid->generate();
     <?php } else {?>
     files.push(`<?=$key?>`, `<?=$item['id']?>`, {
         type: `<?=$item['type']?>`,
-        relative_path: `<?=$item['relative_path']?>`
+        relative_path: `<?=$item['relative_path']?>`,
+        width: `<?=$item['width']?>`,
+        height: `<?=$item['height']?>`,
     });
     <?php }
     }

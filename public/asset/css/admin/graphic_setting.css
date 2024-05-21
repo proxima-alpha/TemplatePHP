@@ -76,3 +76,9 @@
 .popup-search .selected {
     background-color: #efefef;
 }
+
+@media (max-width: 840px) {
+    .slider-box .slider-wrap .slick-item {
+        margin: 5px;
+    }
+}

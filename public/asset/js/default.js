@@ -185,45 +185,6 @@ async function apiRequest(input) {
     });
 }
 
-jQuery.prototype.setVideoCoverStyle = function () {
-    let $videos = this.find(`video`)
-    if ($videos.length == 0) return;
-    for (let i = 0; i < $videos.length; ++i) {
-        const $video = $videos.eq(i);
-        let $parent = $video.parent();
-        $parent.css({
-            'position': 'relative',
-            'overflow': 'hidden',
-        })
-        $video.css({
-            'position': 'absolute',
-        });
-        let ratioParent = $parent.width() / $parent.height();
-        let ratioVideo = $video.width() / $video.height();
-        if (ratioParent > ratioVideo) {
-            let standard = $parent.width() / ratioVideo;
-            $video.css({
-                'width': '100%',
-                'height': `${standard}px`,
-                'top': '50%',
-                'left': 0,
-                'margin-top': `-${standard / 2}px`,
-                'margin-left': 0,
-            });
-        } else {
-            let standard = $parent.height() * ratioVideo;
-            $video.css({
-                'width': `${standard}px`,
-                'height': '100%',
-                'top': 0,
-                'left': '50%',
-                'margin-top': 0,
-                'margin-left': `-${standard / 2}px`
-            });
-        }
-    }
-}
-
 /**
  * 동일한 내용의 css 파일을 특정 object 하위에서만 작동하게 하기 위해 자동으로 selector 를 붙여주는 기능
  * animation 은 내장된 css 에 따로 선언 필요

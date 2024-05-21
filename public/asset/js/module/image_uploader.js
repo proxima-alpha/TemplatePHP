@@ -127,17 +127,21 @@ function onFileUpload(
                 openPopupErrors('popup-error', response, status, request);
                 return;
             }
-            let data = response.data;
-            let file_id = data.id;
-            let type = data.type;
-            let relative_path = data.relative_path;
+            const data = response.data;
+            const file_id = data.id;
+            const type = data.type;
+            const relative_path = data.relative_path;
+            const width = data.width;
+            const height = data.height;
 
             files.push(target, file_id.toString());
 
             if (callback && typeof callback == 'function') {
                 callback(target, file_id.toString(), {
                     type: type,
-                    relative_path: relative_path
+                    relative_path: relative_path,
+                    width: width,
+                    height: height,
                 });
             } else {
                 let file_url = relative_path
@@ -172,7 +176,6 @@ function onFileUpload(
                                 </a>
                             </div>
                         </div>`);
-                        $uploader.setVideoCoverStyle();
                     }
 
                     $uploader.initDraggable({

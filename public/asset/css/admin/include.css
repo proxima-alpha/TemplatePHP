@@ -342,6 +342,7 @@ body {
     #wrap, .header-inner, .footer-inner {
         width: 100%;
         min-width: auto;
+        overflow: hidden;
     }
 
     #wrap {

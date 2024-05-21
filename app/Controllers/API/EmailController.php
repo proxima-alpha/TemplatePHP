@@ -355,7 +355,7 @@ class EmailController extends BaseApiController
                     case 'registration':
                         $users = $this->userModel->get(['email' => $data['email']]);
                         if (sizeof($users) > 0) {
-                            throw new Exception('this email is already in used.');
+                            throw new Exception('This email is already in used.');
                         }
                         $email_address = $data['email'];
                         $email_title .= ' - ' . lang('Service.registration');

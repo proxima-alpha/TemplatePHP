@@ -18,6 +18,12 @@
     text-align: center;
     margin: 10px;
     border: 1px solid #eee;
+    overflow: hidden;
+}
+
+.slider-box .slider-wrap .slick-item video {
+    width: 100%;
+    height: 100%;
 }
 
 /*slick override*/

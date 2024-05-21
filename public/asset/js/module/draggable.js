@@ -48,9 +48,17 @@ function handleDrop(parentElement) {
         let e = (event.originalEvent || event);
         e.preventDefault();
 
+        function getParentNode(element) {
+            let parentNode = element.parentNode;
+            if(parentElement.hasClass('mobile'))  {
+                parentNode = parentNode.parentNode
+            }
+            return parentNode;
+        }
+
         if (draggableDragged !== this) {
             draggableDropped = this;
-            if (draggableDragged.parentNode.className === draggableDropped.parentNode.className) {
+            if (getParentNode(draggableDragged).className === getParentNode(draggableDropped).className) {
                 // callback (onDragFinished) 가 비동기 작업일 경우
                 // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
                 // 이벤트 발생 시 미리 변수에 값을 담아둔다
@@ -138,10 +146,22 @@ function handleTouchEnd(parentElement) {
     return async function (event) {
         const $draggableItems = $draggableItemMap[parentElement.attr('class') ?? 'default']
         $('.draggable-handle').remove();
-        if (draggableDropped) return;
+        if (draggableDropped) {
+            return;
+        }
         if ($draggableHandle) $draggableHandle.remove()
         $draggableHandle = null;
-        if (!draggableDragged) return;
+        if (!draggableDragged) {
+            return;
+        }
+
+        function getParentNode(element) {
+            let parentNode = element.parentNode;
+            if(parentElement.hasClass('mobile'))  {
+                parentNode = parentNode.parentNode
+            }
+            return parentNode;
+        }
 
         let touchPoint = event.originalEvent.changedTouches[0];
         let touchX = touchPoint.clientX;
@@ -160,7 +180,7 @@ function handleTouchEnd(parentElement) {
                 if (offset.left < touchX && offset.right > touchX && offset.top < touchY && offset.bottom > touchY) {
                     draggableDropped = item.get(0);
 
-                    if (draggableDragged.parentNode.className === draggableDropped.parentNode.className) {
+                    if (getParentNode(draggableDragged).className === getParentNode(draggableDropped).className) {
                         // callback (onDragFinished) 가 비동기 작업일 경우
                         // e.dataTransfer.getData 에서 값이 바르게 전달이 안되므로
                         // 이벤트 발생 시 미리 변수에 값을 담아둔다
@@ -184,6 +204,7 @@ function handleTouchEnd(parentElement) {
             }
         }
         draggableDragged = null;
+        draggableDropped = null;
     }
 }
 

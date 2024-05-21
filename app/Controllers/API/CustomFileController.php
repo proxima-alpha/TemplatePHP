@@ -122,6 +122,8 @@ class CustomFileController extends BaseApiController
                         'mime_type' => $mime_type,
                         'type' => $uploadedType,
                         'relative_path' => '/' . $symbolic_path . '/' . $file_name,
+                        'width' => $width,
+                        'height' => $height,
                     ];
                 }
             } else {
