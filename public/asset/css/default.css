@@ -36,10 +36,6 @@ img {
     background-size: cover;
 }
 
-video {
-    object-fit: cover;
-}
-
 .cf:after {
     content: "";
     display: block;

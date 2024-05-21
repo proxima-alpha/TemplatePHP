@@ -48,7 +48,7 @@ class SettingModel extends BaseModel
         $this->createIfNotExist(['code' => 'kakao-appkey'], [
             "code" => "kakao-appkey",
             "type" => "text",
-            "name" => "카카오 맵 APPKEY",
+            "name" => "카카오 APPKEY",
         ]);
         $this->createIfNotExist(['code' => 'gmail-password-key'], [
             "code" => "gmail-password-key",
