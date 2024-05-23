@@ -222,6 +222,7 @@ function requestPayment() {
                 amount: data['paid'], // 숫자 타입
                 buyer_email: data['purchaser_email'],
                 buyer_name: data['purchaser_name'],
+                currency: 'KRW'
             };
             IMP.request_pay(payRequestData,
                 (rsp) => {

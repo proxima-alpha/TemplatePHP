@@ -193,6 +193,7 @@
 .artist-box .content-item {
     width: 170px;
     height: 303px;
+    border-radius: 20px;
     margin: 5px;
     position: relative;
     display: inline-block;

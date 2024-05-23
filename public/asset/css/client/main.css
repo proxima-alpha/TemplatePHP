@@ -288,6 +288,10 @@ slider 페이지
     font-weight: 500;
 }
 
+#page-media .content-item p.item-date {
+    font-weight: 200;
+}
+
 #page-intro .page-title {
     font-size: 70px;
     font-weight: 600;
@@ -465,5 +469,27 @@ slider 페이지
 
     .section .page-inner {
         width: 100%;
+    }
+
+    #page-media .content-box.previous-project .content-item {
+        width: calc(33.3% - 20px);
+        box-sizing: border-box;
+        margin: 10px;
+    }
+
+    #page-media .content-box.previous-project .content-item .image-item-wrap {
+        height: 37vw;
+    }
+}
+
+@media (max-width: 600px) {
+    #page-media .content-box.previous-project .content-item {
+        width: calc(50% - 20px);
+        box-sizing: border-box;
+        margin: 10px;
+    }
+
+    #page-media .content-box.previous-project .content-item .image-item-wrap {
+        height: 53vw;
     }
 }
