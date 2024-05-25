@@ -4,8 +4,11 @@ use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
     $data['name'] = '';
+    $data['name_en'] = '';
     $data['job'] = '';
+    $data['job_en'] = '';
     $data['introduction'] = '';
+    $data['introduction_en'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();

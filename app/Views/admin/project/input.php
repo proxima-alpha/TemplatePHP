@@ -14,8 +14,9 @@ use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
     $data['title'] = '';
+    $data['title_en'] = '';
     $data['content'] = '';
-    $data['guide'] = '';
+    $data['content_en'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();

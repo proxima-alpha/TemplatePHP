@@ -157,6 +157,7 @@ class ArtistController extends BaseAdminController
                     '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/input',
+                    '/common/tab_box',
                     '/admin/artist/common',
                 ],
                 'js' => [
@@ -164,6 +165,7 @@ class ArtistController extends BaseAdminController
                     '/module/slick_custom',
                     '/module/draggable',
                     '/module/image_uploader',
+                    '/common/tab_box',
                     '/common/artist',
                 ],
             ])
