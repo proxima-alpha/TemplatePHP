@@ -7,6 +7,7 @@ use Exception;
 use Models\CodeRewardRequestModel;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
+use Models\PurchaseItemRewardModel;
 use Models\PurchaseModel;
 use Models\RewardModel;
 
@@ -17,6 +18,7 @@ class PurchaseController extends BaseClientController
     protected PurchaseItemModel $purchaseItemModel;
     protected PurchaseModel $purchaseModel;
     protected CodeRewardRequestModel $codeRewardRequestModel;
+    protected PurchaseItemRewardModel $purchaseItemRewardModel;
 
     public function __construct()
     {
@@ -25,6 +27,7 @@ class PurchaseController extends BaseClientController
         $this->rewardModel = model('Models\RewardModel');
         $this->purchaseModel = model('Models\PurchaseModel');
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
+        $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
         $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
     }
 
@@ -96,6 +99,7 @@ class PurchaseController extends BaseClientController
     private function getPurchasedData($id): array
     {
         $purchaseItems = $this->purchaseItemModel->get(['id' => $id]);
+        $purchaseItemReward = $this->purchaseItemRewardModel->getRewards(['purchase_item_id' => $id]);
         if (sizeof($purchaseItems) != 1) throw new Exception('deleted');
         $purchaseItem = $purchaseItems[0];
         $purchase = $this->purchaseModel->getLatest(['id' => $purchaseItem['purchase_id']]);
@@ -114,6 +118,7 @@ class PurchaseController extends BaseClientController
             'project' => $project,
             'reward' => $reward,
             'purchase_item' => $purchaseItem,
+            'purchase_item_reward' => $purchaseItemReward,
             'purchase' => $purchase,
             'code_reward_request' => $codeRewardRequest,
         ];

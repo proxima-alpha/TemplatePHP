@@ -8,6 +8,7 @@ use Config\Services;
 use Exception;
 use Models\CustomFileModel;
 use Models\PurchaseItemModel;
+use Models\PurchaseItemRewardModel;
 use Models\RewardFileModel;
 
 class FileController extends BaseClientController
@@ -15,12 +16,14 @@ class FileController extends BaseClientController
     protected CustomFileModel $customFileModel;
     protected RewardFileModel $rewardFileModel;
     protected PurchaseItemModel $purchaseItemModel;
+    protected PurchaseItemRewardModel $purchaseItemRewardModel;
 
     public function __construct()
     {
         $this->customFileModel = model('Models\CustomFileModel');
         $this->rewardFileModel = model('Models\RewardFileModel');
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
+        $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
     }
 
     /**
@@ -66,13 +69,13 @@ class FileController extends BaseClientController
 
             if ($result) {
                 if (isset($this->session->user_id)) {
-                    $purchaseItems = $this->purchaseItemModel->get(['id' => $result['purchase_item_id'], 'reward_file.id' => $id]);
+                    $purchaseItems = $this->purchaseItemRewardModel->get(['id' => $result['purchase_item_reward_id'], 'reward_file.id' => $id]);
                     if (sizeof($purchaseItems) != 1) {
                         throw new Exception('deleted');
                     }
                     $purchaseItem = $purchaseItems[0];
                     if ($purchaseItem['user_id'] == $this->session->user_id) {
-                        $this->purchaseItemModel->update($purchaseItem['id'], [
+                        $this->purchaseItemRewardModel->update($purchaseItem['id'], [
                             'status' => 'received',
                         ]);
                     }
@@ -162,6 +165,7 @@ class FileController extends BaseClientController
             lang('Service.email'),
             lang('Service.price'),
             lang('Service.currency'),
+            lang('Service.channel'),
             lang('Service.paid_at'),
         ));
         foreach ($result as $i => $item) {
@@ -170,6 +174,7 @@ class FileController extends BaseClientController
                 $item['inquirer_email'],
                 $item['price'],
                 'KRW',
+                $item['channel'],
                 $item['created_at'],
             );
             fputcsv($output, $row);

@@ -38,6 +38,7 @@
                             <span class="column name"><?= lang('Service.name') ?></span>
                             <span class="column price"><?= lang('Service.price') ?></span>
                             <span class="column status"><?= lang('Service.status') ?></span>
+                            <span class="column channel"><?= lang('Service.channel') ?></span>
                             <span class="column created-at"><?= lang('Service.created_at') ?></span>
                         </div>
                     </div>
@@ -50,6 +51,7 @@
                                     <span class="column price"><?= number_format($item['price']) ?> KRW</span>
                                     <span class="column status"
                                           style="<?= $item['is_refunded'] == 1 ? 'color:red;' : 'color:green;' ?>"><?= $item['is_refunded'] == 1 ? lang('Service.refunded') : lang('Service.paid') ?></span>
+                                    <span class="column channel"><?= $item['channel'] ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>

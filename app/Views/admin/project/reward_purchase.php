@@ -9,17 +9,19 @@
                 <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
             </div>
             <div class="count-wrap">
-                <div class="text-wrap">
-                    <p class="title"><?= lang('Service.remaining_count') ?></p>
-                    <p class="content"><?= ($reward['total_count'] - $reward['purchased_count'])?></p>
-                </div>
-                <div class="text-wrap">
-                    <p class="title"><?= lang('Service.purchased_count') ?></p>
-                    <p class="content"><?= ($reward['total_paid_count'])?></p>
-                </div>
-                <div class="text-wrap">
-                    <p class="title"><?= lang('Service.uploaded_count') ?></p>
-                    <p class="content"><?= ($reward['uploaded_count'])?></p>
+                <div class="count-inner-wrap">
+                    <div class="text-wrap">
+                        <p class="title"><?= lang('Service.remaining_count') ?></p>
+                        <p class="content"><?= ($reward['total_count'] - $reward['purchased_count']) ?></p>
+                    </div>
+                    <div class="text-wrap">
+                        <p class="title"><?= lang('Service.purchased_count') ?></p>
+                        <p class="content"><?= ($reward['total_paid_count']) ?></p>
+                    </div>
+                    <div class="text-wrap">
+                        <p class="title"><?= lang('Service.uploaded_count') ?></p>
+                        <p class="content"><?= ($reward['uploaded_count']) ?></p>
+                    </div>
                 </div>
             </div>
         </div>

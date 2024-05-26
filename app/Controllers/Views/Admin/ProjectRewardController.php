@@ -74,7 +74,7 @@ class ProjectRewardController extends BaseAdminController
      * @param $page
      * @return string
      */
-    function getPurchase($access_hash, $reward_id, $page = 1): string
+    function getPurchaseItemReward($access_hash, $reward_id, $page = 1): string
     {
         $data = $this->getViewData();
         try {
@@ -88,7 +88,7 @@ class ProjectRewardController extends BaseAdminController
                 'per_page' => 10,
                 'page' => $page,
             ], [
-                'is_refunded' => 0,
+                'purchase_item.is_refunded' => 0,
                 'purchase.reward_id' => $reward_id,
                 'purchase.status' => 'paid',
             ]);

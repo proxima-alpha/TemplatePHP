@@ -28,15 +28,12 @@
 
 .reward-wrap, .count-wrap {
     display: inline-block;
-    width: 50%;
-    vertical-align: top;
-}
-
-.reward-wrap {
+    width: 70%;
+    vertical-align: middle;
 }
 
 .count-wrap {
-    width: 50%;
+    width: 30%;
     text-align: right;
 }
 
@@ -121,17 +118,18 @@
 }
 
 .purchase-item-wrap .text-wrap .title {
-    width: 30%;
+    width: 200px;
     font-weight: 400;
     font-size: 16px;
     text-align: left;
 }
 
 .purchase-item-wrap .text-wrap .content {
-    width: 70%;
+    width: calc(100% - 200px);
     color: #888;
     font-size: 16px;
     text-align: right;
+    word-break: break-word;
 }
 
 .purchase-item-wrap .text-wrap.comment .content {
@@ -146,5 +144,13 @@
 
     .purchase-item-box {
         margin: 10px;
+    }
+
+    .purchase-item-wrap .text-wrap .title {
+        width: 100px;
+    }
+
+    .purchase-item-wrap .text-wrap .content {
+        width: calc(100% - 100px);
     }
 }

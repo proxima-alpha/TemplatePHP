@@ -70,6 +70,7 @@ return [
     "show_more" => "더보기",
 
     "status_waiting" => "영상 제작 중",
+    "status_finished" => "영상 제작 완료",
     "status_received" => "영상 다시 받기",
     "status_confirmed" => "영상 받기",
     "status_expired" => "영상 만료됨",

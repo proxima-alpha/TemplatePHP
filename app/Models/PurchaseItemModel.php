@@ -11,7 +11,6 @@ class PurchaseItemModel extends BaseModel
         'id',
         'purchase_id',
         'code_reward_request_id',
-        'status',
         'price',
         'inquirer_name',
         'inquirer_email',
@@ -34,12 +33,10 @@ class PurchaseItemModel extends BaseModel
      */
     public function get($condition = null, $limit = null, $order = 'DESC'): array
     {
-        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en," .
-            " reward_file.id AS reward_file_id, purchase.user_id AS user_id, user.name AS user_name" .
-            " FROM purchase_item" .
+        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en,
+             purchase.user_id AS user_id, user.name AS user_name, purchase.pg AS channel FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
             " LEFT JOIN user ON user.id = purchase.user_id" .
-            " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
             " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id";
         $values = [];
         if (isset($condition)) {
@@ -67,7 +64,7 @@ class PurchaseItemModel extends BaseModel
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
-        $query .= " ORDER BY " . $this->table . ".created_at ".$order;
+        $query .= " ORDER BY " . $this->table . ".created_at " . $order;
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
@@ -83,7 +80,8 @@ class PurchaseItemModel extends BaseModel
     {
         $query = "SELECT COUNT(*) AS cnt FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
-            " LEFT JOIN reward ON reward.id = purchase.reward_id";
+            " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id" .
+            " LEFT JOIN purchase_item_reward ON purchase_item_reward.purchase_item_id = purchase_item.id";
         $values = [];
         if (isset($condition)) {
             $dateQueries = [];
@@ -128,14 +126,14 @@ class PurchaseItemModel extends BaseModel
      */
     public function getForClient($condition = null, $limit = null): array
     {
-        $query = "SELECT reward.*, project.title AS project_title, project.title_en AS project_title_en, project.project_image_id AS project_image_id," .
-            " purchase_item.id AS id, purchase_item.status, purchase_item.price, purchase_item.is_refunded," .
-            " reward_file.id AS reward_file_id" .
-            " FROM purchase_item" .
+        $query = "SELECT reward.*, project.title AS project_title, project.title_en AS project_title_en, project.project_image_id AS project_image_id,
+            purchase_item.id AS id, purchase_item.price, purchase_item.is_refunded,
+            COUNT(purchase_item_reward.id) AS total_reward_count,
+            COUNT(CASE WHEN purchase_item_reward.status = 'confirmed' OR purchase_item_reward.status = 'received' THEN 1 ELSE NULL END) AS confirmed_reward_count FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
-            " LEFT JOIN reward_file ON reward_file.purchase_item_id = purchase_item.id" .
             " LEFT JOIN reward ON reward.id = purchase.reward_id" .
-            " LEFT JOIN project ON project.id = reward.project_id";
+            " LEFT JOIN project ON project.id = reward.project_id" .
+            " LEFT JOIN purchase_item_reward ON purchase_item_reward.purchase_item_id = purchase_item.id";
         $values = [];
         if (isset($condition)) {
             $set = $this->getConditionSet($condition);
@@ -144,7 +142,9 @@ class PurchaseItemModel extends BaseModel
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
-        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        $query .= "
+         GROUP BY " . $this->table . ".id
+         ORDER BY " . $this->table . ".created_at DESC";
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }

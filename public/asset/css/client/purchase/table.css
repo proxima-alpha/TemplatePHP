@@ -67,22 +67,31 @@
     margin-top: 10px;
 }
 
-.container-inner .button {
+.container-inner .button,
+.container-inner .status {
     margin: 0 3px;
     line-height: normal;
 }
 
-.container-inner .button.button-fill {
-    padding: 8px 20px;
-}
 
 .container-inner .button.button-line {
     padding: 6px 18px;
 }
 
-.button.button-fill.refunded {
-    pointer-events: none;
-    cursor: default;
+.status {
+    padding: 8px 20px;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 100px;
+    font-weight: 400;
+    background: #FF7A00;
+}
+
+.status.waiting {
+    background: #232127;
+}
+
+.status.refunded {
     background: #666;
 }
 

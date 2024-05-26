@@ -92,7 +92,7 @@ $routes->get('/admin/project/' . $ID_RULE . '/edit', [\Views\Admin\ProjectContro
 
 $routes->get('/admin/project/' . $CODE_RULE . '/reward/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'index']);
 $routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward', '/admin/project/$1/reward/1');
-$routes->get('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE . '/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'getPurchase']);
+$routes->get('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE . '/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'getPurchaseItemReward']);
 $routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE, '/admin/project/$1/reward/get/$2/1');
 
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);

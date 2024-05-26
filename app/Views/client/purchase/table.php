@@ -19,15 +19,13 @@
                             <div class="line"></div>
                             <div class="button-wrap">
                                 <?php if ($item['is_refunded'] == 1) { ?>
-                                    <a class="button button-fill refunded"><?= lang('Client.refunded') ?>
-                                    </a>
-                                <?php } else if ($item['status'] != 'received' || isset($item['reward_file_id'])) { ?>
-                                    <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"
-                                       href="/reward-file/<?= $item['reward_file_id'] ?>"><?= lang('Client.status_' . $item['status']) ?>
-                                    </a>
-                                <?php } else { ?>
-                                    <a class="button button-fill disabled"><?= lang('Client.status_expired') ?>
-                                    </a>
+                                    <span class="status refunded"><?= lang('Client.refunded') ?>
+                                    </span>
+                                <?php } else {
+                                    $status = $item['total_reward_count'] == 0 || $item['confirmed_reward_count'] < $item['total_reward_count'] ? 'waiting' : 'finished';?>
+                                    <span class="status <?=$status?>"
+                                    ><?= lang('Client.status_' . $status) ?>
+                                    </span>
                                 <?php } ?>
                                 <a class="button button-line"
                                    href="/purchase/<?= $item['id'] ?>/view"><?= lang('Client.show_detail') ?> </a>

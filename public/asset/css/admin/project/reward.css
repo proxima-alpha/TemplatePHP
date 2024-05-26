@@ -44,39 +44,48 @@
     text-align: right;
 }
 
-.project-wrap {
+.project-box {
     padding: 20px 15px;
     border: 1px solid #000;
     margin: 10px 0;
 }
 
-.project-wrap > div {
+.project-box p {
+    font-size: 18px;
+}
+
+.project-box .access-url-wrap {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.project-box .access-url-wrap .title {
+    font-weight: 400;
+}
+
+.project-box .project-wrap > div {
     display: inline-block;
     vertical-align: top;
 }
 
-.project-wrap .image-wrap {
+.project-box .project-wrap .image-wrap {
     width: 150px;
     height: 150px;
 }
 
-.project-wrap .content-wrap {
+.project-box .project-wrap .content-wrap {
     margin-left: 20px;
     width: calc(100% - 170px);
     text-align: left;
 }
 
-.project-wrap p {
-    font-size: 18px;
-}
-
-.project-wrap .title {
+.project-box .project-wrap .title {
     font-size: 22px;
     line-height: 40px;
     font-weight: 400;
 }
 
-.project-wrap .content {
+.project-box .project-wrap .content {
     margin: 5px;
     min-height: 50px;
 }

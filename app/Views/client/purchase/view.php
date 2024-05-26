@@ -45,19 +45,35 @@
                 </div>
             </div>
             <div class="line"></div>
-            <div class="button-wrap">
-                <?php if ($purchase_item['is_refunded'] == 1) { ?>
+            <?php if ($purchase_item['is_refunded'] == 1) { ?>
+                <div class="button-wrap">
                     <a class="button button-fill refunded"><?= lang('Client.refunded') ?>
                     </a>
-                <?php } else if ($purchase_item['status'] != 'received' || isset($purchase_item['reward_file_id'])) { ?>
-                    <a class="button button-fill <?= $purchase_item['status'] == 'waiting' ? 'disabled' : '' ?>"
-                       href="/reward-file/<?= $purchase_item['reward_file_id'] ?>"><?= lang('Client.status_' . $purchase_item['status']) ?>
-                    </a>
-                <?php } else { ?>
-                    <a class="button button-fill disabled"><?= lang('Client.status_expired') ?>
-                    </a>
-                <?php } ?>
-            </div>
+                </div>
+            <?php } else if (isset($purchase_item_reward)) {
+                foreach ($purchase_item_reward as $index => $item) {
+                    if (isset($item['reward_file_id'])) {
+                        \App\Helpers\ServerLogger::log($item);
+                        $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
+                        ?>
+                        <div class="artist-box">
+                            <div class="image-item-wrap"
+                                 style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>
+                            <div class="text-wrap">
+                                <p><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></p>
+                            </div>
+                            <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"
+                               href="/reward-file/<?= $item['reward_file_id'] ?>"><?= lang('Client.status_' . $item['status']) ?>
+                            </a>
+                        </div>
+                    <?php } else { ?>
+                        <div class="button-wrap">
+                            <a class="button button-fill disabled"><?= lang('Client.status_expired') ?>
+                            </a>
+                        </div>
+                    <?php }
+                }
+            } ?>
         </div>
     </div>
 </div>
