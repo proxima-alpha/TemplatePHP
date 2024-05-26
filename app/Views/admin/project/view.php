@@ -2,6 +2,12 @@
     <div class="container-wrap">
         <div class="project-wrap">
             <div class="form-wrap project">
+                <div class="input-wrap inline">
+                    <p class="input-title"><?= lang('Service.category') ?></p>
+                    <select class="editable" name="code_project_id" value="1" disabled>`
+                        <option value="1"><?= $lang == 'ko' ? $data['code_project'] : $data['code_project_en'] ?></option>
+                    </select>
+                </div>
                 <div class="tab-box">
                     <div class="tab-button-wrap">
                         <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>

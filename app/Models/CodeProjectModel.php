@@ -2,9 +2,9 @@
 
 namespace Models;
 
-class CodeArtistModel extends BasePriorityModel
+class CodeProjectModel extends BasePriorityModel
 {
-    protected $table = 'code_artist';
+    protected $table = 'code_project';
     protected $allowedFields = [
         'id',
         'code',

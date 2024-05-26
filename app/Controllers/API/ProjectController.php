@@ -3,6 +3,7 @@
 namespace API;
 
 use App\Helpers\QueryHelper;
+use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
@@ -27,22 +28,26 @@ class ProjectController extends CustomFileController
     }
 
     /**
-     * [get] /api/artist
+     * [get] /api/project
+     * @param $target
      * @return ResponseInterface
      */
-    public function index(): ResponseInterface
+    public function index($target): ResponseInterface
     {
         $queryParams = $this->request->getGet();
         $page = $queryParams['page'];
         if ($queryParams['page'] != 'last') {
             $page = Utils::toInt($queryParams['page']);
         }
-
         try {
             $condition = [
                 'is_deleted' => 0,
                 'status' => 'open',
             ];
+            if (isset($target) && $target != 'all') {
+                $condition = array_merge(['code_project.code'=>$target]);
+            }
+
             $result = $this->projectModel->getPaginated([
                 'per_page' => 10,
                 'page' => $page,
@@ -327,6 +332,7 @@ class ProjectController extends CustomFileController
         $response = [
             'success' => false,
         ];
+
         try {
             $queries = [];
             $selectorQuery = '';
@@ -334,7 +340,7 @@ class ProjectController extends CustomFileController
             foreach ($data['projects'] as $index => $project_id) {
                 // priority 를 설정 해 준다
                 $query = "UPDATE project
-                        SET project.is_posted = 1, project.priority = " . ($index + 1) . "
+                        SET project.is_posted_popular = 1, project.priority = " . ($index + 1) . "
                         WHERE project.id = " . $project_id;
                 $queries[] = $query;
                 $selectorQuery .= $prefix . $project_id;
@@ -345,7 +351,53 @@ class ProjectController extends CustomFileController
                 $conditionQuery = " WHERE project.id NOT IN(" . $selectorQuery . ")";
             }
             $queries[] = "UPDATE project
-                        SET project.is_posted = 0 " . $conditionQuery;
+                        SET project.is_posted_popular = 0 " . $conditionQuery;
+
+            BaseModel::transaction($this->db, $queries);
+            $response['success'] = true;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
+    }
+    /**
+     * /api/project/post/{code}
+     * @param $code
+     * @return ResponseInterface
+     */
+    public function postByCode($code): ResponseInterface
+    {
+        $data = $this->request->getPost();
+        if (!isset($data['projects'])) {
+            $data['projects'] = [];
+        }
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $queries = [];
+            $selectorQuery = '';
+            $prefix = '';
+            foreach ($data['projects'] as $index => $project_id) {
+                // priority 를 설정 해 준다
+                $query = "UPDATE project
+                        LEFT JOIN code_project ON code_project.id = project.code_project_id
+                        SET project.is_posted = 1, project.priority = " . ($index + 1) . "
+                        WHERE code_project.code = '" . $code . "' AND project.id = " . $project_id;
+                $queries[] = $query;
+                $selectorQuery .= $prefix . $project_id;
+                $prefix = ',';
+            }
+            $conditionQuery = '';
+            if ($selectorQuery != '') {
+                $conditionQuery = " AND project.id NOT IN(" . $selectorQuery . ")";
+            }
+            $queries[] = "UPDATE project
+                        LEFT JOIN code_project ON code_project.id = project.code_project_id
+                        SET project.is_posted = 0" .
+                        " WHERE code_project.code = '" . $code . "'" . $conditionQuery;
 
             BaseModel::transaction($this->db, $queries);
             $response['success'] = true;

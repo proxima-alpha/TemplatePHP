@@ -4,38 +4,38 @@ namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
-use Models\CodeArtistModel;
+use Models\CodeProjectModel;
 use Models\CodeRewardRequestModel;
 use Models\SettingModel;
 
 class CodeController extends BaseApiController
 {
-    protected CodeArtistModel $codeArtistModel;
+    protected CodeProjectModel $codeProjectModel;
     protected CodeRewardRequestModel $codeRewardRequestModel;
     protected SettingModel $settingModel;
 
     public function __construct()
     {
-        $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->codeProjectModel = model('Models\CodeProjectModel');
         $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
         $this->settingModel = model('Models\SettingModel');
     }
 
     /**
-     * [get] /api/code/artist/get/{id}
+     * [get] /api/code/project/get/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function getCodeArtist($id): ResponseInterface
+    public function getCodeProject($id): ResponseInterface
     {
-        return $this->typicallyFind($this->codeArtistModel, $id);
+        return $this->typicallyFind($this->codeProjectModel, $id);
     }
 
     /**
-     * [post] /api/code/artist/create
+     * [post] /api/code/project/create
      * @return ResponseInterface
      */
-    public function createCodeArtist(): ResponseInterface
+    public function createCodeProject(): ResponseInterface
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
@@ -52,7 +52,7 @@ class CodeController extends BaseApiController
                 'rules' => 'required|min_length[1]',
             ],
         ];
-        return $this->typicallyCreate($this->codeArtistModel, $data, $validationRules, function ($model, $data) {
+        return $this->typicallyCreate($this->codeProjectModel, $data, $validationRules, function ($model, $data) {
             $this->settingModel->insert([
                 "code" => "main-show-" . $data['code'],
                 "type" => "tinyint",
@@ -64,16 +64,16 @@ class CodeController extends BaseApiController
     }
 
     /**
-     * [post] /api/code/artist/update/{id}
+     * [post] /api/code/project/update/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function updateCodeArtist($id): ResponseInterface
+    public function updateCodeProject($id): ResponseInterface
     {
         $this->checkAdmin();
         $data = $this->request->getPost();
-        $previousCode = $this->codeArtistModel->getLatest(['id' => $id]);
-        return $this->typicallyUpdate($this->codeArtistModel, $id, $data, null, function ($model, $data) use ($previousCode) {
+        $previousCode = $this->codeProjectModel->getLatest(['id' => $id]);
+        return $this->typicallyUpdate($this->codeProjectModel, $id, $data, null, function ($model, $data) use ($previousCode) {
             if (isset($data['code']) && $previousCode['code'] != $data['code']) {
                 $settings = $this->settingModel->get([
                     "code" => "main-show-" . $previousCode['code']
@@ -88,18 +88,18 @@ class CodeController extends BaseApiController
     }
 
     /**
-     * [delete] /api/code/artist/delete/{id}
+     * [delete] /api/code/project/delete/{id}
      * @param $id
      * @return ResponseInterface
      */
-    public function deleteCodeArtist($id): ResponseInterface
+    public function deleteCodeProject($id): ResponseInterface
     {
         $this->checkAdmin();
         $body = [
             'is_deleted' => 1,
         ];
-        $previousCode = $this->codeArtistModel->getLatest(['id' => $id]);
-        return $this->typicallyUpdate($this->codeArtistModel, $id, $body, null, function ($model, $data) use ($previousCode) {
+        $previousCode = $this->codeProjectModel->getLatest(['id' => $id]);
+        return $this->typicallyUpdate($this->codeProjectModel, $id, $body, null, function ($model, $data) use ($previousCode) {
             if (isset($data['code']) && $previousCode['code'] != $data['code']) {
                 $settings = $this->settingModel->get([
                     "code" => "main-show-" . $previousCode['code']
@@ -112,12 +112,12 @@ class CodeController extends BaseApiController
     }
 
     /**
-     * [get] /api/code/artist/exchange-priority/{from}/{to}
+     * [get] /api/code/project/exchange-priority/{from}/{to}
      * @param $from
      * @param $to
      * @return ResponseInterface
      */
-    public function exchangeCodeArtistPriority($from, $to): ResponseInterface
+    public function exchangeCodeProjectPriority($from, $to): ResponseInterface
     {
         $this->checkAdmin();
         $response = [
@@ -125,7 +125,7 @@ class CodeController extends BaseApiController
         ];
 
         try {
-            $this->codeArtistModel->exchangePriority($from, $to);
+            $this->codeProjectModel->exchangePriority($from, $to);
             $response['success'] = true;
         } catch (Exception $e) {
             //todo(log)

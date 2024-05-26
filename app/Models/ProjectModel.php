@@ -7,6 +7,7 @@ class ProjectModel extends BaseModel
     protected $table = 'project';
     protected $allowedFields = [
         'id',
+        'code_project_id',
         'project_image_id',
         'status',
         'start_date',
@@ -18,6 +19,7 @@ class ProjectModel extends BaseModel
         'is_deleted',
         'is_authenticated',
         'is_posted',
+        'is_posted_popular',
         'access_hash',
         'password',
         'priority',
@@ -25,14 +27,54 @@ class ProjectModel extends BaseModel
         'created_at',
     ];
 
+    /**
+     * select 문을 호출하는 기능
+     * artist_code 를 조인하기 위해서 override
+     * @return array
+     * @throws Exception
+     */
     public function get($condition = null, $limit = null, $isPriority = false): array
     {
-        $builder = !$isPriority ? $this->builder()->orderBy("created_at", "DESC") :
-            $this->builder()->orderBy("priority", "ASC");
-        if (isset($limit)) {
-            $builder = $builder->limit($limit['value'], $limit['offset']);
+        $query = "SELECT project.*, code_project.name AS code_project, code_project.name_en AS code_project_en, code_project.code AS code FROM project".
+            " LEFT JOIN code_project ON code_project.id = project.code_project_id";
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
         }
-        return $builder->getWhere($condition)->getResultArray();
+        if ($isPriority) {
+            $query .= " ORDER BY " . $this->table . ".priority ASC";
+        } else {
+            $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        }
+        if (isset($limit)) {
+            $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
+        }
+        return BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
+        ]);
+    }
+
+    protected function getCountAll($condition = null)
+    {
+        $query = "SELECT COUNT(*) AS cnt FROM project LEFT JOIN code_project ON code_project.id = project.code_project_id";
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
+        }
+        $result = BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
+        ]);
+        return $result[0]['cnt'];
     }
 
     public function getPreviousProjects(): array

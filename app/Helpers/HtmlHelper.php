@@ -167,7 +167,6 @@ final class HtmlHelper
                 $html .=
                     '<div class="upload-item"
                          style="background: url(\'/file/' . $file_id . '\') no-repeat center;font-size: 0;background-size: cover;">
-                        <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedImageFile(\'' . $key . '\',\'' . $file_id . '\',\'image/png,image/jpg\')"
                                class="button delete-image black">
@@ -324,23 +323,6 @@ final class HtmlHelper
                     </video>
                 </div>';
             }
-        });
-    }
-
-    public static function getArtistSlick($items, $image_file_key, $lang = 'ko'): string
-    {
-        return HtmlHelper::getSlickHtml($items, function ($item) use ($lang, $image_file_key) {
-            $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
-            return '
-            <div class="slick-item">
-                <div class="image-item-wrap">
-                    <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
-                </div>
-                <div class="text-item-wrap">
-                    <p class="item-title">' . ($lang == 'ko' ? $item['name'] : $item['name_en']) . '</p>
-                    <p class="item-content">' . ($lang == 'ko' ? $item['job'] : $item['job_en']) . '</p>
-                </div>
-            </div>';
         });
     }
 

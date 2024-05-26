@@ -7,12 +7,6 @@
     <div class="container-wrap">
         <div class="artist-wrap">
             <div class="form-wrap line-after">
-                <div class="input-wrap inline">
-                    <p class="input-title"><?= lang('type') ?></p>
-                    <select class="editable" name="code_artist_id" value="1" disabled>`
-                        <option value="1"><?= $lang == 'ko' ? $data['code_artist'] : $data['code_artist_en'] ?></option>
-                    </select>
-                </div>
                 <div class="tab-box">
                     <div class="tab-button-wrap">
                         <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>

@@ -3,7 +3,7 @@ return [
 
     //main
     "menu_purchase_list" => "주문 내역",
-    "menu_artist_list" => "아티스트 목록",
+    "menu_project_list" => "프로젝트 목록",
     "menu_user_guide" => "이용 가이드",
     "menu_inquiry" => "문의하기",
     "show_detail" => "상세보기",

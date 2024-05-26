@@ -4,7 +4,7 @@ namespace Views\Admin;
 
 use App\Helpers\Utils;
 use Exception;
-use Models\CodeArtistModel;
+use Models\CodeProjectModel;
 use Models\CodeRewardRequestModel;
 use Models\SettingModel;
 
@@ -12,7 +12,7 @@ class SettingController extends BaseAdminController
 {
     protected SettingModel $settingModel;
     protected CodeRewardRequestModel $codeRewardRequestModel;
-    protected CodeArtistModel $codeArtistModel;
+    protected CodeProjectModel $codeProjectModel;
 
     public function __construct()
     {
@@ -20,7 +20,7 @@ class SettingController extends BaseAdminController
         $this->isRestricted = true;
         $this->settingModel = model('Models\SettingModel');
         $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
-        $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->codeProjectModel = model('Models\CodeProjectModel');
     }
 
     /**
@@ -77,7 +77,7 @@ class SettingController extends BaseAdminController
         }
         $data = $this->getViewData();
         try {
-            $result = $this->codeArtistModel->get(['is_deleted' => 0]);
+            $result = $this->codeProjectModel->get(['is_deleted' => 0]);
             $data = array_merge($data, [
                 'array' => $result,
             ]);
@@ -102,7 +102,7 @@ class SettingController extends BaseAdminController
             ])
             . view('/admin/setting', $setting_data)
             . view('/admin/code_reward_request', $code_request_data)
-            . view('/admin/code_artist', $data)
+            . view('/admin/code_project', $data)
             . parent::loadFooter();
     }
 }

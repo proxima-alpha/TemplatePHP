@@ -50,13 +50,13 @@ $routes->addRedirect('/board/' . $CODE_RULE, '/board/$1/1');
 $routes->get('/board/' . $CODE_RULE . '/topic/create', [\Views\BoardController::class, 'createTopic']);
 $routes->get('/topic/' . $ID_RULE, [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/' . $ID_RULE . '/edit', [\Views\BoardController::class, 'editTopic']);
-$routes->get('/project/' . $ID_RULE . '/view', [\Views\ProjectController::class, 'get']);
 $routes->get('/project/purchase/reward/' . $ID_RULE, [\Views\ProjectController::class, 'getReward']);
 $routes->get('/project/purchase/complete', [\Views\ProjectController::class, 'getComplete']);
+$routes->get('/project/category/' . $CODE_RULE, [\Views\ProjectController::class, 'getCategory']);
+$routes->get('/project/' . $ID_RULE . '/view', [\Views\ProjectController::class, 'get']);
 $routes->get('/purchase/' . $PAGE_RULE, [\Views\PurchaseController::class, 'index']);
 $routes->addRedirect('/purchase', '/purchase/1');
 $routes->get('/purchase/' . $ID_RULE . '/view', [\Views\PurchaseController::class, 'getView']);
-$routes->get('/artist/' . $CODE_RULE, [\Views\ArtistController::class, 'index']);
 
 //admin pages
 $routes->addRedirect('/admin', '/admin/dashboard');
@@ -156,11 +156,11 @@ $routes->post('/api/setting/update/' . $ID_RULE, [\API\SettingController::class,
 $routes->post('/api/setting/update', [\API\SettingController::class, 'updateWithCode']);
 $routes->delete('/api/setting/delete/' . $ID_RULE, [\API\SettingController::class, 'deleteSetting']);
 
-$routes->get('/api/code/artist/get/' . $ID_RULE, [\API\CodeController::class, 'getCodeArtist']);
-$routes->post('/api/code/artist/create', [\API\CodeController::class, 'createCodeArtist']);
-$routes->post('/api/code/artist/update/' . $ID_RULE, [\API\CodeController::class, 'updateCodeArtist']);
-$routes->delete('/api/code/artist/delete/' . $ID_RULE, [\API\CodeController::class, 'deleteCodeArtist']);
-$routes->get('/api/code/artist/exchange-priority/' . $ID_RULE . '/' . $ID_RULE, [\API\CodeController::class, 'exchangeCodeArtistPriority']);
+$routes->get('/api/code/project/get/' . $ID_RULE, [\API\CodeController::class, 'getCodeProject']);
+$routes->post('/api/code/project/create', [\API\CodeController::class, 'createCodeProject']);
+$routes->post('/api/code/project/update/' . $ID_RULE, [\API\CodeController::class, 'updateCodeProject']);
+$routes->delete('/api/code/project/delete/' . $ID_RULE, [\API\CodeController::class, 'deleteCodeProject']);
+$routes->get('/api/code/project/exchange-priority/' . $ID_RULE . '/' . $ID_RULE, [\API\CodeController::class, 'exchangeCodeProjectPriority']);
 
 $routes->get('/api/code/reward-request/get/' . $ID_RULE, [\API\CodeController::class, 'getCodeRewardRequest']);
 $routes->post('/api/code/reward-request/create', [\API\CodeController::class, 'createCodeRewardRequest']);
@@ -172,14 +172,14 @@ $routes->get('/api/artist/get/' . $ID_RULE, [\API\ArtistController::class, 'get'
 $routes->post('/api/artist/create', [\API\ArtistController::class, 'create']);
 $routes->post('/api/artist/update/' . $ID_RULE, [\API\ArtistController::class, 'update']);
 $routes->delete('/api/artist/delete/' . $ID_RULE, [\API\ArtistController::class, 'delete']);
-$routes->post('/api/artist/post/' . $CODE_RULE, [\API\ArtistController::class, 'post']);
 
-$routes->get('/api/project', [\API\ProjectController::class, 'index']);
+$routes->get('/api/project/'.$CODE_RULE, [\API\ProjectController::class, 'index']);
 $routes->get('/api/project/get/' . $ID_RULE, [\API\ProjectController::class, 'get']);
 $routes->post('/api/project/create', [\API\ProjectController::class, 'create']);
 $routes->post('/api/project/update/' . $ID_RULE, [\API\ProjectController::class, 'update']);
 $routes->post('/api/project/regenerate-hash/' . $ID_RULE, [\API\ProjectController::class, 'regenerateHash']);
 $routes->delete('/api/project/delete/' . $ID_RULE, [\API\ProjectController::class, 'delete']);
+$routes->post('/api/project/post/'.$CODE_RULE, [\API\ProjectController::class, 'postByCode']);
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
 
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);

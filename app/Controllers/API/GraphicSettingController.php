@@ -4,23 +4,20 @@ namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
-use Models\ArtistModel;
-use Models\CodeArtistModel;
+use Models\CodeProjectModel;
 use Models\CustomFileModel;
 use Models\ProjectModel;
 
 class GraphicSettingController extends BaseApiController
 {
     protected CustomFileModel $customFileModel;
-    protected ArtistModel $artistModel;
-    protected CodeArtistModel $codeArtistModel;
+    protected CodeProjectModel $codeProjectModel;
     protected ProjectModel $projectModel;
 
     public function __construct()
     {
         $this->customFileModel = model('Models\CustomFileModel');
-        $this->artistModel = model('Models\ArtistModel');
-        $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->codeProjectModel = model('Models\CodeProjectModel');
         $this->projectModel = model('Models\ProjectModel');
     }
 
@@ -68,22 +65,22 @@ class GraphicSettingController extends BaseApiController
             // priority 때문에 따로조회
             $images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
-            $projects = $this->projectModel->get(['is_posted' => 1, 'status' => 'open'], null, true);
-            $artists = $this->artistModel->get(['is_posted' => 1], null, true);
-            $codes = $this->codeArtistModel->get();
-            $artist_parsed = [];
+            $projects = $this->projectModel->get(['is_posted_popular' => 1, 'status' => 'open'], null, true);
+            $postedProjects = $this->projectModel->get(['is_posted' => 1], null, true);
+            $codes = $this->codeProjectModel->get();
+            $projectParsed = [];
             foreach ($codes as $index => $code) {
-                $artist_parsed[$code['code']] = [];
+                $projectParsed[$code['code']] = [];
             }
-            foreach ($artists as $index => $artist) {
-                $artist_parsed[$artist['code']][] = $artist;
+            foreach ($postedProjects as $index => $project) {
+                $projectParsed[$project['code']][] = $project;
             }
             $data = array_merge($data, [
                 'main' => $images,
                 'relation' => $relations,
                 'project' => $projects
             ]);
-            $data = array_merge($data, $artist_parsed);
+            $data = array_merge($data, $projectParsed);
             $response['success'] = true;
             $response['data'] = $data;
         } catch (Exception $e) {

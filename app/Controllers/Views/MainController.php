@@ -4,9 +4,8 @@ namespace Views;
 
 use App\Helpers\ServerLogger;
 use Exception;
-use Models\ArtistModel;
 use Models\BoardModel;
-use Models\CodeArtistModel;
+use Models\CodeProjectModel;
 use Models\CustomFileModel;
 use Models\ProjectModel;
 use Models\SettingModel;
@@ -18,8 +17,7 @@ class MainController extends BaseClientController
     protected BoardModel $boardModel;
     protected TopicModel $topicModel;
     protected CustomFileModel $customFileModel;
-    protected ArtistModel $artistModel;
-    protected CodeArtistModel $codeArtistModel;
+    protected CodeProjectModel $codeProjectModel;
     protected ProjectModel $projectModel;
     protected SettingModel $settingModel;
 
@@ -29,8 +27,7 @@ class MainController extends BaseClientController
         $this->boardModel = model('Models\BoardModel');
         $this->topicModel = model('Models\TopicModel');
         $this->customFileModel = model('Models\CustomFileModel');
-        $this->artistModel = model('Models\ArtistModel');
-        $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->codeProjectModel = model('Models\CodeProjectModel');
         $this->projectModel = model('Models\ProjectModel');
         $this->settingModel = model('Models\SettingModel');
     }
@@ -46,29 +43,27 @@ class MainController extends BaseClientController
             $graphic_settings = [];
             $main_images = $this->customFileModel->get(['target' => 'main']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
-            $projects = $this->projectModel->get(['is_posted' => 1, 'status' => 'open'], null, true);
-            $artists = $this->artistModel->get(['is_posted' => 1], null, true);
-            $codes = $this->codeArtistModel->get();
+            $projects = $this->projectModel->get(['is_posted_popular' => 1, 'status' => 'open'], null, true);
+            $postedProjects = $this->projectModel->get(['is_posted' => 1], null, true);
+            $codes = $this->codeProjectModel->get();
             $settings = $this->settingModel->getMainShowSettings();
             $previous_projects = [];
             if (isset($settings['main-show-previous-project']) && $settings['main-show-previous-project'] == 1) {
                 $previous_projects = $this->projectModel->getPreviousProjects();
             }
-            $artist_parsed = [];
+            $projectParsed = [];
             foreach ($codes as $index => $code) {
-                $artist_parsed[$code['code']] = [
-                    'code' => $code,
-                    'items' => []
-                ];
+                $projectParsed[$code['code']] = [ 'code' => $code,
+                    'array' => []];
             }
-            foreach ($artists as $index => $artist) {
-                $artist_parsed[$artist['code']]['items'][] = $artist;
+            foreach ($postedProjects as $index => $project) {
+                $projectParsed[$project['code']]['array'][] = $project;
             }
             $graphic_settings = array_merge($graphic_settings, [
                 'main' => $main_images,
                 'relation' => $relations,
                 'project' => $projects,
-                'artists' => $artist_parsed,
+                'project_by_code' => $projectParsed,
                 'previous-project' => $previous_projects,
             ]);
             $data = array_merge($data, [

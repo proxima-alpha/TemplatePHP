@@ -8,6 +8,7 @@ class RewardModel extends BasePriorityModel
     protected $allowedFields = [
         'id',
         'project_id',
+        'type',
         'title',
         'content',
         'title_en',

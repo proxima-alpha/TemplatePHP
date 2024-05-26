@@ -49,7 +49,7 @@ function refreshViews(target) {
                 let array = data[target]
                 for (let i in array) {
                     const item = array[i];
-                    if (target == 'project') {
+                    if (target == 'project' || (projectCodes.indexOf(target) >= 0)) {
                         files.push(target, item['id'], {
                             project_image_id: item['project_image_id'],
                             title: item['title'],
@@ -96,11 +96,10 @@ function confirmSettingFileEdit(target) {
         case 'relation' :
             confirmEditFiles(target, () => refreshViews(target));
             break;
-        case 'project' : {
-            const identifier = files.getIdentifier(target);
+        default:
             apiRequest({
                 type: 'POST',
-                url: `/api/project/post`,
+                url: target == 'project' ? `/api/project/post` : `/api/project/post/${target}`,
                 data: {
                     projects: files.get(target)
                 },
@@ -116,29 +115,6 @@ function confirmSettingFileEdit(target) {
                     openPopupErrors('popup-error', response, status, error);
                 },
             });
-        }
-            break;
-        default : {
-            const identifier = files.getIdentifier(target);
-            apiRequest({
-                type: 'POST',
-                url: `/api/artist/post/${target}`,
-                data: {
-                    artists: files.get(target)
-                },
-                dataType: 'json',
-                success: function (response, status, request) {
-                    if (!response.success) {
-                        openPopupErrors('popup-error', response, status, request);
-                        return;
-                    }
-                    refreshViews(target);
-                },
-                error: function (response, status, error) {
-                    openPopupErrors('popup-error', response, status, error);
-                },
-            });
-        }
     }
 }
 
@@ -199,6 +175,96 @@ function deleteSettingFile(target, id) {
     </div>`);
 }
 
+function getMediaSlickItemHtml(target, isEditable = false) {
+    return function (id, extra) {
+        const file_url = !extra ? `/file/${id}` : extra.relative_path;
+        if (isEditable) {
+            if (!extra || extra.type == 'image') {
+                return `
+                <div class="slick-item draggable-item upload-item" draggable="true"
+                     style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
+                    Slider #${id}
+                    <div class="size-text">${extra['width']}X${extra['height']}</div>
+                    <input hidden type="text" name="id" value="${id}">
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
+                    </div>
+                </div>`;
+            } else {
+                return `
+                <div class="slick-item draggable-item upload-item" draggable="true">
+                    <div class="size-text">${extra['width']}X${extra['height']}</div>
+                    <video preload="metadata">
+                        <source src="${file_url}">
+                    </video>
+                    <input hidden type="text" name="id" value="${id}">
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
+                    </div>
+                </div>`;
+            }
+        } else {
+            if (!extra || extra.type == 'image') {
+                return `
+                <div class="slick-item button"
+                     style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
+                     onclick="openImagePopup(${id})">
+                    <div class="size-text">${extra['width']}X${extra['height']}</div>
+                    Slider #${id}
+                </div>`;
+            } else {
+                return `
+                <div class="slick-item button">
+                    <div class="size-text">${extra['width']}X${extra['height']}</div>
+                    <video preload="metadata">
+                        <source src="${file_url}">
+                    </video>
+                </div>`;
+            }
+        }
+    }
+}
+
+function getProjectSlickItemHtml(target, isEditable = false) {
+    const language = getCookie('lang')
+    return function (id, extra) {
+        if(isEditable) {
+            return `
+            <div class="slick-item draggable-item upload-item" draggable="true">
+                    <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                    <div class="text-item-wrap">
+                        <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
+                        <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                        <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
+                    </div>
+                <input hidden type="text" name="id" value="${id}">
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>`
+        } else {
+            return `
+            <div class="slick-item">
+                <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                <div class="text-item-wrap">
+                    <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
+                    <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                    <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
+                </div>
+            </div>`;
+        }
+    }
+}
+
 function setEditing($parent, target) {
     let $container = $parent.find(`.content-wrap`);
     let accept = getAcceptFromTarget(target);
@@ -207,39 +273,7 @@ function setEditing($parent, target) {
         (target) {
         case 'main':
         case 'relation': {
-            html = getSlickHtml(target, (file_id, extra) => {
-                const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
-                if (!extra || extra.type == 'image') {
-                    return `
-                    <div class="slick-item draggable-item upload-item" draggable="true"
-                         style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
-                        Slider #${file_id}
-                        <div class="size-text">${extra['width']}X${extra['height']}</div>
-                        <input hidden type="text" name="id" value="${file_id}">
-                        <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                               class="button delete-image black">
-                                <img src="/asset/images/icon/cancel_white.png"/>
-                            </a>
-                        </div>
-                    </div>`;
-                } else {
-                    return `
-                    <div class="slick-item draggable-item upload-item" draggable="true">
-                        <div class="size-text">${extra['width']}X${extra['height']}</div>
-                        <video preload="metadata">
-                            <source src="${file_url}">
-                        </video>
-                        <input hidden type="text" name="id" value="${file_id}">
-                        <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                               class="button delete-image black">
-                                <img src="/asset/images/icon/cancel_white.png"/>
-                            </a>
-                        </div>
-                    </div>`;
-                }
-            }, () => {
+            $container.append(getSlickHtml(target, getMediaSlickItemHtml(target,true), () => {
                 return `<div class="slick-item upload-item-add"
                      style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                     <label for="image-file" class="button"></label>
@@ -247,68 +281,28 @@ function setEditing($parent, target) {
                            onchange="onFileUpload(this, '${target}');"
                            accept="${accept}"/>
                 </div>`
-            })
-            $container.append(html);
+            }));
         }
             break;
         case 'project': {
-            const language = getCookie('lang')
-            html = getSlickHtml(target, (file_id, extra) => {
-                return `
-                <div class="slick-item draggable-item upload-item" draggable="true">
-                        <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
-                        <div class="text-item-wrap">
-                            <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
-                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                            <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
-                        </div>
-                    <input hidden type="text" name="id" value="${file_id}">
-                    <div class="upload-item-hover">
-                        <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                           class="button delete-image black">
-                            <img src="/asset/images/icon/cancel_white.png"/>
-                        </a>
-                    </div>
-                </div>`
-            }, () => {
+            $container.append(getSlickHtml(target, getProjectSlickItemHtml(target,true), () => {
                 return `
                 <div class="slick-item upload-item-add button"
                      style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
                      onClick="searchProject('${target}')">
                 </div>`;
-            })
-            $container.append(html);
+            }));
         }
             break;
         default:
-            if (artist_codes.indexOf(target) >= 0) {
-                const language = getCookie('lang')
-                html = getSlickHtml(target, (file_id, extra) => {
-                    return `
-                    <div class="slick-item draggable-item upload-item" draggable="true">
-                            <div class="image-item-wrap">
-                                <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            </div>
-                            <div class="text-item-wrap">
-                                <p class="item-title">${language == 'ko' ? extra['name'] : extra['name_en']}</p>
-                                <p class="item-content">${language == 'ko' ? extra['job'] : extra['job_en']}</p>
-                            </div>
-                        <input hidden type="text" name="id" value="${file_id}">
-                        <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                               class="button delete-image black">
-                                <img src="/asset/images/icon/cancel_white.png"/>
-                            </a>
-                        </div>
-                    </div>`
-                }, () => {
+            if (projectCodes.indexOf(target) >= 0) {
+                $container.append(getSlickHtml(target, getProjectSlickItemHtml(target,true), () => {
                     return `
                     <div class="slick-item upload-item-add button"
                          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
-                         onClick="searchArtist('${target}', true)">
+                         onClick="searchProject('${target}')">
                     </div>`
-                });
-                $container.append(html);
+                }));
             } else {
                 html = `<div class="content-wrap-inner lines-horizontal">`;
                 if (files.get(target).length == 0) {
@@ -358,7 +352,7 @@ function setEditing($parent, target) {
     }
 
     let $slick = $container.find('.slick');
-    if($slick.length > 0) {
+    if ($slick.length > 0) {
         $slick.setCustomSlick(isMobile(), {
             infinite: false,
             autoplay: false,
@@ -409,62 +403,15 @@ function setView($parent, target) {
         let html;
         switch (target) {
             case 'main' :
-            case 'relation' : {
-                html = getSlickHtml(target, (file_id, extra) => {
-                    const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
-                    if (!extra || extra.type == 'image') {
-                        return `
-                        <div class="slick-item button"
-                             style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                             onclick="openImagePopup(${file_id})">
-                            <div class="size-text">${extra['width']}X${extra['height']}</div>
-                            Slider #${file_id}
-                        </div>`;
-                    } else {
-                        return `
-                        <div class="slick-item button">
-                            <div class="size-text">${extra['width']}X${extra['height']}</div>
-                            <video preload="metadata">
-                                <source src="${file_url}">
-                            </video>
-                        </div>`;
-                    }
-                });
-                $container.append(html);
-            }
+            case 'relation' :
+                $container.append(getSlickHtml(target, getMediaSlickItemHtml(target)));
                 break;
-            case 'project': {
-                const language = getCookie('lang');
-                html = getSlickHtml(target, (file_id, extra) => {
-                    return `
-                    <div class="slick-item">
-                        <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
-                        <div class="text-item-wrap">
-                            <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
-                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                            <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
-                        </div>
-                    </div>`;
-                });
-                $container.append(html);
-            }
+            case 'project':
+                $container.append(getSlickHtml(target, getProjectSlickItemHtml(target)));
                 break;
             default:
-                if (artist_codes.indexOf(target) >= 0) {
-                    const language = getCookie('lang');
-                    html = getSlickHtml(target, (file_id, extra) => {
-                        return `
-                        <div class="slick-item">
-                            <div class="image-item-wrap">
-                                <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            </div>
-                            <div class="text-item-wrap">
-                            <p class="item-title">${language == 'ko' ? extra['name'] : extra['name_en']}</p>
-                            <p class="item-content">${language == 'ko' ? extra['job'] : extra['job_en']}</p>
-                            </div>
-                        </div>`;
-                    });
-                    $container.append(html);
+                if (projectCodes.indexOf(target) >= 0) {
+                    $container.append(getSlickHtml(target, getProjectSlickItemHtml(target)));
                 } else {
                     html = `<div class="content-wrap-inner lines-horizontal">`
                     for (let i in files.get(target)) {
@@ -493,7 +440,7 @@ function setView($parent, target) {
     }
 
     let $slick = $container.find('.slick');
-    if($slick.length > 0) {
+    if ($slick.length > 0) {
         $slick.setCustomSlick(isMobile(), {
             infinite: false,
             autoplay: false,
@@ -533,6 +480,29 @@ function refreshSetting() {
 
 // override
 
+function searchProject(target, page = 1) {
+    let searchTarget = target == 'project' ? 'all' : target;
+    const assignCheckFieldName = searchTarget == 'all'? 'is_posted_popular' : 'is_posted';
+    apiRequest({
+        type: 'GET',
+        url: `/api/project/${searchTarget}?page=${page}`,
+        dataType: 'json',
+        success: async function (response, status, request) {
+            if (!response.success) {
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+            let data = response.data
+            openProjectSearchPopup(target, data.array, data.pagination, assignCheckFieldName)
+        },
+        error: function (response, status, error) {
+            openPopupErrors('popup-error', response, status, error);
+        },
+    });
+}
+
+// override
+
 function confirmProjectSearch(className, target) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
     const id = data[target]
@@ -558,23 +528,8 @@ function confirmProjectSearch(className, target) {
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {
-                    const language = getCookie('lang');
                     let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index, `
-                <div class="slick-item draggable-item upload-item" draggable="true">
-                    <div class="image-item-wrap"><div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
-                    <div class="text-item-wrap">
-                        <p class="item-title">${language == 'ko' ? data['title'] : data['title_en']}</p>
-                        <p class="item-date">${toDateString(data['start_date'])} ~ ${toDateString(data['end_date'])}</p>
-                        <p class="item-content">${language == 'ko' ? data['content'] : data['content_en']}</p>
-                    </div>
-                    <div class="upload-item-hover">
-                        <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
-                           class="button delete-image black">
-                            <img src="/asset/images/icon/cancel_white.png"/>
-                        </a>
-                    </div>
-                </div>`);
+                    $uploader.addCustomSlickItem(index, getProjectSlickItemHtml(true)(data.id, data));
 
                     $uploader.initDraggable({
                         onDragFinished: generateOnDragFinished(target),
@@ -588,73 +543,6 @@ function confirmProjectSearch(className, target) {
         closePopup(className);
     } else {
         openPopupMessage(lang('message_item_select'))
-    }
-}
-
-// override
-function confirmArtistSearch(className, target) {
-    let data = parseInputToData($(`.${className} input, .${className} textarea`))
-    const id = data[target]
-    if (id) {
-        if (files.get(target).indexOf(id) >= 0) {
-            openPopupMessage(lang('message_item_already_selected'))
-            return;
-        }
-        files.push(target, id);
-        apiRequest({
-            type: 'GET',
-            url: `/api/artist/get/${id}`,
-            data: data,
-            dataType: 'json',
-            success: function (response, status, request) {
-                if (!response.success) {
-                    openPopupErrors('popup-error', response, status, request);
-                    return;
-                }
-
-                const data = response.data
-                let file_url = `/file/${data['profile_id']}`
-                let $uploader = $(`.uploader.${target}`);
-
-                if ($uploader.attr('class').includes('slick')) {
-                    const language = getCookie('lang');
-                    let index = $uploader.attr('total') - 1;
-                    $uploader.addCustomSlickItem(index, `
-                <div class="slick-item draggable-item upload-item" draggable="true">
-                    <div class="image-item-wrap"><div class="image-item" style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
-                    <div class="text-item-wrap">
-                        <p class="item-title">${language == 'ko' ? data['name'] : data['name_en']}</p>
-                        <p class="item-content">${language == 'ko' ? data['job'] : data['job_en']}</p>
-                    </div>
-                    <div class="upload-item-hover">
-                        <a href="javascript:deleteUploadedSlickFile('${target}', '${id}')"
-                           class="button delete-image black">
-                            <img src="/asset/images/icon/cancel_white.png"/>
-                        </a>
-                    </div>
-                </div>`);
-
-                    $uploader.initDraggable({
-                        onDragFinished: generateOnDragFinished(target),
-                    });
-                }
-            },
-            error: function (response, status, error) {
-                openPopupErrors('popup-error', response, status, error);
-            },
-        });
-        closePopup(className);
-    } else {
-        openPopupMessage(lang('message_item_select'))
-    }
-}
-
-function onMembershipInputValueChanged(element) {
-    let $button = $(`#page-last .button-wrap .button`);
-    if (!element.checked) {
-        $button.addClass('disabled');
-    } else {
-        $button.removeClass('disabled');
     }
 }
 
@@ -687,38 +575,6 @@ function onSettingChanged(element, code) {
             openPopupErrors('popup-error', response, status, error);
         },
     });
-}
-
-function getSlickItemHtml(file_id, extra) {
-    const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
-    if (!extra || extra.type == 'image') {
-        return `
-            <div class="slick-item draggable-item upload-item" draggable="true"
-                 style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
-                Slider #${file_id}
-                <input hidden type="text" name="id" value="${file_id}">
-                <div class="upload-item-hover">
-                    <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                       class="button delete-image black">
-                        <img src="/asset/images/icon/cancel_white.png"/>
-                    </a>
-                </div>
-            </div>`;
-    } else {
-        return `
-            <div class="slick-item draggable-item upload-item" draggable="true">
-                <video preload="metadata">
-                    <source src="${file_url}">
-                </video>
-                <input hidden type="text" name="id" value="${file_id}">
-                <div class="upload-item-hover">
-                    <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                       class="button delete-image black">
-                        <img src="/asset/images/icon/cancel_white.png"/>
-                    </a>
-                </div>
-            </div>`;
-    }
 }
 
 function getSlickHtml(target, getSlickItemHtml, getAdditionalHtml = null) {

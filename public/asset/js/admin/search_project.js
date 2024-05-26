@@ -3,7 +3,7 @@
 function searchProject(target, page = 1) {
     apiRequest({
         type: 'GET',
-        url: `/api/project?page=${page}`,
+        url: `/api/project/all?page=${page}`,
         dataType: 'json',
         success: async function (response, status, request) {
             if (!response.success) {
@@ -33,7 +33,7 @@ function onSearchProjectSelected(className, target, id) {
     $parent.find(`.item-${id}`).addClass('selected')
 }
 
-async function openProjectSearchPopup(target, array, pagination) {
+async function openProjectSearchPopup(target, array, pagination, assignCheckFieldName = null) {
     let className = `popup-${target}-search`;
     const language = getCookie('lang')
 
@@ -63,15 +63,15 @@ async function openProjectSearchPopup(target, array, pagination) {
         if (start == 1) {
             html += `<span class="button disabled"><a href="#" onclick="return false"></a></span>`;
         } else {
-            html += `<span class="button left"><a href="javascript:searchArtist('${target}', ${start - 5})"></a></span>`;
+            html += `<span class="button left"><a href="javascript:searchProject('${target}', ${start - 5})"></a></span>`;
         }
         for (let i = start; i <= end; ++i) {
-            html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:searchArtist('${target}', ${i})">${i}</a></span>`;
+            html += `<span class="number ${i == page ? 'now' : ''}"><a href="javascript:searchProject('${target}', ${i})">${i}</a></span>`;
         }
         if (total_page == end) {
             html += `<span class="button disabled"><a href="#" onClick="return false"></a></span>`;
         } else {
-            html += `<span class="button left"><a href="javascript:searchArtist('${target}', ${start - 5})"></a></span>`;
+            html += `<span class="button left"><a href="javascript:searchProject('${target}', ${start - 5})"></a></span>`;
         }
         html += `</div>`;
         $parent.prepend(html);
@@ -94,15 +94,17 @@ async function openProjectSearchPopup(target, array, pagination) {
                     <div class="row">
                         <span class="column status">${lang('status')}</span>
                         <span class="column title">${lang('title')}</span>
+                        ${assignCheckFieldName ? `<span class="column assigned"></span>` : ''}
                     </div>
                 </div>
                 <ul>`
             for (let item of array) {
                 html += `
                 <li class="row">
-                    <a class="button row-button item-${item['id']}" href="javascript:onSearchProjectSelected('${className}', '${target}', ${item['id']});">
+                    <a class="button row-button item-${item['id']} ${(assignCheckFieldName && item[assignCheckFieldName] == 1)? 'assigned' : ''}" href="javascript:onSearchProjectSelected('${className}', '${target}', ${item['id']});">
                         <span class="column status">${item['status']}</span>
                         <span class="column title">${language == 'ko' ? item['title'] : item['title_en']}</span>
+                        ${assignCheckFieldName ? `<span class="column assigned">${item[assignCheckFieldName] == 1 ? lang('assigned') : ''}</span>` : ''}
                     </a>
                 </li>`
             }
@@ -126,9 +128,9 @@ async function openProjectSearchPopup(target, array, pagination) {
         return html;
     }
 
-    $parent = $(`.${className}`);
+    const $parent = $(`.${className}`);
     if ($parent.length > 0) {
-        $container = $parent.find('.popup-inner-wrap');
+        const $container = $parent.find('.popup-inner-wrap');
         $container.empty();
         $container.append(getHtml());
         addPagination($parent.find('.control-button-wrap'), pagination)

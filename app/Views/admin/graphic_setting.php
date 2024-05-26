@@ -13,24 +13,29 @@ $identifier = $shortid->generate();
     'message_item_already_selected',
     'message_item_select',
     'search_artist',
+    'assigned',
 ]);
 ?>
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
-    let artist_codes = []
+    let projectCodes = []
     <?php if (isset($data)) {
     foreach ($data as $key => $graphic_setting) {
-    if($key == 'artists') {
-    foreach ($data['artists'] as $code => $items) { ?>
-    artist_codes.push(`<?=$code?>`)
+    if($key == 'project_by_code') {
+    foreach ($data['project_by_code'] as $code => $project_data) { ?>
+    projectCodes.push(`<?=$code?>`)
     files.checkEmpty(`<?=$code?>`)
-    <?php foreach ($items as $index => $item) { ?>
+    <?php foreach ($project_data['array'] as $index => $item) { ?>
     files.push(`<?=$code?>`, `<?=$item['id']?>`, {
-        profile_id: <?=$item['profile_id']?>,
-        name: `<?=$item['name']?>`,
-        name_en: `<?=$item['name_en']?>`,
-        job: `<?=$item['job']?>`,
-        job_en: `<?=$item['job_en']?>`,
+        <?php if(isset($item['project_image_id'])) {?>
+        project_image_id: <?=$item['project_image_id']?>,
+        <?php } ?>
+        title: `<?=$item['title']?>`,
+        title_en: `<?=$item['title_en']?>`,
+        start_date: `<?=$item['start_date']?>`,
+        end_date: `<?=$item['end_date']?>`,
+        content: `<?=$item['content']?>`,
+        content_en: `<?=$item['content_en']?>`,
     });
     <?php }
     }
@@ -135,10 +140,10 @@ $identifier = $shortid->generate();
                 <p class="input-title"><?= lang('Service.show_main') ?></p>
             </div>
         </div>
-        <?php foreach ($data['artists'] as $code => $items) { ?>
+        <?php foreach ($data['project_by_code'] as $code => $project_data) { ?>
             <div class="content-box item-selector <?= $code ?>">
                 <h4 class="page-sub-title">
-                    <?= lang($code) ?>
+                    <?= $lang == 'ko' ? $project_data['code']['name'] : $project_data['code']['name_en'] ?>
                 </h4>
                 <div class="input-wrap inline">
                     <input type="checkbox"
@@ -147,8 +152,8 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('Service.show_main') ?></p>
                 </div>
                 <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 372)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getArtistSlick($items, 'profile_id', $lang); ?>
+                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($project_data['array'] ?? null, 398)) { ?>
+                        <?= \App\Helpers\HtmlHelper::getProjectSlick($project_data['array'], 'project_image_id', $lang); ?>
                     <?php } ?>
                 </div>
                 <div class="control-button-wrap">

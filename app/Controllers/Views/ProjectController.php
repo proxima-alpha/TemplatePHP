@@ -85,6 +85,32 @@ class ProjectController extends BaseClientController
     }
 
     /**
+     * /project/category/{code}
+     * @param $code
+     * @return string
+     */
+    public function getCategory($code): string
+    {
+        $data = $this->getViewData();
+        try {
+            $code = $this->codeProjectModel->findByCode($code);
+            $data['code'] = $code;
+            $data['array'] = $this->projectModel->get(['code_project_id' => $code['id'], 'is_deleted' => 0]);
+        } catch (Exception $e) {
+            //todo(log)
+            $this->handleException($e);
+        }
+        return parent::loadHeader([
+                'css' => [
+                    '/client/artist'
+                ],
+                'js' => [],
+            ])
+            . view('/client/project/category', $data)
+            . parent::loadFooter();
+    }
+
+    /**
      * /project/{id}/reward
      * @param $reward_id
      * @return string

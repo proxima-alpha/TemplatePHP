@@ -13,10 +13,6 @@
 }
 
 .item-selector .slider-box .slider-wrap .slick-item {
-    height: 322px;
-}
-
-.item-selector.project .slider-box .slider-wrap .slick-item {
     height: 348px;
 }
 

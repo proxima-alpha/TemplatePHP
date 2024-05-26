@@ -5,12 +5,10 @@ namespace Views\Admin;
 use App\Helpers\Utils;
 use Exception;
 use Models\ArtistModel;
-use Models\CodeArtistModel;
 use Models\CustomFileModel;
 
 class ArtistController extends BaseAdminController
 {
-    protected CodeArtistModel $codeArtistModel;
     protected ArtistModel $artistModel;
     protected CustomFileModel $customFileModel;
 
@@ -19,7 +17,6 @@ class ArtistController extends BaseAdminController
         parent::__construct();
         $this->isRestricted = true;
         $this->artistModel = model('Models\ArtistModel');
-        $this->codeArtistModel = model('Models\CodeArtistModel');
         $this->customFileModel = model('Models\CustomFileModel');
     }
 
@@ -104,8 +101,6 @@ class ArtistController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $codes = $this->codeArtistModel->get();
-            $data['code_artists'] = $codes;
             $data = array_merge($data, $this->getArtistData($id));
             $data = array_merge($data, [
                 'type' => 'edit'
@@ -143,8 +138,6 @@ class ArtistController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
-            $codes = $this->codeArtistModel->get();
-            $data['code_artists'] = $codes;
             $data = array_merge($data, [
                 'type' => 'create'
             ]);

@@ -74,4 +74,4 @@ model('Models\BoardModel')->initialize();
 model('Models\UserModel')->initialize();
 model('Models\SettingModel')->initialize();
 model('Models\CodeRewardRequestModel')->initialize();
-model('Models\CodeArtistModel')->initialize();
+model('Models\CodeProjectModel')->initialize();

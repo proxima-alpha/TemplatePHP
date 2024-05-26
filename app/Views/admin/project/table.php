@@ -17,6 +17,7 @@
                 if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
+                            <span class="column category"><?= lang('Service.category') ?></span>
                             <span class="column status"><?= lang('Service.status') ?></span>
                             <span class="column title"><?= lang('Service.title') ?></span>
                             <span class="column start-date"><?= lang('Service.start_date') ?></span>
@@ -28,6 +29,7 @@
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
                                 <a href="/admin/project/<?= $item['id'] ?>/view" class="button row-button">
+                                    <span class="column category"><?= $lang == 'ko' ? $item['code_project'] : $item['code_project_en'] ?></span>
                                     <span class="column status"><?= $item['status'] ?></span>
                                     <span class="column title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></span>
                                     <span class="column start-date"><?= \App\Helpers\HtmlHelper::toDateString($item['start_date']) ?></span>

@@ -3,7 +3,7 @@ return [
 
     //main
     "menu_purchase_list" => "Orders",
-    "menu_artist_list" => "Artist Categories",
+    "menu_project_list" => "Project Categories",
     "menu_user_guide" => "How it works",
     "menu_inquiry" => "Inquiry",
     "show_detail" => "Show detail",

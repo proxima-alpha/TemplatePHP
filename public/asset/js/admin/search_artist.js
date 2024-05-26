@@ -96,8 +96,8 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
             <div class="table-wrap">
                 <div class="row-title">
                     <div class="row">
-                        <span class="column code">${lang('category')}</span>
                         <span class="column name">${lang('name')}</span>
+                        <span class="column job">${lang('job')}</span>
                     </div>
                 </div>
                 <ul>`
@@ -105,8 +105,8 @@ async function openArtistSearchPopup(target, isFiltered, array, pagination) {
                 html += `
                 <li class="row">
                     <a class="button row-button item-${item['id']}" href="javascript:onSearchArtistSelected('${className}', '${target}', ${item['id']});">
-                        <span class="column code">${language == 'ko' ? item['code_artist'] : item['code_artist_en']}</span>
                         <span class="column name">${language == 'ko' ? item['name'] : item['name_en']}</span>
+                        <span class="column job">${language == 'ko' ? item['job'] : item['job_en']}</span>
                     </a>
                 </li>`
             }

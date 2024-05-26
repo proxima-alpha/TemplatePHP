@@ -102,7 +102,7 @@ return [
     "limited_count" => "Limited Count",
     "remaining_count" => "Remaining Count",
 
-    "artist_code" => "Artist Category",
+    "project_code" => "Project Category",
     "reward_request_code" => "Reward Request Category",
     "category" => "Category",
     "opened" => "Opened",
@@ -156,6 +156,7 @@ return [
     "total_amount" => "Total Purchased Amount",
     "total_purchased_count" => "Total Purchased Count",
     "total_stock_count" => "Total Stock Count",
+    "assigned"=>"Assigned",
 
     "filter_start_date" => "Start Date",
     "filter_end_date" => "End Date",

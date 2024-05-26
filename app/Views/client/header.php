@@ -79,13 +79,13 @@ $open_graph_url = isset($logos['open_graph']) ? "/file/{$logos['open_graph']['id
             <ul class="gnb cf">
                 <li>
                     <a <?= "onclick=\"clickClientNavigation(this, '#')\"" ?>class="button gnb-menu">
-                        <?= lang('Client.menu_artist_list') ?>
+                        <?= lang('Client.menu_project_list') ?>
                     </a>
                     <ul class="lnb">
-                        <?php foreach ($artists as $index => $item) { ?>
+                        <?php foreach ($code_project as $index => $item) { ?>
                             <li>
-                                <a <?= "onclick=\"clickClientNavigation(this, '/artist/" . $item['code'] . "')\"" ?>
-                                    href="/artist/<?= $item['code'] ?>"
+                                <a <?= "onclick=\"clickClientNavigation(this, '/project/category/" . $item['code'] . "')\"" ?>
+                                    href="/project/category/<?= $item['code'] ?>"
                                     class="button lnb-menu">
                                     <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
                                 </a>

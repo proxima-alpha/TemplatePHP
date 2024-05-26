@@ -95,13 +95,13 @@ use App\Helpers\HtmlHelper;
                 <?php } ?>
             </div>
         <?php }
-        foreach ($data['artists'] as $code => $codeItem) {
+        foreach ($data['project_by_code'] as $code => $codeItem) {
             if ($data_settings['main-show-' . $code] == 1) { ?>
                 <div class="content-box artists <?= $code ?>">
                     <h4 class="page-sub-title">
                         <?= $lang == 'ko' ? $codeItem['code']['name'] : $codeItem['code']['name_en'] ?>
                     </h4>
-                    <?php if (HtmlHelper::showDataEmpty($codeItem['items'] ?? null, 340)) { ?>
+                    <?php if (HtmlHelper::showDataEmpty($codeItem['array'] ?? null, 368)) { ?>
                         <div class="scroll-control-button-wrap">
                             <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
                                 <img src="/asset/images/icon/button_left.png"/>
@@ -111,18 +111,26 @@ use App\Helpers\HtmlHelper;
                             </a>
                         </div>
                         <div class="content-wrap scroll-horizontal-wrap">
-                            <div class="content-wrap-inner" style="width: <?= (sizeof($codeItem['items']) * 240) ?>px;">
-                                <?php foreach ($codeItem['items'] as $index => $item) {
-                                    $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg'; ?>
+                            <div class="content-wrap-inner"
+                                 style="width: <?= (sizeof($codeItem['array']) * 240) ?>px;">
+                                <?php foreach ($codeItem['array'] as $index => $item) {
+                                    $url = isset($item['project_image_id']) ? '/file/' . $item['project_image_id'] : '/asset/images/custom/object.svg'; ?>
                                     <div class="content-item">
-                                        <div class="image-item-wrap">
-                                            <div class="image-item"
-                                                 style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
-                                        </div>
-                                        <div class="text-item-wrap">
-                                            <p class="item-title"><?= $lang == 'ko' ? $item['name'] :
-                                                    $item['name_en'] ?></p>
-                                        </div>
+                                        <a href="/project/<?= $item['id'] ?>/view">
+                                            <div class="image-item-wrap">
+                                                <div class="image-item"
+                                                     style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
+                                            </div>
+                                            <div class="text-item-wrap">
+                                                <p class="item-title"><?= $lang == 'ko' ? $item['title'] :
+                                                        $item['title_en'] ?></p>
+                                                <p class="item-date"><?= (HtmlHelper::toDateString($item['start_date'])
+                                                        . ' ~'
+                                                        . HtmlHelper::toDateString($item['end_date'])) ?></p>
+                                                <p class="item-content"><?= $lang == 'ko' ? $item['content'] :
+                                                        $item['content_en'] ?></p>
+                                            </div>
+                                        </a>
                                     </div>
                                 <?php } ?>
                             </div>

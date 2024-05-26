@@ -8,19 +8,19 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\ArtistModel;
 use Models\BaseModel;
-use Models\CodeArtistModel;
+use Models\CodeProjectModel;
 use Models\CustomFileModel;
 
 class ArtistController extends CustomFileController
 {
-    protected CodeArtistModel $codeArtistModel;
+    protected CodeProjectModel $codeProjectModel;
     protected ArtistModel $artistModel;
     protected CustomFileModel $customFileModel;
 
     public function __construct()
     {
         $this->db = db_connect();
-        $this->codeArtistModel = model('Models\CodeArtistModel');
+        $this->codeProjectModel = model('Models\CodeProjectModel');
         $this->artistModel = model('Models\ArtistModel');
         $this->customFileModel = model('Models\CustomFileModel');
     }
@@ -93,10 +93,6 @@ class ArtistController extends CustomFileController
         $this->checkAdmin();
         $data = $this->request->getPost();
         $validationRules = [
-            'code_artist_id' => [
-                'label' => 'Code Artist',
-                'rules' => 'required',
-            ],
             'name' => [
                 'label' => 'Name',
                 'rules' => 'required|min_length[1]',
@@ -240,49 +236,4 @@ class ArtistController extends CustomFileController
         return $this->typicallyUpdate($this->artistModel, $id, $body);
     }
 
-    /**
-     * /api/artist/post/{code}
-     * @param $code
-     * @return ResponseInterface
-     */
-    public function post($code): ResponseInterface
-    {
-        $data = $this->request->getPost();
-        if (!isset($data['artists'])) {
-            $data['artists'] = [];
-        }
-        $response = [
-            'success' => false,
-        ];
-        try {
-            $queries = [];
-            $selectorQuery = '';
-            $prefix = '';
-            foreach ($data['artists'] as $index => $artist_id) {
-                // priority 를 설정 해 준다
-                $query = "UPDATE artist
-                        LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id
-                        SET artist.is_posted = 1, artist.priority = " . ($index + 1) . "
-                        WHERE code_artist.code = '" . $code . "' AND artist.id = " . $artist_id;
-                $queries[] = $query;
-                $selectorQuery .= $prefix . $artist_id;
-                $prefix = ',';
-            }
-            $conditionQuery = '';
-            if ($selectorQuery != '') {
-                $conditionQuery = " AND artist.id NOT IN(" . $selectorQuery . ")";
-            }
-            $queries[] = "UPDATE artist
-                        LEFT JOIN code_artist ON code_artist.id = artist.code_artist_id
-                        SET artist.is_posted = 0 
-                        WHERE code_artist.code = '" . $code . "'" . $conditionQuery;
-
-            BaseModel::transaction($this->db, $queries);
-            $response['success'] = true;
-        } catch (Exception $e) {
-            //todo(log)
-            $response['message'] = $e->getMessage();
-        }
-        return $this->response->setJSON($response);
-    }
 }

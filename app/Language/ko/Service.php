@@ -102,7 +102,7 @@ return [
     "limited_count" => "한정 수량",
     "remaining_count" => "남은 수량",
 
-    "artist_code" => "아티스트 분류",
+    "project_code" => "프로젝트 분류",
     "reward_request_code" => "요청사항 분류",
     "category" => "분류",
     "opened" => "공개",
@@ -153,6 +153,7 @@ return [
     "total_amount" => "총 주문 금액",
     "total_purchased_count" => "총 판매 수량",
     "total_stock_count" => "총 재고량",
+    "assigned"=>"할당됨",
 
     "filter_start_date" => "시작일",
     "filter_end_date" => "종료일",

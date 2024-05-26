@@ -5,12 +5,14 @@ namespace Views\Admin;
 use App\Helpers\Utils;
 use Exception;
 use Models\ArtistGroupModel;
+use Models\CodeProjectModel;
 use Models\ProjectModel;
 use Models\RewardModel;
 
 class ProjectController extends BaseAdminController
 {
     protected ProjectModel $projectModel;
+    protected CodeProjectModel $codeProjectModel;
     protected RewardModel $rewardModel;
     protected ArtistGroupModel $artistGroupModel;
 
@@ -19,6 +21,7 @@ class ProjectController extends BaseAdminController
         parent::__construct();
         $this->isRestricted = true;
         $this->projectModel = model('Models\ProjectModel');
+        $this->codeProjectModel = model('Models\CodeProjectModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->artistGroupModel = model('Models\ArtistGroupModel');
     }
@@ -104,6 +107,8 @@ class ProjectController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
+            $codes = $this->codeProjectModel->get();
+            $data['code_project'] = $codes;
             $data = array_merge($data, $this->getProjectData($id));
             $data = array_merge($data, [
                 'type' => 'edit'
@@ -145,6 +150,8 @@ class ProjectController extends BaseAdminController
     {
         $data = $this->getViewData();
         try {
+            $codes = $this->codeProjectModel->get();
+            $data['code_project'] = $codes;
             $data = array_merge($data, [
                 'type' => 'create'
             ]);

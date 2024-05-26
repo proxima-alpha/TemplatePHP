@@ -29,20 +29,6 @@ $identifier = $shortid->generate();
         <div class="artist-wrap">
             <div class="form-wrap line-after">
                 <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
-                <div class="input-wrap inline">
-                    <p class="input-title"><?= lang('Service.type') ?></p>
-                    <select class="editable" name="code_artist_id" value="<?= $code_artist_id ?? '' ?>">`
-                        <?php
-                        if (isset($code_artists)) {
-                            foreach ($code_artists as $item) { ?>
-                                <option value="<?= $item['id'] ?>"
-                                    <?= isset($code_artist_id) && $item['id'] == $code_artist_id ? 'selected' : '' ?>>
-                                    <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
-                                </option>
-                            <?php }
-                        } ?>
-                    </select>
-                </div>
                 <div class="tab-box">
                     <div class="tab-button-wrap">
                         <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>

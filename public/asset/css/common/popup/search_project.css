@@ -1,8 +1,17 @@
 
+.table-wrap .column.assigned {
+    width: 20%;
+    text-align: right;
+}
+
 .table-wrap .column.status {
     width: 30%;
 }
 
 .table-wrap .column.title {
-    width: 70%;
+    width: 50%;
+}
+
+.button.assigned {
+    user-select: none;
 }

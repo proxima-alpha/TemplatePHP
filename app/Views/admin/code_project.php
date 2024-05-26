@@ -4,7 +4,7 @@
 <div class="container-inner code-artist code">
     <div class="container-wrap">
         <h4 class="page-sub-title">
-            <?= lang('Service.artist_code') ?>
+            <?= lang('Service.project_code') ?>
         </h4>
         <div class="info-text-wrap">
             <?= lang('Service.message_info_drag') ?>
@@ -51,16 +51,16 @@
      */
     initializeInputPopup({
         getGetUrl: function (id) {
-            return `/api/code/artist/get/${id}`
+            return `/api/code/project/get/${id}`
         },
         getCreateUrl: function () {
-            return `/api/code/artist/create`
+            return `/api/code/project/create`
         },
         getUpdateUrl: function (id) {
-            return `/api/code/artist/update/${id}`
+            return `/api/code/project/update/${id}`
         },
         getDeleteUrl: function (id) {
-            return `/api/code/artist/delete/${id}`
+            return `/api/code/project/delete/${id}`
         },
         getHtml: function (data) {
             const typeSet = {
@@ -102,7 +102,7 @@
                 let isSuccess = false;
                 await apiRequest({
                     type: 'GET',
-                    url: `/api/code/artist/exchange-priority/${fromValue}/${toValue}`,
+                    url: `/api/code/project/exchange-priority/${fromValue}/${toValue}`,
                     dataType: 'json',
                     success: function (response, status, request) {
                         if (!response.success) return;
