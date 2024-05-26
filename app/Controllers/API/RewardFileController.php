@@ -8,20 +8,20 @@ use Exception;
 use getID3;
 use InvalidArgumentException;
 use Models\BaseModel;
-use Models\PurchaseItemModel;
+use Models\PurchaseItemRewardModel;
 use Models\RewardFileModel;
 
 class RewardFileController extends BaseApiController
 {
 
     protected RewardFileModel $rewardFileModel;
-    protected PurchaseItemModel $purchaseItemModel;
+    protected PurchaseItemRewardModel $purchaseItemRewardModel;
 
     public function __construct()
     {
         $this->db = db_connect();
         $this->rewardFileModel = model('Models\RewardFileModel');
-        $this->purchaseItemModel = model('Models\PurchaseItemModel');
+        $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
     }
 
     /**
@@ -45,7 +45,7 @@ class RewardFileController extends BaseApiController
             if ($validationRules) {
                 $shortid = ShortId::create();
                 $file = $this->request->getFile('file');
-                $previousFile = $this->rewardFileModel->getLatest(['purchase_item_id' => $purchaseItemId]);
+                $previousFile = $this->rewardFileModel->getLatest(['purchase_item_reward_id' => $purchaseItemId]);
 
 //                if (!$file->isValid()) {
 //                    throw new \RuntimeException($file->getErrorString() . '(' . $file->getError() . ')');
@@ -88,7 +88,7 @@ class RewardFileController extends BaseApiController
                 }
 
                 $data = [
-                    'purchase_item_id' => $purchaseItemId,
+                    'purchase_item_reward_id' => $purchaseItemId,
                     'type' => $uploadedType,
                     'file_name' => $file_name,
                     'relative_path' => '/' . $symbolic_path . '/' . $file_name,
@@ -103,7 +103,7 @@ class RewardFileController extends BaseApiController
                     $data['target'] = $target;
                 }
                 $this->db->transBegin();
-                $this->purchaseItemModel->update($purchaseItemId, ['status' => 'waiting']);
+                $this->purchaseItemRewardModel->update($purchaseItemId, ['status' => 'waiting']);
                 $inserted_row_id = $this->rewardFileModel->insert($data);
                 if (!$inserted_row_id) {
                     $response['messages'] = $this->rewardFileModel->errors();

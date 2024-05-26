@@ -32,7 +32,7 @@ function onRewardFileUpload(
 function confirmReward(id) {
     apiRequest({
         type: 'POST',
-        url: `/api/purchase-item/confirm/${id}`,
+        url: `/api/purchase-item-reward/confirm/${id}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {

@@ -5,6 +5,7 @@ namespace Views\Admin;
 use Exception;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
+use Models\PurchaseItemRewardModel;
 use Models\RewardModel;
 
 /**
@@ -15,6 +16,7 @@ class ProjectRewardController extends BaseAdminController
     protected ProjectModel $projectModel;
     protected RewardModel $rewardModel;
     protected PurchaseItemModel $purchaseItemModel;
+    protected PurchaseItemRewardModel $purchaseItemRewardModel;
 
     public function __construct()
     {
@@ -22,6 +24,7 @@ class ProjectRewardController extends BaseAdminController
         $this->projectModel = model('Models\ProjectModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
+        $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
     }
 
     /**
@@ -84,7 +87,7 @@ class ProjectRewardController extends BaseAdminController
             ]);
             if (sizeof($rewards) != 1) throw new Exception('deleted');
             $reward = $rewards[0];
-            $result = $this->purchaseItemModel->getPaginated([
+            $result = $this->purchaseItemRewardModel->getPaginated([
                 'per_page' => 10,
                 'page' => $page,
             ], [

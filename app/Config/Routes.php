@@ -187,8 +187,10 @@ $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseControlle
 
 $routes->get('/api/purchase-item/get/' . $ID_RULE, [\API\PurchaseItemController::class, 'get']);
 $routes->post('/api/purchase-item/update/' . $ID_RULE, [\API\PurchaseItemController::class, 'update']);
-$routes->post('/api/purchase-item/confirm/' . $ID_RULE, [\API\PurchaseItemController::class, 'confirm']);
 $routes->delete('/api/purchase-item/refund/' . $ID_RULE, [\API\PurchaseItemController::class, 'refund']);
+$routes->post('/api/purchase-item-reward/confirm/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'confirm']);
+$routes->get('/api/purchase-item-reward/get/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'get']);
+$routes->post('/api/purchase-item-reward/update/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'update']);
 $routes->post('/api/reward-file/upload/' . $ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
 
 $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);

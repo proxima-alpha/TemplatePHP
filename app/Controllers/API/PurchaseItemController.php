@@ -7,17 +7,20 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\BaseModel;
 use Models\PurchaseItemModel;
+use Models\PurchaseItemRewardModel;
 use Models\PurchaseModel;
 
 class PurchaseItemController extends BaseApiController
 {
     protected PurchaseItemModel $purchaseItemModel;
+    protected PurchaseItemRewardModel $purchaseItemRewardModel;
     protected PurchaseModel $purchaseModel;
 
     public function __construct()
     {
         $this->db = db_connect();
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
+        $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
         $this->purchaseModel = model('Models\PurchaseModel');
     }
 
@@ -42,27 +45,6 @@ class PurchaseItemController extends BaseApiController
         $data = $this->request->getPost();
         return $this->typicallyUpdate($this->purchaseItemModel, $id, [
             'memo' => $data['memo']
-        ]);
-    }
-
-    /**
-     * [post] /api/purchase-item/confirm/{id}
-     * @param $id
-     * @return ResponseInterface
-     */
-    public function confirm($id): ResponseInterface
-    {
-        $this->checkAdmin();
-
-        $purchaseItem = $this->purchaseItemModel->find($id);
-        if ($purchaseItem['status'] != 'waiting') {
-            return $this->response->setJSON([
-                'success' => false,
-                'message' => 'Invalid action.'
-            ]);
-        }
-        return $this->typicallyUpdate($this->purchaseItemModel, $id, [
-            'status' => 'confirmed'
         ]);
     }
 

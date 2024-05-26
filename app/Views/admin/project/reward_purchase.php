@@ -33,6 +33,10 @@
                             <div class="purchase-item-wrap">
                                 <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
                                     <div class="text-wrap">
+                                        <p class="title"><?= lang('Service.artist') ?></p>
+                                        <p class="content"><?= $lang == 'ko' ? $item['artist_name'] : $item['artist_name_en'] ?></p>
+                                    </div>
+                                    <div class="text-wrap">
                                         <p class="title"><?= lang('Client.reward_reaction') ?></p>
                                         <p class="content"><?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?></p>
                                     </div>
@@ -85,7 +89,7 @@
                                 <?php } else { ?>
                                     <div class="uploader finished">
                                         <div class="upload-item-add"
-                                             style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
+                                             style="background: url('/asset/images/icon/check_circle.svg') no-repeat center / 60%; font-size: 0;">
                                             <p><?= lang('Service.downloaded') ?></p>
                                         </div>
                                         <?php if (isset($item['reward_file_id'])) { ?>
@@ -132,10 +136,10 @@
      */
     initializeInputPopup({
         getGetUrl: function (id) {
-            return `/api/purchase-item/get/${id}`
+            return `/api/purchase-item-reward/get/${id}`
         },
         getUpdateUrl: function (id) {
-            return `/api/purchase-item/update/${id}`
+            return `/api/purchase-item-reward/update/${id}`
         },
         getHtml: function (data) {
             let typeSet = {
@@ -172,13 +176,17 @@
             let keys = Object.keys(typeSet);
             let html = ``;
 
-            <?php if(isset($item)) {?>
+            const language = getCookie('lang')
             html += `
             <div class="input-wrap inline" style="position: relative;">
-                <p class="input-title"><?=lang('Client.reward_reaction')?></p>
-                <input type="text" name="link" class="under-line" readonly value="<?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?>">
+                <p class="input-title"><?=lang('Service.artist')?></p>
+                <input type="text" name="artist" class="under-line" readonly value="${(language == 'ko'? data['artist_name']: data['artist_name_en']) ?? ""}">
             </div>`
-            <?php } ?>
+            html += `
+            <div class="input-wrap inline" style="position: relative;">
+                <p class="input-title"><?=lang('Service.artist')?></p>
+                <input type="text" name="reward_request" class="under-line" readonly value="${language == 'ko'? data['reward_request_name']: data['reward_request_name_en']}">
+            </div>`
 
             for (let i in keys) {
                 let key = keys[i];
