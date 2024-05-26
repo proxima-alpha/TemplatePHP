@@ -159,7 +159,7 @@ final class HtmlHelper
         }
     }
 
-    public static function getImageUploader($key, $file_id, $view_mode = 'input'): string
+    public static function getSingleMediaUploader($key, $file_id, $view_mode = 'input'): string
     {
         $html = '<div class="uploader image ' . $key . '">';
         if ($view_mode == 'input') {
@@ -167,6 +167,7 @@ final class HtmlHelper
                 $html .=
                     '<div class="upload-item"
                          style="background: url(\'/file/' . $file_id . '\') no-repeat center;font-size: 0;background-size: cover;">
+                        <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedImageFile(\'' . $key . '\',\'' . $file_id . '\',\'image/png,image/jpg\')"
                                class="button delete-image black">
@@ -200,7 +201,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getSlickUploader($key, $files, $view_mode = 'view', $accept = null): string
+    public static function getMultiMediaUploader($key, $files, $view_mode = 'view', $accept = null): string
     {
         $html = '';
         if ($view_mode == 'input') {
@@ -213,6 +214,7 @@ final class HtmlHelper
                         $html .=
                             '<div class="slick-item draggable-item upload-item" draggable="true"
                             style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;">
+                            <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <div class="upload-item-hover">
@@ -225,6 +227,7 @@ final class HtmlHelper
                     } else {
                         $html .=
                             '<div class="slick-item draggable-item upload-item" draggable="true">
+                            <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <video preload="metadata">
@@ -281,109 +284,95 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getMediaSlick($files): string
+    private static function getSlickHtml($items, $getSlickItemHtml): string
     {
-        $html =
-            '<div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick">';
-        if (isset($files)) {
-            foreach ($files as $index => $file) {
-                if ($file['type'] == 'image') {
-                    $html .=
-                        '<div class="slick-item button"
-                        style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
-                        onclick="openImagePopup(' . $file['id'] . ')">
-                        Slider # ' . $file['id'] .
-                        '</div>';
-                } else {
-                    $html .=
-                        '<div class="slick-item button">
-                            <video preload="metadata" muted>
-                                <source src="' . $file['relative_path'] . '" >
-                            </video>
-                        </div>';
+        $html ='
+        <div class="content-wrap-inner slider-wrap lines-horizontal">
+            <div class="slider-wrap">
+                <div class="slick">';
+        if (isset($getSlickItemHtml) && is_callable($getSlickItemHtml)) {
+            if (isset($items)) {
+                foreach ($items as $index => $item) {
+                    $html .= $getSlickItemHtml($item);
                 }
             }
         }
-        $html .=
-            '</div>
+        $html .='
+                </div>
+            </div>
         </div>';
         return $html;
+    }
+
+    public static function getMediaSlick($files): string
+    {
+        return HtmlHelper::getSlickHtml($files, function ($file) {
+            if ($file['type'] == 'image') {
+                return '
+                <div class="slick-item button"
+                style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
+                onclick="openImagePopup(' . $file['id'] . ')">
+                <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                Slider # ' . $file['id'] .
+                '</div>';
+            } else {
+                return '
+                <div class="slick-item button">
+                    <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                    <video preload="metadata" muted>
+                        <source src="' . $file['relative_path'] . '" >
+                    </video>
+                </div>';
+            }
+        });
     }
 
     public static function getArtistSlick($items, $image_file_key, $lang = 'ko'): string
     {
-        $html =
-            '<div class="content-wrap-inner slider-wrap lines-horizontal">
-                <div class="slick">';
-        if (isset($items)) {
-            foreach ($items as $index => $item) {
-                $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
-                $html .=
-                    '<div class="slick-item">
-                        <div class="image-item-wrap">
-                            <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
-                        </div>
-                        <div class="text-item-wrap">
-                            <p class="item-title">' . ($lang == 'ko' ? $item['name'] : $item['name_en']) . '</p>
-                            <p class="item-content">' . ($lang == 'ko' ? $item['job'] : $item['job_en']) . '</p>
-                        </div>
-                    </div>';
-            }
-        }
-        $html .=
-            '</div>
-        </div>';
-        return $html;
+        return HtmlHelper::getSlickHtml($items, function ($item) use ($lang, $image_file_key) {
+            $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
+            return '
+            <div class="slick-item">
+                <div class="image-item-wrap">
+                    <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                </div>
+                <div class="text-item-wrap">
+                    <p class="item-title">' . ($lang == 'ko' ? $item['name'] : $item['name_en']) . '</p>
+                    <p class="item-content">' . ($lang == 'ko' ? $item['job'] : $item['job_en']) . '</p>
+                </div>
+            </div>';
+        });
+    }
+
+    private static function getProjectItem($item, $image_file_key, $lang,) {
+        $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
+        return '<div class="image-item-wrap">
+                    <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+                </div>
+                <div class="text-item-wrap">
+                    <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
+                    <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
+                    <p class="item-content">' . ($lang == 'ko' ? $item['content'] : $item['content_en']) . '</p>
+                </div>';
     }
 
     public static function getProjectSlick($items, $image_file_key, $lang = 'ko'): string
     {
-        $html =
-            '<div class="content-wrap-inner slider-wrap lines-horizontal">
-                <div class="slider-wrap">
-                    <div class="slick">';
-        if (isset($items)) {
-            foreach ($items as $index => $item) {
-                $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
-                $html .=
-                    '<div class="slick-item">
-                        <div class="image-item-wrap">
-                            <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
-                        </div>
-                        <div class="text-item-wrap">
-                            <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
-                            <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
-                            <p class="item-content">' . ($lang == 'ko' ? $item['content'] : $item['content_en']) . '</p>
-                        </div>
-                    </div>';
-            }
-        }
-        $html .=
-            '
-            </div>
-        </div>
-    </div>';
-        return $html;
+        return HtmlHelper::getSlickHtml($items, function ($item) use ($lang, $image_file_key) {
+            return '<div class="slick-item">'.
+                HtmlHelper::getProjectItem($item, $image_file_key, $lang).
+                '</div>';
+        });
     }
 
-    public static function getProjectItem($items, $image_file_key): string
+    public static function getProjectContent($items, $image_file_key, $lang='ko'): string
     {
         $html = '<div class="content-wrap-inner">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
-                $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
-                $html .=
-                    '<div class="content-item">
-                        <div class="image-item-wrap">
-                            <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
-                        </div>
-                        <div class="text-item-wrap">
-                            <p class="item-title">' . $item['title'] . '</p>
-                            <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
-                            <p class="item-content">' . $item['content'] . '</p>
-                        </div>
-                    </div>';
+                $html.= '<div class="content-item">'.
+                    HtmlHelper::getProjectItem($item, $image_file_key, $lang).
+                    '</div>';
             }
         }
         $html .=

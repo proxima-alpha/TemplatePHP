@@ -18,7 +18,7 @@
                 <div class="content"><?= $data['content'] ?></div>
             </div>
             <div class="slider-box">
-                <?= \App\Helpers\HtmlHelper::getSlickUploader('topic', $data['files'] ?? null) ?>
+                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('topic', $data['files'] ?? null) ?>
             </div>
             <?php if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>
                 <div class="control-button-wrap">

@@ -9,6 +9,7 @@
     text-align: center;
     border: 1px solid #eee;
     margin: 24px 10px;
+    position: relative;
 }
 
 .item-selector .slider-box .slider-wrap .slick-item {

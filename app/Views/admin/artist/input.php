@@ -81,12 +81,12 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.profile_image') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null) ?>
+                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('artist_profile', $data['profile_id'] ?? null) ?>
                 </div>
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('Service.sample_video') ?></p>
-                <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
+                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>

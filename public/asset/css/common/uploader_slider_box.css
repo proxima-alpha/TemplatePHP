@@ -21,6 +21,16 @@
     overflow: hidden;
 }
 
+.slider-wrap .slick-item .size-text {
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    line-height: 20px;
+    font-size: 18px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+}
+
 .slider-box .slider-wrap .slick-item video {
     width: 100%;
     height: 100%;

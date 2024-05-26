@@ -59,14 +59,14 @@
                 <?php if (isset($data['profile_id'])) { ?>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.profile_image') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getImageUploader('artist_profile', $data['profile_id'] ?? null, 'view') ?>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('artist_profile', $data['profile_id'] ?? null, 'view') ?>
                     </div>
                 <?php } ?>
             </div>
             <?php if (isset($data['previews']) && sizeof($data['previews']) > 0) { ?>
                 <div class="slider-box">
                     <p class="title"><?= lang('Service.sample_video') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getSlickUploader('artist_preview', $data['previews'] ?? null) ?>
+                    <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null) ?>
                 </div>
             <?php }
             if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>

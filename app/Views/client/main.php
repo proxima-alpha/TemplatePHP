@@ -139,7 +139,7 @@ use App\Helpers\HtmlHelper;
                 </h4>
                 <div class="content-wrap">
                     <?php if (HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>
-                        <?= HtmlHelper::getProjectItem($data['previous-project'], 'project_image_id'); ?>
+                        <?= HtmlHelper::getProjectContent($data['previous-project'], 'project_image_id', $lang); ?>
                     <?php } ?>
                 </div>
             </div>

@@ -40,7 +40,7 @@ $identifier = $shortid->generate();
                 <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>
             <div class="slider-box">
-                <?= \App\Helpers\HtmlHelper::getSlickUploader('topic', $data['files'] ?? null, 'input', 'image/png,image/jpg') ?>
+                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('topic', $data['files'] ?? null, 'input', 'image/png,image/jpg') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>

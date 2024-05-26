@@ -113,7 +113,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 398)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'project_image_id', $lang, true); ?>
+                    <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'project_image_id', $lang); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -148,7 +148,7 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($items ?? null, 372)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getArtistSlick($items, 'profile_id', $lang, true); ?>
+                        <?= \App\Helpers\HtmlHelper::getArtistSlick($items, 'profile_id', $lang); ?>
                     <?php } ?>
                 </div>
                 <div class="control-button-wrap">

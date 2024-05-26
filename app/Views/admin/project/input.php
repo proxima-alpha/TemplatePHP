@@ -72,7 +72,7 @@ $identifier = $shortid->generate();
                     <div class="line"></div>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.project_image') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getImageUploader('project', $data['project_image_id'] ?? null) ?>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('project', $data['project_image_id'] ?? null) ?>
                     </div>
                     <div class="line"></div>
                     <div class="input-wrap column calendar">

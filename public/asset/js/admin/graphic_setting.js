@@ -207,21 +207,14 @@ function setEditing($parent, target) {
         (target) {
         case 'main':
         case 'relation': {
-            html = `
-                <div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick-wrap">`;
-            html += `
-                <div class="slick uploader ${target}">`;
-
-            for (let i in files.get(target)) {
-                let file_id = files.get(target)[i];
-                let extra = files.getExtra(target)[i];
+            html = getSlickHtml(target, (file_id, extra) => {
                 const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
                 if (!extra || extra.type == 'image') {
-                    html += `
+                    return `
                     <div class="slick-item draggable-item upload-item" draggable="true"
                          style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
                         Slider #${file_id}
+                        <div class="size-text">${extra['width']}X${extra['height']}</div>
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
@@ -231,8 +224,9 @@ function setEditing($parent, target) {
                         </div>
                     </div>`;
                 } else {
-                    html += `
+                    return `
                     <div class="slick-item draggable-item upload-item" draggable="true">
+                        <div class="size-text">${extra['width']}X${extra['height']}</div>
                         <video preload="metadata">
                             <source src="${file_url}">
                         </video>
@@ -245,93 +239,56 @@ function setEditing($parent, target) {
                         </div>
                     </div>`;
                 }
-            }
-            html += `
-                        <div class="slick-item upload-item-add"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
-                            <label for="image-file" class="button"></label>
-                            <input type="file" name="file" id="image-file"
-                                   onchange="onFileUpload(this, '${target}');"
-                                   accept="${accept}"/>
-                        </div>
-                    </div>
-                    </div>
-                </div>`;
+            }, () => {
+                return `<div class="slick-item upload-item-add"
+                     style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
+                    <label for="image-file" class="button"></label>
+                    <input type="file" name="file" id="image-file"
+                           onchange="onFileUpload(this, '${target}');"
+                           accept="${accept}"/>
+                </div>`
+            })
             $container.append(html);
-
-            let $slick = $container.find('.slick');
-            $slick.setCustomSlick(isMobile(), {
-                infinite: false,
-                autoplay: false,
-                draggable: false,
-            });
-            $container.find('.slick').initDraggable({
-                onDragFinished: generateOnDragFinished(target)
-            });
         }
             break;
         case 'project': {
-            html = `
-                <div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick-wrap">`;
-            html += `
-                <div class="slick uploader ${target}">`;
             const language = getCookie('lang')
-            for (let i in files.get(target)) {
-                let file_id = files.get(target)[i];
-                let extra = files.getExtra(target)[i];
-                html += `
-                    <div class="slick-item draggable-item upload-item" draggable="true">
-                            <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
-                            <div class="text-item-wrap">
-                                <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
-                                <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                                <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
-                            </div>
-                        <input hidden type="text" name="id" value="${file_id}">
-                        <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
-                               class="button delete-image black">
-                                <img src="/asset/images/icon/cancel_white.png"/>
-                            </a>
+            html = getSlickHtml(target, (file_id, extra) => {
+                return `
+                <div class="slick-item draggable-item upload-item" draggable="true">
+                        <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                        <div class="text-item-wrap">
+                            <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
+                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                            <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
                         </div>
-                    </div>`;
-            }
-            html += `
-                        <div class="slick-item upload-item-add button"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
-                             onClick="searchProject('${target}')">
-                        </div>
+                    <input hidden type="text" name="id" value="${file_id}">
+                    <div class="upload-item-hover">
+                        <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
+                           class="button delete-image black">
+                            <img src="/asset/images/icon/cancel_white.png"/>
+                        </a>
                     </div>
-                    </div>
+                </div>`
+            }, () => {
+                return `
+                <div class="slick-item upload-item-add button"
+                     style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
+                     onClick="searchProject('${target}')">
                 </div>`;
+            })
             $container.append(html);
-
-            let $slick = $container.find('.slick');
-            $slick.setCustomSlick(isMobile(), {
-                infinite: false,
-                autoplay: false,
-                draggable: false,
-            });
-            $container.find('.slick').initDraggable({
-                onDragFinished: generateOnDragFinished(target)
-            });
         }
             break;
         default:
             if (artist_codes.indexOf(target) >= 0) {
-                html = `
-                <div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick-wrap">`;
-                html += `
-                <div class="slick uploader ${target}">`;
                 const language = getCookie('lang')
-                for (let i in files.get(target)) {
-                    let file_id = files.get(target)[i];
-                    let extra = files.getExtra(target)[i];
-                    html += `
+                html = getSlickHtml(target, (file_id, extra) => {
+                    return `
                     <div class="slick-item draggable-item upload-item" draggable="true">
-                            <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                            <div class="image-item-wrap">
+                                <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
+                            </div>
                             <div class="text-item-wrap">
                                 <p class="item-title">${language == 'ko' ? extra['name'] : extra['name_en']}</p>
                                 <p class="item-content">${language == 'ko' ? extra['job'] : extra['job_en']}</p>
@@ -343,27 +300,15 @@ function setEditing($parent, target) {
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>
                         </div>
-                    </div>`;
-                }
-                html += `
-                        <div class="slick-item upload-item-add button"
-                             style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
-                             onClick="searchArtist('${target}', true)">
-                        </div>
-                    </div>
-                    </div>
-                </div>`;
+                    </div>`
+                }, () => {
+                    return `
+                    <div class="slick-item upload-item-add button"
+                         style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
+                         onClick="searchArtist('${target}', true)">
+                    </div>`
+                });
                 $container.append(html);
-
-                let $slick = $container.find('.slick');
-                $slick.setCustomSlick(isMobile(), {
-                    infinite: false,
-                    autoplay: false,
-                    draggable: false,
-                });
-                $container.find('.slick').initDraggable({
-                    onDragFinished: generateOnDragFinished(target)
-                });
             } else {
                 html = `<div class="content-wrap-inner lines-horizontal">`;
                 if (files.get(target).length == 0) {
@@ -411,6 +356,18 @@ function setEditing($parent, target) {
                 $container.append(html);
             }
     }
+
+    let $slick = $container.find('.slick');
+    if($slick.length > 0) {
+        $slick.setCustomSlick(isMobile(), {
+            infinite: false,
+            autoplay: false,
+            draggable: false,
+        });
+        $container.find('.slick').initDraggable({
+            onDragFinished: generateOnDragFinished(target)
+        });
+    }
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
     $wrapButtonControls.empty();
     $wrapButtonControls.append(`
@@ -453,98 +410,50 @@ function setView($parent, target) {
         switch (target) {
             case 'main' :
             case 'relation' : {
-                html = `
-                <div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick-wrap">`;
-                html += `
-                    <div class="slick uploader ${target}">`;
-
-                for (let i in files.get(target)) {
-                    let file_id = files.get(target)[i];
-                    let extra = files.getExtra(target)[i];
+                html = getSlickHtml(target, (file_id, extra) => {
                     const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
                     if (!extra || extra.type == 'image') {
-                        html += `
+                        return `
                         <div class="slick-item button"
                              style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
                              onclick="openImagePopup(${file_id})">
+                            <div class="size-text">${extra['width']}X${extra['height']}</div>
                             Slider #${file_id}
                         </div>`;
                     } else {
-                        html += `
+                        return `
                         <div class="slick-item button">
+                            <div class="size-text">${extra['width']}X${extra['height']}</div>
                             <video preload="metadata">
                                 <source src="${file_url}">
                             </video>
                         </div>`;
                     }
-                }
-                html += `
-                        </div>
-                    </div>
-                </div>`;
+                });
                 $container.append(html);
-
-                let $slick = $container.find('.slick');
-                $slick.setCustomSlick(isMobile(), {
-                    infinite: false,
-                    autoplay: false,
-                    draggable: false,
-                });
-                $container.find('.slick').initDraggable({
-                    onDragFinished: generateOnDragFinished(target)
-                });
             }
                 break;
             case 'project': {
                 const language = getCookie('lang');
-                html = `
-                <div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick-wrap">`;
-                html += `
-                    <div class="slick uploader ${target}">`;
-                for (let i in files.get(target)) {
-                    let file_id = files.get(target)[i];
-                    let extra = files.getExtra(target)[i];
-                    html += `
-                        <div class="slick-item">
-                            <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
-                            <div class="text-item-wrap">
-                                <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
-                                <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                                <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
-                            </div>
-                        </div>`;
-                }
-                html += `
+                html = getSlickHtml(target, (file_id, extra) => {
+                    return `
+                    <div class="slick-item">
+                        <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                        <div class="text-item-wrap">
+                            <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
+                            <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
+                            <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
                         </div>
-                    </div>
-                </div>`;
+                    </div>`;
+                });
                 $container.append(html);
-
-                let $slick = $container.find('.slick');
-                $slick.setCustomSlick(isMobile(), {
-                    infinite: false,
-                    autoplay: false,
-                    draggable: false,
-                });
-                $container.find('.slick').initDraggable({
-                    onDragFinished: generateOnDragFinished(target)
-                });
             }
                 break;
             default:
                 if (artist_codes.indexOf(target) >= 0) {
-                    html = `
-                <div class="content-wrap-inner slider-wrap lines-horizontal">
-                    <div class="slick-wrap">`;
-                    html += `
-                    <div class="slick uploader ${target}">`;
                     const language = getCookie('lang');
-                    for (let i in files.get(target)) {
-                        let file_id = files.get(target)[i];
-                        let extra = files.getExtra(target)[i];
-                        html += `
+                    html = getSlickHtml(target, (file_id, extra) => {
+                        return `
                         <div class="slick-item">
                             <div class="image-item-wrap">
                                 <div class="image-item" style="background: url('/file/${extra['profile_id']}') no-repeat center; background-size: cover; font-size: 0;"></div>
@@ -554,22 +463,8 @@ function setView($parent, target) {
                             <p class="item-content">${language == 'ko' ? extra['job'] : extra['job_en']}</p>
                             </div>
                         </div>`;
-                    }
-                    html += `
-                        </div>
-                    </div>
-                </div>`;
+                    });
                     $container.append(html);
-
-                    let $slick = $container.find('.slick');
-                    $slick.setCustomSlick(isMobile(), {
-                        infinite: false,
-                        autoplay: false,
-                        draggable: false,
-                    });
-                    $container.find('.slick').initDraggable({
-                        onDragFinished: generateOnDragFinished(target)
-                    });
                 } else {
                     html = `<div class="content-wrap-inner lines-horizontal">`
                     for (let i in files.get(target)) {
@@ -595,6 +490,15 @@ function setView($parent, target) {
                     $container.append(html);
                 }
         }
+    }
+
+    let $slick = $container.find('.slick');
+    if($slick.length > 0) {
+        $slick.setCustomSlick(isMobile(), {
+            infinite: false,
+            autoplay: false,
+            draggable: false,
+        });
     }
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
     $wrapButtonControls.empty();
@@ -783,4 +687,56 @@ function onSettingChanged(element, code) {
             openPopupErrors('popup-error', response, status, error);
         },
     });
+}
+
+function getSlickItemHtml(file_id, extra) {
+    const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+    if (!extra || extra.type == 'image') {
+        return `
+            <div class="slick-item draggable-item upload-item" draggable="true"
+                 style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
+                Slider #${file_id}
+                <input hidden type="text" name="id" value="${file_id}">
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>`;
+    } else {
+        return `
+            <div class="slick-item draggable-item upload-item" draggable="true">
+                <video preload="metadata">
+                    <source src="${file_url}">
+                </video>
+                <input hidden type="text" name="id" value="${file_id}">
+                <div class="upload-item-hover">
+                    <a href="javascript:deleteUploadedSlickFile('${target}', '${file_id}')"
+                       class="button delete-image black">
+                        <img src="/asset/images/icon/cancel_white.png"/>
+                    </a>
+                </div>
+            </div>`;
+    }
+}
+
+function getSlickHtml(target, getSlickItemHtml, getAdditionalHtml = null) {
+    let html = `
+    <div class="content-wrap-inner slider-wrap lines-horizontal">
+        <div class="slick-wrap">`;
+    html += `
+            <div class="slick uploader ${target}">`;
+
+    for (let i in files.get(target)) {
+        let id = files.get(target)[i];
+        let extra = files.getExtra(target)[i];
+        html += getSlickItemHtml(id, extra);
+    }
+    if (getAdditionalHtml && typeof getAdditionalHtml == 'function') html += getAdditionalHtml()
+    html += `
+            </div>
+        </div>
+    </div>`;
+    return html
 }
