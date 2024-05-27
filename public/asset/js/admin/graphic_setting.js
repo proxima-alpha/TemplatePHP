@@ -44,13 +44,13 @@ function refreshViews(target) {
             let $parent = $(`.content-box.${target}`)
             $parent.removeClass('editing')
 
-            files.clearItems();
+            uploadData.clearItems();
             for (let target in data) {
                 let array = data[target]
                 for (let i in array) {
                     const item = array[i];
                     if (target == 'project' || (projectCodes.indexOf(target) >= 0)) {
-                        files.push(target, item['id'], {
+                        uploadData.push(target, item['id'], {
                             project_image_id: item['project_image_id'],
                             title: item['title'],
                             start_date: item['start_date'],
@@ -58,13 +58,13 @@ function refreshViews(target) {
                             content: item['content']
                         });
                     } else if (target != 'main' && target != 'relation') {
-                        files.push(target, item['id'], {
+                        uploadData.push(target, item['id'], {
                             profile_id: item['profile_id'],
                             name: item['name'],
                             job: item['job']
                         });
                     } else {
-                        files.push(target, item['id'], {
+                        uploadData.push(target, item['id'], {
                             type: item['type'],
                             relative_path: item['relative_path'],
                             width: item['width'],
@@ -101,7 +101,7 @@ function confirmSettingFileEdit(target) {
                 type: 'POST',
                 url: target == 'project' ? `/api/project/post` : `/api/project/post/${target}`,
                 data: {
-                    projects: files.get(target)
+                    projects: uploadData.get(target)
                 },
                 dataType: 'json',
                 success: function (response, status, request) {
@@ -120,7 +120,7 @@ function confirmSettingFileEdit(target) {
 
 function generateOnSettingFileUploaded() {
     return (target, file_id, extra) => {
-        files.push(target, file_id, extra);
+        uploadData.push(target, file_id, extra);
         let $parent = $(`.content-box.${target}`)
         let $container = $parent.find(`.content-wrap-inner`);
         $container.empty();
@@ -157,9 +157,9 @@ function deleteSettingFile(target, id) {
     let accept = getAcceptFromTarget(target);
     if (isEmpty(target) || isEmpty(accept)) return;
 
-    let index = files.get(target).indexOf(id);
+    let index = uploadData.get(target).indexOf(id);
     if (index < 0) return;
-    files.splice(target, index);
+    uploadData.splice(target, index);
 
     let $parent = $(`.content-box.${target}`)
     let $container = $parent.find(`.content-wrap-inner`);
@@ -305,7 +305,7 @@ function setEditing($parent, target) {
                 }));
             } else {
                 html = `<div class="content-wrap-inner lines-horizontal">`;
-                if (files.get(target).length == 0) {
+                if (uploadData.get(target).length == 0) {
                     html += `
                     <div class="upload-item-add"
                          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
@@ -315,9 +315,9 @@ function setEditing($parent, target) {
                                accept="${accept}"/>
                     </div>`;
                 } else {
-                    for (let i in files.get(target)) {
-                        let file_id = files.get(target)[i];
-                        let extra = files.getExtra(target)[i];
+                    for (let i in uploadData.get(target)) {
+                        let file_id = uploadData.get(target)[i];
+                        let extra = uploadData.getExtra(target)[i];
                         const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
                         if (!extra || extra.type == 'image') {
                             html += `
@@ -391,7 +391,7 @@ function setView($parent, target) {
     } else if (target != 'main' && target != 'relation') {
         style = ` style="height : 372px; line-height: 370px" `
     }
-    if (files.get(target).length == 0) {
+    if (uploadData.get(target).length == 0) {
         $container.append(`
                 <div class="no-data-box" ${style}>
                     <div class="no-data-wrap">
@@ -414,9 +414,9 @@ function setView($parent, target) {
                     $container.append(getSlickHtml(target, getProjectSlickItemHtml(target)));
                 } else {
                     html = `<div class="content-wrap-inner lines-horizontal">`
-                    for (let i in files.get(target)) {
-                        let file_id = files.get(target)[i];
-                        let extra = files.getExtra(target)[i];
+                    for (let i in uploadData.get(target)) {
+                        let file_id = uploadData.get(target)[i];
+                        let extra = uploadData.getExtra(target)[i];
                         const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
                         if (!extra || extra.type == 'image') {
                             html += `
@@ -472,7 +472,7 @@ function refreshSetting() {
         }
     }
 
-    let targets = files.getKeys();
+    let targets = uploadData.getKeys();
     for (let i in targets) {
         refresh(targets[i])
     }
@@ -507,11 +507,11 @@ function confirmProjectSearch(className, target) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
     const id = data[target]
     if (id) {
-        if (files.get(target).indexOf(id) >= 0) {
+        if (uploadData.get(target).indexOf(id) >= 0) {
             openPopupMessage(lang('message_item_already_selected'))
             return;
         }
-        files.push(target, id);
+        uploadData.push(target, id);
         apiRequest({
             type: 'GET',
             url: `/api/project/get/${id}`,
@@ -584,9 +584,9 @@ function getSlickHtml(target, getSlickItemHtml, getAdditionalHtml = null) {
     html += `
             <div class="slick uploader ${target}">`;
 
-    for (let i in files.get(target)) {
-        let id = files.get(target)[i];
-        let extra = files.getExtra(target)[i];
+    for (let i in uploadData.get(target)) {
+        let id = uploadData.get(target)[i];
+        let extra = uploadData.getExtra(target)[i];
         html += getSlickItemHtml(id, extra);
     }
     if (getAdditionalHtml && typeof getAdditionalHtml == 'function') html += getAdditionalHtml()

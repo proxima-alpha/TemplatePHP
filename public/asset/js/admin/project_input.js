@@ -52,13 +52,13 @@ function cancelCalendarSelect(className, target) {
 }
 
 function deleteUploadedArtistFile(target = 'topic', id) {
-    let index = files.get(target).indexOf(id.toString());
+    let index = uploadData.get(target).indexOf(id.toString());
     if (index < 0) return;
     const $uploader = $(`.row-uploader.${target}`)
     const $inputs = $uploader.find('input[name="id"]');
     for(let i= 0; i< $inputs.length; ++i) {
         if($inputs.eq(i).val() == id) {
-            files.splice(target, index);
+            uploadData.splice(target, index);
             $inputs.eq(i).parent().remove();
         }
     }
@@ -66,8 +66,8 @@ function deleteUploadedArtistFile(target = 'topic', id) {
 
 function confirmEditProject(id) {
     let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
-    data['artists'] = files.get('artist');
-    data['project_image_id'] = files.get('project');
+    data['artists'] = uploadData.get('artist');
+    data['project_image_id'] = uploadData.get('project');
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
@@ -100,8 +100,8 @@ function confirmEditProject(id) {
 
 function confirmCreateProject() {
     let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
-    data['artists'] = files.get('artist');
-    data['project_image_id'] = files.get('project');
+    data['artists'] = uploadData.get('artist');
+    data['project_image_id'] = uploadData.get('project');
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
@@ -141,8 +141,8 @@ function confirmCalendarSelect(className, target) {
 
 function removeRowDraggableItem(target, index, id) {
     if (id) {
-        let index = files.get(target).indexOf(id);
-        if (index >= 0) files.splice(target, index);
+        let index = uploadData.get(target).indexOf(id);
+        if (index >= 0) uploadData.splice(target, index);
     }
     $(`.row-uploader.${target} .index-${index}`).remove();
 }
@@ -151,11 +151,11 @@ function confirmArtistSearch(className, target) {
     let data = parseInputToData($(`.${className} input, .${className} textarea`))
     const id = data['artist']
     if (id) {
-        if (files.get(target).indexOf(id) >= 0) {
+        if (uploadData.get(target).indexOf(id) >= 0) {
             openPopupMessage(lang('이미 선택된 아티스트입니다'))
             return;
         }
-        files.push(target, id);
+        uploadData.push(target, id);
         apiRequest({
             type: 'GET',
             url: `/api/artist/get/${id}`,

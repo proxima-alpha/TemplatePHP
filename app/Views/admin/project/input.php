@@ -29,11 +29,11 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['artists'])) {
     foreach ($data['artists'] as $index => $item) { ?>
-    files.push('artist', '<?=$item['id']?>');
+    uploadData.push('artist', '<?=$item['id']?>');
     <?php }
     }
     if (isset($data['project_image_id'])) {?>
-    files.push('project', '<?=$data['project_image_id']?>');
+    uploadData.push('project', '<?=$data['project_image_id']?>');
     <?php }?>
 </script>
 <div class="container-inner">

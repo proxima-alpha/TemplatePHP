@@ -24,9 +24,9 @@ $identifier = $shortid->generate();
     if($key == 'project_by_code') {
     foreach ($data['project_by_code'] as $code => $project_data) { ?>
     projectCodes.push(`<?=$code?>`)
-    files.checkEmpty(`<?=$code?>`)
+    uploadData.checkEmpty(`<?=$code?>`)
     <?php foreach ($project_data['array'] as $index => $item) { ?>
-    files.push(`<?=$code?>`, `<?=$item['id']?>`, {
+    uploadData.push(`<?=$code?>`, `<?=$item['id']?>`, {
         <?php if(isset($item['project_image_id'])) {?>
         project_image_id: <?=$item['project_image_id']?>,
         <?php } ?>
@@ -40,10 +40,10 @@ $identifier = $shortid->generate();
     <?php }
     }
     } else {?>
-    files.checkEmpty('<?=$key?>')
+    uploadData.checkEmpty('<?=$key?>')
     <?php foreach ($graphic_setting as $index => $item) {
     if($key == 'project') {?>
-    files.push(`<?=$key?>`, `<?=$item['id']?>`, {
+    uploadData.push(`<?=$key?>`, `<?=$item['id']?>`, {
         <?php if(isset($item['project_image_id'])) {?>
         project_image_id: <?=$item['project_image_id']?>,
         <?php } ?>
@@ -55,7 +55,7 @@ $identifier = $shortid->generate();
         content_en: `<?=$item['content_en']?>`,
     });
     <?php } else {?>
-    files.push(`<?=$key?>`, `<?=$item['id']?>`, {
+    uploadData.push(`<?=$key?>`, `<?=$item['id']?>`, {
         type: `<?=$item['type']?>`,
         relative_path: `<?=$item['relative_path']?>`,
         width: `<?=$item['width']?>`,

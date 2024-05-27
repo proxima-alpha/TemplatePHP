@@ -17,11 +17,11 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['previews'])) {
     foreach ($data['previews'] as $index => $item) { ?>
-    files.push('artist_preview', '<?=$item['id']?>');
+    uploadData.push('artist_preview', '<?=$item['id']?>');
     <?php }
     }
     if (isset($data['profile_id'])) {?>
-    files.push('artist_profile', '<?=$data['profile_id']?>');
+    uploadData.push('artist_profile', '<?=$data['profile_id']?>');
     <?php }?>
 </script>
 <div class="container-inner">
@@ -87,8 +87,8 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     function confirmEditArtist(id) {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['previews'] = files.get('artist_preview');
-        data['profile_id'] = files.get('artist_profile');
+        data['previews'] = uploadData.get('artist_preview');
+        data['profile_id'] = uploadData.get('artist_profile');
 
         apiRequest({
             type: 'POST',
@@ -110,8 +110,8 @@ $identifier = $shortid->generate();
 
     function confirmCreateArtist() {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['previews'] = files.get('artist_preview');
-        data['profile_id'] = files.get('artist_profile');
+        data['previews'] = uploadData.get('artist_preview');
+        data['profile_id'] = uploadData.get('artist_profile');
 
         apiRequest({
             type: 'POST',
