@@ -11,6 +11,9 @@ use Crisu83\ShortId\ShortId;
     'select_date',
     'category',
     'job',
+    'artist',
+    'reward_type_all',
+    'reward_type_random',
 ]);
 
 if ($type == 'create') {
@@ -39,7 +42,7 @@ $identifier = $shortid->generate();
             <div class="form-wrap project">
                 <div class="input-wrap inline">
                     <p class="input-title"><?= lang('Service.category') ?></p>
-                    <select class="editable" name="code_project_id" value="<?= $code_project_id ?? '' ?>">`
+                    <select class="editable" name="code_project_id" value="<?= $code_project_id ?? '' ?>">
                         <?php
                         if (isset($code_project)) {
                             foreach ($code_project as $item) { ?>
@@ -120,7 +123,7 @@ $identifier = $shortid->generate();
                 <div class="line black"></div>
                 <div class="input-wrap artist">
                     <p class="input-title"><?= lang('Service.artist') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getArtistRow('artist', $data['artists'] ?? [], $lang) ?>
+                    <div class="row-uploader artist"></div>
                     <div class="button-wrap">
                         <a class="button" href="javascript:searchArtist('artist')">
                         </a>
@@ -129,7 +132,8 @@ $identifier = $shortid->generate();
                 <div class="line black"></div>
                 <div class="input-wrap reward">
                     <p class="input-title"><?= lang('가격 및 리워드') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getRewardRow('reward', $data['rewards'] ?? []) ?>
+                    <div class="row-uploader reward">
+                    </div>
                     <div class="button-wrap">
                         <a class="button" href="javascript:addRewardForm('reward')">
                         </a>
@@ -143,200 +147,11 @@ $identifier = $shortid->generate();
         </div>
     </div>
     <script type="text/javascript">
-        function confirmCalendarSelect(className, target) {
-            let data = parseInputToData($(`.${className} input, .${className} textarea`))
+        <?php if($type != 'create') {?>
+        $(document).ready(function () {
+            loadArtist(<?=$data['id']?>)
+            loadReward(<?=$data['id']?>)
+        });
+        <?php } ?>
 
-            $(`.form-wrap input[name=${target}]`).val(data['date'])
-            closePopup(className);
-        }
-
-        function removeRowDraggableItem(target, index, id) {
-            if (id) {
-                let index = files.get(target).indexOf(id);
-                if (index >= 0) files.splice(target, index);
-            }
-            $(`.row-uploader.${target} .index-${index}`).remove();
-        }
-
-        function confirmArtistSearch(className, target) {
-            let data = parseInputToData($(`.${className} input, .${className} textarea`))
-            const id = data['artist']
-            if (id) {
-                if (files.get(target).indexOf(id) >= 0) {
-                    openPopupMessage(lang('이미 선택된 아티스트입니다'))
-                    return;
-                }
-                files.push(target, id);
-                apiRequest({
-                    type: 'GET',
-                    url: `/api/artist/get/${id}`,
-                    data: data,
-                    dataType: 'json',
-                    success: function (response, status, request) {
-                        if (!response.success) {
-                            openPopupErrors('popup-error', response, status, request);
-                            return;
-                        }
-
-                        const data = response.data
-                        let file_url = `/file/${data['profile_id']}`
-                        let $container = $(`.row-uploader.${target}`);
-
-                        const index = $container.find('.row-uploader-item').length
-
-                        $container.append(
-                            `<div class="draggable-item row-uploader-item index-${index}" draggable="true">
-                            <input hidden type="text" name="id" value="${data['id']}">
-                            <div class="profile" style=" background: url('${file_url}'); background-size: cover; font-size: 0;"></div>
-                            <div class="info-wrap">
-                                <p class="name">${data['name']}</p>
-                                <p>${data['job']}</p>
-                                <p>${data['introduction']}</p>
-                            </div>
-                            <div class="upload-item-hover">
-                                <a href="javascript:removeRowDraggableItem('${target}', '${index}', '${data['id']}')"
-                                   class="button delete-image black">
-                                    <img src="/asset/images/icon/cancel_white.png"/>
-                                </a>
-                            </div>
-                        </div>`);
-
-                        $container.initDraggable({
-                            onDragFinished: generateOnDragFinished(target),
-                        });
-                    },
-                    error: function (response, status, error) {
-                        openPopupErrors('popup-error', response, status, error);
-                    },
-                });
-                closePopup(className);
-            } else {
-                openPopupMessage(lang('아티스트를 선택해주세요'))
-            }
-        }
-
-        function addRewardForm(target) {
-            let $container = $(`.row-uploader.${target}`);
-            const index = $container.find('.row-uploader-item').length
-            $container.append(`
-            <div class="draggable-item row-uploader-item index-${index}" draggable="true">
-            <div class="tab-box">
-                <div class="tab-button-wrap">
-                    <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
-                    <a class="button en" onclick="clickTab(this,'en')">English</a>
-                </div>
-                <div class="tab-wrap ko active">
-                    <div class="input-wrap">
-                        <p class="input-title">${lang('title')}</p>
-                        <input type="text" name="title" class="editable under-line" value=""/>
-                    </div>
-                   <div class="input-wrap">
-                       <p class="input-title">${lang('content')}</p>
-                       <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
-                                 onkeyup="resizeInputPopupTextarea(this)"></textarea>
-                   </div>
-                </div>
-                <div class="tab-wrap en">
-                    <div class="input-wrap">
-                        <p class="input-title">${lang('title')}</p>
-                        <input type="text" name="title_en" class="editable under-line" value=""/>
-                    </div>
-                   <div class="input-wrap">
-                       <p class="input-title">${lang('content')}</p>
-                       <textarea class="editable" name="content_en" onkeydown="resizeInputPopupTextarea(this)"
-                                 onkeyup="resizeInputPopupTextarea(this)"></textarea>
-                   </div>
-                </div>
-            </div>
-            <div class="line"></div>
-            <div class="input-wrap price">
-               <p class="input-title">${lang('price')}</p>
-               <input type="number" name="price" class="editable under-line" value=""/>
-               <p class="description">KRW</p>
-            </div>
-            <div class="column">
-               <div class="input-wrap">
-                   <p class="input-title">${lang('stock_count')}</p>
-                   <input type="number" name="total_count" class="editable under-line" value="title"/>
-               </div>
-               <div class="input-wrap">
-                   <p class="input-title">${lang('available_count')}</p>
-                   <input type="number" name="limited_count" class="editable under-line" value="title"/>
-               </div>
-            </div>
-
-            <a href="javascript:removeRowDraggableItem('${target}', '${index}')"
-               class="button delete-image">
-                <img src="/asset/images/icon/cancel.png"/>
-            </a>
-            </div>`);
-        }
-
-        function confirmEditProject(id) {
-            let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
-            data['artists'] = files.get('artist');
-            data['project_image_id'] = files.get('project');
-
-            let rewards = [];
-            let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
-            for (let i = 0; i < $rewards.length; ++i) {
-                const $reward = $rewards.eq(i);
-                const rewardData = parseInputToData($reward.find('.editable'))
-                if (Object.keys(rewardData).length > 0) {
-                    rewards.push(rewardData);
-                }
-            }
-            data['rewards'] = rewards;
-
-            apiRequest({
-                type: 'POST',
-                url: `/api/project/update/${id}`,
-                data: data,
-                dataType: 'json',
-                success: function (response, status, request) {
-                    if (!response.success) {
-                        openPopupErrors('popup-error', response, status, request);
-                        return;
-                    }
-                    history.back();
-                },
-                error: function (response, status, error) {
-                    openPopupErrors('popup-error', response, status, error);
-                },
-            });
-        }
-
-        function confirmCreateProject() {
-            let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
-            data['artists'] = files.get('artist');
-            data['project_image_id'] = files.get('project');
-
-            let rewards = [];
-            let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
-            for (let i = 0; i < $rewards.length; ++i) {
-                const $reward = $rewards.eq(i);
-                const rewardData = parseInputToData($reward.find('.editable'))
-                if (Object.keys(rewardData).length > 0) {
-                    rewards.push(rewardData);
-                }
-            }
-            data['rewards'] = rewards;
-
-            apiRequest({
-                type: 'POST',
-                url: `/api/project/create`,
-                data: data,
-                dataType: 'json',
-                success: function (response, status, request) {
-                    if (!response.success) {
-                        openPopupErrors('popup-error', response, status, request);
-                        return;
-                    }
-                    history.back();
-                },
-                error: function (response, status, error) {
-                    openPopupErrors('popup-error', response, status, error);
-                },
-            });
-        }
     </script>

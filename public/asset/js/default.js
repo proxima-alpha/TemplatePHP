@@ -143,11 +143,7 @@ function resizeInputPopupTextarea(obj) {
     }
 }
 
-let isRequestRunning = false;
-
 async function apiRequest(input) {
-    if (isRequestRunning) return;
-    isRequestRunning = true;
     let timeoutId = setTimeout(function () {
         $(`.loading-wrap`).css({
             display: 'block'
@@ -163,7 +159,6 @@ async function apiRequest(input) {
         contentType: input.contentType,
         cache: input.cache,
         success: function (response, status, request) {
-            isRequestRunning = false;
             clearTimeout(timeoutId);
             if (input.success && typeof input.success == 'function') {
                 input.success(response, status, request);
@@ -173,7 +168,6 @@ async function apiRequest(input) {
             })
         },
         error: function (response, status, error) {
-            isRequestRunning = false;
             clearTimeout(timeoutId);
             if (input.error && typeof input.error == 'function') {
                 input.error(response, status, error);

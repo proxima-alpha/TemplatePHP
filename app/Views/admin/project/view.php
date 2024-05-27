@@ -1,3 +1,19 @@
+<?php
+
+\App\Helpers\HtmlHelper::setTranslations([
+    'title',
+    'content',
+    'price',
+    'stock_count',
+    'available_count',
+    'select_date',
+    'category',
+    'job',
+    'artist',
+    'reward_type_all',
+    'reward_type_random',
+]);
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <div class="project-wrap">
@@ -5,7 +21,9 @@
                 <div class="input-wrap inline">
                     <p class="input-title"><?= lang('Service.category') ?></p>
                     <select class="editable" name="code_project_id" value="1" disabled>`
-                        <option value="1"><?= $lang == 'ko' ? $data['code_project'] : $data['code_project_en'] ?></option>
+                        <option value="1">
+                            <?= $lang == 'ko' ? $data['code_project'] : $data['code_project_en'] ?>
+                        </option>
                     </select>
                 </div>
                 <div class="tab-box">
@@ -87,14 +105,16 @@
                         <div class="line black"></div>
                         <div class="input-wrap artist">
                             <p class="input-title"><?= lang('Service.artist') ?></p>
-                            <?= \App\Helpers\HtmlHelper::getArtistRow('artist', $data['artists'], $lang, 'view') ?>
+                            <div class="row-uploader artist"></div>
+                            <!--                            --><?php //= \App\Helpers\HtmlHelper::getArtistRow('artist', $data['artists'], $lang, 'view') ?>
                         </div>
                     <?php }
                     if (isset($data['rewards'])) { ?>
                         <div class="line black"></div>
                         <div class="input-wrap reward">
                             <p class="input-title"><?= lang('Service.price_reward') ?></p>
-                            <?= \App\Helpers\HtmlHelper::getRewardRow('reward', $data['rewards'], 'view') ?>
+                            <div class="row-uploader reward">
+                            </div>
                         </div>
                     <?php } ?>
                 </div>
@@ -123,6 +143,11 @@
     </div>
 </div>
 <script type="text/javascript">
+    $(document).ready(function () {
+        loadArtist(<?=$data['id']?>, false)
+        loadReward(<?=$data['id']?>, false)
+    });
+
     function regenerateHash(id) {
         apiRequest({
             type: 'POST',

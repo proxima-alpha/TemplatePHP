@@ -3,7 +3,6 @@
 namespace API;
 
 use App\Helpers\QueryHelper;
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
@@ -45,7 +44,7 @@ class ProjectController extends CustomFileController
                 'status' => 'open',
             ];
             if (isset($target) && $target != 'all') {
-                $condition = array_merge(['code_project.code'=>$target]);
+                $condition = array_merge(['code_project.code' => $target]);
             }
 
             $result = $this->projectModel->getPaginated([
@@ -69,6 +68,57 @@ class ProjectController extends CustomFileController
     public function get($id): ResponseInterface
     {
         return $this->typicallyFind($this->projectModel, $id);
+    }
+
+
+    /**
+     * [get] /api/project/reward/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function getReward($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $result = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+            if (!$result) throw new Exception('not exist');
+            $response['success'] = true;
+            $response['data'] = [
+                'array' => $result
+            ];
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
+    }
+
+    /**
+     * [get] /api/project/artist/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function getArtist($id): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $result = $this->artistGroupModel->getArtists($id);
+            if (!$result) throw new Exception('not exist');
+            $response['success'] = true;
+            $response['data'] = [
+                'array' => $result
+            ];
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
     }
 
     /**
@@ -361,6 +411,7 @@ class ProjectController extends CustomFileController
         }
         return $this->response->setJSON($response);
     }
+
     /**
      * /api/project/post/{code}
      * @param $code
@@ -397,7 +448,7 @@ class ProjectController extends CustomFileController
             $queries[] = "UPDATE project
                         LEFT JOIN code_project ON code_project.id = project.code_project_id
                         SET project.is_posted = 0" .
-                        " WHERE code_project.code = '" . $code . "'" . $conditionQuery;
+                " WHERE code_project.code = '" . $code . "'" . $conditionQuery;
 
             BaseModel::transaction($this->db, $queries);
             $response['success'] = true;

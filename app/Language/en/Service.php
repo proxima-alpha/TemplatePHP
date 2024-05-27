@@ -164,6 +164,9 @@ return [
     "filter_end_date" => "End Date",
     "filter_download_excel" => "Download Excel",
 
+    "reward_type_all" => "All",
+    "reward_type_random" => "Random",
+
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",
     "message_popup_delete" => "Are you sure to delete?",

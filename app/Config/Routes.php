@@ -173,14 +173,16 @@ $routes->post('/api/artist/create', [\API\ArtistController::class, 'create']);
 $routes->post('/api/artist/update/' . $ID_RULE, [\API\ArtistController::class, 'update']);
 $routes->delete('/api/artist/delete/' . $ID_RULE, [\API\ArtistController::class, 'delete']);
 
-$routes->get('/api/project/'.$CODE_RULE, [\API\ProjectController::class, 'index']);
 $routes->get('/api/project/get/' . $ID_RULE, [\API\ProjectController::class, 'get']);
+$routes->get('/api/project/reward/' . $ID_RULE, [\API\ProjectController::class, 'getReward']);
+$routes->get('/api/project/artist/' . $ID_RULE, [\API\ProjectController::class, 'getArtist']);
 $routes->post('/api/project/create', [\API\ProjectController::class, 'create']);
 $routes->post('/api/project/update/' . $ID_RULE, [\API\ProjectController::class, 'update']);
 $routes->post('/api/project/regenerate-hash/' . $ID_RULE, [\API\ProjectController::class, 'regenerateHash']);
 $routes->delete('/api/project/delete/' . $ID_RULE, [\API\ProjectController::class, 'delete']);
 $routes->post('/api/project/post/'.$CODE_RULE, [\API\ProjectController::class, 'postByCode']);
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
+$routes->get('/api/project/'.$CODE_RULE, [\API\ProjectController::class, 'index']);
 
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
 $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseController::class, 'complete']);

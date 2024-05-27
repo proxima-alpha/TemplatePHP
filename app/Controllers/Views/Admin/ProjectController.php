@@ -91,7 +91,7 @@ class ProjectController extends BaseAdminController
                     '/module/slick_custom',
                     '/common/tab_box',
                     '/common/delete',
-                    '/common/artist',
+                    '/admin/project_reward',
                 ],
             ])
             . view('/admin/project/view', $data)
@@ -136,6 +136,7 @@ class ProjectController extends BaseAdminController
                     '/common/project',
                     '/admin/search_artist',
                     '/admin/project_input',
+                    '/admin/project_reward',
                 ],
             ])
             . view('/admin/project/input', $data)
@@ -178,6 +179,7 @@ class ProjectController extends BaseAdminController
                     '/common/tab_box',
                     '/admin/project_input',
                     '/admin/search_artist',
+                    '/admin/project_reward',
                 ],
             ])
             . view('/admin/project/input', $data)
