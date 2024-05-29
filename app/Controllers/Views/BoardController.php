@@ -179,7 +179,7 @@ class BoardController extends BaseClientController
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
                     '/module/draggable',
-                    '/module/image_uploader',
+                    '/module/uploader',
                     '/common/topic',
                 ],
             ])
@@ -221,7 +221,7 @@ class BoardController extends BaseClientController
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
                     '/module/draggable',
-                    '/module/image_uploader',
+                    '/module/uploader',
                     '/common/topic',
                 ],
             ])

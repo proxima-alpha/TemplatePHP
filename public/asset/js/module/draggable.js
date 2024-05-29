@@ -73,6 +73,9 @@ function handleDrop(parentElement) {
                 if (isExchanged) {
                     draggableDragged.innerHTML = this.innerHTML;
                     draggableDropped.innerHTML = transferredData;
+                    if (parentElement.afterDragFinished && typeof parentElement.afterDragFinished == 'function') {
+                        parentElement.afterDragFinished();
+                    }
                 }
                 draggableDropped = null;
                 draggableDragged = null;
@@ -195,6 +198,9 @@ function handleTouchEnd(parentElement) {
                         if (isExchanged) {
                             draggableDragged.innerHTML = draggableDropped.innerHTML;
                             draggableDropped.innerHTML = transferredData;
+                            if (parentElement.afterDragFinished && typeof parentElement.afterDragFinished == 'function') {
+                                parentElement.afterDragFinished();
+                            }
                         }
                         draggableDropped = null;
                         draggableDragged = null;
@@ -210,6 +216,7 @@ function handleTouchEnd(parentElement) {
 
 jQuery.prototype.initDraggable = async function (input) {
     this.onDragFinished = input.onDragFinished;
+    this.afterDragFinished = input.afterDragFinished;
     // $draggableItemMap[] = []
     let $draggableItems = this.find('.draggable-item');
     for (let i = 0; i < $draggableItems.length; ++i) {

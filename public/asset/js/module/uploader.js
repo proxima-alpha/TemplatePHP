@@ -20,13 +20,10 @@ let uploadData = {
         this.checkEmpty(key);
         return this.extras[key];
     },
-    set(key, index, value) {
+    exchange(key, fromIndex, toIndex) {
         this.checkEmpty(key);
-        const valueIndex = this.ids[key].indexOf(value);
-        this.ids[key][index] = value;
-        const tempType = this.extras[key][index];
-        this.extras[key][index] = this.extras[key][valueIndex];
-        this.extras[key][valueIndex] = tempType;
+        [this.ids[key][fromIndex], this.ids[key][toIndex]] = [this.ids[key][toIndex], this.ids[key][fromIndex]];
+        [this.extras[key][fromIndex], this.extras[key][toIndex]] = [this.extras[key][toIndex], this.extras[key][fromIndex]];
     },
     push(key, value, extra = null) {
         this.checkEmpty(key);
@@ -62,8 +59,7 @@ function deleteUploadedSlickFile(target = 'topic', id) {
     let index = uploadData.get(target).indexOf(id.toString());
     if (index < 0) return;
     let $uploader = $(`.uploader.${target}`);
-    if($uploader.hasClass('slick'))
-    {
+    if ($uploader.hasClass('slick')) {
         $uploader.removeCustomSlickItem(index)
     }
     uploadData.splice(target, index);
@@ -251,9 +247,7 @@ function confirmEditFiles(target = 'topic', callback) {
 function generateOnDragFinished(target) {
     return async (from, to) => {
         function getInputValue(parent) {
-            let elements = parent.getElementsByTagName('input');
-            if (elements.length == 0) return null;
-            return elements[0].value;
+            return $(parent).find('input[name=id]').val();
         }
 
         let fromId = getInputValue(from);
@@ -262,15 +256,14 @@ function generateOnDragFinished(target) {
             throw Error("can't find id value");
             return false;
         }
-
         let fromIndex = uploadData.get(target).indexOf(fromId);
         let toIndex = uploadData.get(target).indexOf(toId);
-        if (fromIndex < 0 || toIndex < 0) {
+        const dataLength = uploadData.get(target).length
+        if (fromIndex < 0 || toIndex < 0 || fromIndex > dataLength || toIndex > dataLength) {
             throw Error("can't find id value in temporary stored array");
             return false;
         }
-        uploadData.set(target, fromIndex, toId);
-        uploadData.set(target, toIndex, fromId);
+        uploadData.exchange(target, fromIndex, toIndex);
 
         let temp = from.style.background;
         from.style.background = to.style.background;

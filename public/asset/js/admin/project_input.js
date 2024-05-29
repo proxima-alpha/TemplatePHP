@@ -64,6 +64,88 @@ function deleteUploadedArtistFile(target = 'topic', id) {
     }
 }
 
+function confirmCalendarSelect(className, target) {
+    let data = parseInputToData($(`.${className} input, .${className} textarea`))
+
+    $(`.form-wrap input[name=${target}]`).val(data['date'])
+    closePopup(className);
+}
+
+function removeRowDraggableItem(target, index, id) {
+    if (id) {
+        let index = uploadData.get(target).indexOf(id);
+        if (index >= 0) uploadData.splice(target, index);
+    }
+    $(`.row-uploader.${target} .index-${index}`).remove();
+}
+
+function confirmArtistSearch(className, target) {
+    let data = parseInputToData($(`.${className} input, .${className} textarea`))
+    const id = data['artist']
+    if (id) {
+        if (uploadData.get(target).indexOf(id) >= 0) {
+            openPopupMessage(lang('이미 선택된 아티스트입니다'))
+            return;
+        }
+        apiRequest({
+            type: 'GET',
+            url: `/api/artist/get/${id}`,
+            data: data,
+            dataType: 'json',
+            success: function (response, status, request) {
+                if (!response.success) {
+                    openPopupErrors('popup-error', response, status, request);
+                    return;
+                }
+
+                const data = response.data
+                uploadData.push(target, id, {
+                    id: data.id,
+                    name: data.name,
+                    name_en: data.name_en,
+                });
+                let $container = $(`.row-uploader.${target}`);
+
+                const index = $container.find('.row-uploader-item').length
+                $container.append(getArtistItemHtml(target, index, true, data));
+
+                $container.initDraggable({
+                    onDragFinished: generateOnDragFinished(target),
+                    afterDragFinished: () => {
+                        refreshReward()
+                    }
+                });
+                refreshReward()
+            },
+            error: function (response, status, error) {
+                openPopupErrors('popup-error', response, status, error);
+            },
+        });
+        closePopup(className);
+    } else {
+        openPopupMessage(lang('아티스트를 선택해주세요'))
+    }
+}
+
+function addRewardForm(target) {
+    let $container = $(`.row-uploader.${target}`);
+    const index = $container.find('.row-uploader-item').length
+    $container.append(getRewardItemHtml(target, index, true));
+    try {
+        $container.initDraggable({
+            onDragFinished: async (from, to) => {
+                let temp = from.style.background;
+                from.style.background = to.style.background;
+                to.style.background = temp;
+                return true;
+            },
+        });
+    } catch (e) {
+        // do nothing
+        // topic view page doesn't need initDraggable
+    }
+}
+
 function confirmEditProject(id) {
     let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
     data['artists'] = uploadData.get('artist');
@@ -72,6 +154,8 @@ function confirmEditProject(id) {
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
     for (let i = 0; i < $rewards.length; ++i) {
+        // TODO update values
+        const $checkboxs = $reward.find('.checkbox-group.artist input[type=checkbox]:checked')
         const $reward = $rewards.eq(i);
         const rewardData = parseInputToData($reward.find('.editable'))
         if (Object.keys(rewardData).length > 0) {
@@ -130,65 +214,4 @@ function confirmCreateProject() {
             openPopupErrors('popup-error', response, status, error);
         },
     });
-}
-
-function confirmCalendarSelect(className, target) {
-    let data = parseInputToData($(`.${className} input, .${className} textarea`))
-
-    $(`.form-wrap input[name=${target}]`).val(data['date'])
-    closePopup(className);
-}
-
-function removeRowDraggableItem(target, index, id) {
-    if (id) {
-        let index = uploadData.get(target).indexOf(id);
-        if (index >= 0) uploadData.splice(target, index);
-    }
-    $(`.row-uploader.${target} .index-${index}`).remove();
-}
-
-function confirmArtistSearch(className, target) {
-    let data = parseInputToData($(`.${className} input, .${className} textarea`))
-    const id = data['artist']
-    if (id) {
-        if (uploadData.get(target).indexOf(id) >= 0) {
-            openPopupMessage(lang('이미 선택된 아티스트입니다'))
-            return;
-        }
-        uploadData.push(target, id);
-        apiRequest({
-            type: 'GET',
-            url: `/api/artist/get/${id}`,
-            data: data,
-            dataType: 'json',
-            success: function (response, status, request) {
-                if (!response.success) {
-                    openPopupErrors('popup-error', response, status, request);
-                    return;
-                }
-
-                const data = response.data
-                let $container = $(`.row-uploader.${target}`);
-
-                const index = $container.find('.row-uploader-item').length
-                $container.append(getArtistItemHtml(target, index, true, data));
-
-                $container.initDraggable({
-                    onDragFinished: generateOnDragFinished(target),
-                });
-            },
-            error: function (response, status, error) {
-                openPopupErrors('popup-error', response, status, error);
-            },
-        });
-        closePopup(className);
-    } else {
-        openPopupMessage(lang('아티스트를 선택해주세요'))
-    }
-}
-
-function addRewardForm(target) {
-    let $container = $(`.row-uploader.${target}`);
-    const index = $container.find('.row-uploader-item').length
-    $container.append(getRewardItemHtml(target, index, true));
 }

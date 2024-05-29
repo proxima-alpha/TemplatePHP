@@ -1,16 +1,49 @@
-function onRewardItemSelectChanged(element, target, index) {
-    console.log($(element).val())
+const rewardCheckboxBuffer = {}
+
+function onRewardRandomItemChanged(index, element) {
+    if (!rewardCheckboxBuffer[index]) rewardCheckboxBuffer[index] = [];
+    const id = element.getAttribute('id');
+    if(element.checked) {
+        if(rewardCheckboxBuffer[index].indexOf(id) < 0) {
+            rewardCheckboxBuffer[index].push(id)
+        }
+    } else {
+        const i = rewardCheckboxBuffer[index].indexOf(id);
+        if(i >= 0) {
+            rewardCheckboxBuffer[index].splice(i, 1);
+        }
+    }
+}
+
+function getRewardRandomItemHtml(index, array, isEditable = true, data = null) {
+    const language = getCookie('lang')
+    let html = ``;
+    for (const i in array) {
+        const item = array[i];
+        const checked = data && data.indexOf(item.id) >= 0 ? 'checked' : '';
+        const option = isEditable ? '' : 'disabled';
+        html += `
+        <div class="input-wrap">
+            <input class="editable" type="checkbox" id="${item.id}" name="artist" ${checked} ${option} onchange="onRewardRandomItemChanged(${index}, this)"/>
+            <p class="input-title">${language == 'ko' ? item['name'] : item['name_en']}</p>
+        </div>`
+    }
+    return `
+    <div class="checkbox-group artist">
+        ${html}
+    </div>`
+}
+
+function onRewardItemSelectChanged(element, target, index, isEditable = true) {
     const $container = $(`.row-uploader.${target} .index-${index}`);
     const selectedValue = $(element).val();
     if (selectedValue == 'all') {
-        $container.find('.input-wrap.select-box.artist').remove();
+        $container.find('.checkbox-group.artist').remove();
     } else if (selectedValue == 'random') {
-        const $selectBox = $container.find('.select-box');
-        $selectBox.after(`
-        <div class="input-wrap inline select-box artist">
-            <p class="input-title">${lang('artist')}</p>
-                <input type="checkbox" name="test" />
-        </div>`)
+        // const $selectBox = $container.find('.select-box');
+        // const extras = uploadData.getExtra('artist');
+        // $selectBox.after(getRewardRandomItemHtml(index, extras, isEditable))
+        refreshReward(isEditable)
     }
 }
 
@@ -89,9 +122,29 @@ function loadReward(project_id, isEditable = true) {
             }
             let array = response.data.array;
             const target = 'reward';
+            let $container = $(`.row-uploader.${target}`);
             for (let i in array) {
-                let $container = $(`.row-uploader.${target}`);
+                const data = array[i];
+                uploadData.push(target, data.id);
                 $container.append(getRewardItemHtml(target, i, isEditable, array[i]));
+                if (data['type'] == 'random') {
+                    const $selectBox = $container.find(`.index-${i}`).find('.select-box');
+                    const extras = uploadData.getExtra('artist');
+                    $selectBox.after(getRewardRandomItemHtml(i, extras, isEditable))
+                }
+            }
+            try {
+                $container.initDraggable({
+                    onDragFinished: async (from, to) => {
+                        let temp = from.style.background;
+                        from.style.background = to.style.background;
+                        to.style.background = temp;
+                        return true;
+                    },
+                });
+            } catch (e) {
+                // do nothing
+                // topic view page doesn't need initDraggable
             }
         },
         error: function (response, status, error) {
@@ -130,12 +183,44 @@ function loadArtist(project_id, isEditable = true) {
             }
             let array = response.data.array;
             const target = 'artist';
+            let $container = $(`.row-uploader.${target}`);
             for (let i in array) {
-                let $container = $(`.row-uploader.${target}`);
+                const data = array[i];
+                uploadData.push(target, data.id, {
+                    id: data.id,
+                    name: data.name,
+                    name_en: data.name_en,
+                });
                 $container.append(getArtistItemHtml(target, i, isEditable, array[i]));
+            }
+            try {
+                $container.initDraggable({
+                    onDragFinished: generateOnDragFinished(target),
+                    afterDragFinished: () => {
+                        refreshReward()
+                    }
+                });
+            } catch (e) {
+                // do nothing
+                // topic view page doesn't need initDraggable
             }
         },
         error: function (response, status, error) {
         },
     });
+}
+
+function refreshReward(isEditable = true) {
+    console.log('refresh-reward')
+    let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
+    const extras = uploadData.getExtra('artist')
+    for (let i = 0; i < $rewards.length; ++i) {
+        const $reward = $rewards.eq(i);
+
+        if ($reward.find('select[name=type]').val() == 'random') {
+            $reward.find('.checkbox-group.artist').remove();
+            const $selectBox = $reward.find('.select-box');
+            $selectBox.after(getRewardRandomItemHtml(i, extras, isEditable, rewardCheckboxBuffer[i] ?? []))
+        }
+    }
 }

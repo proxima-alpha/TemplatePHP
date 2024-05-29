@@ -72,6 +72,7 @@
 .input-wrap.hash .button {
     margin: 10px 10px 0px 10px;
 }
+
 .input-wrap.hash .button * {
     display: inline-block;
     vertical-align: middle;
@@ -79,6 +80,37 @@
 
 .input-wrap.hash .button span {
     font-size: 18px;
+}
+
+.checkbox-group {
+    padding: 10px;
+}
+
+.checkbox-group .input-wrap {
+    display: inline-block;
+    width: 33%;
+    line-height: 30px;
+    box-sizing: border-box;
+}
+
+.checkbox-group .input-wrap .input-title {
+    width: calc(100% - 40px);
+    display: inline-block;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.row-uploader.reward .row-uploader-item .checkbox-group .input-wrap [type=checkbox] {
+    width: 20px;
+    margin: 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.checkbox-group .input-wrap label {
+    vertical-align: middle;
 }
 
 @media (max-width: 840px) {
@@ -104,5 +136,9 @@
     .row-uploader.artist .row-uploader-item .profile {
         width: 150px;
         height: 150px;
+    }
+
+    .checkbox-group .input-wrap {
+        width: 50%;
     }
 }

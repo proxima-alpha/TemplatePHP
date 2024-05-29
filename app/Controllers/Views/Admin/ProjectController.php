@@ -89,9 +89,10 @@ class ProjectController extends BaseAdminController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
+                    '/module/uploader',
                     '/common/tab_box',
                     '/common/delete',
-                    '/admin/project_reward',
+                    '/admin/project',
                 ],
             ])
             . view('/admin/project/view', $data)
@@ -131,12 +132,11 @@ class ProjectController extends BaseAdminController
                     '/module/slick_custom',
                     '/module/calendar',
                     '/module/draggable',
-                    '/module/image_uploader',
+                    '/module/uploader',
                     '/common/tab_box',
-                    '/common/project',
                     '/admin/search_artist',
                     '/admin/project_input',
-                    '/admin/project_reward',
+                    '/admin/project',
                 ],
             ])
             . view('/admin/project/input', $data)
@@ -174,12 +174,11 @@ class ProjectController extends BaseAdminController
                     '/module/slick_custom',
                     '/module/calendar',
                     '/module/draggable',
-                    '/module/image_uploader',
-                    '/common/project',
+                    '/module/uploader',
                     '/common/tab_box',
-                    '/admin/project_input',
                     '/admin/search_artist',
-                    '/admin/project_reward',
+                    '/admin/project_input',
+                    '/admin/project',
                 ],
             ])
             . view('/admin/project/input', $data)
