@@ -27,6 +27,10 @@ $identifier = $shortid->generate();
 ?>
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
+    <?php
+    if (isset($data['project_image_id'])) {?>
+    uploadData.push('project', '<?=$data['project_image_id']?>');
+    <?php }?>
 </script>
 <div class="container-inner">
     <div class="container-wrap">
@@ -145,5 +149,4 @@ $identifier = $shortid->generate();
             loadReward(<?=$data['id']?>)
         });
         <?php } ?>
-
     </script>

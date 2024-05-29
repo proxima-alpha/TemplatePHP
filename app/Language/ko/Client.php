@@ -61,6 +61,9 @@ return [
     "reward_purchase_item_04" => "요청메세지를 작성하세요!",
     "reward_purchase_item_05" => "영상 비공개 (상세페이지에 노출 되지 않습니다)",
 
+    "reward_type_all" => "멤버 전원",
+    "reward_type_random" => "랜덤",
+
     "reward_now_stock_string" => "현재 재고 %s",
     "reward_limited_count_string" => "%s 개 한정",
     "reward_available_count_string" => "%s 개 구매가능",

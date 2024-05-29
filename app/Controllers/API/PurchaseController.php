@@ -95,8 +95,8 @@ class PurchaseController extends BaseApiController
                 }
                 foreach ($data['purchase_items'] as $item) {
                     $item['purchase_id'] = $inserted_row_id;
-                    $inserted_id = $this->purchaseItemModel->insert($item);
-                    if (!$inserted_id) {
+                    $inserted_result = $this->purchaseItemModel->insert($item);
+                    if (!$inserted_result) {
                         $response['messages'] = $this->purchaseItemModel->errors();
                         throw new \Exception();
                     }
@@ -150,12 +150,12 @@ class PurchaseController extends BaseApiController
                 $items = $this->purchaseItemModel->get(['purchase_id' => $id]);
                 $purchase = $this->purchaseModel->getLatest(['id' => $id]);
                 $this->db->transBegin();
-                $inserted_id = $this->purchaseModel->update($id, [
+                $inserted_result = $this->purchaseModel->update($id, [
                     'imp_uid' => $data['imp_uid'],
                     'merchant_uid' => $data['merchant_uid'],
                     'status' => 'paid',
                 ]);
-                if (!$inserted_id) {
+                if (!$inserted_result) {
                     $response['messages'] = $this->purchaseModel->errors();
                     throw new \Exception();
                 }

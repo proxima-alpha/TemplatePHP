@@ -77,6 +77,7 @@ class ProjectController extends BaseClientController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
+                    '/client/project_reward',
                     '/client/project',
                 ],
             ])
@@ -115,12 +116,13 @@ class ProjectController extends BaseClientController
      * @param $reward_id
      * @return string
      */
-    public function getReward($reward_id): string
+    public function getPurchase($id): string
     {
         $this->checkLogout();
         $data = $this->getViewData();
         try {
-            $data = array_merge($data, $this->getRewardData($reward_id));
+            // TODO change to load all rewards from project
+            $data = array_merge($data, $this->getRewardData(7));
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
@@ -129,13 +131,14 @@ class ProjectController extends BaseClientController
         return parent::loadHeader([
                 'css' => [
                     '/common/input',
-                    '/client/project/reward'
+                    '/client/project/purchase'
                 ],
                 'js' => [
-                    '/client/reward',
+                    '/client/project_reward',
+                    '/client/project_purchase',
                 ],
             ])
-            . view('/client/project/reward', $data)
+            . view('/client/project/purchase', $data)
             . parent::loadFooter();
     }
 
@@ -165,7 +168,19 @@ class ProjectController extends BaseClientController
         $project = $projects[0];
         $artists = $this->artistGroupModel->getArtists($id);
         $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+        $rewardArtistResult = $this->artistGroupModel->getArtistsForReward($id);
+        $rewardArtists = [];
+        foreach ($rewardArtistResult as $artist) {
+            $reward_id = $artist['reward_id'] ?? null;
+            if (isset($reward_id)) {
+                if (!isset($rewardArtists[$reward_id])) $rewardArtists[$reward_id] = [];
+                $rewardArtists[$reward_id][] = $artist;
+            }
+        }
         foreach ($rewards as $index => $reward) {
+            if ($reward['type'] == 'random') {
+                $rewards[$index]['artists'] = $rewardArtists[$reward['id']] ?? [];
+            }
             if (isset($this->session->user_id)) {
                 $rewards[$index]['paid_count'] = $this->rewardModel->getPaidCount($reward['id'], $this->session->user_id);
             } else {

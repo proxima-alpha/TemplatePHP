@@ -1,4 +1,3 @@
-
 function setArtist(id) {
     apiRequest({
         type: 'GET',
@@ -68,14 +67,15 @@ function setArtist(id) {
     });
 }
 
-function purchaseReward(id, start_date, end_date, available_count) {
+function purchase(id, start_date, end_date) {
     if (getCookie('is_login') != 1) {
         openPopupMessage(lang('message_error_login'))
         return
     }
-    if (available_count <= 0) {
-        return openPopupMessage(lang('message_error_exceed'))
-    }
+    // TODO move into purchase.js
+    // if (available_count <= 0) {
+    //     return openPopupMessage(lang('message_error_exceed'))
+    // }
     const rawNowDate = new Date()
     if (!isEmpty(start_date)) {
         const rawStartDate = new Date(start_date)
@@ -89,7 +89,7 @@ function purchaseReward(id, start_date, end_date, available_count) {
             return openPopupMessage(lang('message_error_expired'))
         }
     }
-    window.location.href = `/project/purchase/reward/${id}`;
+    window.location.href = `/project/${id}/purchase`;
 }
 
 function onClickScrollLeft(element) {

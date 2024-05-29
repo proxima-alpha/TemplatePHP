@@ -26,4 +26,15 @@ class QueryHelper
         }
         return $query . ';';
     }
+
+    static function getRewardGroupCreate($artist_ids, $project_id, $reward_id)
+    {
+        $query = "REPLACE INTO artist_group(artist_id, project_id, reward_id, priority) VALUES";
+        $prefix = '';
+        foreach ($artist_ids as $index => $artist_id) {
+            $query .= $prefix . "('" . $artist_id . "','" . $project_id. "','" . $reward_id . "', '" . ($index + 1) . "')";
+            $prefix = ',';
+        }
+        return $query . ';';
+    }
 }

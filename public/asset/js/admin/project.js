@@ -130,7 +130,7 @@ function loadReward(project_id, isEditable = true) {
                 if (data['type'] == 'random') {
                     const $selectBox = $container.find(`.index-${i}`).find('.select-box');
                     const extras = uploadData.getExtra('artist');
-                    $selectBox.after(getRewardRandomItemHtml(i, extras, isEditable))
+                    $selectBox.after(getRewardRandomItemHtml(i, extras, isEditable, data.artists?.map(artist => artist.id) ?? []))
                 }
             }
             try {

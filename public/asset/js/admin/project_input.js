@@ -155,10 +155,15 @@ function confirmEditProject(id) {
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
     for (let i = 0; i < $rewards.length; ++i) {
         // TODO update values
-        const $checkboxs = $reward.find('.checkbox-group.artist input[type=checkbox]:checked')
         const $reward = $rewards.eq(i);
+        const $checkboxs = $reward.find('.checkbox-group.artist input[type=checkbox]:checked')
+        const artists= [];
+        for(let i= 0; i< $checkboxs.length; ++i) {
+            artists.push($checkboxs.eq(i).attr('id'))
+        }
         const rewardData = parseInputToData($reward.find('.editable'))
         if (Object.keys(rewardData).length > 0) {
+            rewardData['artists'] = artists;
             rewards.push(rewardData);
         }
     }
@@ -191,8 +196,14 @@ function confirmCreateProject() {
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
     for (let i = 0; i < $rewards.length; ++i) {
         const $reward = $rewards.eq(i);
+        const $checkboxs = $reward.find('.checkbox-group.artist input[type=checkbox]:checked')
+        const artists= [];
+        for(let i= 0; i< $checkboxs.length; ++i) {
+            artists.push($checkboxs.eq(i).attr('id'))
+        }
         const rewardData = parseInputToData($reward.find('.editable'))
         if (Object.keys(rewardData).length > 0) {
+            rewardData['artists'] = artists;
             rewards.push(rewardData);
         }
     }

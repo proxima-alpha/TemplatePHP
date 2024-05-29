@@ -65,6 +65,9 @@ return [
     "reward_limited_count_string" => "Limited to %s items",
     "reward_available_count_string" => "%s items available for purchase",
 
+    "reward_type_all" => "All Members",
+    "reward_type_random" => "Random",
+
     "reward_reaction" => "Categories",
     "reward_request" => "Request details",
     "show_more" => "Show more",

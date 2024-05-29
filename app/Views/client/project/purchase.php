@@ -13,6 +13,12 @@
     'reward_request',
     'show_more',
     'message_error_field_empty',
+    'reward_type_all',
+    'reward_type_random',
+    'reward_now_stock_string',
+    'reward_limited_count_string',
+    'reward_available_count_string',
+    'purchase',
 ], 'Client');
 ?>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
@@ -70,22 +76,11 @@
         </div>
         <div class="content-box">
             <div class="page" id="page-1">
-                <?php if (isset($reward)) { ?>
-                    <div class="reward-box">
-                        <h4 class="page-sub-title">
-                            <?= lang('Client.reward_select') ?>
-                        </h4>
-                        <div class="reward-wrap">
-                            <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
-                            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
-                            <p class="remaining-count"><?= sprintf(lang("Client.reward_now_stock_string"), ($reward['total_count'] - $reward['purchased_count'])) ?></p>
-                            <p class="limited-count"><?= sprintf(lang("Client.reward_limited_count_string"), $reward['limited_count']) ?></p>
-                            <p class="available-count"><?= sprintf(lang("Client.reward_available_count_string"), $reward['available_count']) ?></p>
-                            <div class="line"></div>
-                            <p class="price"><?= number_format($reward['price']) ?> KRW</p>
-                        </div>
-                    </div>
-                <?php } ?>
+                <div class="reward-box">
+                    <h4 class="page-sub-title">
+                        <?= lang('Client.reward_select') ?>
+                    </h4>
+                </div>
                 <div class="select-payment-box">
                     <div class="limited-count-wrap">
                         <span class="title"><?= lang('Client.available_count') ?> </span>
@@ -112,7 +107,8 @@
                             <select class="editable" name="code_reward_request_id" value="1">
 
                                 <?php foreach ($reward_requests as $index => $item) { ?>
-                                    <option value="<?=$item['id']?>"><?=$lang == 'ko' ? $item['name'] : $item['name_en']?></option>
+                                    <option
+                                        value="<?= $item['id'] ?>"><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -159,7 +155,7 @@
                                  style="background: url('/file/<?= $project['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
                             <div class="content-wrap">
-                                <p class="title"><?=$lang == 'ko' ? $project['title'] : $project['title_en']?></p>
+                                <p class="title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
                                 <div class="line"></div>
                                 <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $project['content'] : $project['content_en']) ?></p>
                             </div>
@@ -224,7 +220,8 @@
                         </div>
                         <h4 class="page-sub-title"><?= lang('Client.payment_expected_price') ?></h4>
                         <div class="total-price">
-                            <input class="editable" type="text" name="paid" value="<?= number_format($reward['price']) ?>" readonly/>
+                            <input class="editable" type="text" name="paid"
+                                   value="<?= number_format($reward['price']) ?>" readonly/>
                             <p>KRW</p>
                         </div>
                         <div class="terms">
@@ -250,3 +247,9 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadReward(<?=$project['id']?>)
+    });
+</script>

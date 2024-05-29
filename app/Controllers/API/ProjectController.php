@@ -83,11 +83,33 @@ class ProjectController extends CustomFileController
         ];
 
         try {
-            $result = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
-            if (!$result) throw new Exception('not exist');
+            $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+            if (!$rewards) throw new Exception('not exist');
+
+            $rewardArtistResult = $this->artistGroupModel->getArtistsForReward($id);
+            $rewardArtists = [];
+            foreach ($rewardArtistResult as $artist) {
+                $reward_id = $artist['reward_id'] ?? null;
+                if (isset($reward_id)) {
+                    if (!isset($rewardArtists[$reward_id])) $rewardArtists[$reward_id] = [];
+                    $rewardArtists[$reward_id][] = $artist;
+                }
+            }
+            foreach ($rewards as $index => $reward) {
+                if ($reward['type'] == 'random') {
+                    $rewards[$index]['artists'] = $rewardArtists[$reward['id']] ?? [];
+                }
+                if (isset($this->session->user_id)) {
+                    $rewards[$index]['paid_count'] = $this->rewardModel->getPaidCount($reward['id'], $this->session->user_id);
+                } else {
+                    $rewards[$index]['paid_count'] = 0;
+                }
+                $rewards[$index]['available_count'] = Utils::calculateAvailableReward($rewards[$index]);
+            }
+
             $response['success'] = true;
             $response['data'] = [
-                'array' => $result
+                'array' => $rewards
             ];
         } catch (Exception $e) {
             //todo(log)
@@ -197,20 +219,33 @@ class ProjectController extends CustomFileController
                     $response['messages'] = $this->projectModel->errors();
                     throw new \Exception();
                 }
+                $queries = [];
                 foreach ($data['rewards'] as $reward) {
                     $reward['project_id'] = $inserted_row_id;
-                    $inserted_id = false;
-                    if (isset($reward['id'])) {
-                        $inserted_id = $this->rewardModel->update($reward['id'], $reward);
-                    } else {
-                        $inserted_id = $this->rewardModel->insert($reward);
+                    $artists = [];
+                    if ($reward['type'] == 'random') {
+                        if (!isset($reward['artists']) || sizeof($reward['artists']) == 0) {
+                            throw new Exception('Random Reward needs at least one artist');
+                        }
+                        $artists = array_unique($reward['artists']);
                     }
-                    if (!$inserted_id) {
+                    $inserted_id = false;
+                    $inserted_result = false;
+                    if (isset($reward['id'])) {
+                        $inserted_id = $reward['id'];
+                        $inserted_result = $this->rewardModel->update($reward['id'], $reward);
+                    } else {
+                        $inserted_result = $this->rewardModel->insert($reward);
+                        $inserted_id = $inserted_result;
+                    }
+                    if (!$inserted_result) {
                         $response['messages'] = $this->rewardModel->errors();
                         throw new \Exception();
                     }
+                    if (sizeof($artists) > 0) {
+                        $queries[] = QueryHelper::getRewardGroupCreate($artists, $inserted_row_id, $inserted_id);
+                    }
                 }
-                $queries = [];
                 $queries[] = QueryHelper::getGroupCreate($data['artists'], $inserted_row_id);
                 if (isset($data['project_image_id'])) {
                     $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
@@ -270,8 +305,8 @@ class ProjectController extends CustomFileController
                     throw new Exception('End Date should be later than Start Date.');
 
                 $this->db->transBegin();
-                $inserted_id = $this->projectModel->update($id, $data);
-                if (!$inserted_id) {
+                $inserted_result = $this->projectModel->update($id, $data);
+                if (!$inserted_result) {
                     $response['messages'] = $this->projectModel->errors();
                     throw new \Exception();
                 }
@@ -296,24 +331,38 @@ class ProjectController extends CustomFileController
                 if ($selectorQuery != '') {
                     $queries[] = "UPDATE reward SET is_deleted= 0 WHERE id NOT IN(" . $selectorQuery . ")";
                 }
-                foreach ($data['rewards'] as $index => $newReward) {
-                    $newReward['project_id'] = $id;
-                    $newReward['priority'] = $index + 1;
-                    $inserted_id = false;
-                    if (isset($newReward['id'])) {
-                        $inserted_id = $this->rewardModel->update($newReward['id'], $newReward);
-                    } else {
-                        $inserted_id = $this->rewardModel->insert($newReward);
+                $queries[] = "DELETE FROM artist_group WHERE project_id = '" . $id . "';";
+                foreach ($data['rewards'] as $index => $reward) {
+                    $reward['project_id'] = $id;
+                    $reward['priority'] = $index + 1;
+                    $artists = [];
+                    if ($reward['type'] == 'random') {
+                        if (!isset($reward['artists']) || sizeof($reward['artists']) == 0) {
+                            throw new Exception('Random Reward needs at least one artist');
+                        }
+                        $artists = array_unique($reward['artists']);
                     }
-                    if (!$inserted_id) {
+
+                    $inserted_id = false;
+                    $inserted_result = false;
+                    if (isset($reward['id'])) {
+                        $inserted_id = $reward['id'];
+                        $inserted_result = $this->rewardModel->update($reward['id'], $reward);
+                    } else {
+                        $inserted_result = $this->rewardModel->insert($reward);
+                        $inserted_id = $inserted_result;
+                    }
+                    if (!$inserted_result) {
                         $response['messages'] = $this->rewardModel->errors();
                         throw new \Exception();
                     }
+                    if (sizeof($artists) > 0) {
+                        $queries[] = QueryHelper::getRewardGroupCreate($artists, $id, $inserted_id);
+                    }
                 }
 
-                $queries[] = "DELETE FROM artist_group WHERE project_id = '" . $id . "';";
                 $queries[] = QueryHelper::getGroupCreate($data['artists'], $id);
-//
+
                 if (isset($data['project_image_id'])) {
                     $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
                 }
