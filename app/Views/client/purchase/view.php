@@ -52,27 +52,22 @@
                 </div>
             <?php } else if (isset($purchase_item_reward)) {
                 foreach ($purchase_item_reward as $index => $item) {
-                    if ($item['status'] == 'waiting' || ($item['reward_file_id'])) {
-                        \App\Helpers\ServerLogger::log($item);
-                        $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
-                        ?>
-                        <div class="artist-box">
-                            <div class="image-item-wrap"
-                                 style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>
-                            <div class="text-wrap">
-                                <p><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></p>
-                            </div>
+                    $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg'; ?>
+                    <div class="artist-box">
+                        <div class="image-item-wrap"
+                             style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>
+                        <div class="text-wrap">
+                            <p><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></p>
+                        </div>
+                        <?php if ($item['status'] == 'waiting' || ($item['reward_file_id'])) { ?>
                             <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"
                                href="/reward-file/<?= $item['reward_file_id'] ?>"><?= lang('Client.status_' . $item['status']) ?>
                             </a>
-                        </div>
-                    <?php } else { ?>
-                        <div class="button-wrap">
-                            <a class="button button-fill disabled"><?= lang('Client.status_expired') ?>
-                            </a>
-                        </div>
-                    <?php }
-                }
+                        <?php } else { ?>
+                            <a class="button button-fill disabled"><?= lang('Client.status_expired') ?></a>
+                        <?php } ?>
+                    </div>
+                <?php }
             } ?>
         </div>
     </div>

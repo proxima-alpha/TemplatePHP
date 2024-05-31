@@ -3,6 +3,7 @@
 namespace Views\Admin;
 
 use Exception;
+use Models\ArtistGroupModel;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
 use Models\PurchaseItemRewardModel;
@@ -14,6 +15,7 @@ use Models\RewardModel;
 class ProjectRewardController extends BaseAdminController
 {
     protected ProjectModel $projectModel;
+    protected ArtistGroupModel $artistGroupModel;
     protected RewardModel $rewardModel;
     protected PurchaseItemModel $purchaseItemModel;
     protected PurchaseItemRewardModel $purchaseItemRewardModel;
@@ -22,6 +24,7 @@ class ProjectRewardController extends BaseAdminController
     {
         parent::__construct();
         $this->projectModel = model('Models\ProjectModel');
+        $this->artistGroupModel = model('Models\ArtistGroupModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
         $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
@@ -79,6 +82,7 @@ class ProjectRewardController extends BaseAdminController
      */
     function getPurchaseItemReward($access_hash, $reward_id, $page = 1): string
     {
+        $queryParams = $this->request->getGet();
         $data = $this->getViewData();
         try {
             $rewards = $this->rewardModel->getForAdmin([
@@ -87,14 +91,26 @@ class ProjectRewardController extends BaseAdminController
             ]);
             if (sizeof($rewards) != 1) throw new Exception('deleted');
             $reward = $rewards[0];
-            $result = $this->purchaseItemRewardModel->getPaginated([
-                'per_page' => 10,
-                'page' => $page,
-            ], [
+            $artists = $this->artistGroupModel->getArtists($reward['project_id']);
+            $selectedArtistId = $queryParams['artist_id'] ?? null;
+            $data = array_merge($data, [
+                'artists' => $artists,
+                'selected_artist_id' => $selectedArtistId
+            ]);
+            $condition = [
                 'purchase_item.is_refunded' => 0,
                 'purchase.reward_id' => $reward_id,
                 'purchase.status' => 'paid',
-            ]);
+            ];
+            if(isset($selectedArtistId)) {
+                $condition = array_merge($condition, [
+                    'purchase_item_reward.artist_id' => $selectedArtistId
+                ]);
+            }
+            $result = $this->purchaseItemRewardModel->getPaginated([
+                'per_page' => 10,
+                'page' => $page,
+            ], $condition);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
                 'pagination_link' => '/admin/project/' . $access_hash . '/reward/get/' . $reward_id,

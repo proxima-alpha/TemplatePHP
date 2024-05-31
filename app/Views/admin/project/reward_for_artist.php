@@ -5,7 +5,7 @@
         </h3>
         <div class="reward-box">
             <div class="reward-wrap">
-                <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
+                <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?>(<?=$reward['type'] == 'random' ? lang('Service.reward_type_random') : lang('Service.reward_type_all')?>)</p>
                 <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
             </div>
             <div class="count-wrap">
@@ -23,6 +23,21 @@
                         <p class="content"><?= ($reward['uploaded_count']) ?></p>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="filter-wrap">
+            <p><?=lang('Service.artist')?></p>
+            <div class="artist-filter">
+                <a class="button out-line <?= !isset($selected_artist_id) ? 'selected' : '' ?>"
+                href="javascript:selectFilterArtist()"><?= lang('Service.all') ?></a>
+                <?php if (isset($artists)) {
+                    foreach ($artists as $artist) { ?>
+                        <a class="button out-line <?= (isset($selected_artist_id) && $selected_artist_id == $artist['id']) ? 'selected' : '' ?>"
+                           href="javascript:selectFilterArtist(<?=$artist['id']?>)">
+                            <?= $lang == 'ko' ? $artist['name'] : $artist['name_en'] ?>
+                        </a>
+                    <?php }
+                } ?>
             </div>
         </div>
         <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
@@ -180,12 +195,12 @@
             html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title"><?=lang('Service.artist')?></p>
-                <input type="text" name="artist" class="under-line" readonly value="${(language == 'ko'? data['artist_name']: data['artist_name_en']) ?? ""}">
+                <input type="text" name="artist" class="under-line" readonly value="${(language == 'ko' ? data['artist_name'] : data['artist_name_en']) ?? ""}">
             </div>`
             html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title"><?=lang('Service.artist')?></p>
-                <input type="text" name="reward_request" class="under-line" readonly value="${language == 'ko'? data['reward_request_name']: data['reward_request_name_en']}">
+                <input type="text" name="reward_request" class="under-line" readonly value="${language == 'ko' ? data['reward_request_name'] : data['reward_request_name_en']}">
             </div>`
 
             for (let i in keys) {
@@ -211,4 +226,9 @@
             return html;
         }
     })
+
+    function selectFilterArtist(id) {
+        if(!id) return window.location.replace(window.location.pathname)
+        window.location.replace(`${window.location.pathname}?artist_id=${id}`)
+    }
 </script>

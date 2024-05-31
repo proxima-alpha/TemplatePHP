@@ -62,7 +62,6 @@ class QueryHelper
                 $prefix = ',';
             }
         }
-        ServerLogger::log($query);
         return $query . ';';
     }
 }

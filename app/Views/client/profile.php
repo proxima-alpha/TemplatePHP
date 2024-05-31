@@ -23,7 +23,6 @@
             Kakao.Auth.setAccessToken(token);
             Kakao.Auth.getStatusInfo()
                 .then(function (res) {
-                    console.log(res)
                     if (res.status === 'connected') {
                         return Kakao.API.request({
                             url: '/v2/user/me',

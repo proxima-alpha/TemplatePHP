@@ -212,7 +212,6 @@ function loadArtist(project_id, isEditable = true) {
 }
 
 function refreshReward(isEditable = true) {
-    console.log('refresh-reward')
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
     const extras = uploadData.getExtra('artist')
     for (let i = 0; i < $rewards.length; ++i) {

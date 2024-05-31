@@ -164,6 +164,8 @@ return [
     "reward_type_all" => "전체",
     "reward_type_random" => "랜덤",
 
+    "all" => "전체",
+
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
     "message_popup_delete" => "삭제하시겠습니까?",

@@ -137,6 +137,32 @@
     overflow: hidden;
 }
 
+.filter-wrap {
+    margin: 10px 0;
+}
+
+.filter-wrap p {
+    padding: 0 10px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.filter-wrap .artist-filter {
+    margin-top: 10px;
+}
+.filter-wrap .artist-filter .button {
+    font-size: 18px;
+    margin: 0 5px;
+    padding: 5px 10px;
+}
+
+.filter-wrap .artist-filter .button.selected {
+    color: #fff;
+    background: #000;
+    border: 1px solid #000;
+    user-select: none;
+}
+
 @media (max-width: 840px) {
     .reward-box {
         margin: 10px;
