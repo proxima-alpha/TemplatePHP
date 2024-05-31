@@ -32,23 +32,37 @@ class QueryHelper
         $query = "REPLACE INTO artist_group(artist_id, project_id, reward_id, priority) VALUES";
         $prefix = '';
         foreach ($artist_ids as $index => $artist_id) {
-            $query .= $prefix . "('" . $artist_id . "','" . $project_id. "','" . $reward_id . "', '" . ($index + 1) . "')";
+            $query .= $prefix . "('" . $artist_id . "','" . $project_id . "','" . $reward_id . "', '" . ($index + 1) . "')";
             $prefix = ',';
         }
         return $query . ';';
     }
 
-    static function getPurchaseItemRewardCreate($artists, $purchase_items)
+    static function getPurchaseItemRewardRandomCreate($purchase_items, $artists, $start_index = 0)
+    {
+        $query = "INSERT INTO purchase_item_reward(artist_id, purchase_item_id) VALUES";
+        $prefix = '';
+        $j = $start_index;
+        foreach ($purchase_items as $i => $purchase_item) {
+            $query .= $prefix . "('" . $artists[$j]['id'] . "','" . $purchase_item['id'] . "')";
+            $prefix = ',';
+            $j++;
+            $j = $j % sizeof($artists);
+        }
+        return $query . ';';
+    }
+
+    static function getPurchaseItemRewardAllCreate($artists, $purchase_items)
     {
         $query = "INSERT INTO purchase_item_reward(artist_id, purchase_item_id) VALUES";
         $prefix = '';
         foreach ($artists as $i => $artist) {
-            foreach($purchase_items as $j => $purchase_item) {
-                ServerLogger::log($i , $j);
+            foreach ($purchase_items as $j => $purchase_item) {
                 $query .= $prefix . "('" . $artist['id'] . "','" . $purchase_item['id'] . "')";
                 $prefix = ',';
             }
         }
+        ServerLogger::log($query);
         return $query . ';';
     }
 }

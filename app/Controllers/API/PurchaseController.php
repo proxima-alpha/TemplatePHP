@@ -152,7 +152,7 @@ class PurchaseController extends BaseApiController
                 if (!isset($paidData['success']) || !$paidData['success']) {
                     throw new Exception('IMP::' . ($paidData['message'] ?? 'Payment failed'));
                 }
-                $items = $this->purchaseItemModel->get(['purchase_id' => $id]);
+                $items = $this->purchaseItemModel->find(['purchase_id' => $id]);
                 $purchase = $this->purchaseModel->getLatest(['id' => $id]);
 
                 $reward_id = $purchase['reward_id'];
@@ -171,19 +171,22 @@ class PurchaseController extends BaseApiController
                 }
                 $queries = [];
 
-                $artists = [];
                 if ($reward['type'] == 'all') {
                     $artists = $this->artistGroupModel->getArtists($project_id);
+                    if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                        $queries[] = QueryHelper::getPurchaseItemRewardAllCreate($artists, $items);
+                    } else {
+                        throw new Exception('Internal Server Error');
+                    }
                 } else if ($reward['type'] == 'random') {
                     $paidCount = $this->rewardModel->getPaidCount($reward_id);
-                    $rewardArtists = $this->artistGroupModel->getArtistsForReward($project_id, $reward_id);
-                    $artists[] = $rewardArtists[$paidCount % sizeof($rewardArtists)];
-                }
-                ServerLogger::log($artists);
-                if (sizeof($artists) > 0 && sizeof($items) > 0) {
-                    $queries[] = QueryHelper::getPurchaseItemRewardCreate($artists, $items);
-                } else {
-                    throw new Exception();
+                    $artists = $this->artistGroupModel->getArtistsForReward($project_id, $reward_id);
+                    $startIndex = $paidCount % sizeof($artists);
+                    if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                        $queries[] = QueryHelper::getPurchaseItemRewardRandomCreate($items, $artists, $startIndex);
+                    } else {
+                        throw new Exception('Internal Server Error');
+                    }
                 }
 
                 $queries[] = "UPDATE reward SET purchased_count = purchased_count + " . sizeof($items) . " WHERE id = '" . $purchase['reward_id'] . "';";
@@ -192,6 +195,7 @@ class PurchaseController extends BaseApiController
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
+                ServerLogger::log($e);
                 $this->db->transRollback();
                 if (!isset($response['message'])) {
                     $response['message'] = $e->getMessage();

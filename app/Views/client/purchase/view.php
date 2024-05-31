@@ -52,7 +52,7 @@
                 </div>
             <?php } else if (isset($purchase_item_reward)) {
                 foreach ($purchase_item_reward as $index => $item) {
-                    if (isset($item['reward_file_id'])) {
+                    if ($item['status'] == 'waiting' || ($item['reward_file_id'])) {
                         \App\Helpers\ServerLogger::log($item);
                         $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg';
                         ?>

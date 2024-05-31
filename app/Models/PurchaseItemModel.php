@@ -76,6 +76,34 @@ class PurchaseItemModel extends BaseModel
         ]);
     }
 
+    /**
+     * purchase status 를 필터하지 않는 조회를 위해 추가
+     * @param $condition
+     * @return array
+     * @throws \Exception
+     */
+    public function find($condition = null): array
+    {
+        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en,
+             purchase.user_id AS user_id, user.name AS user_name, purchase.pg AS channel FROM purchase_item" .
+            " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
+            " LEFT JOIN user ON user.id = purchase.user_id" .
+            " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id";
+
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
+        }
+        return BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
+        ]);
+    }
+
     protected function getCountAll($condition = null)
     {
         $query = "SELECT COUNT(*) AS cnt FROM purchase_item" .
