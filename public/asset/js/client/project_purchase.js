@@ -1,13 +1,13 @@
 let purchaseItems = [];
 let purchaseItemsCount = 1;
-const rewardRequests = {};
-let availableCount = 0;
-let rewardPrice = 0;
-let rewardName = '';
+let rewardRequests = {}
 
 let rewardPageIndex = 1;
 
 function getPurchaseItemHtml(index, item) {
+    if (!selectedReward) return;
+    const rewardPrice = selectedReward['price'];
+
     let html = `
         <form class="form-wrap">
             <input class="editable" hidden type="number" name="price"
@@ -77,20 +77,68 @@ function getPurchaseItemHtmlInShort(item) {
     return html
 }
 
-function onCountChange(element) {
-    const count = $(element).val()
-    if (count < 1) {
-        $(element).val(1);
-        return;
-    }
-    if (count > availableCount) {
-        $(element).val(availableCount);
-        return;
-    }
-    purchaseItemsCount = count;
-    const $totalPrice = $('.total-price input');
-    $totalPrice.val(toFormatNumber(`${count * rewardPrice}`))
+function getSelectedRewardHtml() {
+    if (!selectedReward) return ``;
+    return `
+    <div class="select-payment-box">
+        <div class="limited-count-wrap">
+            <span class="title">${lang('available_count')}</span>
+            <span class="content">${selectedReward['available_count']}</span>
+        </div>
+        <input type="number" name="count" class="editable" value="1"
+               onchange="onCountChange(this)"/>
+        <div class="total-price">
+            <input type="text" name="paid" value="${toFormatNumber(selectedReward['price'])}" readonly/>
+            <p>KRW</p>
+        </div>
+    </div>`
+}
 
+function getSelectedRewardItemHtml(data) {
+    const language = getCookie('lang')
+    let html = `
+    <div class="reward-wrap">
+        <p class="title">${language == 'ko' ? data['title'] : data['title_en']}</p>`
+    if (data['type'] === 'all') {
+        html += `<p class="type">${lang('reward_type_all')}</p>`
+    } else if (data['type'] === 'random' && (data['artists'] ?? null)) {
+        let artistString = ''
+        let prefix = ''
+        for (const artist of data['artists']) {
+            artistString += `${prefix}${language == 'ko' ? artist['name'] : artist['name_en']}`
+            prefix = '/';
+        }
+        artistString += `(${lang('reward_type_random')})`
+        html += `<p class="type">${artistString}</p>`
+    }
+    html += `
+        <div class="line"></div>
+        <p class="price">${toFormatNumber(data['price'])} KRW</p>
+    </div>`
+    return html
+}
+
+/* override */
+function onRewardSelected(element, id) {
+    selectedReward = rewards[id];
+    $parent = $(element).parent();
+    $parent.find('.selected').removeClass('selected')
+    $(element).addClass('selected')
+    $('.content-box > div.button-wrap .button.next').removeClass('disabled')
+
+    $('#page-1 .select-payment-box').remove();
+    $('#page-1').append(getSelectedRewardHtml());
+    //reset purchase item
+    generatePurchaseItems(1)
+
+    const rewardPrice = selectedReward['price'];
+    const $totalPrice = $('.total-price input');
+    $totalPrice.val(toFormatNumber(`${rewardPrice}`))
+    $('#page-3 .project-box .reward-wrap').remove()
+    $('#page-3 .project-box').append(getSelectedRewardItemHtml(selectedReward))
+}
+
+function generatePurchaseItems(count) {
     //page-2 에서 구매 수량 세트 생성
     const $page2 = $('#page-2');
     const container = $page2.find('.purchase-item-wrap');
@@ -109,6 +157,26 @@ function onCountChange(element) {
     }
     container.empty();
     container.append(html);
+}
+
+
+function onCountChange(element) {
+    if (!selectedReward) return;
+    const availableCount = selectedReward['available_count'];
+    const rewardPrice = selectedReward['price'];
+    const count = $(element).val()
+    if (count < 1) {
+        $(element).val(1);
+        return;
+    }
+    if (count > availableCount) {
+        $(element).val(availableCount);
+        return;
+    }
+    purchaseItemsCount = count;
+    const $totalPrice = $('.total-price input');
+    $totalPrice.val(toFormatNumber(`${count * rewardPrice}`))
+    generatePurchaseItems(count);
 }
 
 function openPurchaseItemWrap() {
@@ -195,7 +263,10 @@ function refreshViews() {
 }
 
 function requestPayment() {
+    if (!selectedReward) return;
+    let language = getCookie('lang')
     let data = parseInputToData($(`.payment-box .form-wrap .editable`))
+    data['reward_id'] = selectedReward['id'];
     if (data['paid']) data['paid'] = data['paid'].replaceAll(',', '');
     data['purchase_items'] = purchaseItems.slice(0, purchaseItemsCount);
     // DB 저장은 동의 유무인데 지문이 비동의 유무이기 때문에 request 시에 변경
@@ -218,7 +289,7 @@ function requestPayment() {
                 pg: data['pg'],
                 pay_method: "card",
                 merchant_uid: `${data['reward_id'].padStart(16, "0")}-${response.data['id'].padStart(20, "0")}`, // 주문번호
-                name: rewardName,
+                name: (language == 'ko' ? selectedReward['title'] : selectedReward['title_en']),
                 amount: data['paid'], // 숫자 타입
                 buyer_email: data['purchaser_email'],
                 buyer_name: data['purchaser_name'],

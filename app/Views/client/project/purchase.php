@@ -19,14 +19,12 @@
     'reward_limited_count_string',
     'reward_available_count_string',
     'purchase',
+    'available_count'
 ], 'Client');
 ?>
 <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 <script type="text/javascript">
     IMP.init(`<?=$imp_shop_id?>`);
-    rewardPrice = <?=$reward['price']?>;
-    rewardName = `<?=$lang == 'ko' ? $reward['title'] : $reward['title_en']?>`;
-    availableCount = <?=$reward['available_count']?>;
     <?php if (isset($reward_requests)) {
     foreach ($reward_requests as $index => $item) { ?>
     rewardRequests[`<?=$item['id']?>`] = {
@@ -45,7 +43,7 @@
                 <h4 class="page-sub-title">
                     <?= lang('Client.datetime') ?>
                 </h4>
-                <p><?= \App\Helpers\HtmlHelper::toDateString($project['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($project['end_date']) ?></p>
+                <p><?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?></p>
             </div>
             <div class="stage-box">
                 <div class="step-wrap selected">
@@ -81,67 +79,12 @@
                         <?= lang('Client.reward_select') ?>
                     </h4>
                 </div>
-                <div class="select-payment-box">
-                    <div class="limited-count-wrap">
-                        <span class="title"><?= lang('Client.available_count') ?> </span>
-                        <span class="content"><?= $reward['available_count'] ?></span>
-                    </div>
-                    <input type="number" name="count" class="editable" value="1"
-                           onchange="onCountChange(this)"/>
-                    <div class="total-price">
-                        <input type="text" name="paid" value="<?= number_format($reward['price']) ?>" readonly/>
-                        <p>KRW</p>
-                    </div>
-                </div>
             </div>
             <div class="page" id="page-2" style="display: none">
                 <h4 class="page-sub-title">
                     <?= lang('Client.reward_select') ?>
                 </h4>
                 <div class="purchase-item-wrap">
-                    <form class="form-wrap">
-                        <input class="editable" hidden type="number" name="price"
-                               value="<?= $reward['price'] ?>"/>
-                        <div class="input-wrap">
-                            <p class="input-title"><?= lang('Client.reward_purchase_item_01') ?></p>
-                            <select class="editable" name="code_reward_request_id" value="1">
-
-                                <?php foreach ($reward_requests as $index => $item) { ?>
-                                    <option
-                                        value="<?= $item['id'] ?>"><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="input-wrap mine">
-                            <p class="input-title"><?= lang('Client.reward_purchase_item_02') ?></p>
-                            <div class="input-item-wrap">
-                                <input class="editable" type="radio" id="is-mine-true" name="is_mine" value="1" checked>
-                                <label for="is-mine-true"><?= lang('Client.reward_purchase_item_02_1') ?></label>
-                            </div>
-                            <div class="input-item-wrap">
-                                <input class="editable" type="radio" id="is-mine-false" name="is_mine" value="0">
-                                <label for="is-mine-false"><?= lang('Client.reward_purchase_item_02_2') ?></label>
-                            </div>
-                        </div>
-                        <div class="input-wrap inquirer">
-                            <p class="input-title"><?= lang('Client.reward_purchase_item_03') ?></p>
-                            <input class="editable" type="text" name="inquirer_name"
-                                   placeholder="<?= lang('Client.reward_purchase_item_03_1') ?>"
-                                   value="<?= $user_name ?? '' ?>"/>
-                            <input class="editable" type="email" name="inquirer_email"
-                                   placeholder="<?= lang('Client.reward_purchase_item_03_2') ?>"
-                                   value="<?= $user_email ?? '' ?>"/>
-                        </div>
-                        <div class="input-wrap comment">
-                            <p class="input-title"><?= lang('Client.reward_purchase_item_04') ?></p>
-                            <textarea class="editable" name="inquirer_comment"></textarea>
-                        </div>
-                        <div class="input-wrap inline agree">
-                            <input class="editable" type="checkbox" id="is-agree" name="is_agreed"/>
-                            <label for="is-agree"
-                                   class="input-title"><?= lang('Client.reward_purchase_item_05') ?></label>
-                        </div>
-                    </form>
                 </div>
             </div>
             <div class="page" id="page-3">
@@ -149,27 +92,20 @@
                     <h4 class="page-sub-title">
                         <?= lang('Client.purchase_selected_item') ?>
                     </h4>
-                    <?php if (isset($project)) { ?>
+                    <div class="project-box">
+                    <?php if (isset($data)) { ?>
                         <div class="project-wrap">
                             <div class="image-wrap"
-                                 style="background: url('/file/<?= $project['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                 style="background: url('/file/<?= $data['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
                             <div class="content-wrap">
-                                <p class="title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
+                                <p class="title"><?= $lang == 'ko' ? $data['title'] : $data['title_en'] ?></p>
                                 <div class="line"></div>
-                                <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $project['content'] : $project['content_en']) ?></p>
+                                <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $data['content'] : $data['content_en']) ?></p>
                             </div>
                         </div>
-                    <?php }
-                    if (isset($reward)) { ?>
-                        <div class="reward-wrap">
-                            <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
-                            <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
-                            <p class="total-count"><?= sprintf(lang('Client.reward_limited_count_string'), $reward['total_count']) ?></p>
-                            <div class="line"></div>
-                            <p class="price"><?= number_format($reward['price']) ?> KRW</p>
-                        </div>
                     <?php } ?>
+                    </div>
                     <div class="purchase-item-wrap">
                         <div class="form-wrap">
                             <div class="input-wrap inline">
@@ -199,8 +135,6 @@
                 </div>
                 <div class="payment-box">
                     <div class="form-wrap">
-                        <input class="editable" hidden type="text" name="reward_id"
-                               value="<?= $reward['id'] ?>"/>
                         <h4 class="page-sub-title"><?= lang('Client.purchaser_info') ?></h4>
                         <div class="input-wrap inquirer">
                             <p class="input-info"><?= lang('Client.purchaser_notice') ?></p>
@@ -215,13 +149,14 @@
                         <div class="input-wrap">
                             <p class="input-info"><?= lang('Client.payment_notice_01') ?></p>
                             <select class="editable" name="pg">`
-                                <option value="nice" selected><?= lang('Client.payment_method_nice') ?></option>
+<!--                                <option value="nice" selected>--><?php //= lang('Client.payment_method_nice') ?><!--</option>-->
+                                <option value="html5_inicis" selected><?= lang('Client.payment_method_inicis') ?></option>
                             </select>
                         </div>
                         <h4 class="page-sub-title"><?= lang('Client.payment_expected_price') ?></h4>
                         <div class="total-price">
                             <input class="editable" type="text" name="paid"
-                                   value="<?= number_format($reward['price']) ?>" readonly/>
+                                   value="0" readonly/>
                             <p>KRW</p>
                         </div>
                         <div class="terms">
@@ -242,7 +177,7 @@
             <div class="button-wrap">
                 <a class="button prev button-line disabled"
                    href="javascript:onClickPrev();"><?= lang('Client.prev') ?></a>
-                <a class="button next button-fill" href="javascript:onClickNext();"><?= lang('Client.next') ?></a>
+                <a class="button next button-fill disabled" href="javascript:onClickNext();"><?= lang('Client.next') ?></a>
             </div>
         </div>
     </div>
@@ -250,6 +185,6 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        loadReward(<?=$project['id']?>)
+         loadReward(<?=$data['id']?>)
     });
 </script>

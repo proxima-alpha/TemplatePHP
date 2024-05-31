@@ -130,6 +130,7 @@ function loadReward(project_id, isEditable = true) {
                 if (data['type'] == 'random') {
                     const $selectBox = $container.find(`.index-${i}`).find('.select-box');
                     const extras = uploadData.getExtra('artist');
+                    rewardCheckboxBuffer[i] = data.artists?.map(artist => artist.id) ?? []
                     $selectBox.after(getRewardRandomItemHtml(i, extras, isEditable, data.artists?.map(artist => artist.id) ?? []))
                 }
             }

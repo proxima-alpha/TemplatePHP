@@ -90,11 +90,19 @@ class RewardModel extends BasePriorityModel
         ];
     }
 
-    public function getPaidCount($reward_id, $user_id)
+    /**
+     * user id 가 있는 경우 본인의 해당 reward 구매량, 아닌 경우 전체 reward 구매 량
+     * @param $reward_id
+     * @param $user_id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getPaidCount($reward_id, $user_id = null)
     {
         $query = "SELECT COUNT(*) AS cnt FROM purchase" .
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
-            " WHERE purchase_item.is_refunded = 0 AND purchase.reward_id = '" . $reward_id . "' AND purchase.user_id = '" . $user_id . "' AND purchase.status = 'paid'";
+            " WHERE purchase_item.is_refunded = 0 AND purchase.reward_id = '" . $reward_id . "' AND purchase.status = 'paid'" .
+            (isset($user_id) ? " AND purchase.user_id = '" . $user_id . "'" : "");
         $result = BaseModel::transaction($this->db, [
             [
                 "query" => $query,

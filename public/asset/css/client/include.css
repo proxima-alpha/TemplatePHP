@@ -53,6 +53,7 @@ body {
 #header .logo a img {
     display: inline-block;
     vertical-align: middle;
+    height: 40px;
 }
 
 #header .mobile-utill {
@@ -60,7 +61,7 @@ body {
     padding: 0 10px;
     height: 60px;
     line-height: 60px;
-    text-align: right;
+    text-align: center;
     box-sizing: border-box;
 }
 
@@ -350,8 +351,7 @@ body {
     }
 
     #header .logo {
-        position: absolute;
-        right: 5px;
+        display: inline-block;
         margin: 0;
     }
 

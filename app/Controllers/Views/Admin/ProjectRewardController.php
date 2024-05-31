@@ -109,7 +109,7 @@ class ProjectRewardController extends BaseAdminController
         return parent::loadHeader([
                 'css' => [
                     '/common/uploader',
-                    '/admin/project/reward_purchase',
+                    '/admin/project/reward_for_artist',
                 ],
                 'js' => [
                     '/common/delete',
@@ -117,7 +117,7 @@ class ProjectRewardController extends BaseAdminController
                     '/admin/reward_uploader',
                 ],
             ])
-            . view('/admin/project/reward_purchase', $data)
+            . view('/admin/project/reward_for_artist', $data)
             . parent::loadFooter();
     }
 }

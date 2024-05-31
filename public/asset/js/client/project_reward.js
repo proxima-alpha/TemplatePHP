@@ -1,7 +1,18 @@
-function getRewardItemHtml(data) {
+
+let rewards = {};
+let selectedReward;
+
+function onRewardSelected(element, id) {
+    selectedReward = rewards[id];
+    $parent = $(element).parent();
+    $parent.find('.selected').removeClass('selected')
+    $(element).addClass('selected')
+}
+
+function getRewardItemHtml(data, isSelectable = true) {
     let language = getCookie('lang')
     let html = `
-    <div class="reward-wrap">
+    <div class="reward-wrap" ${isSelectable? `onclick="javascript:onRewardSelected(this, '${data.id}')"` : ''}>
         <p class="title">${language == 'ko' ? data['title'] : data['title_en']}</p>`
     if (data['type'] === 'all') {
         html += `<p class="type">${lang('reward_type_all')}</p>`
@@ -36,9 +47,12 @@ function loadReward(project_id, isSelectable = true) {
             }
             let array = response.data.array;
             let $container = $(`.reward-box`);
+            // object 로 parsing 하여 저장
+            for (const item of array) {
+                rewards[item.id] = item;
+            }
             for (let i in array) {
-                console.log(array[i])
-                $container.append(getRewardItemHtml(array[i]));
+                $container.append(getRewardItemHtml(array[i], isSelectable));
             }
             try {
                 $container.initDraggable({

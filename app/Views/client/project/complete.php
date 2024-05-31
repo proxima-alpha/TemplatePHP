@@ -6,10 +6,10 @@
 </div>
 <div class="container-inner">
     <div class="container-wrap">
-        <h4 class="message"><?=lang('Client.purchase_complete')?></>
+        <h4 class="message"><?=lang('Client.purchase_complete_message')?></>
         <div class="button-wrap">
             <a class="button button-fill"
-               href="/purchase"><?= lang('Client.purchase_next') ?></a>
+               href="/purchase"><?= lang('Client.purchase_complete_next') ?></a>
         </div>
     </div>
 </div>

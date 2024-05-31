@@ -3,8 +3,11 @@
 namespace API;
 
 use App\Helpers\IMPHelper;
+use App\Helpers\QueryHelper;
+use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\ArtistGroupModel;
 use Models\BaseModel;
 use Models\ProjectModel;
 use Models\PurchaseItemModel;
@@ -14,6 +17,7 @@ use Models\RewardModel;
 class PurchaseController extends BaseApiController
 {
     protected ProjectModel $projectModel;
+    protected ArtistGroupModel $artistGroupModel;
     protected RewardModel $rewardModel;
     protected PurchaseModel $purchaseModel;
     protected PurchaseItemModel $purchaseItemModel;
@@ -22,6 +26,7 @@ class PurchaseController extends BaseApiController
     {
         $this->db = db_connect();
         $this->projectModel = model('Models\ProjectModel');
+        $this->artistGroupModel = model('Models\ArtistGroupModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->purchaseModel = model('Models\PurchaseModel');
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
@@ -149,6 +154,11 @@ class PurchaseController extends BaseApiController
                 }
                 $items = $this->purchaseItemModel->get(['purchase_id' => $id]);
                 $purchase = $this->purchaseModel->getLatest(['id' => $id]);
+
+                $reward_id = $purchase['reward_id'];
+                $reward = $this->rewardModel->getLatest(['id' => $reward_id]);
+                $project_id = $reward['project_id'];
+
                 $this->db->transBegin();
                 $inserted_result = $this->purchaseModel->update($id, [
                     'imp_uid' => $data['imp_uid'],
@@ -160,6 +170,22 @@ class PurchaseController extends BaseApiController
                     throw new \Exception();
                 }
                 $queries = [];
+
+                $artists = [];
+                if ($reward['type'] == 'all') {
+                    $artists = $this->artistGroupModel->getArtists($project_id);
+                } else if ($reward['type'] == 'random') {
+                    $paidCount = $this->rewardModel->getPaidCount($reward_id);
+                    $rewardArtists = $this->artistGroupModel->getArtistsForReward($project_id, $reward_id);
+                    $artists[] = $rewardArtists[$paidCount % sizeof($rewardArtists)];
+                }
+                ServerLogger::log($artists);
+                if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                    $queries[] = QueryHelper::getPurchaseItemRewardCreate($artists, $items);
+                } else {
+                    throw new Exception();
+                }
+
                 $queries[] = "UPDATE reward SET purchased_count = purchased_count + " . sizeof($items) . " WHERE id = '" . $purchase['reward_id'] . "';";
                 BaseModel::transaction($this->db, $queries);
                 $this->db->transCommit();

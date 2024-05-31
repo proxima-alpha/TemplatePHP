@@ -35,6 +35,14 @@ class ProjectController extends BaseClientController
         $data = $this->getViewData();
         try {
             $data = array_merge($data, $this->getProjectData($id));
+            if ($data['data']['status'] != 'open') {
+                return parent::loadHeader([
+                        'css' => ['/client/project/complete'],
+                        'js' => [],
+                    ])
+                    . view('/client/project/blocked', $data)
+                    . parent::loadFooter();
+            }
             $guide = [
                 [
                     'title' => lang('Client.guide_01_title'),
@@ -122,7 +130,17 @@ class ProjectController extends BaseClientController
         $data = $this->getViewData();
         try {
             // TODO change to load all rewards from project
-            $data = array_merge($data, $this->getRewardData(7));
+            $data = array_merge($data, $this->getProjectData($id));
+
+            $imp_shop_id = $this->settingModel->getInitialValue(['code' => 'imp-shop-id'], 'value');
+            $data = array_merge($data, [
+                'imp_shop_id' => $imp_shop_id
+            ]);
+
+            $reward_requests = $this->codeRewardRequestModel->get(['is_deleted' => 0, 'is_active' => 1]);
+            $data = array_merge($data, [
+                'reward_requests' => $reward_requests
+            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
@@ -142,6 +160,10 @@ class ProjectController extends BaseClientController
             . parent::loadFooter();
     }
 
+    /**
+     * /project/purchase/complete
+     * @return string
+     */
     public function getComplete(): string
     {
         $this->checkLogout();
@@ -193,34 +215,5 @@ class ProjectController extends BaseClientController
         $project['rewards'] = $rewards;
         $result['data'] = $project;
         return $result;
-    }
-
-    /**
-     * reward 조회시 필요한 데이터 불러오는 기능
-     * @throws Exception
-     */
-    private function getRewardData($id): array
-    {
-        $imp_shop_id = $this->settingModel->getInitialValue(['code' => 'imp-shop-id'], 'value');
-        $rewards = $this->rewardModel->get(['id' => $id, 'is_deleted' => 0]);
-        if (sizeof($rewards) != 1) throw new Exception('deleted');
-        $reward = $rewards[0];
-        if (isset($this->session->user_id)) {
-            $reward['paid_count'] = $this->rewardModel->getPaidCount($reward['id'], $this->session->user_id);
-        } else {
-            $reward['paid_count'] = 0;
-        }
-        $reward['available_count'] = Utils::calculateAvailableReward($reward);
-
-        $projects = $this->projectModel->get(['id' => $reward['project_id'], 'is_deleted' => 0]);
-        if (sizeof($projects) != 1) throw new Exception('deleted');
-        $reward_requests = $this->codeRewardRequestModel->get(['is_deleted' => 0, 'is_active' => 1]);
-        $project = $projects[0];
-        return [
-            'project' => $project,
-            'reward' => $reward,
-            'reward_requests' => $reward_requests,
-            'imp_shop_id' => $imp_shop_id
-        ];
     }
 }

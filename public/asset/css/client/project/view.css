@@ -394,4 +394,22 @@
     #artists .content-item p {
         font-size: 18px;
     }
+
+    #wrap {
+        padding-bottom: 60px;
+    }
+    .side-content-box .button-wrap {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        line-height: 60px;
+        z-index: 1;
+    }
+    .side-content-box .button-wrap .button {
+        width: 100%;
+        border-radius: 0;
+        padding: 0;
+    }
 }

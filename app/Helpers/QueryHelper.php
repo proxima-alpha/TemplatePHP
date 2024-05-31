@@ -37,4 +37,18 @@ class QueryHelper
         }
         return $query . ';';
     }
+
+    static function getPurchaseItemRewardCreate($artists, $purchase_items)
+    {
+        $query = "INSERT INTO purchase_item_reward(artist_id, purchase_item_id) VALUES";
+        $prefix = '';
+        foreach ($artists as $i => $artist) {
+            foreach($purchase_items as $j => $purchase_item) {
+                ServerLogger::log($i , $j);
+                $query .= $prefix . "('" . $artist['id'] . "','" . $purchase_item['id'] . "')";
+                $prefix = ',';
+            }
+        }
+        return $query . ';';
+    }
 }
