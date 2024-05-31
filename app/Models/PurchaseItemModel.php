@@ -34,8 +34,9 @@ class PurchaseItemModel extends BaseModel
     public function get($condition = null, $limit = null, $order = 'DESC'): array
     {
         $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en,
-             purchase.user_id AS user_id, user.name AS user_name, purchase.pg AS channel FROM purchase_item" .
+             purchase.user_id AS user_id, user.name AS user_name, purchase.pg AS channel, reward.title, reward.title_en FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
+            " LEFT JOIN reward ON reward.id = purchase.reward_id" .
             " LEFT JOIN user ON user.id = purchase.user_id" .
             " LEFT JOIN code_reward_request ON code_reward_request.id = purchase_item.code_reward_request_id";
         $values = [];
@@ -82,7 +83,7 @@ class PurchaseItemModel extends BaseModel
      * @return array
      * @throws \Exception
      */
-    public function find($condition = null): array
+    public function findByCondition($condition = null): array
     {
         $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en,
              purchase.user_id AS user_id, user.name AS user_name, purchase.pg AS channel FROM purchase_item" .

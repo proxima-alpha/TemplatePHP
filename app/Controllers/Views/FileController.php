@@ -2,7 +2,6 @@
 
 namespace Views;
 
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\DownloadResponse;
 use Config\Services;
 use Exception;
@@ -151,7 +150,8 @@ class FileController extends BaseClientController
                 ]);
             }
         }
-        $file_name = "결제내역_" . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
+        $lang = $this->session->lang;
+        $file_name = ($lang == 'ko' ? "결제내역_" : "payment_") . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
         $result = $this->purchaseItemModel->get([
             'start_date' => $startDateString,
             'end_date' => $endDateString,
@@ -163,6 +163,7 @@ class FileController extends BaseClientController
         fputcsv($output, array('번호',
             lang('Service.name'),
             lang('Service.email'),
+            lang('Client.reward'),
             lang('Service.price'),
             lang('Service.currency'),
             lang('Service.channel'),
@@ -172,9 +173,10 @@ class FileController extends BaseClientController
             $row = array($i + 1,
                 $item['inquirer_name'],
                 $item['inquirer_email'],
+                $lang == 'ko' ? $item['title'] : $item['title_en'],
                 $item['price'],
                 'KRW',
-                $item['channel'],
+                \App\Helpers\HtmlHelper::getPaymentChannel($item['channel']),
                 $item['created_at'],
             );
             fputcsv($output, $row);

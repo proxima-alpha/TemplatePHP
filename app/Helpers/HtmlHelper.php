@@ -361,4 +361,11 @@ final class HtmlHelper
             '</div>';
         return $html;
     }
+
+    public static function getPaymentChannel($pg) {
+        switch ($pg) {
+            case 'html5_inicis' : return 'inicis';
+            default: return $pg;
+        }
+    }
 }

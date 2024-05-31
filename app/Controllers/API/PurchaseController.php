@@ -152,7 +152,7 @@ class PurchaseController extends BaseApiController
                 if (!isset($paidData['success']) || !$paidData['success']) {
                     throw new Exception('IMP::' . ($paidData['message'] ?? 'Payment failed'));
                 }
-                $items = $this->purchaseItemModel->find(['purchase_id' => $id]);
+                $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
                 $purchase = $this->purchaseModel->getLatest(['id' => $id]);
 
                 $reward_id = $purchase['reward_id'];
