@@ -71,7 +71,7 @@ use App\Helpers\HtmlHelper;
                     <div class="content-wrap scroll-horizontal-wrap">
                         <div class="content-wrap-inner" style="width: <?= (sizeof($data['project']) * 240) ?>px;">
                             <?php foreach ($data['project'] as $index => $item) {
-                                $url = isset($item['project_image_id']) ? '/file/' . $item['project_image_id'] : '/asset/images/custom/object.svg'; ?>
+                                $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                                 <div class="content-item">
                                     <a href="/project/<?= $item['id'] ?>/view">
                                         <div class="image-item-wrap">
@@ -114,7 +114,7 @@ use App\Helpers\HtmlHelper;
                             <div class="content-wrap-inner"
                                  style="width: <?= (sizeof($codeItem['array']) * 240) ?>px;">
                                 <?php foreach ($codeItem['array'] as $index => $item) {
-                                    $url = isset($item['project_image_id']) ? '/file/' . $item['project_image_id'] : '/asset/images/custom/object.svg'; ?>
+                                    $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                                     <div class="content-item">
                                         <a href="/project/<?= $item['id'] ?>/view">
                                             <div class="image-item-wrap">
@@ -147,7 +147,7 @@ use App\Helpers\HtmlHelper;
                 </h4>
                 <div class="content-wrap">
                     <?php if (HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>
-                        <?= HtmlHelper::getProjectContent($data['previous-project'], 'project_image_id', $lang); ?>
+                        <?= HtmlHelper::getProjectContent($data['previous-project'], 'image_id', $lang); ?>
                     <?php } ?>
                 </div>
             </div>

@@ -17,11 +17,11 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['previews'])) {
     foreach ($data['previews'] as $index => $item) { ?>
-    uploadData.push('artist_preview', '<?=$item['id']?>');
+    uploadData.push('preview', '<?=$item['id']?>');
     <?php }
     }
-    if (isset($data['profile_id'])) {?>
-    uploadData.push('artist_profile', '<?=$data['profile_id']?>');
+    if (isset($data['image_id'])) {?>
+    uploadData.push('image', '<?=$data['image_id']?>');
     <?php }?>
 </script>
 <div class="container-inner">
@@ -52,11 +52,13 @@ $identifier = $shortid->generate();
                     <div class="tab-wrap en">
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.name') ?></p>
-                            <input type="text" name="name_en" class="editable under-line" value="<?= $data['name_en'] ?>"/>
+                            <input type="text" name="name_en" class="editable under-line"
+                                   value="<?= $data['name_en'] ?>"/>
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.job') ?></p>
-                            <input type="text" name="job_en" class="editable under-line" value="<?= $data['job_en'] ?>"/>
+                            <input type="text" name="job_en" class="editable under-line"
+                                   value="<?= $data['job_en'] ?>"/>
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.introduction') ?></p>
@@ -67,12 +69,12 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.profile_image') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('artist_profile', $data['profile_id'] ?? null) ?>
+                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null) ?>
                 </div>
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('Service.sample_video') ?></p>
-                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
+                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>
@@ -87,8 +89,8 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     function confirmEditArtist(id) {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['previews'] = uploadData.get('artist_preview');
-        data['profile_id'] = uploadData.get('artist_profile');
+        data['previews'] = uploadData.get('preview');
+        data['image_id'] = uploadData.get('image');
 
         apiRequest({
             type: 'POST',
@@ -110,8 +112,8 @@ $identifier = $shortid->generate();
 
     function confirmCreateArtist() {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['previews'] = uploadData.get('artist_preview');
-        data['profile_id'] = uploadData.get('artist_profile');
+        data['previews'] = uploadData.get('preview');
+        data['image_id'] = uploadData.get('image');
 
         apiRequest({
             type: 'POST',

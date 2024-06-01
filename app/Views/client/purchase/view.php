@@ -6,7 +6,7 @@
         <div class="purchase-item-box">
             <div class="reward-wrap">
                 <div class="image-wrap"
-                     style="background: url('/file/<?= $project['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                     style="background: url('/file/<?= $project['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                 </div>
                 <div class="content-wrap">
                     <p class="project-title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
@@ -52,7 +52,7 @@
                 </div>
             <?php } else if (isset($purchase_item_reward)) {
                 foreach ($purchase_item_reward as $index => $item) {
-                    $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg'; ?>
+                    $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                     <div class="artist-box">
                         <div class="image-item-wrap"
                              style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>

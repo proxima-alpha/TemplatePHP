@@ -50,10 +50,10 @@
                         </div>
                     </div>
                 </div>
-                <?php if (isset($data['profile_id'])) { ?>
+                <?php if (isset($data['image_file'])) { ?>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.profile_image') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('artist_profile', $data['profile_id'] ?? null, 'view') ?>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('artist_profile', $data['image_file'] ?? null, 'view') ?>
                     </div>
                 <?php } ?>
             </div>

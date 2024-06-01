@@ -1,5 +1,5 @@
-.uploader.image .upload-item-add,
-.uploader.image .upload-item {
+.uploader.media .upload-item-add,
+.uploader.media .upload-item {
     width: 200px;
     height: 200px;
     line-height: 200px;
@@ -19,6 +19,16 @@
 
 .uploader .upload-item {
     position: relative;
+}
+
+.uploader .upload-item .size-text {
+    position: absolute;
+    bottom: 0;
+    padding: 5px;
+    line-height: 20px;
+    font-size: 18px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
 }
 
 .uploader .upload-item-add {
@@ -66,4 +76,23 @@
 
 .uploader .upload-item-hover .button.delete-image * {
     vertical-align: middle;
+}
+
+.input-uploader-wrap {
+    display: flex;
+    max-width: 100%;
+}
+
+.input-uploader-wrap .input-wrap {
+    flex: 1;
+}
+
+@media (max-width: 840px) {
+    .uploader.media .upload-item-add,
+    .uploader.media .upload-item {
+        max-width: 200px;
+        width: 100%;
+        margin: 0;
+    }
+
 }

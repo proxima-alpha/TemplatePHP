@@ -9,7 +9,7 @@
                     <?php foreach ($array as $index => $item) { ?>
                         <li class="reward-wrap">
                             <div class="image-wrap"
-                                 style="background: url('/file/<?= $item['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                 style="background: url('/file/<?= $item['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
                             <div class="content-wrap">
                                 <p class="project-title"><?= $lang == 'ko' ? $item['project_title'] : $item['project_title_en'] ?></p>

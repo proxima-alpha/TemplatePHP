@@ -93,6 +93,7 @@ return [
     "start_date" => "Start Date",
     "end_date" => "End Date",
     "project_image" => "Project Image",
+    "project_background" => "Project Background",
     "price_reward" => "Price & Reward",
     "price" => "Price",
     "currency" => "Currency",
@@ -168,6 +169,7 @@ return [
     "reward_type_random" => "Random",
 
     "all" => "All",
+    "mobile" => "Mobile",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

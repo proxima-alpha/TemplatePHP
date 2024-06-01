@@ -149,7 +149,9 @@ function addRewardForm(target) {
 function confirmEditProject(id) {
     let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
     data['artists'] = uploadData.get('artist');
-    data['project_image_id'] = uploadData.get('project');
+    data['image_id'] = uploadData.get('image');
+    data['background_id'] = uploadData.get('background');
+    data['mobile_background_id'] = uploadData.get('background_mobile');
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
@@ -179,7 +181,7 @@ function confirmEditProject(id) {
                 openPopupErrors('popup-error', response, status, request);
                 return;
             }
-            history.back();
+            // history.back();
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);
@@ -190,7 +192,9 @@ function confirmEditProject(id) {
 function confirmCreateProject() {
     let data = parseInputToData($(`.project-wrap .form-wrap.project .editable`))
     data['artists'] = uploadData.get('artist');
-    data['project_image_id'] = uploadData.get('project');
+    data['image_id'] = uploadData.get('image');
+    data['background_id'] = uploadData.get('background');
+    data['mobile_background_id'] = uploadData.get('background_mobile');
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);

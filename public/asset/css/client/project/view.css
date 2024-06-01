@@ -34,12 +34,16 @@
     scrollbar-width: none; /* Firefox */
 }
 
-#image {
+.background {
     height: 350px;
     position: relative;
 }
 
-#image .overlap-text-box {
+.background.pc-only {
+    display: block !important;
+}
+
+.background .overlap-text-box {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -48,14 +52,14 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
-#image .overlap-text-box .overlap-text-wrap {
+.background .overlap-text-box .overlap-text-wrap {
     max-width: 1440px;
     height: 100%;
     margin: 0 auto;
     position: relative;
 }
 
-#image .overlap-text-box .text-wrap {
+.background .overlap-text-box .text-wrap {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -66,7 +70,7 @@
     color: #fff;
 }
 
-#image .overlap-text-box .text-wrap p {
+.background .overlap-text-box .text-wrap p {
     font-size: 40px;
     font-weight: 600;
     white-space: pre-wrap;
@@ -352,9 +356,21 @@
 }
 
 @media (max-width: 840px) {
-    #image {
+    .background {
         height: 300px;
         position: relative;
+    }
+
+    .background.pc-only {
+        display: none !important;
+    }
+
+    .background.mobile-only {
+        display: block !important;
+    }
+
+    .background .overlap-text-box .text-wrap {
+        max-width: calc(100% - 40px);
     }
 
     .section .page-inner {
@@ -368,10 +384,6 @@
 
     .container-inner .container-wrap {
         padding-top: 20px;
-    }
-
-    #image .overlap-text-box .text-wrap {
-        max-width: calc(100% - 40px);
     }
 
     .container-wrap .content-box,
@@ -398,6 +410,7 @@
     #wrap {
         padding-bottom: 60px;
     }
+
     .side-content-box .button-wrap {
         position: fixed;
         bottom: 0;
@@ -407,6 +420,7 @@
         line-height: 60px;
         z-index: 1;
     }
+
     .side-content-box .button-wrap .button {
         width: 100%;
         border-radius: 0;

@@ -7,7 +7,7 @@ class ArtistModel extends BaseModel
     protected $table = 'artist';
     protected $allowedFields = [
         'id',
-        'profile_id',
+        'image_id',
         'name',
         'job',
         'introduction',

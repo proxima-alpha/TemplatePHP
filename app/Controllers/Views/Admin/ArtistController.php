@@ -176,6 +176,10 @@ class ArtistController extends BaseAdminController
         $artists = $this->artistModel->get(['id' => $id, 'is_deleted' => 0]);
         if (sizeof($artists) != 1) throw new Exception('deleted');
         $artist = $artists[0];
+        if (isset($artist['image_id'])) {
+            $imageFile = $this->customFileModel->getLatest(['id' => $artist['image_id']]);
+            $artist['image_file'] = $imageFile;
+        }
         $previews = $this->customFileModel->get(['artist_id' => $id, 'target' => 'artist_preview']);
         $artist['previews'] = $previews;
         $result['data'] = $artist;

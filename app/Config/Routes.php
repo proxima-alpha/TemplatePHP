@@ -111,7 +111,7 @@ $routes->get('/purchase-item-file', [\Views\FileController::class, 'downloadPurc
  */
 $routes->get('/api/session/(lang)/' . $CODE_RULE, [\Views\BaseViewController::class, 'updateSession']);
 
-$TARGET_RULE = 'topic|main|relation|project|user_profile|artist_profile|artist_preview';
+$TARGET_RULE = 'topic|main|relation|image|background|background_mobile|artist_profile|artist_preview';
 $routes->post('/api/file/(' . $TARGET_RULE . ')/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
 $routes->post('/api/file/(' . $TARGET_RULE . '|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
 $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);

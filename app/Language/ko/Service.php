@@ -93,6 +93,7 @@ return [
     "start_date" => "시작일",
     "end_date" => "마감일",
     "project_image" => "프로젝트 이미지",
+    "project_background" => "프로젝트 배경",
     "price_reward" => "가격 및 리워드",
     "price" => "가격",
     "currency" => "통화",
@@ -165,6 +166,7 @@ return [
     "reward_type_random" => "랜덤",
 
     "all" => "전체",
+    "mobile" => "모바일",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

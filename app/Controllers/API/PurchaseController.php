@@ -4,7 +4,6 @@ namespace API;
 
 use App\Helpers\IMPHelper;
 use App\Helpers\QueryHelper;
-use App\Helpers\ServerLogger;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
 use Models\ArtistGroupModel;
@@ -195,7 +194,6 @@ class PurchaseController extends BaseApiController
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
-                ServerLogger::log($e);
                 $this->db->transRollback();
                 if (!isset($response['message'])) {
                     $response['message'] = $e->getMessage();

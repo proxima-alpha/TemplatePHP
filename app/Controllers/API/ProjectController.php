@@ -202,13 +202,9 @@ class ProjectController extends CustomFileController
                 }
 
                 if (isset($data['id'])) unset($data['id']);
-                if (isset($data['project_image_id'])) {
-                    if (sizeof($data['project_image_id']) > 0) {
-                        $data['project_image_id'] = $data['project_image_id'][0];
-                    } else {
-                        $data['project_image_id'] = null;
-                    }
-                }
+                $data = $this->arrayToElement('image_id', $data);
+                $data = $this->arrayToElement('background_id', $data);
+                $data = $this->arrayToElement('mobile_background_id', $data);
                 if (isset($data['artists'])) {
                     $data['artists'] = array_unique($data['artists']);
                 }
@@ -247,8 +243,14 @@ class ProjectController extends CustomFileController
                     }
                 }
                 $queries[] = QueryHelper::getGroupCreate($data['artists'], $inserted_row_id);
-                if (isset($data['project_image_id'])) {
-                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
+                if (isset($data['image_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['image_id'] . "';";
+                }
+                if (isset($data['background_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['background_id'] . "';";
+                }
+                if (isset($data['mobile_background_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['mobile_background_id'] . "';";
                 }
                 BaseModel::transaction($this->db, $queries);
                 $this->db->transCommit();
@@ -280,13 +282,11 @@ class ProjectController extends CustomFileController
         $this->checkAdmin();
         $data = $this->request->getPost();
         if (isset($data['id'])) unset($data['id']);
-        if (isset($data['project_image_id'])) {
-            if (sizeof($data['project_image_id']) > 0) {
-                $data['project_image_id'] = $data['project_image_id'][0];
-            } else {
-                $data['project_image_id'] = null;
-            }
-        }
+
+        $data = $this->arrayToElement('image_id', $data);
+        $data = $this->arrayToElement('background_id', $data);
+        $data = $this->arrayToElement('mobile_background_id', $data);
+
         if (isset($data['artists'])) {
             $data['artists'] = array_unique($data['artists']);
         }
@@ -363,21 +363,25 @@ class ProjectController extends CustomFileController
 
                 $queries[] = QueryHelper::getGroupCreate($data['artists'], $id);
 
-                if (isset($data['project_image_id'])) {
-                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['project_image_id'] . "';";
+                if (isset($data['image_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['image_id'] . "';";
+                }
+                if (isset($data['background_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['background_id'] . "';";
+                }
+                if (isset($data['mobile_background_id'])) {
+                    $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['mobile_background_id'] . "';";
                 }
                 BaseModel::transaction($this->db, $queries);
                 $conditionQuery = "identifier = '" . $data['identifier'] . "'";
-                if (isset($previousData['project_image_id']) && (
-                        !isset($data['project_image_id']) || $previousData['project_image_id'] != $data['project_image_id'])) {
-                    $conditionQuery .= " OR id = " . $previousData['project_image_id'];
-                }
+                $conditionQuery .= $this->getQueryCondition('image_id', $previousData, $data);
+                $conditionQuery .= $this->getQueryCondition('background_id', $previousData, $data);
+                $conditionQuery .= $this->getQueryCondition('mobile_background_id', $previousData, $data);
                 $this->handleFileDelete($conditionQuery);
                 $this->db->transCommit();
                 $response['success'] = true;
             } catch (Exception $e) {
                 //todo(log)
-//                ServerLogger::log($e);
                 $this->db->transRollback();
                 if (!isset($response['message'])) {
                     $response['message'] = $e->getMessage();
@@ -506,5 +510,28 @@ class ProjectController extends CustomFileController
             $response['message'] = $e->getMessage();
         }
         return $this->response->setJSON($response);
+    }
+
+    private function arrayToElement($key, $data)
+    {
+        if (isset($data[$key])) {
+            if (sizeof($data[$key]) > 0) {
+                $data[$key] = $data[$key][0];
+            } else {
+                $data[$key] = null;
+            }
+        } else {
+            $data[$key] = null;
+        }
+        return $data;
+    }
+
+    private function getQueryCondition($key, $prevData, $data): string
+    {
+        if (isset($prevData[$key]) && (
+                !isset($data[$key]) || $prevData[$key] != $data[$key])) {
+            return " OR id = " . $prevData[$key];
+        }
+        return '';
     }
 }

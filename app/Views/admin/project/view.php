@@ -59,13 +59,22 @@
                         </div>
                     </div>
                 </div>
-                <?php if (isset($data['project_image_id'])) { ?>
-                    <div class="line"></div>
+                <div class="line"></div>
+                <div class="input-wrap">
+                    <p class="input-title"><?= lang('Service.project_image') ?></p>
+                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null, 'view') ?>
+                </div>
+                <div class="input-uploader-wrap">
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.project_image') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('project', $data['project_image_id'] ?? null, 'view') ?>
+                        <p class="input-title"><?= lang('Service.project_background') ?></p>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null, 'view') ?>
                     </div>
-                <?php } ?>
+                    <div class="input-wrap">
+                        <p class="input-title"><?= lang('Service.project_background') ?>
+                            (<?= lang('Service.mobile') ?>)</p>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null, 'view') ?>
+                    </div>
+                </div>
                 <div class="line"></div>
                 <div class="input-wrap column calendar">
                     <p class="input-title"><?= lang('Service.start_date') ?></p>

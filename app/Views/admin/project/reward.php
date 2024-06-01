@@ -10,7 +10,7 @@
             </div>
             <div class="project-wrap">
                 <div class="image-wrap"
-                     style="background: url('/file/<?= $project['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                     style="background: url('/file/<?= $project['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                 </div>
                 <div class="content-wrap">
                     <p class="title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>

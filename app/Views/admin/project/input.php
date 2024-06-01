@@ -28,8 +28,14 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
     <?php
-    if (isset($data['project_image_id'])) {?>
-    uploadData.push('project', '<?=$data['project_image_id']?>');
+    if (isset($data['image_id'])) {?>
+    uploadData.push('image', '<?=$data['image_id']?>');
+    <?php }
+    if (isset($data['background_id'])) {?>
+    uploadData.push('background', '<?=$data['background_id']?>');
+    <?php }
+    if (isset($data['mobile_background_id'])) {?>
+    uploadData.push('background_mobile', '<?=$data['mobile_background_id']?>');
     <?php }?>
 </script>
 <div class="container-inner">
@@ -85,7 +91,18 @@ $identifier = $shortid->generate();
                 <div class="line"></div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.project_image') ?></p>
-                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('project', $data['project_image_id'] ?? null) ?>
+                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null) ?>
+                </div>
+                <div class="input-uploader-wrap">
+                    <div class="input-wrap">
+                        <p class="input-title"><?= lang('Service.project_background') ?></p>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null) ?>
+                    </div>
+                    <div class="input-wrap">
+                        <p class="input-title"><?= lang('Service.project_background') ?>
+                            (<?= lang('Service.mobile') ?>)</p>
+                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null) ?>
+                    </div>
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap column calendar">

@@ -8,7 +8,9 @@ class ProjectModel extends BaseModel
     protected $allowedFields = [
         'id',
         'code_project_id',
-        'project_image_id',
+        'image_id',
+        'background_id',
+        'mobile_background_id',
         'status',
         'start_date',
         'end_date',

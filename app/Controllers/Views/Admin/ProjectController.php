@@ -2,19 +2,22 @@
 
 namespace Views\Admin;
 
+use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use Exception;
 use Models\ArtistGroupModel;
 use Models\CodeProjectModel;
+use Models\CustomFileModel;
 use Models\ProjectModel;
 use Models\RewardModel;
 
 class ProjectController extends BaseAdminController
 {
     protected ProjectModel $projectModel;
+    protected ArtistGroupModel $artistGroupModel;
     protected CodeProjectModel $codeProjectModel;
     protected RewardModel $rewardModel;
-    protected ArtistGroupModel $artistGroupModel;
+    protected CustomFileModel $customFileModel;
 
     public function __construct()
     {
@@ -24,6 +27,7 @@ class ProjectController extends BaseAdminController
         $this->codeProjectModel = model('Models\CodeProjectModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->artistGroupModel = model('Models\ArtistGroupModel');
+        $this->customFileModel = model('Models\CustomFileModel');
     }
 
     /**
@@ -195,6 +199,18 @@ class ProjectController extends BaseAdminController
         $projects = $this->projectModel->get(['id' => $id, 'is_deleted' => 0]);
         if (sizeof($projects) != 1) throw new Exception('deleted');
         $project = $projects[0];
+        if (isset($project['image_id'])) {
+            $imageFile = $this->customFileModel->getLatest(['id' => $project['image_id']]);
+            $project['image_file'] = $imageFile;
+        }
+        if (isset($project['background_id'])) {
+            $imageFile = $this->customFileModel->getLatest(['id' => $project['background_id']]);
+            $project['background_file'] = $imageFile;
+        }
+        if (isset($project['mobile_background_id'])) {
+            $imageFile = $this->customFileModel->getLatest(['id' => $project['mobile_background_id']]);
+            $project['background_mobile_file'] = $imageFile;
+        }
         $artists = $this->artistGroupModel->getArtists($id);
         $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
         $project['artists'] = $artists;

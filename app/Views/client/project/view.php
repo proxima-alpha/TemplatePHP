@@ -11,9 +11,23 @@
     'reward_available_count_string',
     'purchase',
 ], 'Client');
-if (isset($data['project_image_id'])) { ?>
-    <div class="section " id="image"
-         style="background: url('/file/<?= $data['project_image_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
+if (isset($data['background_id'])) {
+    $hasMobile = isset($data['mobile_background_id']);?>
+    <div class="section background <?=$hasMobile ? 'pc-only' : ''?>"
+         style="background: url('/file/<?= $data['background_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
+        <div class="overlap-text-box">
+            <div class="overlap-text-wrap">
+                <div class="text-wrap">
+                    <p><?= ($lang == 'ko' ? $data['title'] : $data['title_en']) ?? '' ?></p>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php }
+if (isset($data['mobile_background_id'])) {
+    $hasPC = isset($data['background_id']);?>
+    <div class="section background <?=$hasPC ? 'mobile-only' : ''?>"
+         style="background: url('/file/<?= $data['mobile_background_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
         <div class="overlap-text-box">
             <div class="overlap-text-wrap">
                 <div class="text-wrap">
@@ -37,7 +51,7 @@ if (isset($data['artists'])) { ?>
             <div class="content-wrap scroll-horizontal-wrap">
                 <div class="content-wrap-inner" style="width: <?= (sizeof($data['artists']) * 180) ?>px;">
                     <?php foreach ($data['artists'] as $index => $item) {
-                        $url = isset($item['profile_id']) ? '/file/' . $item['profile_id'] : '/asset/images/custom/object.svg'; ?>
+                        $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                         <div class="content-item button" id="artist-<?= $item['id'] ?>"
                              onclick="setArtist(<?= $item['id'] ?>)">
                             <div class="image-item-wrap">

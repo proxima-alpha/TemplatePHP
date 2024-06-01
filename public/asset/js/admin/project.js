@@ -40,9 +40,6 @@ function onRewardItemSelectChanged(element, target, index, isEditable = true) {
     if (selectedValue == 'all') {
         $container.find('.checkbox-group.artist').remove();
     } else if (selectedValue == 'random') {
-        // const $selectBox = $container.find('.select-box');
-        // const extras = uploadData.getExtra('artist');
-        // $selectBox.after(getRewardRandomItemHtml(index, extras, isEditable))
         refreshReward(isEditable)
     }
 }
@@ -154,7 +151,7 @@ function loadReward(project_id, isEditable = true) {
 }
 
 function getArtistItemHtml(target, index, isEditable = true, data = null) {
-    let file_url = `/file/${data['profile_id']}`
+    let file_url = `/file/${data['image_id']}`
     return `
     <div class="draggable-item row-uploader-item index-${index}" ${isEditable ? 'draggable="true"' : ''}>
         <input hidden type="text" name="id" value="${data['id']}">

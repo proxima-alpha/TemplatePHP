@@ -96,7 +96,7 @@
                     <?php if (isset($data)) { ?>
                         <div class="project-wrap">
                             <div class="image-wrap"
-                                 style="background: url('/file/<?= $data['project_image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                 style="background: url('/file/<?= $data['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
                             <div class="content-wrap">
                                 <p class="title"><?= $lang == 'ko' ? $data['title'] : $data['title_en'] ?></p>

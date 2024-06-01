@@ -11,7 +11,7 @@ use App\Helpers\HtmlHelper;
         <div class="content-wrap">
             <?php if (HtmlHelper::showDataEmpty($array ?? null, 340)) {
                 foreach ($array as $index => $item) {
-                    $url = isset($item['project_image_id']) ? '/file/' . $item['project_image_id'] : '/asset/images/custom/object.svg'; ?>
+                    $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                     <div class="content-item">
                         <a href="/project/<?= $item['id'] ?>/view">
                             <div class="image-item-wrap">

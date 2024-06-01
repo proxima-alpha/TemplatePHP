@@ -27,8 +27,8 @@ $identifier = $shortid->generate();
     uploadData.checkEmpty(`<?=$code?>`)
     <?php foreach ($project_data['array'] as $index => $item) { ?>
     uploadData.push(`<?=$code?>`, `<?=$item['id']?>`, {
-        <?php if(isset($item['project_image_id'])) {?>
-        project_image_id: <?=$item['project_image_id']?>,
+        <?php if(isset($item['image_id'])) {?>
+        image_id: <?=$item['image_id']?>,
         <?php } ?>
         title: `<?=$item['title']?>`,
         title_en: `<?=$item['title_en']?>`,
@@ -44,8 +44,8 @@ $identifier = $shortid->generate();
     <?php foreach ($graphic_setting as $index => $item) {
     if($key == 'project') {?>
     uploadData.push(`<?=$key?>`, `<?=$item['id']?>`, {
-        <?php if(isset($item['project_image_id'])) {?>
-        project_image_id: <?=$item['project_image_id']?>,
+        <?php if(isset($item['image_id'])) {?>
+        image_id: <?=$item['image_id']?>,
         <?php } ?>
         title: `<?=$item['title']?>`,
         title_en: `<?=$item['title_en']?>`,
@@ -118,7 +118,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="content-wrap slider-box">
                 <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 398)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'project_image_id', $lang); ?>
+                    <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'image_id', $lang); ?>
                 <?php } ?>
             </div>
             <div class="control-button-wrap">
@@ -153,7 +153,7 @@ $identifier = $shortid->generate();
                 </div>
                 <div class="content-wrap slider-box">
                     <?php if (\App\Helpers\HtmlHelper::showDataEmpty($project_data['array'] ?? null, 398)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getProjectSlick($project_data['array'], 'project_image_id', $lang); ?>
+                        <?= \App\Helpers\HtmlHelper::getProjectSlick($project_data['array'], 'image_id', $lang); ?>
                     <?php } ?>
                 </div>
                 <div class="control-button-wrap">

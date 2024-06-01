@@ -51,7 +51,7 @@ function refreshViews(target) {
                     const item = array[i];
                     if (target == 'project' || (projectCodes.indexOf(target) >= 0)) {
                         uploadData.push(target, item['id'], {
-                            project_image_id: item['project_image_id'],
+                            image_id: item['image_id'],
                             title: item['title'],
                             start_date: item['start_date'],
                             end_date: item['end_date'],
@@ -59,7 +59,7 @@ function refreshViews(target) {
                         });
                     } else if (target != 'main' && target != 'relation') {
                         uploadData.push(target, item['id'], {
-                            profile_id: item['profile_id'],
+                            image_id: item['image_id'],
                             name: item['name'],
                             job: item['job']
                         });
@@ -237,7 +237,7 @@ function getProjectSlickItemHtml(target, isEditable = false) {
         if(isEditable) {
             return `
             <div class="slick-item draggable-item upload-item" draggable="true">
-                    <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                    <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                     <div class="text-item-wrap">
                         <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
                         <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
@@ -254,7 +254,7 @@ function getProjectSlickItemHtml(target, isEditable = false) {
         } else {
             return `
             <div class="slick-item">
-                <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['project_image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
+                <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                 <div class="text-item-wrap">
                     <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
                     <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
@@ -524,7 +524,7 @@ function confirmProjectSearch(className, target) {
                 }
 
                 const data = response.data
-                let file_url = `/file/${data['project_image_id']}`
+                let file_url = `/file/${data['image_id']}`
                 let $uploader = $(`.uploader.${target}`);
 
                 if ($uploader.attr('class').includes('slick')) {

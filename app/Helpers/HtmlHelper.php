@@ -159,16 +159,17 @@ final class HtmlHelper
         }
     }
 
-    public static function getSingleMediaUploader($key, $file_id, $view_mode = 'input'): string
+    public static function getSingleMediaUploader($key, $file, $view_mode = 'input'): string
     {
-        $html = '<div class="uploader image ' . $key . '">';
+        $html = '<div class="uploader media ' . $key . '">';
         if ($view_mode == 'input') {
-            if (isset($file_id)) {
+            if (isset($file)) {
                 $html .=
                     '<div class="upload-item"
-                         style="background: url(\'/file/' . $file_id . '\') no-repeat center;font-size: 0;background-size: cover;">
+                         style="background: url(\'' . $file['relative_path'] . '\') no-repeat center;font-size: 0;background-size: cover;">
+                        <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
                         <div class="upload-item-hover">
-                            <a href="javascript:deleteUploadedImageFile(\'' . $key . '\',\'' . $file_id . '\',\'image/png,image/jpg\')"
+                            <a href="javascript:deleteUploadedImageFile(\'' . $key . '\',\'' . $file['id'] . '\',\'image/png,image/jpg\')"
                                class="button delete-image black">
                                 <img src="/asset/images/icon/cancel_white.png"/>
                             </a>
@@ -185,12 +186,13 @@ final class HtmlHelper
                     </div>';
             }
         } else {
-            if (isset($file_id)) {
+            if (isset($file)) {
                 $html .=
                     '<div class="upload-item button"
-                        style="background: url(\'/file/' . $file_id . '\') no-repeat center;font-size: 0;background-size: cover;"
-                        onclick="openImagePopup(\'' . $file_id . '\')">
-                        Slider #' . $file_id . '
+                        style="background: url(\'' . $file['relative_path'] . '\') no-repeat center;font-size: 0;background-size: cover;"
+                        onclick="openImagePopup(\'' . $file['id'] . '\')">
+                        <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                        Slider #' . $file['id'] . '
                     </div>';
             } else {
                 return '';
@@ -303,7 +305,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getMediaSlick($files): string
+    public static function getMediaSlick($files, $useUrl = false): string
     {
         return HtmlHelper::getSlickHtml($files, function ($file) {
             if ($file['type'] == 'image') {

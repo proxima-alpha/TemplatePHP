@@ -149,6 +149,7 @@ function onFileUpload(
                         $uploader.addCustomSlickItem(index,
                             `<div class="slick-item draggable-item upload-item" draggable="true"
                         style="background: url('${file_url}') no-repeat center;font-size: 0; background-size: cover;">
+                        <div class="size-text">${width}X${height}</div>
                         Slider #${file_id}
                         <input hidden type="text" name="id" value="${file_id}">
                         <div class="upload-item-hover">
@@ -161,6 +162,7 @@ function onFileUpload(
                     } else {
                         $uploader.addCustomSlickItem(index,
                             `<div class="slick-item draggable-item upload-item" draggable="true">
+                                <div class="size-text">${width}X${height}</div>
                                 <video preload="metadata">
                                     <source src="${file_url}">
                                 </video>
@@ -181,6 +183,7 @@ function onFileUpload(
                     $uploader.empty();
                     $uploader.append(`
                     <div class="upload-item" style="background: url('${file_url}') no-repeat center;font-size: 0;background-size: cover;">
+                        <div class="size-text">${width}X${height}</div>
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedImageFile('${target}', '${file_id}', 'image/png,image/jpg')"
                                class="button delete-image black">

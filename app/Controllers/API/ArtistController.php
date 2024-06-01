@@ -128,10 +128,10 @@ class ArtistController extends CustomFileController
             try {
                 $this->db->transBegin();
                 if (isset($data['id'])) unset($data['id']);
-                if (!isset($data['profile_id']) || sizeof($data['profile_id']) == 0) {
-                    $data['profile_id'] = null;
+                if (!isset($data['image_id']) || sizeof($data['image_id']) == 0) {
+                    $data['image_id'] = null;
                 } else {
-                    $data['profile_id'] = $data['profile_id'][0];
+                    $data['image_id'] = $data['image_id'][0];
                 }
                 $inserted_row_id = $this->artistModel->insert($data);
                 if (!$inserted_row_id) {
@@ -145,8 +145,8 @@ class ArtistController extends CustomFileController
                         $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $file_id, $data['identifier'], $index);
                     }
                 }
-                if (isset($data['profile_id'])) {
-                    $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['profile_id'], $data['identifier'], 1);
+                if (isset($data['image_id'])) {
+                    $queries[] = QueryHelper::getFileAllocation('artist_id', $inserted_row_id, $data['image_id'], $data['identifier'], 1);
                 }
                 BaseModel::transaction($this->db, $queries);
 
@@ -177,10 +177,10 @@ class ArtistController extends CustomFileController
         $this->checkAdmin();
         $data = $this->request->getPost();
         if (isset($data['id'])) unset($data['id']);
-        if (!isset($data['profile_id']) || sizeof($data['profile_id']) == 0) {
-            $data['profile_id'] = null;
+        if (!isset($data['image_id']) || sizeof($data['image_id']) == 0) {
+            $data['image_id'] = null;
         } else {
-            $data['profile_id'] = $data['profile_id'][0];
+            $data['image_id'] = $data['image_id'][0];
         }
         if (!isset($data['previews'])) {
             $data['previews'] = [];
@@ -195,8 +195,8 @@ class ArtistController extends CustomFileController
                 $selectorQuery .= $prefix . $file_id;
                 $prefix = ',';
             }
-            if (isset($data['profile_id'])) {
-                $file_id = $data['profile_id'];
+            if (isset($data['image_id'])) {
+                $file_id = $data['image_id'];
                 // 이미지에 artist_id 할당하면서 priority 설정 해 준다
                 $queries[] = QueryHelper::getFileIndexUpdate('artist_id', $id, $file_id, $data['identifier'], 0);
                 $selectorQuery .= $prefix . $file_id;
@@ -213,7 +213,7 @@ class ArtistController extends CustomFileController
                 $conditionQuery = "(artist_id = " . $id . " AND target = 'artist_preview')" .
                     " OR identifier = '" . $data['identifier'] . "'";
             }
-            if (isset($data['profile_id'])) {
+            if (isset($data['image_id'])) {
                 $conditionQuery .= " OR (artist_id = " . $id . " AND target = 'artist_profile' AND id NOT IN(" . $selectorQuery . "))";
             } else {
                 $conditionQuery .= " OR (artist_id = " . $id . " AND target = 'artist_profile')";
