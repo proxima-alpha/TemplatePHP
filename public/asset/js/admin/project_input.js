@@ -181,7 +181,7 @@ function confirmEditProject(id) {
                 openPopupErrors('popup-error', response, status, request);
                 return;
             }
-            // history.back();
+            history.back();
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);

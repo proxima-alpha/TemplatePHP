@@ -74,9 +74,9 @@ $identifier = $shortid->generate();
                 </a>
             </div>
         </div>
-        <div class="content-box item-selector project">
+        <div class="content-box item-selector project_popular">
             <h4 class="page-sub-title">
-                <?= lang('Service.project') ?>
+                <?= lang('Client.popular_project') ?>
             </h4>
             <div class="input-wrap inline">
                 <input type="checkbox"

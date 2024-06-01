@@ -88,7 +88,7 @@
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap inline status">
-                    <p class="input-title"><?= lang('service.status') ?></p>
+                    <p class="input-title"><?= lang('Service.status') ?></p>
                     <select class="editable" name="status" disabled>`
                         <option
                             value="open" <?= isset($data['status']) && $data['status'] == 'open' ? 'selected' : '' ?>><?= lang('Service.opened') ?></option>

@@ -64,9 +64,9 @@ class MainController extends BaseClientController
                 'main' => $main_images,
                 'main_mobile' => $mobile_main_images,
                 'relation' => $relations,
-                'project' => $projects,
+                'project_popular' => $projects,
                 'project_by_code' => $projectParsed,
-                'previous-project' => $previous_projects,
+                'previous_project' => $previous_projects,
             ]);
             $data = array_merge($data, [
                 'data' => $graphic_settings,

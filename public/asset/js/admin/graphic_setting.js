@@ -52,7 +52,7 @@ function refresh(callback) {
                 uploadData.checkEmpty(key)
                 for (let i in array) {
                     const item = array[i];
-                    if (key == 'project' || (projectCodes.indexOf(key) >= 0)) {
+                    if (key == 'project_popular' || (projectCodes.indexOf(key) >= 0)) {
                         uploadData.push(key, item['id'], {
                             image_id: item['image_id'],
                             title: item['title'],
@@ -107,7 +107,7 @@ function confirmSettingFileEdit(target) {
         default:
             apiRequest({
                 type: 'POST',
-                url: target == 'project' ? `/api/project/post` : `/api/project/post/${target}`,
+                url: target == 'project_popular' ? `/api/project/post` : `/api/project/post/${target}`,
                 data: {
                     projects: uploadData.get(target)
                 },
@@ -293,7 +293,7 @@ function setEditing($parent, target) {
             }));
         }
             break;
-        case 'project': {
+        case 'project_popular': {
             $container.append(getSlickHtml(target, getProjectSlickItemHtml(target, true), () => {
                 return `
                 <div class="slick-item upload-item-add button"
@@ -393,7 +393,7 @@ function setEditing($parent, target) {
 function setView($parent, target) {
     let $container = $parent.find(`.content-wrap`);
     let style = '';
-    if (target == 'project') {
+    if (target == 'project_popular') {
         style = ` style="height : 398px; line-height: 396px" `
     } else if (target != 'main' && target != 'main_mobile' && target != 'relation') {
         style = ` style="height : 372px; line-height: 370px" `
@@ -414,7 +414,7 @@ function setView($parent, target) {
             case 'relation' :
                 $container.append(getSlickHtml(target, getMediaSlickItemHtml(target)));
                 break;
-            case 'project':
+            case 'project_popular':
                 $container.append(getSlickHtml(target, getProjectSlickItemHtml(target)));
                 break;
             default:
@@ -489,7 +489,7 @@ function refreshSetting() {
 // override
 
 function searchProject(target, page = 1) {
-    let searchTarget = target == 'project' ? 'all' : target;
+    let searchTarget = target == 'project_popular' ? 'all' : target;
     const assignCheckFieldName = searchTarget == 'all' ? 'is_posted_popular' : 'is_posted';
     apiRequest({
         type: 'GET',

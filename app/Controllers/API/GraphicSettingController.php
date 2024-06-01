@@ -51,7 +51,7 @@ class GraphicSettingController extends BaseApiController
                 'main' => $main_images,
                 'main_mobile' => $mobile_main_images,
                 'relation' => $relations,
-                'project' => $projects
+                'project_popular' => $projects
             ]);
             $data = array_merge($data, $projectParsed);
             $response['success'] = true;

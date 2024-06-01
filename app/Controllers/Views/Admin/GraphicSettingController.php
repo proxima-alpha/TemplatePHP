@@ -56,7 +56,7 @@ class GraphicSettingController extends BaseAdminController
                 'main' => $main_images,
                 'main_mobile' => $mobile_main_images,
                 'relation' => $relations,
-                'project' => $projects,
+                'project_popular' => $projects,
                 'project_by_code' => $projectParsed,
                 'project_code' => $codes,
             ]);

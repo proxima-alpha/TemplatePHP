@@ -80,11 +80,11 @@ use App\Helpers\HtmlHelper;
             <?php } ?>
         </div>
         <?php if ($data_settings['main-show-project'] == 1) { ?>
-            <div class="content-box project">
+            <div class="content-box project-popular">
                 <h4 class="page-sub-title">
                     <?= lang("Client.popular_project") ?>
                 </h4>
-                <?php if (HtmlHelper::showDataEmpty($data['project'] ?? null, 368)) { ?>
+                <?php if (HtmlHelper::showDataEmpty($data['project_popular'] ?? null, 368)) { ?>
                     <div class="scroll-control-button-wrap">
                         <a href="javascript:;" onclick="onClickScrollLeft(this)" class="button left">
                             <img src="/asset/images/icon/button_left.png"/>
@@ -94,8 +94,8 @@ use App\Helpers\HtmlHelper;
                         </a>
                     </div>
                     <div class="content-wrap scroll-horizontal-wrap">
-                        <div class="content-wrap-inner" style="width: <?= (sizeof($data['project']) * 240) ?>px;">
-                            <?php foreach ($data['project'] as $index => $item) {
+                        <div class="content-wrap-inner" style="width: <?= (sizeof($data['project_popular']) * 240) ?>px;">
+                            <?php foreach ($data['project_popular'] as $index => $item) {
                                 $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                                 <div class="content-item">
                                     <a href="/project/<?= $item['id'] ?>/view">
@@ -171,8 +171,8 @@ use App\Helpers\HtmlHelper;
                     <?= lang("Client.previous_project") ?>
                 </h4>
                 <div class="content-wrap">
-                    <?php if (HtmlHelper::showDataEmpty($data['previous-project'] ?? null, 368)) { ?>
-                        <?= HtmlHelper::getProjectContent($data['previous-project'], 'image_id', $lang); ?>
+                    <?php if (HtmlHelper::showDataEmpty($data['previous_project'] ?? null, 368)) { ?>
+                        <?= HtmlHelper::getProjectContent($data['previous_project'], 'image_id', $lang); ?>
                     <?php } ?>
                 </div>
             </div>
