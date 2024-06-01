@@ -167,7 +167,7 @@ final class HtmlHelper
                 $html .=
                     '<div class="upload-item"
                          style="background: url(\'' . $file['relative_path'] . '\') no-repeat center;font-size: 0;background-size: cover;">
-                        <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                        <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                         <div class="upload-item-hover">
                             <a href="javascript:deleteUploadedImageFile(\'' . $key . '\',\'' . $file['id'] . '\',\'image/png,image/jpg\')"
                                class="button delete-image black">
@@ -191,7 +191,7 @@ final class HtmlHelper
                     '<div class="upload-item button"
                         style="background: url(\'' . $file['relative_path'] . '\') no-repeat center;font-size: 0;background-size: cover;"
                         onclick="openImagePopup(\'' . $file['id'] . '\')">
-                        <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                        <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                         Slider #' . $file['id'] . '
                     </div>';
             } else {
@@ -208,14 +208,14 @@ final class HtmlHelper
         if ($view_mode == 'input') {
             $html .=
                 '<div class="slider-wrap">
-                    <div class="slick uploader ' . $key . '">';
+                <div class="slick uploader ' . $key . '">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
                     if ($file['type'] == 'image') {
                         $html .=
                             '<div class="slick-item draggable-item upload-item" draggable="true"
                             style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;">
-                            <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                            <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <div class="upload-item-hover">
@@ -228,7 +228,7 @@ final class HtmlHelper
                     } else {
                         $html .=
                             '<div class="slick-item draggable-item upload-item" draggable="true">
-                            <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
+                            <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
                             <video preload="metadata">
@@ -247,8 +247,8 @@ final class HtmlHelper
             $html .=
                 '<div class="slick-item upload-item-add"
                      style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
-                    <label for="artist_preview-file" class="button"></label>
-                    <input type="file" name="file" id="artist_preview-file"
+                    <label for="' . $key . '-file" class="button"></label>
+                    <input type="file" name="file" id="' . $key . '-file"
                            onchange="onFileUpload(this, \'' . $key . '\');"
                            accept="' . $accept . '"/>
                 </div>';
@@ -258,7 +258,7 @@ final class HtmlHelper
         } else {
             $html .=
                 '<div class="slider-wrap">
-                        <div class="slick">';
+                    <div class="slick">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
                     if ($file['type'] == 'image') {
@@ -266,11 +266,13 @@ final class HtmlHelper
                             '<div class="slick-item button"
                             style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
                             onclick="openImagePopup(' . $file['id'] . ')">
+                            <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider # ' . $file['id'] . ' 
                         </div>';
                     } else {
                         $html .=
                             '<div class="slick-item button">
+                            <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             <video preload="metadata">
                                 <source src="' . $file['relative_path'] . '">
                             </video>
@@ -287,7 +289,7 @@ final class HtmlHelper
 
     private static function getSlickHtml($items, $getSlickItemHtml): string
     {
-        $html ='
+        $html = '
         <div class="content-wrap-inner slider-wrap lines-horizontal">
             <div class="slider-wrap">
                 <div class="slick">';
@@ -298,37 +300,15 @@ final class HtmlHelper
                 }
             }
         }
-        $html .='
+        $html .= '
                 </div>
             </div>
         </div>';
         return $html;
     }
 
-    public static function getMediaSlick($files, $useUrl = false): string
+    private static function getProjectItem($item, $image_file_key, $lang,)
     {
-        return HtmlHelper::getSlickHtml($files, function ($file) {
-            if ($file['type'] == 'image') {
-                return '
-                <div class="slick-item button"
-                style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
-                onclick="openImagePopup(' . $file['id'] . ')">
-                <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
-                Slider # ' . $file['id'] .
-                '</div>';
-            } else {
-                return '
-                <div class="slick-item button">
-                    <div class="size-text">'.$file['width'] .'X'.$file['height'].'</div>
-                    <video preload="metadata" muted>
-                        <source src="' . $file['relative_path'] . '" >
-                    </video>
-                </div>';
-            }
-        });
-    }
-
-    private static function getProjectItem($item, $image_file_key, $lang,) {
         $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
         return '<div class="image-item-wrap">
                     <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
@@ -343,19 +323,19 @@ final class HtmlHelper
     public static function getProjectSlick($items, $image_file_key, $lang = 'ko'): string
     {
         return HtmlHelper::getSlickHtml($items, function ($item) use ($lang, $image_file_key) {
-            return '<div class="slick-item">'.
-                HtmlHelper::getProjectItem($item, $image_file_key, $lang).
+            return '<div class="slick-item">' .
+                HtmlHelper::getProjectItem($item, $image_file_key, $lang) .
                 '</div>';
         });
     }
 
-    public static function getProjectContent($items, $image_file_key, $lang='ko'): string
+    public static function getProjectContent($items, $image_file_key, $lang = 'ko'): string
     {
         $html = '<div class="content-wrap-inner">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
-                $html.= '<div class="content-item">'.
-                    HtmlHelper::getProjectItem($item, $image_file_key, $lang).
+                $html .= '<div class="content-item">' .
+                    HtmlHelper::getProjectItem($item, $image_file_key, $lang) .
                     '</div>';
             }
         }
@@ -364,10 +344,13 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getPaymentChannel($pg) {
+    public static function getPaymentChannel($pg)
+    {
         switch ($pg) {
-            case 'html5_inicis' : return 'inicis';
-            default: return $pg;
+            case 'html5_inicis' :
+                return 'inicis';
+            default:
+                return $pg;
         }
     }
 }

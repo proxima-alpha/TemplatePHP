@@ -95,7 +95,12 @@ slider 페이지
     height: 450px;
 }
 
+#page-start .main-slider-wrap .slider-box.pc-only {
+    display: block !important;
+}
+
 #page-start .overlap-text-box {
+    pointer-events: none;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -429,6 +434,14 @@ slider 페이지
 }
 
 @media (max-width: 840px) {
+    #page-start .main-slider-wrap .slider-box.pc-only {
+        display: none !important;
+    }
+
+    #page-start .main-slider-wrap .mobile-only {
+        display: block !important;
+    }
+
     #page-start .overlap-text-box .text-wrap {
         max-width: calc(100% - 40px);
     }

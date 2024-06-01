@@ -32,38 +32,10 @@ class GraphicSettingController extends BaseApiController
         ];
 
         try {
-            $queryResult = $this->customFileModel->getGraphicSettings();
-
-            foreach ($queryResult as $row) {
-                $target = $row['target'];
-                switch ($target) {
-                    case 'main':
-                        if (!isset($data['main_video'])) $data['main_video'] = [];
-                        $data['main_video'][] = $row;
-                        break;
-                    case 'logo':
-                        if (!isset($data['logo'])) $data['logo'] = [];
-                        $data['logo'][] = $row;
-                        break;
-                    case 'footer_logo':
-                        if (!isset($data['footer_logo'])) $data['footer_logo'] = [];
-                        $data['footer_logo'][] = $row;
-                        break;
-                    case 'favicon':
-                        if (!isset($data['favicon'])) $data['favicon'] = [];
-                        $data['favicon'][] = $row;
-                        break;
-                    case 'open_graph':
-                        if (!isset($data['open_graph'])) $data['open_graph'] = [];
-                        $data['open_graph'][] = $row;
-                        break;
-                }
-            }
-
-            if (!isset($data)) $data = [];
-
+            $data = [];
             // priority 때문에 따로조회
-            $images = $this->customFileModel->get(['target' => 'main']);
+            $main_images = $this->customFileModel->get(['target' => 'main']);
+            $mobile_main_images = $this->customFileModel->get(['target' => 'main_mobile']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
             $projects = $this->projectModel->get(['is_posted_popular' => 1, 'status' => 'open'], null, true);
             $postedProjects = $this->projectModel->get(['is_posted' => 1], null, true);
@@ -76,7 +48,8 @@ class GraphicSettingController extends BaseApiController
                 $projectParsed[$project['code']][] = $project;
             }
             $data = array_merge($data, [
-                'main' => $images,
+                'main' => $main_images,
+                'main_mobile' => $mobile_main_images,
                 'relation' => $relations,
                 'project' => $projects
             ]);

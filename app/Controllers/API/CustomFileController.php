@@ -22,6 +22,29 @@ class CustomFileController extends BaseApiController
     }
 
     /**
+     * [get] /api/file/get/{id}
+     * admin-reply
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function get($id): ResponseInterface
+    {
+        return $this->typicallyGet($this->customFileModel, $id);
+    }
+
+    /**
+     * [post] /api/file/update/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function update($id): ResponseInterface
+    {
+        $this->checkAdmin();
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->customFileModel, $id, $data);
+    }
+
+    /**
      * [post] /api/file/{target}/{type}/upload/{identifier}
      * @param $target
      * @param $type

@@ -6,23 +6,48 @@ use App\Helpers\HtmlHelper;
 <?= HtmlHelper::setTranslations(['message_popup_page']) ?>
 <div class="section " id="page-start">
     <div class="main-slider-wrap">
-        <div class="slider-box">
-            <div class="slick">
-                <?php foreach ($data['main'] as $index => $image) { ?>
-                    <div class="slick-item"
-                         style="background: url('/file/<?= $image['id'] ?>') no-repeat center; background-size: cover; font-size: 0;">
-                        Slider #<?= $index ?>
-                    </div>
-                <?php } ?>
-            </div>
-            <div class="overlap-text-box">
-                <div class="overlap-text-wrap">
-                    <div class="text-wrap">
-                        <p><?= $settings['main-content-text'] ?? '' ?></p>
+        <?php if (isset($data['main']) && sizeof($data['main']) > 0) {
+            $hasMobile = isset($data['main_mobile']) && sizeof($data['main_mobile']) > 0; ?>
+            <div class="slider-box <?= $hasMobile ? 'pc-only' : '' ?>">
+                <div class="slick">
+                    <?php foreach ($data['main'] as $index => $file) { ?>
+                        <a class="slick-item button"
+                           href="<?= $file['url'] ?? '' ?>"
+                           style="background: url('<?= $file['relative_path'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                            Slider #<?= $index ?>
+                        </a>
+                    <?php } ?>
+                </div>
+                <div class="overlap-text-box">
+                    <div class="overlap-text-wrap">
+                        <div class="text-wrap">
+                            <p><?= $settings['main-content-text'] ?? '' ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php }
+        if (isset($data['main_mobile']) && sizeof($data['main_mobile']) > 0)  {
+            $hasPC = isset($data['main']) && sizeof($data['main']) > 0; ?>
+            <div class="slider-box <?= $hasPC ? 'mobile-only' : '' ?>">
+                <div class="slick">
+                    <?php foreach ($data['main_mobile'] as $index => $file) { ?>
+                        <a class="slick-item button"
+                           href="<?= $file['url'] ?? '' ?>"
+                           style="background: url('<?= $file['relative_path'] ?>') no-repeat center; background-size: cover; font-size: 0;">
+                            Slider #<?= $index ?>
+                        </a>
+                    <?php } ?>
+                </div>
+                <div class="overlap-text-box">
+                    <div class="overlap-text-wrap">
+                        <div class="text-wrap">
+                            <p><?= $settings['main-content-text'] ?? '' ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     </div>
 </div>
 <div class="section" id="page-media">

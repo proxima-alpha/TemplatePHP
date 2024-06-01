@@ -38,6 +38,7 @@ class GraphicSettingController extends BaseAdminController
         try {
             $graphic_settings = [];
             $main_images = $this->customFileModel->get(['target' => 'main']);
+            $mobile_main_images = $this->customFileModel->get(['target' => 'main_mobile']);
             $relations = $this->customFileModel->get(['target' => 'relation']);
             $projects = $this->projectModel->get(['is_posted_popular' => 1, 'status' => 'open'], null, true);
             $postedProjects = $this->projectModel->get(['is_posted' => 1], null, true);
@@ -45,7 +46,7 @@ class GraphicSettingController extends BaseAdminController
             $settings = $this->settingModel->getMainShowSettings();
             $projectParsed = [];
             foreach ($codes as $index => $code) {
-                $projectParsed[$code['code']] = [ 'code' => $code,
+                $projectParsed[$code['code']] = ['code' => $code,
                     'array' => []];
             }
             foreach ($postedProjects as $index => $project) {
@@ -53,9 +54,11 @@ class GraphicSettingController extends BaseAdminController
             }
             $graphic_settings = array_merge($graphic_settings, [
                 'main' => $main_images,
+                'main_mobile' => $mobile_main_images,
                 'relation' => $relations,
                 'project' => $projects,
                 'project_by_code' => $projectParsed,
+                'project_code' => $codes,
             ]);
             $data = array_merge($data, [
                 'data' => $graphic_settings,
@@ -76,6 +79,7 @@ class GraphicSettingController extends BaseAdminController
                     '/module/slick_custom',
                     '/module/draggable',
                     '/module/uploader',
+                    '/admin/popup_input',
                     '/admin/search_artist',
                     '/admin/search_project',
                     '/admin/graphic_setting',

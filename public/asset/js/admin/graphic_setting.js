@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    refresh(() => {
+        refreshSetting()
+    });
     $('body').setOnResolutionChanged((event) => {
         const $slick = $('.slider-wrap .slick');
         $slick.setCustomSlick(event.detail.isMobile, {
@@ -13,6 +16,7 @@ function getAcceptFromTarget(target) {
     let accept;
     switch (target) {
         case 'main':
+        case 'main_mobile':
             accept = 'image/png,image/jpg';
             break;
         case 'relation':
@@ -33,7 +37,7 @@ function editSetting(target) {
     refreshSetting();
 }
 
-function refreshViews(target) {
+function refresh(callback) {
     apiRequest({
         type: 'GET',
         url: `/api/graphic-setting/get/all`,
@@ -41,43 +45,46 @@ function refreshViews(target) {
         success: function (response, status, request) {
             if (!response.success) return;
             let data = response.data;
-            let $parent = $(`.content-box.${target}`)
-            $parent.removeClass('editing')
 
             uploadData.clearItems();
-            for (let target in data) {
-                let array = data[target]
+            for (let key in data) {
+                let array = data[key]
+                uploadData.checkEmpty(key)
                 for (let i in array) {
                     const item = array[i];
-                    if (target == 'project' || (projectCodes.indexOf(target) >= 0)) {
-                        uploadData.push(target, item['id'], {
+                    if (key == 'project' || (projectCodes.indexOf(key) >= 0)) {
+                        uploadData.push(key, item['id'], {
                             image_id: item['image_id'],
                             title: item['title'],
                             start_date: item['start_date'],
                             end_date: item['end_date'],
-                            content: item['content']
-                        });
-                    } else if (target != 'main' && target != 'relation') {
-                        uploadData.push(target, item['id'], {
-                            image_id: item['image_id'],
-                            name: item['name'],
-                            job: item['job']
+                            content: item['content'],
+                            url: item['url'],
                         });
                     } else {
-                        uploadData.push(target, item['id'], {
+                        uploadData.push(key, item['id'], {
                             type: item['type'],
                             relative_path: item['relative_path'],
                             width: item['width'],
                             height: item['height'],
+                            url: item['url'],
                         });
                     }
                 }
             }
-            refreshSetting()
+            if (callback && typeof callback == 'function') callback();
         },
         error: function (response, status, error) {
         },
     });
+}
+
+function refreshViews(target) {
+    refresh(() => {
+        let $parent = $(`.content-box.${target}`)
+        $parent.removeClass('editing')
+        refreshSetting()
+    })
 }
 
 function cancelSettingFileEdit(target) {
@@ -93,6 +100,7 @@ function confirmSettingFileEdit(target) {
     if (isEmpty(target)) return;
     switch (target) {
         case 'main' :
+        case 'main_mobile' :
         case 'relation' :
             confirmEditFiles(target, () => refreshViews(target));
             break;
@@ -214,7 +222,7 @@ function getMediaSlickItemHtml(target, isEditable = false) {
                 return `
                 <div class="slick-item button"
                      style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                     onclick="openImagePopup(${id})">
+                     onclick="${target == 'main_mobile' || target == 'main' ? `openInputPopup(${id})` : `openImagePopup(${id})`}">
                     <div class="size-text">${extra['width']}X${extra['height']}</div>
                     Slider #${id}
                 </div>`;
@@ -234,7 +242,7 @@ function getMediaSlickItemHtml(target, isEditable = false) {
 function getProjectSlickItemHtml(target, isEditable = false) {
     const language = getCookie('lang')
     return function (id, extra) {
-        if(isEditable) {
+        if (isEditable) {
             return `
             <div class="slick-item draggable-item upload-item" draggable="true">
                     <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
@@ -272,8 +280,9 @@ function setEditing($parent, target) {
     switch
         (target) {
         case 'main':
+        case 'main_mobile' :
         case 'relation': {
-            $container.append(getSlickHtml(target, getMediaSlickItemHtml(target,true), () => {
+            $container.append(getSlickHtml(target, getMediaSlickItemHtml(target, true), () => {
                 return `<div class="slick-item upload-item-add"
                      style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                     <label for="image-file" class="button"></label>
@@ -285,7 +294,7 @@ function setEditing($parent, target) {
         }
             break;
         case 'project': {
-            $container.append(getSlickHtml(target, getProjectSlickItemHtml(target,true), () => {
+            $container.append(getSlickHtml(target, getProjectSlickItemHtml(target, true), () => {
                 return `
                 <div class="slick-item upload-item-add button"
                      style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
@@ -296,7 +305,7 @@ function setEditing($parent, target) {
             break;
         default:
             if (projectCodes.indexOf(target) >= 0) {
-                $container.append(getSlickHtml(target, getProjectSlickItemHtml(target,true), () => {
+                $container.append(getSlickHtml(target, getProjectSlickItemHtml(target, true), () => {
                     return `
                     <div class="slick-item upload-item-add button"
                          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;"
@@ -375,12 +384,10 @@ function setEditing($parent, target) {
         <img src="/asset/images/icon/check.png"/>
         <span>${lang('confirm')}</span>
     </a>`)
-    if (target == 'main' || target == 'relationship') {
-        $wrapButtonControls.append(`
-        <div class="info-text-wrap">
-            ${lang('message_info_drag')}
-        </div>`)
-    }
+    $wrapButtonControls.append(`
+    <div class="info-text-wrap">
+        ${lang('message_info_drag')}
+    </div>`)
 }
 
 function setView($parent, target) {
@@ -388,7 +395,7 @@ function setView($parent, target) {
     let style = '';
     if (target == 'project') {
         style = ` style="height : 398px; line-height: 396px" `
-    } else if (target != 'main' && target != 'relation') {
+    } else if (target != 'main' && target != 'main_mobile' && target != 'relation') {
         style = ` style="height : 372px; line-height: 370px" `
     }
     if (uploadData.get(target).length == 0) {
@@ -403,6 +410,7 @@ function setView($parent, target) {
         let html;
         switch (target) {
             case 'main' :
+            case 'main_mobile' :
             case 'relation' :
                 $container.append(getSlickHtml(target, getMediaSlickItemHtml(target)));
                 break;
@@ -482,7 +490,7 @@ function refreshSetting() {
 
 function searchProject(target, page = 1) {
     let searchTarget = target == 'project' ? 'all' : target;
-    const assignCheckFieldName = searchTarget == 'all'? 'is_posted_popular' : 'is_posted';
+    const assignCheckFieldName = searchTarget == 'all' ? 'is_posted_popular' : 'is_posted';
     apiRequest({
         type: 'GET',
         url: `/api/project/${searchTarget}?page=${page}`,

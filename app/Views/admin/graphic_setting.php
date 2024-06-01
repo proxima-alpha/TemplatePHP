@@ -19,52 +19,11 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     default_identifier = '<?=$identifier?>';
     let projectCodes = []
+
     <?php if (isset($data)) {
-    foreach ($data as $key => $graphic_setting) {
-    if($key == 'project_by_code') {
-    foreach ($data['project_by_code'] as $code => $project_data) { ?>
-    projectCodes.push(`<?=$code?>`)
-    uploadData.checkEmpty(`<?=$code?>`)
-    <?php foreach ($project_data['array'] as $index => $item) { ?>
-    uploadData.push(`<?=$code?>`, `<?=$item['id']?>`, {
-        <?php if(isset($item['image_id'])) {?>
-        image_id: <?=$item['image_id']?>,
-        <?php } ?>
-        title: `<?=$item['title']?>`,
-        title_en: `<?=$item['title_en']?>`,
-        start_date: `<?=$item['start_date']?>`,
-        end_date: `<?=$item['end_date']?>`,
-        content: `<?=$item['content']?>`,
-        content_en: `<?=$item['content_en']?>`,
-    });
+        foreach($data['project_code'] as $code) {?>
+            projectCodes.push(`<?=$code['code']?>`)
     <?php }
-    }
-    } else {?>
-    uploadData.checkEmpty('<?=$key?>')
-    <?php foreach ($graphic_setting as $index => $item) {
-    if($key == 'project') {?>
-    uploadData.push(`<?=$key?>`, `<?=$item['id']?>`, {
-        <?php if(isset($item['image_id'])) {?>
-        image_id: <?=$item['image_id']?>,
-        <?php } ?>
-        title: `<?=$item['title']?>`,
-        title_en: `<?=$item['title_en']?>`,
-        start_date: `<?=$item['start_date']?>`,
-        end_date: `<?=$item['end_date']?>`,
-        content: `<?=$item['content']?>`,
-        content_en: `<?=$item['content_en']?>`,
-    });
-    <?php } else {?>
-    uploadData.push(`<?=$key?>`, `<?=$item['id']?>`, {
-        type: `<?=$item['type']?>`,
-        relative_path: `<?=$item['relative_path']?>`,
-        width: `<?=$item['width']?>`,
-        height: `<?=$item['height']?>`,
-    });
-    <?php }
-    }
-    }
-    }
     }?>
 </script>
 <div class="container-inner">
@@ -77,12 +36,24 @@ $identifier = $shortid->generate();
                 <?= lang('Service.main_image') ?>
             </h4>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['main'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getMediaSlick($data['main'], true); ?>
-                <?php } ?>
             </div>
             <div class="control-button-wrap">
                 <a href="javascript:editSetting('main');"
+                   class="button under-line edit">
+                    <img src="/asset/images/icon/edit.png"/>
+                    <span><?= lang('Service.edit') ?></span>
+                </a>
+            </div>
+        </div>
+        <div class="content-box main_mobile">
+            <h4 class="page-sub-title">
+                <?= lang('Service.main_image') ?>
+                (<?= lang('Service.mobile') ?>)
+            </h4>
+            <div class="content-wrap slider-box">
+            </div>
+            <div class="control-button-wrap">
+                <a href="javascript:editSetting('main_mobile');"
                    class="button under-line edit">
                     <img src="/asset/images/icon/edit.png"/>
                     <span><?= lang('Service.edit') ?></span>
@@ -94,9 +65,6 @@ $identifier = $shortid->generate();
                 <?= lang('Service.relation') ?>
             </h4>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['relation'] ?? null)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getMediaSlick($data['relation'], true); ?>
-                <?php } ?>
             </div>
             <div class="control-button-wrap">
                 <a href="javascript:editSetting('relation');"
@@ -117,9 +85,6 @@ $identifier = $shortid->generate();
                 <p class="input-title"><?= lang('Service.show_main') ?></p>
             </div>
             <div class="content-wrap slider-box">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($data['project'] ?? null, 398)) { ?>
-                    <?= \App\Helpers\HtmlHelper::getProjectSlick($data['project'], 'image_id', $lang); ?>
-                <?php } ?>
             </div>
             <div class="control-button-wrap">
                 <a href="javascript:editSetting('project');"
@@ -140,24 +105,21 @@ $identifier = $shortid->generate();
                 <p class="input-title"><?= lang('Service.show_main') ?></p>
             </div>
         </div>
-        <?php foreach ($data['project_by_code'] as $code => $project_data) { ?>
-            <div class="content-box item-selector <?= $code ?>">
+        <?php foreach ($data['project_code'] as $code) { ?>
+            <div class="content-box item-selector <?= $code['code'] ?>">
                 <h4 class="page-sub-title">
-                    <?= $lang == 'ko' ? $project_data['code']['name'] : $project_data['code']['name_en'] ?>
+                    <?= $lang == 'ko' ? $code['name'] : $code['name_en'] ?>
                 </h4>
                 <div class="input-wrap inline">
                     <input type="checkbox"
-                           name="main-show-<?= $code ?>" <?= $data_settings['main-show-' . $code] ?? null == '1' ? 'checked' : '' ?>
-                           onchange="onSettingChanged(this, `<?= $code ?>`)"/>
+                           name="main-show-<?= $code['code'] ?>" <?= $data_settings['main-show-' . $code['code']] ?? null == '1' ? 'checked' : '' ?>
+                           onchange="onSettingChanged(this, `<?= $code['code'] ?>`)"/>
                     <p class="input-title"><?= lang('Service.show_main') ?></p>
                 </div>
                 <div class="content-wrap slider-box">
-                    <?php if (\App\Helpers\HtmlHelper::showDataEmpty($project_data['array'] ?? null, 398)) { ?>
-                        <?= \App\Helpers\HtmlHelper::getProjectSlick($project_data['array'], 'image_id', $lang); ?>
-                    <?php } ?>
                 </div>
                 <div class="control-button-wrap">
-                    <a href="javascript:editSetting('<?= $code ?>');"
+                    <a href="javascript:editSetting('<?= $code['code'] ?>');"
                        class="button under-line edit">
                         <img src="/asset/images/icon/edit.png"/>
                         <span><?= lang('Service.edit') ?></span>
@@ -167,3 +129,49 @@ $identifier = $shortid->generate();
         <?php } ?>
     </div>
 </div>
+
+<script type="text/javascript">
+    /**
+     * admin/popup_input
+     */
+    initializeInputPopup({
+        getGetUrl: function (id) {
+            return `/api/file/get/${id}`
+        },
+        getUpdateUrl: function (id) {
+            return `/api/file/update/${id}`
+        },
+        getHtml: function (data) {
+            let typeSet = {
+                url: {
+                    type: 'text',
+                    name: 'url',
+                },
+            };
+            let keys = Object.keys(typeSet);
+            let html = ``;
+
+            for (let i in keys) {
+                let key = keys[i];
+                let extracted = fromDataToHtml(key, data, typeSet);
+                if (extracted) {
+                    html += extracted;
+                }
+            }
+            return html;
+        },
+        getControlHtml: function (key, data) {
+            const isAdmin = getCookie('is_admin')
+            let html = ``;
+            if (isAdmin) {
+                html += `
+            <a href="javascript:editInputPopup('${key}', ${data['id']});"
+               class="button under-line edit">
+                <img src="/asset/images/icon/edit.png"/>
+                <span>${lang('edit')}</span>
+            </a>`;
+            }
+            return html;
+        }
+    })
+</script>

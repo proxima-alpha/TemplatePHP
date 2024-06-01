@@ -28,6 +28,7 @@ $routes->setAutoRoute(false);
  * --------------------------------------------------------------------
  */
 $CODE_RULE = '([a-zA-Z][a-zA-Z0-9\-\_]*)';
+$HASH_RULE = '([a-zA-Z0-9\-\_]*)';
 $ID_RULE = '([0-9]+)';
 $PAGE_RULE = '([0-9]+)';
 
@@ -111,10 +112,13 @@ $routes->get('/purchase-item-file', [\Views\FileController::class, 'downloadPurc
  */
 $routes->get('/api/session/(lang)/' . $CODE_RULE, [\Views\BaseViewController::class, 'updateSession']);
 
-$TARGET_RULE = 'topic|main|relation|image|background|background_mobile|artist_profile|artist_preview';
-$routes->post('/api/file/(' . $TARGET_RULE . ')/upload/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'uploadFile']);
-$routes->post('/api/file/(' . $TARGET_RULE . '|all)/refresh/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'refreshFile']);
-$routes->post('/api/file/(' . $TARGET_RULE . ')/confirm/([a-zA-Z0-9\-\_]*)', [\API\CustomFileController::class, 'confirmFile']);
+$routes->get('/api/file/get/' . $ID_RULE, [\API\CustomFileController::class, 'get']);
+$routes->post('/api/file/update/' . $ID_RULE, [\API\CustomFileController::class, 'update']);
+
+$TARGET_RULE = 'topic|main|main_mobile|relation|image|background|background_mobile|artist_profile|artist_preview';
+$routes->post('/api/file/(' . $TARGET_RULE . ')/upload/' . $HASH_RULE, [\API\CustomFileController::class, 'uploadFile']);
+$routes->post('/api/file/(' . $TARGET_RULE . '|all)/refresh/' . $HASH_RULE, [\API\CustomFileController::class, 'refreshFile']);
+$routes->post('/api/file/(' . $TARGET_RULE . ')/confirm/' . $HASH_RULE, [\API\CustomFileController::class, 'confirmFile']);
 $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/' . $ID_RULE, [\API\CustomFileController::class, 'deleteFile']);
 
@@ -180,9 +184,9 @@ $routes->post('/api/project/create', [\API\ProjectController::class, 'create']);
 $routes->post('/api/project/update/' . $ID_RULE, [\API\ProjectController::class, 'update']);
 $routes->post('/api/project/regenerate-hash/' . $ID_RULE, [\API\ProjectController::class, 'regenerateHash']);
 $routes->delete('/api/project/delete/' . $ID_RULE, [\API\ProjectController::class, 'delete']);
-$routes->post('/api/project/post/'.$CODE_RULE, [\API\ProjectController::class, 'postByCode']);
+$routes->post('/api/project/post/' . $CODE_RULE, [\API\ProjectController::class, 'postByCode']);
 $routes->post('/api/project/post', [\API\ProjectController::class, 'post']);
-$routes->get('/api/project/'.$CODE_RULE, [\API\ProjectController::class, 'index']);
+$routes->get('/api/project/' . $CODE_RULE, [\API\ProjectController::class, 'index']);
 
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
 $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseController::class, 'complete']);
