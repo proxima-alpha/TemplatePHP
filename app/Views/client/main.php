@@ -68,7 +68,7 @@ use App\Helpers\HtmlHelper;
                 <div class="content-wrap scroll-horizontal-wrap">
                     <div class="content-wrap-inner" style="width: <?= (sizeof($data['relation']) * 205) ?>px;">
                         <?php foreach ($data['relation'] as $index => $file) { ?>
-                            <div class="content-item">
+                            <div class="content-media-item">
                                 <video preload="metadata" muted>
                                     <source src="<?= $file['relative_path'] ?>">
                                 </video>
@@ -95,25 +95,8 @@ use App\Helpers\HtmlHelper;
                     </div>
                     <div class="content-wrap scroll-horizontal-wrap">
                         <div class="content-wrap-inner" style="width: <?= (sizeof($data['project_popular']) * 240) ?>px;">
-                            <?php foreach ($data['project_popular'] as $index => $item) {
-                                $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
-                                <div class="content-item">
-                                    <a href="/project/<?= $item['id'] ?>/view">
-                                        <div class="image-item-wrap">
-                                            <div class="image-item"
-                                                 style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
-                                        </div>
-                                        <div class="text-item-wrap">
-                                            <p class="item-title"><?= $lang == 'ko' ? $item['title'] :
-                                                    $item['title_en'] ?></p>
-                                            <p class="item-date"><?= (HtmlHelper::toDateString($item['start_date'])
-                                                    . ' ~'
-                                                    . HtmlHelper::toDateString($item['end_date'])) ?></p>
-                                            <p class="item-content"><?= $lang == 'ko' ? $item['content'] :
-                                                    $item['content_en'] ?></p>
-                                        </div>
-                                    </a>
-                                </div>
+                            <?php foreach ($data['project_popular'] as $index => $item) { ?>
+                                <?= HtmlHelper::getProjectItem($item, $lang)?>
                             <?php } ?>
                         </div>
                     </div>
@@ -172,7 +155,7 @@ use App\Helpers\HtmlHelper;
                 </h4>
                 <div class="content-wrap">
                     <?php if (HtmlHelper::showDataEmpty($data['previous_project'] ?? null, 368)) { ?>
-                        <?= HtmlHelper::getProjectContent($data['previous_project'], 'image_id', $lang); ?>
+                        <?= HtmlHelper::getProjectContent($data['previous_project'], $lang); ?>
                     <?php } ?>
                 </div>
             </div>

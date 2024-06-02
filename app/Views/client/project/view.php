@@ -89,7 +89,7 @@ if (isset($data['artists'])) { ?>
                     <?= lang('Client.project') ?>
                 </h4>
                 <div
-                    class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $data['content'] : $data['content_en']) ?></div>
+                    class="content quill-html"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
                 <h4 class="page-sub-title">
                     <?= lang('Client.guide_title') ?>
                 </h4>

@@ -1,6 +1,7 @@
 html {
     scrollbar-color: #fff #121114;
 }
+
 #container {
     background: #121114;
     width: 100%;
@@ -495,6 +496,23 @@ input[readonly] {
 
 .pc-only {
     display: inline-block !important;
+}
+
+.quill-html {
+    padding: 0 5px;
+    border: 1px solid #bbb;
+}
+
+.quill-html h1 {
+    font-size: 26px;
+}
+
+.quill-html h2 {
+    font-size: 20px;
+}
+
+.quill-html img {
+    max-width: 100%;
 }
 
 @media (max-width: 840px) {

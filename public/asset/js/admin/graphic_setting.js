@@ -249,7 +249,6 @@ function getProjectSlickItemHtml(target, isEditable = false) {
                     <div class="text-item-wrap">
                         <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
                         <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                        <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
                     </div>
                 <input hidden type="text" name="id" value="${id}">
                 <div class="upload-item-hover">
@@ -266,7 +265,6 @@ function getProjectSlickItemHtml(target, isEditable = false) {
                 <div class="text-item-wrap">
                     <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
                     <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
-                    <p class="item-content">${language == 'ko' ? extra['content'] : extra['content_en']}</p>
                 </div>
             </div>`;
         }
@@ -393,8 +391,8 @@ function setEditing($parent, target) {
 function setView($parent, target) {
     let $container = $parent.find(`.content-wrap`);
     let style = '';
-    if (target == 'project_popular') {
-        style = ` style="height : 398px; line-height: 396px" `
+    if (target == 'project_popular' || (projectCodes.indexOf(target) >= 0)) {
+        style = ` style="height : 345px; line-height: 343px" `
     } else if (target != 'main' && target != 'main_mobile' && target != 'relation') {
         style = ` style="height : 372px; line-height: 370px" `
     }

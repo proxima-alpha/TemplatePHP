@@ -4,10 +4,6 @@
             <?= lang('Service.manage_reward') ?>
         </h3>
         <div class="project-box">
-            <div class="access-url-wrap">
-                <p class="title"><?=lang('Service.access_url')?></p>
-            <p class="access-url"><?= $_ENV['app.baseURL'] . '/admin/project/' . $project['access_hash'] . '/reward/1' ?></p>
-            </div>
             <div class="project-wrap">
                 <div class="image-wrap"
                      style="background: url('/file/<?= $project['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
@@ -15,7 +11,10 @@
                 <div class="content-wrap">
                     <p class="title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
                     <div class="line"></div>
-                    <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $project['content'] : $project['content_en']) ?></p>
+                    <div class="access-url-wrap">
+                        <p class="title"><?=lang('Service.access_url')?></p>
+                        <p class="access-url"><?= $_ENV['app.baseURL'] . '/admin/project/' . $project['access_hash'] . '/reward/1' ?></p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -54,15 +54,6 @@
     font-size: 18px;
 }
 
-.project-box .access-url-wrap {
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.project-box .access-url-wrap .title {
-    font-weight: 400;
-}
-
 .project-box .project-wrap > div {
     display: inline-block;
     vertical-align: top;
@@ -83,6 +74,10 @@
     font-size: 22px;
     line-height: 40px;
     font-weight: 400;
+}
+
+.project-box .project-wrap .access-url-wrap .title {
+    font-size: 18px;
 }
 
 .project-box .project-wrap .content {

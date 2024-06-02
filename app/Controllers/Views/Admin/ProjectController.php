@@ -124,6 +124,7 @@ class ProjectController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/library/quill',
                     '/common/uploader',
                     '/common/row_uploader_item',
                     '/common/input',
@@ -132,6 +133,7 @@ class ProjectController extends BaseAdminController
                     '/admin/project/input',
                 ],
                 'js' => [
+                    '/library/quill/quill.min.js',
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
                     '/module/calendar',
@@ -166,6 +168,7 @@ class ProjectController extends BaseAdminController
         }
         return parent::loadHeader([
                 'css' => [
+                    '/library/quill',
                     '/common/uploader',
                     '/common/row_uploader_item',
                     '/common/input',
@@ -174,6 +177,7 @@ class ProjectController extends BaseAdminController
                     '/admin/project/input',
                 ],
                 'js' => [
+                    '/library/quill/quill.min.js',
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
                     '/module/calendar',

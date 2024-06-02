@@ -111,7 +111,7 @@ class ProjectController extends BaseClientController
         }
         return parent::loadHeader([
                 'css' => [
-                    '/client/artist'
+                    '/client/project/category'
                 ],
                 'js' => [],
             ])

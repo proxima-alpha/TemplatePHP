@@ -87,3 +87,9 @@
 .form-wrap .row-uploader .button.delete-image * {
     vertical-align: middle;
 }
+
+.quill-editor {
+    min-height: 120px;
+    max-height: 250px;
+    overflow-y: auto;
+}

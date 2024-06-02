@@ -70,8 +70,7 @@ $identifier = $shortid->generate();
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.content') ?></p>
-                            <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
-                                      onkeyup="resizeInputPopupTextarea(this)"><?= $data['content'] ?></textarea>
+                            <div id="editor-ko" class="quill-editor"></div>
                         </div>
                     </div>
                     <div class="tab-wrap en">
@@ -83,8 +82,7 @@ $identifier = $shortid->generate();
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.content') ?></p>
-                            <textarea class="editable" name="content_en" onkeydown="resizeInputPopupTextarea(this)"
-                                      onkeyup="resizeInputPopupTextarea(this)"><?= $data['content_en'] ?></textarea>
+                            <div id="editor-en" class="quill-editor"></div>
                         </div>
                     </div>
                 </div>
@@ -160,10 +158,30 @@ $identifier = $shortid->generate();
         </div>
     </div>
     <script type="text/javascript">
-        <?php if($type != 'create') {?>
+        let quillKo, quillEn
         $(document).ready(function () {
+            <?php if($type != 'create') {?>
             loadArtist(<?=$data['id']?>)
             loadReward(<?=$data['id']?>)
+            <?php } ?>
+            const quillOption = {
+                modules: {
+                    toolbar: [
+                        [{header: [1, 2, false]}],
+                        ['bold', 'italic', 'underline'],
+                        ['image'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+                        [{ 'indent': '-1'}, { 'indent': '+1' }],
+                        [{'color':[]},{'background':[]},],
+                        [{ 'align': [] }],
+                    ],
+                },
+                theme: 'snow', // or 'bubble'
+
+            };
+            quillKo = new Quill('#editor-ko', quillOption);
+            quillKo.setContents (quillKo.clipboard.convert( {html: '<?= $data['content']?>'}));
+            quillEn = new Quill('#editor-en', quillOption);
+            quillEn.setContents (quillKo.clipboard.convert( {html: '<?= $data['content_en']?>'}));
         });
-        <?php } ?>
     </script>

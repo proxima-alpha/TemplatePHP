@@ -39,9 +39,7 @@
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.content') ?></p>
-                            <textarea class="editable" name="content" onkeydown="resizeInputPopupTextarea(this)"
-                                      onkeyup="resizeInputPopupTextarea(this)"
-                                      readonly><?= $data['content'] ?></textarea>
+                            <div class="quill-html"><?= $data['content'] ?></div>
                         </div>
                     </div>
                     <div class="tab-wrap en">
@@ -53,9 +51,7 @@
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.content') ?></p>
-                            <textarea class="editable" name="content_en" onkeydown="resizeInputPopupTextarea(this)"
-                                      onkeyup="resizeInputPopupTextarea(this)"
-                                      readonly><?= $data['content_en'] ?></textarea>
+                            <div class="quill-html"><?= $data['content_en'] ?></div>
                         </div>
                     </div>
                 </div>

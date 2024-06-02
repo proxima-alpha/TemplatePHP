@@ -152,6 +152,12 @@ function confirmEditProject(id) {
     data['image_id'] = uploadData.get('image');
     data['background_id'] = uploadData.get('background');
     data['mobile_background_id'] = uploadData.get('background_mobile');
+    if(quillKo) {
+        data['content'] = quillKo.getSemanticHTML();
+    }
+    if(quillEn) {
+        data['content_en'] = quillEn.getSemanticHTML();
+    }
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
@@ -195,6 +201,12 @@ function confirmCreateProject() {
     data['image_id'] = uploadData.get('image');
     data['background_id'] = uploadData.get('background');
     data['mobile_background_id'] = uploadData.get('background_mobile');
+    if(quillKo) {
+        data['content'] = quillKo.getSemanticHTML();
+    }
+    if(quillEn) {
+        data['content_en'] = quillEn.getSemanticHTML();
+    }
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);

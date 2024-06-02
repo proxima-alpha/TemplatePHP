@@ -208,6 +208,9 @@ class ProjectController extends CustomFileController
                 if (isset($data['artists'])) {
                     $data['artists'] = array_unique($data['artists']);
                 }
+                $shortid = ShortId::create();
+                $shortid->setLength(10);
+                $data['access_hash'] = $shortid->generate();
 
                 $this->db->transBegin();
                 $inserted_row_id = $this->projectModel->insert($data);

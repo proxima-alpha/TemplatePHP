@@ -307,36 +307,30 @@ final class HtmlHelper
         return $html;
     }
 
-    private static function getProjectItem($item, $image_file_key, $lang,)
+    public static function getProjectItem($item, $lang)
     {
-        $url = isset($item[$image_file_key]) ? '/file/' . $item[$image_file_key] : '/asset/images/custom/object.svg';
-        return '<div class="image-item-wrap">
-                    <div class="image-item" style="background: url(\'' . $url . '\') no-repeat center; background-size: cover; font-size: 0;"></div>
+        $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg';
+        return '
+        <div class="content-item">
+            <a href="/project/'.$item['id'].'/view">
+                <div class="image-item-wrap">
+                    <div class="image-item"
+                         style="background: url(' . $url . ') no-repeat center; background-size: cover; font-size: 0;"></div>
                 </div>
                 <div class="text-item-wrap">
-                    <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
-                    <p class="item-date">' . HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date']) . '</p>
-                    <p class="item-content">' . ($lang == 'ko' ? $item['content'] : $item['content_en']) . '</p>
-                </div>';
+                    <p class="item-title">'. ($lang == 'ko' ? $item['title'] : $item['title_en'] ).'</p>
+                    <p class="item-date">'. (HtmlHelper::toDateString($item['start_date']). ' ~ '. HtmlHelper::toDateString($item['end_date'])) .'</p>
+                </div>
+            </a>
+        </div>';
     }
 
-    public static function getProjectSlick($items, $image_file_key, $lang = 'ko'): string
-    {
-        return HtmlHelper::getSlickHtml($items, function ($item) use ($lang, $image_file_key) {
-            return '<div class="slick-item">' .
-                HtmlHelper::getProjectItem($item, $image_file_key, $lang) .
-                '</div>';
-        });
-    }
-
-    public static function getProjectContent($items, $image_file_key, $lang = 'ko'): string
+    public static function getProjectContent($items, $lang = 'ko'): string
     {
         $html = '<div class="content-wrap-inner">';
         if (isset($items)) {
             foreach ($items as $index => $item) {
-                $html .= '<div class="content-item">' .
-                    HtmlHelper::getProjectItem($item, $image_file_key, $lang) .
-                    '</div>';
+                $html .= HtmlHelper::getProjectItem($item, $lang);
             }
         }
         $html .=
