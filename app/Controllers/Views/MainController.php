@@ -82,7 +82,7 @@ class MainController extends BaseClientController
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
                     '/client/main'],
-            ])
+            ], $data)
             . view('/client/main', $data)
             . parent::loadFooter();
     }
