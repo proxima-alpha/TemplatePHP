@@ -12,6 +12,7 @@ $open_graph_url = $_ENV['app.baseURL'].'/asset/images/include/open_graph.png';
     <title><?= $settings['web-title'] ?? '' ?></title>
     <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
     <meta property="og:image" content="<?= $open_graph_url ?>"/>
+    <meta property="og:description" content="<?= lang('Service.message_open_graph') ?>"/>
     <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>
