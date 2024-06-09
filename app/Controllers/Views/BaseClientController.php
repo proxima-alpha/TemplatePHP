@@ -21,11 +21,17 @@ class BaseClientController extends BaseViewController
      */
     protected bool $isCheckLogin = false;
 
+    protected array $settings = [];
+
     public function __construct()
     {
         $this->settingModel = model('Models\SettingModel');
         $this->customFileModel = model('Models\CustomFileModel');
         $this->codeProjectModel = model('Models\CodeProjectModel');
+        $settingResult = $this->settingModel->get();
+        foreach ($settingResult as $item) {
+            $this->settings[$item['code']] = $item['value'];
+        }
     }
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -80,6 +86,7 @@ class BaseClientController extends BaseViewController
         $codeArtistResult = $this->codeProjectModel->get([]);
         $initData = array_merge($initData, [
             'code_project' => $codeArtistResult,
+            'settings' => $this->settings,
         ]);
         return view('/client/header', parent::loadDataForHeader($data, $initData));
     }
@@ -99,12 +106,6 @@ class BaseClientController extends BaseViewController
      */
     protected function getViewData(): array
     {
-        $settings = [];
-        $settingResult = $this->settingModel->get();
-        foreach ($settingResult as $item) {
-            $settings[$item['code']] = $item['value'];
-        }
-
         return array_merge(parent::getViewData(), [
             // todo translation
             'company_info' => [
@@ -120,7 +121,7 @@ class BaseClientController extends BaseViewController
                 lang('Client.terms_01'),
                 lang('Client.terms_02'),
             ],
-            'settings' => $settings,
+            'settings' => $this->settings,
             'is_admin_page' => false,
         ]);
     }
