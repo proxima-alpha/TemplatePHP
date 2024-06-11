@@ -141,11 +141,11 @@ function onPopupResizeWindow(event) {
         'line-height': `${window.innerHeight}px`,
     })
     let popup_height = window.innerHeight - 400 < 200 ? 200 : window.innerHeight - 400
-    $('.popup-wrap .popup-inner').not('.popup-wrap.popup-image-detail .popup-inner').css({
+    $('.popup-wrap').not('.popup-term').find('.popup-inner').not('.popup-wrap.popup-image-detail .popup-inner').css({
         'max-height': `${popup_height}px`,
     })
     popup_height = window.innerHeight - 200 < 200 ? 200 : window.innerHeight - 200
-    $('.popup-wrap.popup-image-detail .popup-inner').css({
+    $('.popup-wrap.popup-image-detail').find('.popup-inner').css({
         'max-height': `${popup_height}px`,
     })
 }
@@ -376,6 +376,37 @@ async function openPopupMessage(message) {
     <div class="button-wrap controls">
         <a href="javascript:closePopup('${className}')" class="button cancel white">${lang('confirm')}</a>
     </div>`;
+    openPopup({
+        className: className,
+        style: style,
+        html: html,
+    })
+}
+
+function resizeIframe(obj) {
+    console.log(obj.contentWindow.document.body)
+    console.log(obj.contentWindow.document.body.scrollHeight)
+    console.log(obj.contentWindow.document.documentElement.scrollHeight)
+    console.log(obj.contentWindow.document.documentElement.innerHeight)
+    console.log(obj.contentWindow.document.getElementById('scroller'))
+    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight
+    // console.log(obj.contentWindow.document.body.findElementById('scroller'))
+    // obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+}
+async function openTermPopup(filename, lang) {
+    let className = `popup-term`;
+    let style = `
+    <style>
+        .${className}.popup-wrap .popup-inner {
+            padding: 0 0 0 0;
+            overflow-y: auto;
+            max-height: none;
+        }
+    </style>`;
+    let html = `
+    <iframe width="100%" height="600"
+    src="/asset/js/library/pdfjs/viewer.html?file=/asset/pdf/${filename}_${lang}.pdf">
+    </iframe>`;
     openPopup({
         className: className,
         style: style,

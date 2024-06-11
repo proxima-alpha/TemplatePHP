@@ -481,7 +481,7 @@ slider 페이지
     }
 
     #page-media .content-box.previous-project .content-item {
-        width: calc(33.3% - 20px);
+        width: calc(33.3% - 22px);
         box-sizing: border-box;
         margin: 10px;
     }
@@ -493,7 +493,7 @@ slider 페이지
 
 @media (max-width: 600px) {
     #page-media .content-box.previous-project .content-item {
-        width: calc(50% - 20px);
+        width: calc(50% - 22px);
         box-sizing: border-box;
         margin: 10px;
     }

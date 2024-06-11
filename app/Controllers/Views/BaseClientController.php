@@ -97,7 +97,10 @@ class BaseClientController extends BaseViewController
      */
     protected function loadFooter(): string
     {
-        return view('/client/footer');
+        $initData = [
+            'lang' => $this->session->lang,
+        ];
+        return view('/client/footer', $initData);
     }
 
     /**

@@ -2679,13 +2679,14 @@
   overflow:visible;
   border:var(--page-border);
   background-clip:content-box;
-  background-color:rgb(255 255 255);
+  background: #000;
 }
 
 .pdfViewer .dummyPage{
   position:relative;
   width:0;
   height:var(--viewer-container-height);
+  background: #000;
 }
 
 .pdfViewer.noUserSelect{
@@ -3086,8 +3087,10 @@ body{
 #viewerContainer{
   overflow:auto;
   position:absolute;
-  inset:32px 0 0;
+  inset:0 0 0;
   outline:none;
+  background: #000;
+  scrollbar-color: #fff #121114;
 }
 #viewerContainer:not(.pdfPresentationMode){
   transition-duration:var(--sidebar-transition-duration);
@@ -3105,6 +3108,7 @@ body{
   z-index:9999;
   cursor:default;
   font:message-box;
+  display: none;
 }
 
 :is(.toolbar, .editorParamsToolbar, .findbar, #sidebarContainer)
