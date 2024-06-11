@@ -120,10 +120,10 @@ return [
 
     "company_info_name" => 'Koods Co., Ltd.',
     "company_info_ceo_name" => 'Song Eunhyuk',
-    "company_info_cs_center" => '010-5692-2500 (in weekday 10:00 ~ 19:00)',
-    "company_info_company_number" => '555-81-02851',
-    "company_info_certification_number" => '제2024-서울서초-0338호',
-    "company_info_address" => '13 Saimdang-ro 8-gil, Seocho-gu, Seoul, FL 4, RM 402-N91',
+    "company_info_cs_center" => '010-3304-5446(in weekday 10:00~19:00)',
+    "company_info_company_number" => '208-86-02907',
+    "company_info_certification_number" => '제 2024-서울서대문-0699호',
+    "company_info_address" => '11-3, Yonsei-ro 2da-gil, Seodaemun-gu, Seoul, Building 1, FL 3, RM 301',
     "company_info_email" => 'becle.official@gmail.com',
 
     "terms_01" => "KOODS is a sales intermediary for e-commerce and is not a party to the sales. Responsibilities and obligations regarding products, product information, and transactions lie with the artists.",

@@ -17,7 +17,7 @@ $identifier = $shortid->generate();
     default_identifier = '<?=$identifier?>';
     <?php if (isset($data['previews'])) {
     foreach ($data['previews'] as $index => $item) { ?>
-    uploadData.push('preview', '<?=$item['id']?>');
+    uploadData.push('artist_preview', '<?=$item['id']?>');
     <?php }
     }
     if (isset($data['image_id'])) {?>
@@ -74,7 +74,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('Service.sample_video') ?></p>
-                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
+                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>
@@ -89,7 +89,7 @@ $identifier = $shortid->generate();
 <script type="text/javascript">
     function confirmEditArtist(id) {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['previews'] = uploadData.get('preview');
+        data['previews'] = uploadData.get('artist_preview');
         data['image_id'] = uploadData.get('image');
 
         apiRequest({
@@ -112,7 +112,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateArtist() {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['previews'] = uploadData.get('preview');
+        data['artist_preview'] = uploadData.get('artist_preview');
         data['image_id'] = uploadData.get('image');
 
         apiRequest({

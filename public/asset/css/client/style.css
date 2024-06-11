@@ -518,11 +518,11 @@ input[readonly] {
 @media (max-width: 840px) {
     #container {
         min-width: auto;
+        padding-top: 60px;
     }
 
     .container-inner {
         width: 100%;
-        padding-top: 60px;
     }
 
     .section .page-inner {

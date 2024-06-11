@@ -121,10 +121,10 @@ return [
 
     "company_info_name" => '(주)쿠즈',
     "company_info_ceo_name" => '송은혁',
-    "company_info_cs_center" => '010-5692-2500 (평일 10:00 ~ 19:00)',
-    "company_info_company_number" => '555-81-02851',
-    "company_info_certification_number" => '제2024-서울서초-0338호',
-    "company_info_address" => '서울 서초구 사임당로8길 13, 4층 402호 N91호',
+    "company_info_cs_center" => '010-3304-5446(평일 10:00~19:00)',
+    "company_info_company_number" => '208-86-02907',
+    "company_info_certification_number" => '제 2024-서울서대문-0699호',
+    "company_info_address" => '서울 서대문구 연세로2다길 11-3,1동 3층 301호(창천동,청년창업꿈터)',
     "company_info_email" => 'becle.official@gmail.com',
 
     "terms_01" => "(주)쿠즈는 통신판매중개자로서 통신판매의 당사자가 아니며 상품, 상품정보, 거래에 관한 의무와 책임은 아티스트에게 있습니다.",

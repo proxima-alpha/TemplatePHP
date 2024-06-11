@@ -116,14 +116,14 @@ if (isset($data['artists'])) { ?>
                 </h4>
                 <p><?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?></p>
             </div>
+            <div class="button-wrap">
+                <a class="button button-fill purchase"
+                   href="javascript:purchase(<?= $data['id'] ?>, '<?= $data['start_date'] ?>', '<?= $data['end_date'] ?>');"><?= lang('Client.purchase') ?></a>
+            </div>
             <div class="reward-box">
                 <h4 class="page-sub-title">
                     <?= lang('Client.reward') ?>
                 </h4>
-            </div>
-            <div class="button-wrap">
-                <a class="button button-fill"
-                   href="javascript:purchase(<?= $data['id'] ?>, '<?= $data['start_date'] ?>', '<?= $data['end_date'] ?>');"><?= lang('Client.purchase') ?></a>
             </div>
         </div>
     </div>

@@ -202,6 +202,7 @@
     margin: 5px;
     position: relative;
     display: inline-block;
+    overflow: hidden;
 }
 
 .artist-box .slick .slick-item .time-string {
@@ -353,6 +354,11 @@
     bottom: -5px;
     height: 2px;
     background: #FF7A00;
+}
+
+.button.purchase {
+    width: calc(100% - 40px);
+    box-sizing: border-box;
 }
 
 @media (max-width: 840px) {

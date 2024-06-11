@@ -72,6 +72,7 @@
         margin: 5px;
         height: 50vw;
         max-height: 250px;
+        position: relative;
     }
 
     .slider-box .slider-wrap .slick button.slick-prev {
