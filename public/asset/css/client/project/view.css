@@ -35,7 +35,7 @@
 }
 
 .background {
-    height: 350px;
+    height: 300px;
     position: relative;
 }
 
@@ -362,11 +362,6 @@
 }
 
 @media (max-width: 840px) {
-    .background {
-        height: 300px;
-        position: relative;
-    }
-
     .background.pc-only {
         display: none !important;
     }

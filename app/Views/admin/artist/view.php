@@ -59,7 +59,7 @@
             </div>
             <?php if (isset($data['previews']) && sizeof($data['previews']) > 0) { ?>
                 <div class="slider-box">
-                    <p class="title"><?= lang('Service.sample_video') ?></p>
+                    <p class="title"><?= lang('Service.sample_video') ?> (340 X 610)</p>
                     <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null) ?>
                 </div>
             <?php }

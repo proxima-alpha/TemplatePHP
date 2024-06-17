@@ -34,6 +34,7 @@ $identifier = $shortid->generate();
         <div class="content-box main">
             <h4 class="page-sub-title">
                 <?= lang('Service.main_image') ?>
+                (1500 X 450)
             </h4>
             <div class="content-wrap slider-box">
             </div>
@@ -49,6 +50,7 @@ $identifier = $shortid->generate();
             <h4 class="page-sub-title">
                 <?= lang('Service.main_image') ?>
                 (<?= lang('Service.mobile') ?>)
+                (840 X 450)
             </h4>
             <div class="content-wrap slider-box">
             </div>
@@ -63,6 +65,7 @@ $identifier = $shortid->generate();
         <div class="content-box relation">
             <h4 class="page-sub-title">
                 <?= lang('Service.relation') ?>
+                (340 X 610)
             </h4>
             <div class="content-wrap slider-box">
             </div>

@@ -57,17 +57,17 @@
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap">
-                    <p class="input-title"><?= lang('Service.project_image') ?></p>
+                    <p class="input-title"><?= lang('Service.project_image') ?> (268 X 318)</p>
                     <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null, 'view') ?>
                 </div>
                 <div class="input-uploader-wrap">
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.project_background') ?></p>
+                        <p class="input-title"><?= lang('Service.project_background') ?> (1500 X 300)</p>
                         <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null, 'view') ?>
                     </div>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.project_background') ?>
-                            (<?= lang('Service.mobile') ?>)</p>
+                            (<?= lang('Service.mobile') ?>) (840 X 300)</p>
                         <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null, 'view') ?>
                     </div>
                 </div>

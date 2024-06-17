@@ -37,7 +37,7 @@ $footer_logo_url = isset($logos['footer_logo']) ? "/file/{$logos['footer_logo'][
             </ul>
             <div class="terms">
                 <?php foreach ($terms as $index => $value) { ?>
-                    <p><?= $value ?><?= $index == sizeof($terms) - 1 ? '<a href="#">[' . lang('Client.show_information') . ']</a>' : '' ?></p>
+                    <p><?= $value ?></p>
                 <?php } ?>
             </div>
         </div>
