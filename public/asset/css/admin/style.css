@@ -392,6 +392,18 @@ input[type=checkbox] {
     max-width: 100%;
 }
 
+.pages .button.left {
+    background: url('/asset/images/icon/button_left.png') no-repeat center;
+    -webkit-background-size: 60%;
+    background-size: 9px 16px;
+}
+
+.pages .button.right {
+    background: url('/asset/images/icon/button_right.png') no-repeat center;
+    -webkit-background-size: 60%;
+    background-size: 9px 16px;
+}
+
 @keyframes loading {
     from {
         rotate: 45deg;

@@ -58,7 +58,7 @@ return [
     "questioner" => "요청인",
     "status" => "상태",
     "time" => "시간",
-    "request" => "요청",
+    "request" => "요청하기",
     "request_comment" => "요청 내용",
     "select_date" => "날짜 선택",
     "select_time" => "시간 선택",
@@ -81,7 +81,7 @@ return [
     "longitude" => "경도",
     "value" => "값",
     "phone_number" => "전화번호",
-    "inquiry" => "문의",
+    "inquiry" => "문의하기",
     "logo" => "로고",
     "footer_logo" => "하단 로고",
     "is_active" => "활성화 여부",
@@ -168,6 +168,8 @@ return [
     "all" => "전체",
     "mobile" => "모바일",
 
+    "respond" => "응답하기",
+
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",
     "message_popup_delete" => "삭제하시겠습니까?",
@@ -192,7 +194,6 @@ return [
     //email
     "email_click_link" => "혹은 {link} 를 클릭하세요.",
     "email_here" => "여기",
-    "email_reservation_new" => "새 요청",
-    "email_reservation_refuse" => "요청이 거절되었습니다",
-    "email_reservation_accept" => "요청이 수락되었습니다",
+    "email_question_new" => "새 문의",
+    "email_question_proceed" => "문의에 답변 처리되었습니다",
 ];

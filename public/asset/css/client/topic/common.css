@@ -1,4 +1,4 @@
-.container-inner  {
+.container-inner {
     min-height: auto;
 }
 
@@ -32,4 +32,19 @@
 
 .container-inner > div .text-wrap {
     text-align: left;
+}
+
+.container-inner > div input, .container-inner > div textarea {
+    background: none;
+    color: #fff;
+}
+
+.container-inner > div input, .container-inner > div textarea {
+    background: none;
+    color: #fff;
+}
+
+.container-inner > div .text-wrap .content,
+.container-inner > div .row .column {
+    color: #fff;
 }

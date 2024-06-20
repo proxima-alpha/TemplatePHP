@@ -1,0 +1,30 @@
+
+.popup-title {
+    margin: 10px 0;
+}
+
+input, textarea {
+    border: none;
+    margin: 0;
+    font-weight: 200;
+}
+
+.comment {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 200;
+    white-space: pre-wrap;
+}
+
+.title {
+    line-height: 30px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.time-selector-wrap {
+    display: inline-block;
+    width: 450px;
+    margin-bottom: 40px;
+}

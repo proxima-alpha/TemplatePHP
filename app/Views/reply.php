@@ -22,7 +22,7 @@ $end = min($end, $total_page);
     }
 
     .reply-wrap .row {
-        height: 50px;
+        /*height: 50px;*/
         line-height: 49px;
     }
 
@@ -56,7 +56,7 @@ $end = min($end, $total_page);
 
     .reply-wrap .nested-reply .row {
         padding-left: 20px;
-        background: #eee;
+        background: rgba(200, 200, 200, 0.5);
     }
 
     .reply-wrap .nested-reply .load-previous {
@@ -72,7 +72,7 @@ $end = min($end, $total_page);
 
     .reply-wrap .button-wrap.more {
         padding: 0 20px;
-        background: #eee;
+        background: rgba(200, 200, 200, 0.5);
     }
 
     .reply-wrap .reply .button {
@@ -181,7 +181,7 @@ $end = min($end, $total_page);
     .reply-wrap .list.reply textarea {
         height: 50px;
         padding: 10px 20px;
-        background: #eee;
+        background: rgba(200, 200, 200, 0.5);
     }
 
     .reply-wrap .list.reply .button.float {

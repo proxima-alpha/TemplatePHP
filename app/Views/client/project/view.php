@@ -1,6 +1,5 @@
 <?php
 \App\Helpers\HtmlHelper::setTranslations([
-    'message_error_login',
     'message_error_exceed',
     'message_error_expired',
     'message_error_not_started',

@@ -112,6 +112,9 @@ return [
     "next" => "Next",
     "refunded" => "Refunded",
 
+    "accepted" => "Responded",
+    "requested" => "Waiting",
+
     // footer
     "guide_qna" => "Guide & QnA",
     "agreement_service" => "Agreement Service",

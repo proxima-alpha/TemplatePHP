@@ -1,0 +1,12 @@
+.table-wrap .column.questioner {
+    width: 30%;
+}
+
+.table-wrap .column.status {
+    width: 30%;
+}
+
+.table-wrap .column.created-at {
+    width: 40%;
+    text-align: right;
+}

@@ -69,7 +69,7 @@ function setArtist(id) {
 
 function purchase(id, start_date, end_date) {
     if (getCookie('is_login') != 1) {
-        openPopupMessage(lang('message_error_login'))
+        openPopupMessage(lang('message_error_login'), '/login')
         return
     }
     // TODO move into purchase.js

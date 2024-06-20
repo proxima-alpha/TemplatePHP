@@ -171,6 +171,8 @@ return [
     "all" => "All",
     "mobile" => "Mobile",
 
+    "respond" => "Respond",
+
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",
     "message_popup_delete" => "Are you sure to delete?",
@@ -195,7 +197,6 @@ return [
     //email
     "email_click_link" => "Or click {link} to verify.",
     "email_here" => "here",
-    "email_reservation_new" => "New Reservation",
-    "email_reservation_refuse" => "Reservation Refused",
-    "email_reservation_accept" => "Reservation Accepted",
+    "email_question_new" => "New Question",
+    "email_question_proceed" => "Response for Your Question",
 ];

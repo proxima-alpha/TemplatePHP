@@ -59,6 +59,10 @@ $routes->get('/purchase/' . $PAGE_RULE, [\Views\PurchaseController::class, 'inde
 $routes->addRedirect('/purchase', '/purchase/1');
 $routes->get('/purchase/' . $ID_RULE . '/view', [\Views\PurchaseController::class, 'getView']);
 
+$routes->get('/question-board/' . $CODE_RULE . '/' . $ID_RULE, [\Views\QuestionController::class, 'getBoard']);
+$routes->addRedirect('/question-board/' . $CODE_RULE, '/question-board/$1/1');
+$routes->get('/question/([0-9]+)', [\Views\QuestionController::class, 'get']);
+
 //admin pages
 $routes->addRedirect('/admin', '/admin/dashboard');
 $routes->get('/admin/dashboard', [\Views\Admin\DashboardController::class, 'index']);
@@ -101,6 +105,10 @@ $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::c
 $routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
 $routes->get('/admin/purchase/' . $PAGE_RULE, [\Views\Admin\PurchaseController::class, 'index']);
 $routes->addRedirect('/admin/purchase', '/admin/purchase/1');
+
+$routes->get('/admin/question-board/' . $CODE_RULE . '/' . $ID_RULE, [\Views\Admin\QuestionController::class, 'getBoard']);
+$routes->addRedirect('/admin/question-board/' . $CODE_RULE, '/admin/question-board/$1/1');
+
 
 $routes->get('/file/(:any)/thumbnail', [\Views\FileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\Views\FileController::class, 'getFile']);
@@ -204,6 +212,16 @@ $routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::cla
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
 $routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCodeMail']);
 $routes->post('/api/email/send/verification-code/(:any)', [\API\EmailController::class, 'sendVerificationCodeMail']);
+
+$routes->get('/api/question-board/get/' . $ID_RULE, [\API\QuestionController::class, 'getBoard']);
+$routes->post('/api/question-board/create', [\API\QuestionController::class, 'createBoard']);
+$routes->post('/api/question-board/update/' . $ID_RULE, [\API\QuestionController::class, 'updateBoard']);
+$routes->delete('/api/question-board/delete/' . $ID_RULE, [\API\QuestionController::class, 'deleteBoard']);
+
+$routes->get('/api/question/get/' . $ID_RULE, [\API\QuestionController::class, 'getReservation']);
+$routes->post('/api/question/request', [\API\QuestionController::class, 'requestReservation']);
+$routes->post('/api/question/accept/' . $ID_RULE, [\API\QuestionController::class, 'acceptReservation']);
+
 
 /*
  * --------------------------------------------------------------------

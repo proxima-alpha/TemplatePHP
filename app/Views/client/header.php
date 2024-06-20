@@ -1,7 +1,7 @@
 <?php
 $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/custom/logo.svg';
 $favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
-$open_graph_url = $_ENV['app.baseURL'].'asset/images/include/open_graph.png';
+$open_graph_url = $_ENV['app.baseURL'] . 'asset/images/include/open_graph.png';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -12,8 +12,8 @@ $open_graph_url = $_ENV['app.baseURL'].'asset/images/include/open_graph.png';
     <title><?= $settings['web-title'] ?? '' ?></title>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
-    <meta property="og:image" content="<?=$open_graph_url?>" />
-    <meta property="og:logo" content="<?=$open_graph_url?>" />
+    <meta property="og:image" content="<?= $open_graph_url ?>"/>
+    <meta property="og:logo" content="<?= $open_graph_url ?>"/>
     <meta property="og:image:type" content="image/jpeg"/>
     <meta property="og:description" content="<?= lang('Service.message_open_graph') ?>"/>
     <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
@@ -40,7 +40,12 @@ $open_graph_url = $_ENV['app.baseURL'].'asset/images/include/open_graph.png';
     if (isset($javascript)) echo $javascript;
     ?>
 </head>
-<?= \App\Helpers\HtmlHelper::setTranslationsClient() ?>
+<?php
+\App\Helpers\HtmlHelper::setTranslationsClient();
+\App\Helpers\HtmlHelper::setTranslations([
+    'message_error_login',
+], 'Client');
+?>
 <body>
 <div class="loading-wrap">
     <span class="gadget"></span>
@@ -103,7 +108,7 @@ $open_graph_url = $_ENV['app.baseURL'].'asset/images/include/open_graph.png';
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="button gnb-menu">
+                    <a href="javascript:checkLogin('/question-board/inquiry');" class="button gnb-menu">
                         <?= lang('Client.menu_inquiry') ?>
                     </a>
                 </li>

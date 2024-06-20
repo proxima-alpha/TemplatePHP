@@ -1,5 +1,10 @@
 html {
     scrollbar-color: #fff #121114;
+    color: #fff;
+}
+
+a {
+    color: #ddd;
 }
 
 #container {
@@ -247,7 +252,7 @@ input[readonly] {
 .line-after.black:after,
 .lines-horizontal.black:after,
 .lines-horizontal.black:before {
-    background: #000;
+    background: #ddd;
 }
 
 .button.under-line {
@@ -292,7 +297,7 @@ input[readonly] {
 }
 
 .button.out-line {
-    border: 1px solid #ddd;
+    border: 1px solid #888;
     border-radius: 20px;
     padding: 0 8px;
     line-height: normal;
@@ -303,7 +308,7 @@ input[readonly] {
 }
 
 .button.out-line:hover {
-    border: 1px solid #000;
+    border: 1px solid #ddd;
 }
 
 .control-button-wrap span {
@@ -513,6 +518,18 @@ input[readonly] {
 
 .quill-html img {
     max-width: 100%;
+}
+
+.pages .button.left {
+    background: url('/asset/images/icon/button_left_white.png') no-repeat center;
+    -webkit-background-size: 60%;
+    background-size: 9px 16px;
+}
+
+.pages .button.right {
+    background: url('/asset/images/icon/button_right_white.png') no-repeat center;
+    -webkit-background-size: 60%;
+    background-size: 9px 16px;
 }
 
 @media (max-width: 840px) {

@@ -3,3 +3,12 @@
     background: #121114;
     color: #fff;
 }
+
+.popup-wrap textarea {
+    background: none;
+    color: #fff;
+}
+
+.popup-wrap .control-button-wrap.absolute {
+    background: #121114;
+}

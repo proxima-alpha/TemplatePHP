@@ -202,7 +202,7 @@ final class HtmlHelper
         return $html;
     }
 
-    public static function getMultiMediaUploader($key, $files, $view_mode = 'view', $accept = null): string
+    public static function getMultiMediaUploader($key, $files, $view_mode = 'view', $accept = null, $addImagePath = '/asset/images/icon/plus_circle_big.png'): string
     {
         $html = '';
         if ($view_mode == 'input') {
@@ -246,7 +246,7 @@ final class HtmlHelper
             }
             $html .=
                 '<div class="slick-item upload-item-add"
-                     style="background: url(\'/asset/images/icon/plus_circle_big.png\') no-repeat center; font-size: 0;">
+                     style="background: url(\'' . $addImagePath . '\') no-repeat center; font-size: 0;">
                     <label for="' . $key . '-file" class="button"></label>
                     <input type="file" name="file" id="' . $key . '-file"
                            onchange="onFileUpload(this, \'' . $key . '\');"
@@ -312,14 +312,14 @@ final class HtmlHelper
         $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg';
         return '
         <div class="content-item">
-            <a href="/project/'.$item['id'].'/view">
+            <a href="/project/' . $item['id'] . '/view">
                 <div class="image-item-wrap">
                     <div class="image-item"
                          style="background: url(' . $url . ') no-repeat center; background-size: cover; font-size: 0;"></div>
                 </div>
                 <div class="text-item-wrap">
-                    <p class="item-title">'. ($lang == 'ko' ? $item['title'] : $item['title_en'] ).'</p>
-                    <p class="item-date">'. (HtmlHelper::toDateString($item['start_date']). ' ~ '. HtmlHelper::toDateString($item['end_date'])) .'</p>
+                    <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
+                    <p class="item-date">' . (HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date'])) . '</p>
                 </div>
             </a>
         </div>';

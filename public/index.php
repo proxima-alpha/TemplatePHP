@@ -75,3 +75,4 @@ model('Models\UserModel')->initialize();
 model('Models\SettingModel')->initialize();
 model('Models\CodeRewardRequestModel')->initialize();
 model('Models\CodeProjectModel')->initialize();
+model('Models\QuestionBoardModel')->initialize();

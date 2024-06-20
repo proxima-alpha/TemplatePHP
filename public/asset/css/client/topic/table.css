@@ -1,3 +1,12 @@
+.table-wrap .row {
+    background: none;
+    color: #fff;
+}
+
+.table-wrap .row-title:after {
+    background: #fff;
+}
+
 .table-wrap .column.title {
     width: calc(100% - 180px);
 }

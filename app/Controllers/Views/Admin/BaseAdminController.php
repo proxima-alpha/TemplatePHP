@@ -57,8 +57,8 @@ class BaseAdminController extends BaseViewController
                 'link' => '/admin/board',
             ],
             [
-                'name' => lang('Service.reply'),
-                'link' => '/admin/topic/reply',
+                'name' => lang('Service.inquiry'),
+                'link' => '/admin/question-board/inquiry',
             ],
             [
                 'name' => lang('Service.user'),

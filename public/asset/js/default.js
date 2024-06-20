@@ -134,6 +134,7 @@ function parseInputToData($inputs) {
 function resizeInputPopupTextarea(obj) {
     //todo check in mobile
     let maxHeight = 80;
+    obj.style.overflow = 'hidden'
     if ((obj.innerHeight === undefined && obj.scrollHeight >= maxHeight) || obj.innerHeight < maxHeight) {
         obj.style.height = "1px";
         let height = 5 + obj.scrollHeight;
@@ -388,7 +389,15 @@ function onLanguageChanged(element) {
 }
 
 function sprintf(template, ...values) {
-    return template.replace(/%s/g, function() {
+    return template.replace(/%s/g, function () {
         return values.shift();
     });
+}
+
+function checkLogin(link) {
+    if (getCookie('is_login') != 1) {
+        openPopupMessage(lang('message_error_login'), '/login')
+        return
+    }
+    window.location.href = link;
 }

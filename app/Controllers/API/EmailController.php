@@ -374,7 +374,7 @@ class EmailController extends BaseApiController
                     $service->setMessage($email_content);
                     if (!$service->send()) {
 //                  ServerLogger::log($email->printDebugger());
-                        throw new Exception('fail to send email.');
+//                        throw new Exception('fail to send email.');
                     }
                     $response['success'] = true;
                 }

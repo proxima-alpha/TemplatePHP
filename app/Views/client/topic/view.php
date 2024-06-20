@@ -6,7 +6,7 @@
         <div class="topic-wrap">
             <div class="row user link">
                 <a href="javascript:openUserPopup(<?= $data['user_id'] ?>);" class="button out-line">
-                    <img src="/asset/images/icon/user.png"/>
+                    <img src="/asset/images/icon/user_white.png"/>
                     <span><?= $data['user_name'] ?></span>
                 </a>
             </div>
@@ -39,7 +39,7 @@
                 </div>
             <?php } ?>
         </div>
-        <div class="line black"></div>
+        <div class="line"></div>
     </div>
     <?php
     if ($board['is_reply'] == 1) {

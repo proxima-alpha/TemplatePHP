@@ -26,18 +26,6 @@ if (isset($pagination) && isset($pagination_link)) { ?>
             cursor: default;
         }
 
-        .pages .button.left {
-            background: url('/asset/images/icon/button_left.png') no-repeat center;
-            -webkit-background-size: 60%;
-            background-size: 9px 16px;
-        }
-
-        .pages .button.right {
-            background: url('/asset/images/icon/button_right.png') no-repeat center;
-            -webkit-background-size: 60%;
-            background-size: 9px 16px;
-        }
-
         .pages span a {
             height: 100%;
             display: block;

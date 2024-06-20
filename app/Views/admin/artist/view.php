@@ -1,8 +1,3 @@
-<?php
-\App\Helpers\HtmlHelper::setTranslations([
-    'message_error_login',
-], 'Client');
-?>
 <div class="container-inner">
     <div class="container-wrap">
         <div class="artist-wrap">

@@ -117,7 +117,7 @@ async function openVideoPopup(id, type = 'image', mime_type) {
     })
 }
 
-async function openPopupMessage(message) {
+async function openPopupMessage(message, link) {
     let className = `popup-message`;
     let style = `
         <style>
@@ -149,9 +149,13 @@ async function openPopupMessage(message) {
     <div class="error-message-wrap">
         <div>${message}</div>
     </div>
-    <div class="button-wrap controls">
-        <a href="javascript:closePopup('${className}')" class="button cancel button-fill">${lang('confirm')}</a>
-    </div>`;
+    <div class="button-wrap controls">`
+        if(link) {
+            html+=`<a href="${link}" class="button cancel button-fill">${lang('confirm')}</a>`
+        } else {
+            html+=`<a href="javascript:closePopup('${className}')" class="button cancel button-fill">${lang('confirm')}</a>`
+        }
+    html+=`</div>`;
     openPopup({
         className: className,
         style: style,

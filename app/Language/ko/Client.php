@@ -113,6 +113,9 @@ return [
     "next" => "다음",
     "refunded" => "환불 처리됨",
 
+    "accepted" => "답변 완료",
+    "requested" => "답변 대기",
+
     // footer
     "guide_qna" => "가이드와 자주 묻는 질문들",
     "agreement_service" => "서비스 이용약관",
