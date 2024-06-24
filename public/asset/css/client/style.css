@@ -503,21 +503,41 @@ input[readonly] {
     display: inline-block !important;
 }
 
-.quill-html {
+
+.ql-container {
     padding: 0 5px;
     border: 1px solid #bbb;
 }
 
-.quill-html h1 {
+.ql-container * {
+    margin: 5px 0;
+    min-height: 20px;
+}
+
+.ql-container h1 {
     font-size: 26px;
 }
 
-.quill-html h2 {
-    font-size: 20px;
+.ql-container h2 {
+    font-size: 22px;
 }
 
-.quill-html img {
-    max-width: 100%;
+.ql-container p, .ql-container li {
+    font-size: 18px;
+}
+
+.ql-container ul, .ql-container ol {
+    /*margin: 5px 0;*/
+    padding-left: 40px;
+    list-style: unset;
+}
+
+.ql-container ol li {
+    list-style-type: decimal;
+}
+
+.ql-container ul li {
+    list-style-type: disc;
 }
 
 .pages .button.left {

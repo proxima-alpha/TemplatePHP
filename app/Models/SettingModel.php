@@ -70,11 +70,21 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "페이지 상단 이름",
         ]);
+        $this->createIfNotExist(['code' => 'guide-how-to-use-ko'], [
+            "code" => "guide-how-to-use-ko",
+            "type" => "text",
+            "name" => "이용방법 (한글)",
+        ]);
+        $this->createIfNotExist(['code' => 'guide-how-to-use-en'], [
+            "code" => "guide-how-to-use-en",
+            "type" => "text",
+            "name" => "이용방법 (영어)",
+        ]);
         $codes = ['project', 'previous-project', 'artist', 'actor', 'creator'];
 
         foreach ($codes as $code) {
-            $this->createIfNotExist(['code' => "main-show-".$code], [
-                "code" => "main-show-".$code,
+            $this->createIfNotExist(['code' => "main-show-" . $code], [
+                "code" => "main-show-" . $code,
                 "type" => "bool",
                 "value" => "1",
                 "is_editable" => "0",
@@ -83,7 +93,8 @@ class SettingModel extends BaseModel
         }
     }
 
-    public function getMainShowSettings() {
+    public function getMainShowSettings()
+    {
         $query = "SELECT * FROM setting WHERE code LIKE 'main-show-%'";
         $queryResult = BaseModel::transaction($this->db, [
             [
@@ -93,7 +104,7 @@ class SettingModel extends BaseModel
         ]);
 
         $result = [];
-        foreach($queryResult as $item) {
+        foreach ($queryResult as $item) {
             $result[$item['code']] = $item['value'];
         }
         return $result;

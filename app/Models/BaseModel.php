@@ -152,6 +152,24 @@ class BaseModel extends Model
     }
 
     /**
+     * condition 을 이용해 update 하는 함수
+     * @param $condition
+     * @param $data
+     * @return array|null
+     */
+    public function put($condition, $data): array|null
+    {
+        $result = $this->builder()->getWhere($condition)->getResultArray();
+        if (count($result) == 1) {
+            $this->update($result[0]['id'], $data);
+            return $result[0];
+        } else {
+            return null;
+        }
+    }
+
+
+    /**
      * raw query insert 기능
      * 추후 raw query insert/update 가 필요 할때 사용할 예정
      * $querySet = $this->getInsertQuery($data);

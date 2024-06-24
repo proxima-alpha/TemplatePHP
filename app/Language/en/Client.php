@@ -31,20 +31,7 @@ return [
     "main_info_title_05" => "Share the video",
     "main_info_content_05" => "Share the video with your friends or fans to join many prepared events.",
 
-    //project
     "guide_title" => "How BECLE works",
-    "guide_01_title" => "1. Find your desired star",
-    "guide_01_content" => "Explore stars that are featured on BECLE!",
-    "guide_02_title" => "2. Check out the detailed star page",
-    "guide_02_content" => "Check out the detailed star page and sample videos to explore the services offered by the star, their rates, and available message options!",
-    "guide_03_title" => "3. Write a BECLE request message",
-    "guide_03_content" => "Compose a message to the selected star, including congratulations, event participation, or other requests. Please provide specific details in your message!",
-    "guide_04_title" => "4. Submit your message and proceed with the payment",
-    "guide_04_content" => "Review your message and complete the payment.",
-    "guide_05_title" => "5. Wait for the star's response",
-    "guide_05_content" => "Once you submit your request, the star will record a video based on the requested content.",
-    "guide_06_title" => "6. Purchase the special video on the purchase page and share it",
-    "guide_06_content" => "After the star records the video, we will send the private video via email through BECLE. Share it on your or the recipient's social media to spread the joy!",
 
     //reward
     "reward_step_01" => "Please select the quantity to purchase.",

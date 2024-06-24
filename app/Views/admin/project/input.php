@@ -170,7 +170,7 @@ $identifier = $shortid->generate();
                         [{header: [1, 2, false]}],
                         ['bold', 'italic', 'underline'],
                         ['image'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                         [{ 'indent': '-1'}, { 'indent': '+1' }],
                         [{'color':[]},{'background':[]},],
                         [{ 'align': [] }],

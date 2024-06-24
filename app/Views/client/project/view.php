@@ -88,23 +88,12 @@ if (isset($data['artists'])) { ?>
                     <?= lang('Client.project') ?>
                 </h4>
                 <div
-                    class="content quill-html"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
+                    class="content ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
                 <h4 class="page-sub-title">
                     <?= lang('Client.guide_title') ?>
                 </h4>
-                <div class="guide-wrap">
-                    <div class="guide-content-wrap">
-                        <?php foreach ($guide as $item) { ?>
-                            <p class="sub-title">
-                                <?= $item['title'] ?>
-                            </p>
-                            <div class="content">
-                                <p>
-                                    <?= $item['content'] ?>
-                                </p>
-                            </div>
-                        <?php } ?>
-                    </div>
+                <div class="guide-wrap ql-container">
+                   <?= $guide ?>
                 </div>
             </div>
         </div>

@@ -375,20 +375,44 @@ input[type=checkbox] {
     min-height: 120px;
     max-height: 250px;
     overflow-y: auto;
-    padding: 0 5px;
+    padding: 0 10px;
     margin: 10px 10px 20px 10px;
     border: 1px solid #bbb;
+    text-align: left;
 }
 
-.quill-html h1 {
+.ql-container * {
+    min-height: 20px;
+    margin: 5px 0;
+}
+
+.ql-container h1 {
     font-size: 26px;
 }
 
-.quill-html h2 {
-    font-size: 20px;
+.ql-container h2 {
+    font-size: 22px;
 }
 
-.quill-html img {
+.ql-container p, .ql-container li {
+    font-size: 18px;
+}
+
+.ql-container ul, .ql-container ol {
+    margin: 5px 0;
+    padding-left: 40px;
+    list-style: unset;
+}
+
+.quill-html ol li {
+    list-style-type: decimal;
+}
+
+.quill-html ul li {
+    list-style-type: disc;
+}
+
+.ql-container img {
     max-width: 100%;
 }
 

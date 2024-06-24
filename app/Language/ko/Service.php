@@ -128,6 +128,7 @@ return [
     "artist" => "아티스트",
     "project" => "프로젝트",
     "relation" => "릴레이션",
+    "guide" => "가이드",
     "show_main" => "메인 페이지에 게시",
     "previous_project" => "지난 프로젝트",
     "manage_reward" => "리워드 관리",

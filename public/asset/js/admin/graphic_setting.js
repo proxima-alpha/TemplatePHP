@@ -40,7 +40,7 @@ function editSetting(target) {
 function refresh(callback) {
     apiRequest({
         type: 'GET',
-        url: `/api/graphic-setting/get/all`,
+        url: `/api/setting/graphic-setting`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) return;
@@ -87,7 +87,7 @@ function refreshViews(target) {
     })
 }
 
-function cancelSettingFileEdit(target) {
+function cancelSettingEdit(target) {
     let accept = getAcceptFromTarget(target);
     if (isEmpty(target) || isEmpty(accept)) {
         refreshViews(target);

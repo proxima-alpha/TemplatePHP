@@ -20,7 +20,7 @@ body {
     font-weight: 200;
 }
 
-ul, dl, dd {
+ul, ol, dl, dd {
     margin: 0;
     padding: 0;
     list-style: none;

@@ -100,6 +100,8 @@ $routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward', '/admin/project
 $routes->get('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE . '/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'getPurchaseItemReward']);
 $routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE, '/admin/project/$1/reward/get/$2/1');
 
+$routes->get('/admin/guide', [\Views\Admin\GuideController::class, 'index']);
+
 $routes->get('/admin/graphic-setting', [\Views\Admin\GraphicSettingController::class, 'index']);
 
 $routes->get('/admin/setting', [\Views\Admin\SettingController::class, 'index']);
@@ -167,6 +169,9 @@ $routes->post('/api/setting/create', [\API\SettingController::class, 'createSett
 $routes->post('/api/setting/update/' . $ID_RULE, [\API\SettingController::class, 'updateSetting']);
 $routes->post('/api/setting/update', [\API\SettingController::class, 'updateWithCode']);
 $routes->delete('/api/setting/delete/' . $ID_RULE, [\API\SettingController::class, 'deleteSetting']);
+$routes->get('/api/setting/graphic-setting', [\API\SettingController::class, 'getGraphicSettings']);
+$routes->get('/api/setting/guide', [\API\SettingController::class, 'getGuide']);
+$routes->post('/api/setting/guide', [\API\SettingController::class, 'setGuide']);
 
 $routes->get('/api/code/project/get/' . $ID_RULE, [\API\CodeController::class, 'getCodeProject']);
 $routes->post('/api/code/project/create', [\API\CodeController::class, 'createCodeProject']);
@@ -206,8 +211,6 @@ $routes->post('/api/purchase-item-reward/confirm/' . $ID_RULE, [\API\PurchaseIte
 $routes->get('/api/purchase-item-reward/get/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'get']);
 $routes->post('/api/purchase-item-reward/update/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'update']);
 $routes->post('/api/reward-file/upload/' . $ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
-
-$routes->get('/api/graphic-setting/get/all', [\API\GraphicSettingController::class, 'getGraphicSettings']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
 $routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCodeMail']);

@@ -83,6 +83,7 @@ class ProjectController extends BaseAdminController
 
         return parent::loadHeader([
                 'css' => [
+                    '/library/quill',
                     '/common/uploader',
                     '/common/uploader_slider_box',
                     '/common/row_uploader_item',

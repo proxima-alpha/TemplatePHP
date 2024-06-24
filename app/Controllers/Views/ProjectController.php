@@ -43,33 +43,10 @@ class ProjectController extends BaseClientController
                     . view('/client/project/blocked', $data)
                     . parent::loadFooter();
             }
-            $guide = [
-                [
-                    'title' => lang('Client.guide_01_title'),
-                    'content' => lang('Client.guide_01_content'),
-                ],
-                [
-                    'title' => lang('Client.guide_02_title'),
-                    'content' => lang('Client.guide_02_content'),
-                ],
-                [
-                    'title' => lang('Client.guide_03_title'),
-                    'content' => lang('Client.guide_03_content'),
-                ],
-                [
-                    'title' => lang('Client.guide_04_title'),
-                    'content' => lang('Client.guide_04_content'),
-                ],
-                [
-                    'title' => lang('Client.guide_05_title'),
-                    'content' => lang('Client.guide_05_content'),
-                ],
-                [
-                    'title' => lang('Client.guide_06_title'),
-                    'content' => lang('Client.guide_06_content'),
-                ],
-            ];
-            $data = array_merge($data, ['guide' => $guide]);
+            $guide = $this->settingModel->findByCode(['guide-how-to-use-' . $data['lang']]);
+            $data = array_merge($data, [
+                'guide' => $guide['value'] ?? '',
+            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
@@ -77,6 +54,7 @@ class ProjectController extends BaseClientController
 
         return parent::loadHeader([
                 'css' => [
+                    '/library/quill',
                     '/common/uploader',
                     '/common/row_uploader_item',
                     '/common/input',

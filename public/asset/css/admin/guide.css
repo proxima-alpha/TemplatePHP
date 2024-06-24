@@ -1,0 +1,17 @@
+
+.content-box.how_to_use {
+    text-align: left;
+}
+
+.content-box.how_to_use .input-wrap {
+    margin: 10px;
+}
+
+.content-box.how_to_use .ql-container {
+    min-height: 400px;
+    margin: 0;
+}
+
+.content-box.how_to_use .ql-editor {
+    min-height: 400px;
+}

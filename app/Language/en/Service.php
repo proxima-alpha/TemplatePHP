@@ -131,6 +131,7 @@ return [
     "artist" => "Artist",
     "project" => "Project",
     "relation" => "Relation",
+    "guide" => "Guide",
     "show_main" => "Visible in main page",
     "previous_project" => "Previous Project",
     "manage_reward" => "Manage Reward",

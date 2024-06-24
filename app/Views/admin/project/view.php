@@ -39,7 +39,7 @@
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.content') ?></p>
-                            <div class="quill-html"><?= $data['content'] ?></div>
+                            <div class="quill-html ql-container"><?= $data['content'] ?></div>
                         </div>
                     </div>
                     <div class="tab-wrap en">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="input-wrap">
                             <p class="input-title"><?= lang('Service.content') ?></p>
-                            <div class="quill-html"><?= $data['content_en'] ?></div>
+                            <div class="quill-html ql-container"><?= $data['content_en'] ?></div>
                         </div>
                     </div>
                 </div>
