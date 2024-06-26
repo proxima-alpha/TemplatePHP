@@ -294,6 +294,10 @@ slider 페이지
     line-height: 256px;
 }
 
+#page-intro {
+    margin-top: 60px;
+}
+
 #page-intro .page-title {
     font-size: 70px;
     font-weight: 600;
@@ -308,57 +312,59 @@ slider 페이지
     margin: 40px 0;
 }
 
-#page-intro .content-box {
-    font-size: 0;
+
+#page-intro {
+    padding-bottom: 40px;
+}
+#page-intro .content-wrap .slick {
+    width: 650px;
+    margin: 0 auto;
+    max-width: 100%;
 }
 
-#page-intro .content-wrap {
-    width: 50%;
-    display: inline-block;
-    vertical-align: middle;
+#page-intro .content-wrap img {
+    width: 100%;
 }
 
-#page-intro .content-wrap.image {
-    text-align: right;
-    padding-right: 80px;
-    box-sizing: border-box;
+#page-intro .content-wrap .text-wrap {
+    padding: 20px;
 }
 
-#page-intro .content-wrap.image img {
-    width: 320px;
-}
-
-#page-intro .content-wrap.list {
-    padding: 0 40px 0 100px;
-    box-sizing: border-box;
-}
-
-#page-intro .content-wrap.list li {
-    padding: 30px 20px;
+#page-intro .content-wrap p {
+    color: #fff;
+    font-size: 32px;
     margin-top: 20px;
 }
 
-#page-intro .content-wrap.list li.wrap-fill {
-    border-radius: 20px;
+#page-intro .content-wrap p.title {
+    font-weight: 600;
+    font-size: 40px;
+}
+
+#page-intro .slick-dots {
+    text-align: center;
+}
+
+#page-intro .slick-dots li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+#page-intro .slick-dots li button {
+    font-size: 0;
+    height: 10px;
+    width: 68px;
+    border-radius: 100px;
+    background: none;
+    border: 1px solid #FF7A00;
+}
+
+#page-intro .slick-dots li.slick-active button {
+    height: 12px;
+    width: 70px;
     background: #FF7A00;
-}
-
-#page-intro .content-wrap.list li.wrap-line {
-    border-radius: 20px;
-    border: 2px solid #FF7A00;
-}
-
-#page-intro .content-wrap.list li * {
-    color: #fff;
-    font-size: 18px;
-}
-
-#page-intro .content-wrap.list li p.title {
-    font-weight: 400;
-}
-
-#page-intro .content-wrap.list li p.content {
-    margin-top: 40px;
+    border-radius: 100px;
+    border: none;
 }
 
 .page-popup {

@@ -42,6 +42,19 @@ $(document).ready(function () {
         accessibility: false,
     });
 
+    // activate slick
+    $('#page-intro .slick').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        prevArrow: false,
+        nextArrow: false,
+        autoplaySpeed: 2000,
+        accessibility: false,
+        infinite: true,
+        dots:true,
+    });
+
     $('video').on('mouseenter', event => {
         event.target.play();
         event.target.setAttribute("controls", "controls")

@@ -27,7 +27,7 @@ use App\Helpers\HtmlHelper;
                 </div>
             </div>
         <?php }
-        if (isset($data['main_mobile']) && sizeof($data['main_mobile']) > 0)  {
+        if (isset($data['main_mobile']) && sizeof($data['main_mobile']) > 0) {
             $hasPC = isset($data['main']) && sizeof($data['main']) > 0; ?>
             <div class="slider-box <?= $hasPC ? 'mobile-only' : '' ?>">
                 <div class="slick">
@@ -94,9 +94,10 @@ use App\Helpers\HtmlHelper;
                         </a>
                     </div>
                     <div class="content-wrap scroll-horizontal-wrap">
-                        <div class="content-wrap-inner" style="width: <?= (sizeof($data['project_popular']) * 240) ?>px;">
+                        <div class="content-wrap-inner"
+                             style="width: <?= (sizeof($data['project_popular']) * 240) ?>px;">
                             <?php foreach ($data['project_popular'] as $index => $item) { ?>
-                                <?= HtmlHelper::getProjectItem($item, $lang)?>
+                                <?= HtmlHelper::getProjectItem($item, $lang) ?>
                             <?php } ?>
                         </div>
                     </div>
@@ -171,31 +172,36 @@ use App\Helpers\HtmlHelper;
             <?= lang('Client.main_info_sub_title') ?>
         </h4>
         <div class="content-box">
-            <div class="content-wrap image">
-                <img src="/asset/images/custom/device.svg"/>
-            </div>
-            <div class="content-wrap list">
-                <ul>
-                    <li class="wrap-fill">
-                        <p class="title"><?= lang('Client.main_info_title_01') ?></p>
-                    </li>
-                    <li class="wrap-line">
-                        <p class="title"><?= lang('Client.main_info_title_02') ?></p>
-                        <p class="content"><?= lang('Client.main_info_content_02') ?></p>
-                    </li>
-                    <li class="wrap-line">
-                        <p class="title"><?= lang('Client.main_info_title_03') ?></p>
-                        <p class="content"><?= lang('Client.main_info_content_03') ?></p>
-                    </li>
-                    <li class="wrap-fill">
-                        <p class="title"><?= lang('Client.main_info_title_04') ?></p>
-                        <p class="content"><?= lang('Client.main_info_content_04') ?></p>
-                    </li>
-                    <li class="wrap-line">
-                        <p class="title"><?= lang('Client.main_info_title_05') ?></p>
-                        <p class="content"><?= lang('Client.main_info_content_05') ?></p>
-                    </li>
-                </ul>
+            <div class="content-wrap">
+                <div class="slick">
+                    <div class="slick-item">
+                        <div class="item-wrap">
+                            <img src="/asset/images/custom/frame_01.png"/>
+                            <div class="text-wrap">
+                                <p class="title">1. <?= lang('Client.main_info_title_02') ?></p>
+                                <p class="content"><?= lang('Client.main_info_content_03') ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slick-item">
+                        <div class="item-wrap">
+                            <img src="/asset/images/custom/frame_02.png"/>
+                            <div class="text-wrap">
+                                <p class="title">2. <?= lang('Client.main_info_title_04') ?></p>
+                                <p class="content"><?= lang('Client.main_info_content_04') ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slick-item">
+                        <div class="item-wrap">
+                            <img src="/asset/images/custom/frame_03.png"/>
+                            <div class="text-wrap">
+                                <p class="title">3. <?= lang('Client.main_info_title_05') ?></p>
+                                <p class="content"><?= lang('Client.main_info_content_05') ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="content-box right">
             </div>
