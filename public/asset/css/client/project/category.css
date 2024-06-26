@@ -89,4 +89,26 @@
     .container-inner {
         width: 100%;
     }
+
+    .content-item {
+        width: calc(33.3% - 22px);
+        box-sizing: border-box;
+        margin: 10px;
+    }
+
+    .content-item .image-item-wrap {
+        height: 37vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .content-item {
+        width: calc(50% - 22px);
+        box-sizing: border-box;
+        margin: 10px;
+    }
+
+    .content-item .image-item-wrap {
+        height: 53vw;
+    }
 }

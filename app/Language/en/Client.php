@@ -18,6 +18,7 @@ return [
     "company_number" => "Registration No.",
     "certification_number" => "Sales License",
     "manager_name" => "Head of personal information security",
+    "address" => "Address",
 
     "main_info_title" => "Beginning of Memories",
     "main_info_sub_title" => "Give Memories to My Fans!",

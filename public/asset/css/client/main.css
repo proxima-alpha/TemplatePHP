@@ -189,6 +189,7 @@ slider 페이지
 
 #page-media .content-box.relation .content-wrap-inner {
     height: 313px;
+    font-size: 0;
 }
 
 #page-media .content-box.relation .content-media-item {
@@ -480,8 +481,12 @@ slider 페이지
         width: 100%;
     }
 
+    #page-media .content-box.previous-project {
+        font-size: 0;
+    }
+
     #page-media .content-box.previous-project .content-item {
-        width: calc(33.3% - 33px);
+        width: calc(33.3% - 22px);
         box-sizing: border-box;
         margin: 10px;
     }

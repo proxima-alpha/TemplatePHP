@@ -100,9 +100,8 @@
                             </div>
                             <div class="content-wrap">
                                 <p class="title"><?= $lang == 'ko' ? $data['title'] : $data['title_en'] ?></p>
-                                <div class="line"></div>
-                                <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $data['content'] : $data['content_en']) ?></p>
                             </div>
+                            <div class="content ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
                         </div>
                     <?php } ?>
                     </div>

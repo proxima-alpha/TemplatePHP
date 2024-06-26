@@ -48,6 +48,10 @@ input, textarea, select {
     box-sizing: border-box;
 }
 
+textarea, p{
+    white-space: pre-wrap;
+}
+
 * {
     /*disable mobile click event*/
     -webkit-tap-highlight-color: transparent;

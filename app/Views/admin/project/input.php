@@ -180,8 +180,8 @@ $identifier = $shortid->generate();
 
             };
             quillKo = new Quill('#editor-ko', quillOption);
-            quillKo.setContents (quillKo.clipboard.convert( {html: '<?= $data['content']?>'}));
+            quillKo.setContents (quillKo.clipboard.convert( {html: `<?= $data['content']?>`}));
             quillEn = new Quill('#editor-en', quillOption);
-            quillEn.setContents (quillKo.clipboard.convert( {html: '<?= $data['content_en']?>'}));
+            quillEn.setContents (quillKo.clipboard.convert( {html: `<?= $data['content_en']?>`}));
         });
     </script>

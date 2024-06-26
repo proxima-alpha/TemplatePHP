@@ -504,7 +504,7 @@ input[readonly] {
 }
 
 
-.ql-container {
+.quill-html {
     padding: 0 5px;
     border: 1px solid #bbb;
 }
@@ -540,6 +540,10 @@ input[readonly] {
     list-style-type: disc;
 }
 
+.ql-container img {
+    max-width: 100%;
+}
+
 .pages .button.left {
     background: url('/asset/images/icon/button_left_white.png') no-repeat center;
     -webkit-background-size: 60%;
@@ -560,6 +564,7 @@ input[readonly] {
 
     .container-inner {
         width: 100%;
+        overflow: hidden;
     }
 
     .section .page-inner {

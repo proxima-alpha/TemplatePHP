@@ -121,7 +121,6 @@ class BaseClientController extends BaseViewController
                 'email' => lang('Client.company_info_email'),
             ],
             'terms' => [
-                lang('Client.terms_01'),
                 lang('Client.terms_02'),
             ],
             'settings' => $this->settings,

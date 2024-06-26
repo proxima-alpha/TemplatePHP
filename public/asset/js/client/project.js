@@ -47,7 +47,7 @@ function setArtist(id) {
                     } else {
                         html += `
                         <div class="content-item">
-                            <video preload="metadata" controls style="width: 100%; height: 100%;">
+                            <video preload="metadata" controls style="width: 100%; height: 100%;" controlsList="nodownload">
                                 <source src="${file_url}">
                             </video>
                             <p class="time-string">${secToString(preview['time'])}</p>

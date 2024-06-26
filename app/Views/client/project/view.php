@@ -88,11 +88,11 @@ if (isset($data['artists'])) { ?>
                     <?= lang('Client.project') ?>
                 </h4>
                 <div
-                    class="content ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
+                    class="content quill-html ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
                 <h4 class="page-sub-title">
                     <?= lang('Client.guide_title') ?>
                 </h4>
-                <div class="guide-wrap ql-container">
+                <div class="guide-wrap quill-html ql-container">
                    <?= $guide ?>
                 </div>
             </div>
@@ -104,14 +104,14 @@ if (isset($data['artists'])) { ?>
                 </h4>
                 <p><?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?></p>
             </div>
-            <div class="button-wrap">
-                <a class="button button-fill purchase"
-                   href="javascript:purchase(<?= $data['id'] ?>, '<?= $data['start_date'] ?>', '<?= $data['end_date'] ?>');"><?= lang('Client.purchase') ?></a>
-            </div>
             <div class="reward-box">
                 <h4 class="page-sub-title">
                     <?= lang('Client.reward') ?>
                 </h4>
+                <div class="button-wrap">
+                    <a class="button button-fill purchase"
+                       href="javascript:purchase(<?= $data['id'] ?>, '<?= $data['start_date'] ?>', '<?= $data['end_date'] ?>');"><?= lang('Client.purchase') ?></a>
+                </div>
             </div>
         </div>
     </div>

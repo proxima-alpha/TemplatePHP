@@ -231,7 +231,7 @@ final class HtmlHelper
                             <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
-                            <video preload="metadata">
+                            <video preload="metadata" controlsList="nodownload">
                                 <source src="' . $file['relative_path'] . '">
                             </video>
                             <div class="upload-item-hover">
@@ -273,7 +273,7 @@ final class HtmlHelper
                         $html .=
                             '<div class="slick-item button">
                             <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
-                            <video preload="metadata">
+                            <video preload="metadata" controlsList="nodownload">
                                 <source src="' . $file['relative_path'] . '">
                             </video>
                         </div>';

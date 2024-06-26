@@ -18,6 +18,7 @@ return [
     "company_number" => "사업자등록번호",
     "certification_number" => "통신판매업신고번호",
     "manager_name" => "개인정보보호책임자",
+    "address" => "주소",
 
     "main_info_title" => "추억의 시작",
     "main_info_sub_title" => "내 팬에게 추억을 선물하세요!",
