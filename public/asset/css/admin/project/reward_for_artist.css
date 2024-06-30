@@ -164,6 +164,10 @@
 }
 
 @media (max-width: 840px) {
+    #container .purchase-item-wrap p {
+        word-break: break-all;
+    }
+
     .reward-box {
         margin: 10px;
     }

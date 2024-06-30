@@ -111,13 +111,13 @@ function onFileUpload(
     form.append('target', target)
 
     apiRequest({
+        method: 'POST',
         type: 'POST',
         url: `/api/file/${target}/upload/${identifier}`,
         data: form,
         processData: false,
         contentType: false,
         cache: false,
-        dataType: "json",
         success: function (response, status, request) {
             if (!response.success) {
                 openPopupErrors('popup-error', response, status, request);

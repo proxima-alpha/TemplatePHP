@@ -1,7 +1,7 @@
 <?php
 $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/custom/logo.svg';
 $favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
-$open_graph_url = $_ENV['app.baseURL'] . 'asset/images/include/open_graph.png';
+$open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
 ?>
 <!doctype html>
 <html lang="ko">
@@ -9,13 +9,14 @@ $open_graph_url = $_ENV['app.baseURL'] . 'asset/images/include/open_graph.png';
     <meta charset="UTF-8">
     <meta name="viewport"
           content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
-    <title><?= $settings['web-title'] ?? '' ?></title>
-    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="<?= $_ENV['app.baseURL'] ?? '' ?>"/>
+    <meta property="og:type" content="website">
     <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
-    <meta property="og:image" content="<?= $open_graph_url ?>"/>
-    <meta property="og:logo" content="<?= $open_graph_url ?>"/>
-    <meta property="og:image:type" content="image/jpeg"/>
     <meta property="og:description" content="<?= lang('Service.message_open_graph') ?>"/>
+    <meta property="og:image" content="<?= $open_graph_url ?>"/>
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="600" />
+    <title><?= $settings['web-title'] ?? '' ?></title>
     <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
 
     <link rel="stylesheet" type="text/css" href="/asset/font/fonts.css"/>

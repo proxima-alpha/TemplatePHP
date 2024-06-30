@@ -5,7 +5,6 @@
 #container .table-wrap .row .row-button .column {
     text-overflow: unset;
     white-space: normal;
-    overflow: auto;
     vertical-align: top;
     word-break: normal;
 }
@@ -92,7 +91,7 @@
 }
 
 .report-wrap .text-wrap div {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .report-wrap .text-wrap .title {
@@ -102,6 +101,14 @@
 @media (max-width: 840px) {
     .project-wrap {
         margin: 10px;
+    }
+
+    #container .table-wrap {
+        overflow: scroll;
+    }
+    .table-wrap .row-title,.table-wrap .row {
+        width: 160vw;
+        box-sizing: border-box;
     }
 
     .table-wrap .column.title {
