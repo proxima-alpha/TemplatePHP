@@ -52,6 +52,7 @@ $routes->get('/board/' . $CODE_RULE . '/topic/create', [\Views\BoardController::
 $routes->get('/topic/' . $ID_RULE, [\Views\BoardController::class, 'getTopic']);
 $routes->get('/topic/' . $ID_RULE . '/edit', [\Views\BoardController::class, 'editTopic']);
 $routes->get('/project/purchase/complete', [\Views\ProjectController::class, 'getComplete']);
+$routes->get('/project/purchase/' . $ID_RULE . '/complete', [\Views\ProjectController::class, 'getComplete']);
 $routes->get('/project/category/' . $CODE_RULE, [\Views\ProjectController::class, 'getCategory']);
 $routes->get('/project/' . $ID_RULE . '/view', [\Views\ProjectController::class, 'get']);
 $routes->get('/project/' . $ID_RULE . '/purchase', [\Views\ProjectController::class, 'getPurchase']);
@@ -203,6 +204,7 @@ $routes->get('/api/project/' . $CODE_RULE, [\API\ProjectController::class, 'inde
 
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
 $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseController::class, 'complete']);
+$routes->post('/api/purchase/webhook', [\API\PurchaseController::class, 'webhook']);
 
 $routes->get('/api/purchase-item/get/' . $ID_RULE, [\API\PurchaseItemController::class, 'get']);
 $routes->post('/api/purchase-item/update/' . $ID_RULE, [\API\PurchaseItemController::class, 'update']);

@@ -288,13 +288,15 @@ function requestPayment() {
             const payRequestData = {
                 pg: data['pg'],
                 pay_method: "card",
-                merchant_uid: `${data['reward_id'].padStart(16, "0")}-${response.data['id'].padStart(20, "0")}`, // 주문번호
+                merchant_uid: response.data['merchant_uid'], // 주문번호
                 name: (language == 'ko' ? selectedReward['title'] : selectedReward['title_en']),
                 amount: data['paid'], // 숫자 타입
                 buyer_email: data['purchaser_email'],
                 buyer_name: data['purchaser_name'],
                 currency: 'KRW',
                 language: language,
+                m_redirect_url: `${window.location.host}/project/purchase/${purchase_id}/complete`,
+                notice_url: `${window.location.host}/api/purchase/webhook`,
             };
             IMP.request_pay(payRequestData,
                 (rsp) => {

@@ -66,8 +66,7 @@
                         <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null, 'view') ?>
                     </div>
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.project_background') ?>
-                            (<?= lang('Service.mobile') ?>) (840 X 300)</p>
+                        <p class="input-title"><?= lang('Service.project_background') ?> (<?= lang('Service.mobile') ?>) (840 X 300)</p>
                         <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null, 'view') ?>
                     </div>
                 </div>

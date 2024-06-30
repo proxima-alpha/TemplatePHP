@@ -2,11 +2,16 @@
 
 namespace Views;
 
+use App\Helpers\IMPHelper;
+use App\Helpers\QueryHelper;
 use App\Helpers\Utils;
 use Exception;
 use Models\ArtistGroupModel;
+use Models\BaseModel;
 use Models\CodeRewardRequestModel;
 use Models\ProjectModel;
+use Models\PurchaseItemModel;
+use Models\PurchaseModel;
 use Models\RewardModel;
 
 class ProjectController extends BaseClientController
@@ -15,14 +20,19 @@ class ProjectController extends BaseClientController
     protected RewardModel $rewardModel;
     protected ArtistGroupModel $artistGroupModel;
     protected CodeRewardRequestModel $codeRewardRequestModel;
+    protected PurchaseModel $purchaseModel;
+    protected PurchaseItemModel $purchaseItemModel;
 
     public function __construct()
     {
         parent::__construct();
+        $this->db = db_connect();
         $this->projectModel = model('Models\ProjectModel');
         $this->rewardModel = model('Models\RewardModel');
         $this->artistGroupModel = model('Models\ArtistGroupModel');
         $this->codeRewardRequestModel = model('Models\CodeRewardRequestModel');
+        $this->purchaseModel = model('Models\PurchaseModel');
+        $this->purchaseItemModel = model('Models\PurchaseItemModel');
     }
 
     /**
@@ -140,11 +150,65 @@ class ProjectController extends BaseClientController
 
     /**
      * /project/purchase/complete
+     * @param $id
      * @return string
+     * @throws Exception
      */
-    public function getComplete(): string
+    public function getComplete($id = null): string
     {
         $this->checkLogout();
+        if (isset($id)) {
+            $data = $this->request->getGet();
+            try {
+                $paidData = IMPHelper::getPaymentData($data['imp_uid']);
+                if (!isset($paidData['success']) || !$paidData['success']) {
+                    throw new Exception('IMP::' . ($paidData['message'] ?? 'Payment failed'));
+                }
+                $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
+                $purchase = $this->purchaseModel->getLatest(['id' => $id]);
+
+                $reward_id = $purchase['reward_id'];
+                $reward = $this->rewardModel->getLatest(['id' => $reward_id]);
+                $project_id = $reward['project_id'];
+
+                $this->db->transBegin();
+                $inserted_result = $this->purchaseModel->update($id, [
+                    'imp_uid' => $data['imp_uid'],
+                    'merchant_uid' => $data['merchant_uid'],
+                    'status' => 'paid',
+                ]);
+                if (!$inserted_result) {
+                    throw new \Exception(implode($this->purchaseModel->errors()));
+                }
+                $queries = [];
+
+                if ($reward['type'] == 'all') {
+                    $artists = $this->artistGroupModel->getArtists($project_id);
+                    if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                        $queries[] = QueryHelper::getPurchaseItemRewardAllCreate($artists, $items);
+                    } else {
+                        throw new Exception('Internal Server Error');
+                    }
+                } else if ($reward['type'] == 'random') {
+                    $paidCount = $this->rewardModel->getPaidCount($reward_id);
+                    $artists = $this->artistGroupModel->getArtistsForReward($project_id, $reward_id);
+                    $startIndex = $paidCount % sizeof($artists);
+                    if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                        $queries[] = QueryHelper::getPurchaseItemRewardRandomCreate($items, $artists, $startIndex);
+                    } else {
+                        throw new Exception('Internal Server Error');
+                    }
+                }
+
+                $queries[] = "UPDATE reward SET purchased_count = purchased_count + " . sizeof($items) . " WHERE id = '" . $purchase['reward_id'] . "';";
+                BaseModel::transaction($this->db, $queries);
+                $this->db->transCommit();
+            } catch (Exception $e) {
+                //todo(log)
+                $this->db->transRollback();
+                $this->handleException($e);
+            }
+        }
         $data = $this->getViewData();
         return parent::loadHeader([
                 'css' => [
