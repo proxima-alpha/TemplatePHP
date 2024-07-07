@@ -133,8 +133,6 @@ $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm/' . $HASH_RULE, [\API\Cu
 $routes->post('/api/file/(' . $TARGET_RULE . ')/confirm', [\API\CustomFileController::class, 'confirmFile']);
 $routes->delete('/api/file/delete/' . $ID_RULE, [\API\CustomFileController::class, 'deleteFile']);
 
-$routes->delete('/api/reward-file/delete/' . $ID_RULE, [\API\RewardFileController::class, 'deleteFile']);
-
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/' . $ID_RULE, [\API\UserController::class, 'getUser']);
 $routes->post('/api/user/update/profile', [\API\UserController::class, 'updateProfile']);
@@ -212,7 +210,9 @@ $routes->delete('/api/purchase-item/refund/' . $ID_RULE, [\API\PurchaseItemContr
 $routes->post('/api/purchase-item-reward/confirm/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'confirm']);
 $routes->get('/api/purchase-item-reward/get/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'get']);
 $routes->post('/api/purchase-item-reward/update/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'update']);
+$routes->post('/api/reward-file/update/' . $ID_RULE, [\API\RewardFileController::class, 'update']);
 $routes->post('/api/reward-file/upload/' . $ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
+$routes->delete('/api/reward-file/delete/' . $ID_RULE, [\API\RewardFileController::class, 'deleteFile']);
 
 //$routes->post('/api/email/send', [\API\EmailController::class, 'send']);
 $routes->post('/api/email/send/verification-code', [\API\EmailController::class, 'sendVerificationCodeMail']);

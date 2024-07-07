@@ -21,7 +21,13 @@ function onRewardFileUpload(
                 openPopupErrors('popup-error', response, status, request);
                 return;
             }
-            window.location.reload();
+            const data = response.data;
+            $(`#${id} .upload-item-add span`).remove()
+            $(`#${id} .upload-item-add`).append(`
+            <video preload="metadata" onloadeddata="onVideoLoaded(this, '${data.id}', ${data.width}, ${data.height})">
+                <source src="${data.relative_path}">
+            </video>
+            `)
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);
@@ -29,6 +35,27 @@ function onRewardFileUpload(
     });
 }
 
+function onVideoLoaded(element, file_id, width, height) {
+    const data = createPoster(element, width, height)
+    apiRequest({
+        type: 'POST',
+        url: `/api/reward-file/update/${file_id}`,
+        data: {
+            poster: data
+        },
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+            window.location.reload();
+        },
+        error: function (response, status, error) {
+            openPopupErrors('popup-error', response, status, error);
+        },
+    });
+}
 function confirmReward(id) {
     apiRequest({
         type: 'POST',

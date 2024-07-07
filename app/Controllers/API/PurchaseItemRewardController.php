@@ -83,7 +83,7 @@ class PurchaseItemRewardController extends BaseApiController
         $this->checkAdmin();
 
         $purchaseItem = $this->purchaseItemRewardModel->find($id);
-        if ($purchaseItem['status'] != 'received') {
+        if ($purchaseItem['status'] != 'waiting') {
             return $this->response->setJSON([
                 'success' => false,
                 'message' => 'Invalid action.'

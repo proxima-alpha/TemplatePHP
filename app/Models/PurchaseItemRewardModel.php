@@ -26,7 +26,7 @@ class PurchaseItemRewardModel extends BaseModel
         $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en,
              purchase.user_id AS user_id, user.name AS user_name,
              artist.name AS artist_name, artist.name_en AS artist_name_en,
-             purchase_item_reward.status, purchase_item_reward.id, reward_file.id AS reward_file_id FROM purchase_item_reward" .
+             purchase_item_reward.status, purchase_item_reward.id, reward_file.id AS reward_file_id, reward_file.poster AS reward_file_poster FROM purchase_item_reward" .
             " LEFT JOIN artist ON artist.id = purchase_item_reward.artist_id" .
             " LEFT JOIN purchase_item ON purchase_item.id = purchase_item_reward.purchase_item_id" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .

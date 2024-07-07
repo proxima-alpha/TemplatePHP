@@ -25,6 +25,18 @@ class RewardFileController extends BaseApiController
     }
 
     /**
+     * [post] /api/reward-file/update/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function update($id): ResponseInterface
+    {
+        $this->checkAdmin();
+        $data = $this->request->getPost();
+        return $this->typicallyUpdate($this->rewardFileModel, $id, $data);
+    }
+
+    /**
      * [post] /api/reward-file/upload/{purchase_item_id}
      * @param $purchaseItemId
      * @return ResponseInterface
@@ -115,6 +127,8 @@ class RewardFileController extends BaseApiController
                     'mime_type' => $mime_type,
                     'type' => $uploadedType,
                     'relative_path' => '/' . $symbolic_path . '/' . $file_name,
+                    'width' => $width,
+                    'height' => $height,
                 ];
                 if (isset($previousFile)) {
                     $this->handleFileDelete("id = '" . $previousFile['id'] . "'");

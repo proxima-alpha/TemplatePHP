@@ -216,7 +216,7 @@ function getMediaSlickItemHtml(target, isEditable = false) {
                 return `
                 <div class="slick-item draggable-item upload-item" draggable="true">
                     <div class="size-text">${extra['width']}X${extra['height']}</div>
-                    <video preload="metadata" poster="${extra['poster']}">
+                    <video preload="metadata">
                         <source src="${file_url}">
                     </video>
                     <input hidden type="text" name="id" value="${id}">

@@ -5,7 +5,9 @@
         </h3>
         <div class="reward-box">
             <div class="reward-wrap">
-                <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?>(<?=$reward['type'] == 'random' ? lang('Service.reward_type_random') : lang('Service.reward_type_all')?>)</p>
+                <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?>
+                    (<?= $reward['type'] == 'random' ? lang('Service.reward_type_random') : lang('Service.reward_type_all') ?>
+                    )</p>
                 <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
             </div>
             <div class="count-wrap">
@@ -26,14 +28,14 @@
             </div>
         </div>
         <div class="filter-wrap">
-            <p><?=lang('Service.artist')?></p>
+            <p><?= lang('Service.artist') ?></p>
             <div class="artist-filter">
                 <a class="button out-line <?= !isset($selected_artist_id) ? 'selected' : '' ?>"
-                href="javascript:selectFilterArtist()"><?= lang('Service.all') ?></a>
+                   href="javascript:selectFilterArtist()"><?= lang('Service.all') ?></a>
                 <?php if (isset($artists)) {
                     foreach ($artists as $artist) { ?>
                         <a class="button out-line <?= (isset($selected_artist_id) && $selected_artist_id == $artist['id']) ? 'selected' : '' ?>"
-                           href="javascript:selectFilterArtist(<?=$artist['id']?>)">
+                           href="javascript:selectFilterArtist(<?= $artist['id'] ?>)">
                             <?= $lang == 'ko' ? $artist['name'] : $artist['name_en'] ?>
                         </a>
                     <?php }
@@ -44,7 +46,7 @@
             <div class="purchase-item-box">
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
-                        <li>
+                        <li id="<?= $item['id'] ?>">
                             <div class="purchase-item-wrap">
                                 <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
                                     <div class="text-wrap">
@@ -74,24 +76,34 @@
                                 </a>
                                 <?php if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
                                     <div class="uploader">
-                                        <div class="upload-item-add button"
-                                             style="background: url('/asset/images/icon/upload.svg') no-repeat center / 60%; font-size: 0;">
-                                            <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
-                                            <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
-                                                   onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
-                                                   accept="video/mp4"/>
-                                            <p><?= lang('Service.upload_file') ?></p>
+                                        <div class="upload-item-add button">
+                                            <div
+                                                style="background: url('/asset/images/icon/upload.svg') rgba(255, 255, 255, 0.7) no-repeat center / 60%; font-size: 0; background-position-y: 25%;">
+                                                <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
+                                                <input hidden type="file" name="file"
+                                                       id="purchase-<?= $item['id'] ?>-file"
+                                                       onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                                       accept="video/mp4"/>
+                                                <p><?= lang('Service.upload_file') ?></p>
+                                            </div>
                                         </div>
                                     </div>
                                 <?php } else if ($item['status'] != 'received') { ?>
                                     <div class="uploader uploaded">
-                                        <div class="upload-item-add button"
-                                             style="background: url('/asset/images/icon/check.svg') no-repeat center / 60%; font-size: 0;">
-                                            <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
-                                            <input hidden type="file" name="file" id="purchase-<?= $item['id'] ?>-file"
-                                                   onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
-                                                   accept="video/mp4"/>
-                                            <p><?= lang('Service.reupload_file') ?></p>
+                                        <div class="upload-item-add button">
+                                            <div
+                                                style="background: url('/asset/images/icon/check.svg') rgba(255, 255, 255, 0.7) no-repeat center / 60%; font-size: 0; background-position-y: 25%;">
+                                                <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
+                                                <input hidden type="file" name="file"
+                                                       id="purchase-<?= $item['id'] ?>-file"
+                                                       onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                                       accept="video/mp4"/>
+                                                <p><?= lang('Service.reupload_file') ?></p>
+                                            </div>
+                                            <?php if (isset($item['reward_file_poster'])) { ?>
+                                                <span
+                                                    style="background: url('<?= $item['reward_file_poster'] ?>') no-repeat center; background-size: cover; font-size: 0;"></span>
+                                            <?php } ?>
                                         </div>
                                         <div class="button-wrap">
                                             <a href="/reward-file/<?= $item['reward_file_id'] ?>"
@@ -103,9 +115,15 @@
                                     </div>
                                 <?php } else { ?>
                                     <div class="uploader finished">
-                                        <div class="upload-item-add"
-                                             style="background: url('/asset/images/icon/check_circle.svg') no-repeat center / 60%; font-size: 0;">
-                                            <p><?= lang('Service.downloaded') ?></p>
+                                        <div class="upload-item-add">
+                                            <div
+                                                style="background: url('/asset/images/icon/check_circle.svg') rgba(255, 255, 255, 0.7) no-repeat center / 60%; font-size: 0; background-position-y: 25%;">
+                                                <p><?= lang('Service.downloaded') ?></p>
+                                            </div>
+                                            <?php if (isset($item['reward_file_poster'])) { ?>
+                                                <span
+                                                    style="background: url('<?= $item['reward_file_poster'] ?>') no-repeat center; background-size: cover; font-size: 0;"></span>
+                                            <?php } ?>
                                         </div>
                                         <?php if (isset($item['reward_file_id'])) { ?>
                                             <div class="button-wrap">
@@ -228,7 +246,7 @@
     })
 
     function selectFilterArtist(id) {
-        if(!id) return window.location.replace(window.location.pathname)
+        if (!id) return window.location.replace(window.location.pathname)
         window.location.replace(`${window.location.pathname}?artist_id=${id}`)
     }
 </script>
