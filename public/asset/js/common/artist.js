@@ -34,4 +34,5 @@ $(document).ready(function () {
         // do nothing
         // topic view page doesn't need initDraggable
     }
+    setPosterForVideo($('video'));
 });

@@ -191,12 +191,10 @@ function loadArtist(project_id, isEditable = true) {
                 });
                 $container.append(getArtistItemHtml(target, i, isEditable, array[i]));
             }
+            refreshReward()
             try {
                 $container.initDraggable({
-                    onDragFinished: generateOnDragFinished(target),
-                    afterDragFinished: () => {
-                        refreshReward()
-                    }
+                    onDragFinished: generateOnDragFinished(target)
                 });
             } catch (e) {
                 // do nothing

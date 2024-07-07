@@ -323,7 +323,7 @@ input[type=checkbox] {
 }
 
 /*<<*/
-.slick button.slick-prev, .slick button .slick-next {
+.slick button.slick-prev, .slick button.slick-next {
     width: 40px;
     height: 40px;
     position: absolute;

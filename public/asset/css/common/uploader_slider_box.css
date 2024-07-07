@@ -19,6 +19,7 @@
     margin: 10px;
     border: 1px solid #eee;
     overflow: hidden;
+    position: relative;
 }
 
 .slider-wrap .slick-item .size-text {

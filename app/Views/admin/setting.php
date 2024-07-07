@@ -20,7 +20,7 @@
                                    class="button row-button">
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
-                                    <span class="column value"><?= $item['value'] ?></span>
+                                    <span class="column value"><?= strip_tags($item['value']) ?></span>
                                 </a>
                             </li>
                         <?php } ?>

@@ -3,12 +3,18 @@ $(document).ready(function () {
         refreshSetting()
     });
     $('body').setOnResolutionChanged((event) => {
-        const $slick = $('.slider-wrap .slick');
-        $slick.setCustomSlick(event.detail.isMobile, {
-            infinite: false,
-            autoplay: false,
-            draggable: false,
-        });
+        try {
+            const $slick = $('.slider-wrap .slick');
+            if ($slick.length > 0) {
+                $slick.setCustomSlick(event.detail.isMobile, {
+                    infinite: false,
+                    autoplay: false,
+                    draggable: false,
+                });
+            }
+        } catch (e) {
+            //do nothing
+        }
     })
 });
 
@@ -60,6 +66,7 @@ function refresh(callback) {
                             end_date: item['end_date'],
                             content: item['content'],
                             url: item['url'],
+                            poster: item['poster'],
                         });
                     } else {
                         uploadData.push(key, item['id'], {
@@ -68,6 +75,7 @@ function refresh(callback) {
                             width: item['width'],
                             height: item['height'],
                             url: item['url'],
+                            poster: item['poster'],
                         });
                     }
                 }
@@ -96,7 +104,7 @@ function cancelSettingEdit(target) {
     dropEditingFiles(target, () => refreshViews(target));
 }
 
-function confirmSettingFileEdit(target) {
+function confirmSettingEdit(target) {
     if (isEmpty(target)) return;
     switch (target) {
         case 'main' :
@@ -147,7 +155,7 @@ function generateOnSettingFileUploaded() {
         } else {
             $container.append(`
             <div class="upload-item">
-                <video preload="metadata">
+                <video preload="metadata" onloadeddata="onVideoLoaded(this, '${file_id}', ${extra.width}, ${extra.height})">
                     <source src="${file_url}">
                 </video>
                 <div class="upload-item-hover">
@@ -185,9 +193,12 @@ function deleteSettingFile(target, id) {
 
 function getMediaSlickItemHtml(target, isEditable = false) {
     return function (id, extra) {
-        const file_url = !extra ? `/file/${id}` : extra.relative_path;
+        let file_url = !extra ? `/file/${id}` : extra.relative_path;
         if (isEditable) {
-            if (!extra || extra.type == 'image') {
+            if (!extra || extra.type == 'image' || extra['poster']) {
+                if(extra && extra['poster']) {
+                    file_url = extra['poster'];
+                }
                 return `
                 <div class="slick-item draggable-item upload-item" draggable="true"
                      style="background: url('${file_url}') no-repeat center; background-size: cover; font-size: 0;">
@@ -205,7 +216,7 @@ function getMediaSlickItemHtml(target, isEditable = false) {
                 return `
                 <div class="slick-item draggable-item upload-item" draggable="true">
                     <div class="size-text">${extra['width']}X${extra['height']}</div>
-                    <video preload="metadata">
+                    <video preload="metadata" poster="${extra['poster']}">
                         <source src="${file_url}">
                     </video>
                     <input hidden type="text" name="id" value="${id}">
@@ -218,11 +229,17 @@ function getMediaSlickItemHtml(target, isEditable = false) {
                 </div>`;
             }
         } else {
-            if (!extra || extra.type == 'image') {
+            if (!extra || extra.type == 'image' || extra['poster']) {
+                let option = "";
+                if(extra && extra['poster']) {
+                    file_url = extra['poster'];
+                } else {
+                    option = `onclick="${target == 'main_mobile' || target == 'main' ? `openInputPopup(${id})` : `openImagePopup(${id})`}"`;
+                }
                 return `
                 <div class="slick-item button"
                      style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;"
-                     onclick="${target == 'main_mobile' || target == 'main' ? `openInputPopup(${id})` : `openImagePopup(${id})`}">
+                     ${option}>
                     <div class="size-text">${extra['width']}X${extra['height']}</div>
                     Slider #${id}
                 </div>`;
@@ -325,8 +342,11 @@ function setEditing($parent, target) {
                     for (let i in uploadData.get(target)) {
                         let file_id = uploadData.get(target)[i];
                         let extra = uploadData.getExtra(target)[i];
-                        const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
-                        if (!extra || extra.type == 'image') {
+                        let file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+                        if (!extra || extra.type == 'image' || extra['poster']) {
+                            if(extra && extra['poster']) {
+                                file_url = extra['poster'];
+                            }
                             html += `
                             <div class="upload-item" style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
                                 <div class="upload-item-hover">
@@ -372,12 +392,12 @@ function setEditing($parent, target) {
     let $wrapButtonControls = $parent.find(`.control-button-wrap`);
     $wrapButtonControls.empty();
     $wrapButtonControls.append(`
-    <a href="javascript:cancelSettingFileEdit('${target}');"
+    <a href="javascript:cancelSettingEdit('${target}');"
        class="button under-line cancel">
         <img src="/asset/images/icon/cancel.png"/>
         <span>${lang('cancel')}</span>
     </a>
-    <a href="javascript:confirmSettingFileEdit('${target}');"
+    <a href="javascript:confirmSettingEdit('${target}');"
        class="button under-line confirm">
         <img src="/asset/images/icon/check.png"/>
         <span>${lang('confirm')}</span>
@@ -423,8 +443,11 @@ function setView($parent, target) {
                     for (let i in uploadData.get(target)) {
                         let file_id = uploadData.get(target)[i];
                         let extra = uploadData.getExtra(target)[i];
-                        const file_url = !extra ? `/file/${file_id}` : extra.relative_path;
-                        if (!extra || extra.type == 'image') {
+                        let file_url = !extra ? `/file/${file_id}` : extra.relative_path;
+                        if (!extra || extra.type == 'image' || extra['poster']) {
+                            if(extra && extra['poster']) {
+                                file_url = extra['poster'];
+                            }
                             html += `
                             <div class="upload-item"
                                  style="background: url('${file_url}') no-repeat center; font-size: 0; background-size: cover;">
@@ -482,6 +505,8 @@ function refreshSetting() {
     for (let i in targets) {
         refresh(targets[i])
     }
+
+    setPosterForVideo($('video'));
 }
 
 // override

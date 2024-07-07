@@ -312,6 +312,7 @@ $(document).ready(function () {
         // 첫 load 때 모바일인 경우 호출됨
         $('body').addClass('mobile');
     }
+    setPosterForVideo($('video'));
 });
 
 /**
@@ -400,4 +401,28 @@ function checkLogin(link) {
         return
     }
     window.location.href = link;
+}
+
+function setPosterForVideo($videos) {
+    for (let i = 0; i < $videos.length; ++i) {
+        const $video = $videos.eq(i);
+        if (!$video.attr('poster') || $video.attr('poster') == 'null') {
+            $video[0].onloadeddata = function () {
+                // console.log(this)
+                this.setAttribute("poster", createPoster(this));
+                // alert("Browser has loaded the current frame");
+            };
+        }
+    }
+}
+
+function createPoster(video, width = null, height = null) {
+    //here you can set anytime you want
+    video.currentTime = 0;
+    const $video = $(video);
+    const canvas = document.createElement("canvas");
+    canvas.width = width ? width : $video.width();
+    canvas.height = height ? height : $video.height();
+    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL("image/jpeg");
 }

@@ -30,6 +30,15 @@ let uploadData = {
         this.ids[key].push(value);
         this.extras[key].push(extra);
     },
+    set(key, index, value, extra = null) {
+        this.checkEmpty(key);
+        if (this.ids[key].length > index) {
+            this.ids[key][index] = value;
+            if (extra) {
+                this.extras[key][index] = extra;
+            }
+        }
+    },
     splice(key, index) {
         this.checkEmpty(key);
         this.ids[key].splice(index, 1);
@@ -163,7 +172,7 @@ function onFileUpload(
                         $uploader.addCustomSlickItem(index,
                             `<div class="slick-item draggable-item upload-item" draggable="true">
                                 <div class="size-text">${width}X${height}</div>
-                                <video preload="metadata">
+                                <video preload="metadata" onloadeddata="onVideoLoaded(this, '${target}', '${file_id}', ${width}, ${height})">
                                     <source src="${file_url}">
                                 </video>
                             <input hidden type="text" name="id" value="${file_id}">
@@ -202,6 +211,36 @@ function onFileUpload(
             // reset input file
             element.type = ''
             element.type = 'file'
+        },
+    });
+}
+
+function onVideoLoaded(element, target, file_id, width, height) {
+    const data = createPoster(element, width, height)
+    const index = uploadData.get(target).indexOf(file_id);
+    if(index >= 0) {
+        let extra = uploadData.getExtra(target)[index];
+        extra = {
+            poster : data,
+            ...extra,
+        }
+        uploadData.set(target, index, file_id, extra);
+    }
+    apiRequest({
+        type: 'POST',
+        url: `/api/file/update/${file_id}`,
+        data: {
+            poster: data
+        },
+        dataType: 'json',
+        success: function (response, status, request) {
+            if (!response.success) {
+                openPopupErrors('popup-error', response, status, request);
+                return;
+            }
+        },
+        error: function (response, status, error) {
+            openPopupErrors('popup-error', response, status, error);
         },
     });
 }

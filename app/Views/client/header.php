@@ -12,7 +12,7 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
     <meta property="og:url" content="<?= $_ENV['app.baseURL'] ?? '' ?>"/>
     <meta property="og:type" content="website">
     <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
-    <meta property="og:description" content="<?= lang('Service.message_open_graph') ?>"/>
+    <meta property="og:description" content="팬과 영상으로 연결되는 소통 플랫폼"/>
     <meta property="og:image" content="<?= $open_graph_url ?>"/>
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="600" />
@@ -104,7 +104,7 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
                     </ul>
                 </li>
                 <li>
-                    <a href="#" class="button gnb-menu">
+                    <a href="<?=$lang == 'ko' ? $settings['main-link-guide-ko'] : $settings['main-link-guide-en']?>" target="_blank" class="button gnb-menu">
                         <?= lang('Client.menu_user_guide') ?>
                     </a>
                 </li>

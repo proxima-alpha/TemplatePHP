@@ -72,13 +72,23 @@ class SettingModel extends BaseModel
         ]);
         $this->createIfNotExist(['code' => 'guide-how-to-use-ko'], [
             "code" => "guide-how-to-use-ko",
-            "type" => "text",
+            "type" => "long-text",
             "name" => "이용방법 (한글)",
         ]);
         $this->createIfNotExist(['code' => 'guide-how-to-use-en'], [
             "code" => "guide-how-to-use-en",
-            "type" => "text",
+            "type" => "long-text",
             "name" => "이용방법 (영어)",
+        ]);
+        $this->createIfNotExist(['code' => 'main-link-guide-ko'], [
+            "code" => "main-link-guide-ko",
+            "type" => "text",
+            "name" => "메인 이용가이드 링크 (한글)",
+        ]);
+        $this->createIfNotExist(['code' => 'main-link-guide-en'], [
+            "code" => "main-link-guide-en",
+            "type" => "text",
+            "name" => "메인 이용가이드 링크 (영어)",
         ]);
         $codes = ['project', 'previous-project', 'artist', 'actor', 'creator'];
 

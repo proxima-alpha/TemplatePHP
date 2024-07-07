@@ -214,6 +214,7 @@ slider 페이지
 #page-media .content-box.relation .content-media-item video {
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .content-box {

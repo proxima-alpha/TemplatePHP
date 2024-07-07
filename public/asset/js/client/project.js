@@ -47,7 +47,7 @@ function setArtist(id) {
                     } else {
                         html += `
                         <div class="content-item">
-                            <video preload="metadata" controls style="width: 100%; height: 100%;" controlsList="nodownload">
+                            <video preload="metadata" controls style="width: 100%; height: 100%;" controlsList="nodownload" poster="${preview['poster']}">
                                 <source src="${file_url}">
                             </video>
                             <p class="time-string">${secToString(preview['time'])}</p>
@@ -60,6 +60,7 @@ function setArtist(id) {
                 </div>`;
             }
             $container.append(html);
+            setPosterForVideo($(`.container-inner .artist-box video`))
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);

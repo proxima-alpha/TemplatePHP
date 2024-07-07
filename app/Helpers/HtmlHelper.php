@@ -211,10 +211,14 @@ final class HtmlHelper
                 <div class="slick uploader ' . $key . '">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
-                    if ($file['type'] == 'image') {
+                    if ($file['type'] == 'image' || isset($file['poster'])) {
+                        $fileUrl = $file['relative_path'];
+                        if (isset($file['poster'])) {
+                            $fileUrl = $file['poster'];
+                        }
                         $html .=
                             '<div class="slick-item draggable-item upload-item" draggable="true"
-                            style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;">
+                            style="background: url(\'' . $fileUrl . '\') no-repeat center; background-size: cover; font-size: 0;">
                             <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
@@ -231,7 +235,8 @@ final class HtmlHelper
                             <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider #' . $file['id'] . '
                             <input hidden type="text" name="id" value="' . $file['id'] . '">
-                            <video preload="metadata" controlsList="nodownload">
+                            <img src="' . $file['poster'] . '">
+                            <video preload="metadata" controlsList="nodownload" poster="' . $file['poster'] . '">
                                 <source src="' . $file['relative_path'] . '">
                             </video>
                             <div class="upload-item-hover">
@@ -261,11 +266,18 @@ final class HtmlHelper
                     <div class="slick">';
             if (isset($files)) {
                 foreach ($files as $index => $file) {
-                    if ($file['type'] == 'image') {
+                    if ($file['type'] == 'image' || isset($file['poster'])) {
+                        $option = '';
+                        $fileUrl = $file['relative_path'];
+                        if (isset($file['poster'])) {
+                            $fileUrl = $file['poster'];
+                        } else {
+                            $option = 'onclick="openImagePopup(' . $file['id'] . ')"';
+                        }
                         $html .=
                             '<div class="slick-item button"
-                            style="background: url(\'' . $file['relative_path'] . '\') no-repeat center; background-size: cover; font-size: 0;"
-                            onclick="openImagePopup(' . $file['id'] . ')">
+                            style="background: url(\'' . $fileUrl . '\') no-repeat center; background-size: cover; font-size: 0;"
+                            ' . $option . '>
                             <div class="size-text">' . $file['width'] . 'X' . $file['height'] . '</div>
                             Slider # ' . $file['id'] . ' 
                         </div>';

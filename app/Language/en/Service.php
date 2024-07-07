@@ -193,7 +193,6 @@ return [
     "message_error_differ_password" => "please check two fields for password is same.",
     "message_item_already_selected" => "This item is already selected.",
     "message_item_select" => "Please select item.",
-    "message_open_graph" => "Click here and check the link.",
 
     //email
     "email_click_link" => "Or click {link} to verify.",

@@ -69,7 +69,7 @@ use App\Helpers\HtmlHelper;
                     <div class="content-wrap-inner" style="width: <?= (sizeof($data['relation']) * 205) ?>px;">
                         <?php foreach ($data['relation'] as $index => $file) { ?>
                             <div class="content-media-item">
-                                <video preload="metadata" muted controlsList="nodownload">
+                                <video preload="metadata" muted controlsList="nodownload" poster="<?=$file['poster'] ?? ''?>">
                                     <source src="<?= $file['relative_path'] ?>">
                                 </video>
                                 <p class="time-string"><?= HtmlHelper::secToString($file['time']) ?></p>

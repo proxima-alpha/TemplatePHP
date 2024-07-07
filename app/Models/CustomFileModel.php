@@ -20,6 +20,7 @@ class CustomFileModel extends BasePriorityModel
         'time',
         'width',
         'height',
+        'poster',
         'url',
         'identifier',
         'priority',

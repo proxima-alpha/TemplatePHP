@@ -17,6 +17,7 @@ class RewardFileModel extends BaseModel
         'time',
         'width',
         'height',
+        'poster',
         'created_at',
     ];
 }
