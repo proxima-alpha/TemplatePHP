@@ -372,6 +372,9 @@ class UserController extends BaseApiController
             try {
                 $users = $this->userModel->get(['username' => $data['username']]);
                 if (sizeof($users) == 0) {
+                    $users = $this->userModel->get(['email' => $data['username']]);
+                }
+                if (sizeof($users) == 0) {
                     throw new Exception('user is not registered.');
                 }
                 $user = $users[0];
