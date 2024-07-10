@@ -7,7 +7,11 @@ a {
     color: #ddd;
 }
 
-select {
+html select {
+    color: #fff;
+}
+
+html select option {
     color: #fff;
 }
 

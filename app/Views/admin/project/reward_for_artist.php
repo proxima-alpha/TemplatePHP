@@ -6,7 +6,7 @@
         <div class="reward-box">
             <div class="reward-wrap">
                 <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?>
-                    (<?= $reward['type'] == 'random' ? lang('Service.reward_type_random') : lang('Service.reward_type_all') ?>
+                    (<?= $reward['type'] == 'random' ? '' : lang('Service.reward_type_all') ?>
                     )</p>
                 <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
             </div>

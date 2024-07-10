@@ -23,7 +23,6 @@ function getRewardItemHtml(data, isSelectable = true) {
             artistString += `${prefix}${language == 'ko' ? artist['name'] : artist['name_en']}`
             prefix = '/';
         }
-        artistString += `(${lang('reward_type_random')})`
         html += `<p class="type">${artistString}</p>`
     }
     html += `<p class="content">${language == 'ko' ? data['content'] : data['content_en']}</p>
