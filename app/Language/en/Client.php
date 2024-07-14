@@ -117,7 +117,7 @@ return [
     "company_info_address" => '11-3, Yonsei-ro 2da-gil, Seodaemun-gu, Seoul, Building 1, FL 3, RM 301',
     "company_info_email" => 'becle.official@gmail.com',
 
-    "terms_01" => "All responsibilities for the brokerage services are held by KOODS.",
+    "terms_01" => "All responsibility for the content sold on the becle rests with KOODS Inc.",
     "terms_02" => "Unauthorized reproduction, transmission, distribution, scraping, or any other act related to products, artists, intermediary services, transaction information, content, UI, and more on the KOODS site is strictly prohibited under copyright law, content industry promotion laws, and other relevant regulations.",
 
     "message_error_field_empty" => "Please fill in all the input fields.",
