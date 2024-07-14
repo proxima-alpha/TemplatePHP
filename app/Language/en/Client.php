@@ -128,6 +128,9 @@ return [
 
     "auto_login" => "Auto Login",
     "auto_login_kakao" => "Kakao Talk",
+    "auto_login_naver" => "Naver",
+    "auto_login_google" => "Google",
+    "auto_login_register" => "Register",
     "auto_login_message_linked" => "Account is already linked.",
 ];
 ?>

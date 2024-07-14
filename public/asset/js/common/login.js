@@ -117,7 +117,7 @@ function login(className) {
  * @param channel_id
  * @param email
  */
-function autoLogin(className, channel = 'kakao', channel_id, email) {
+function autoLogin(className, channel = 'kakao', channel_id, email, name) {
     clearErrorsByClassName(className);
 
     apiRequest({
@@ -125,14 +125,15 @@ function autoLogin(className, channel = 'kakao', channel_id, email) {
         url: `/api/user/auto-login`,
         data: {
             channel: channel,
-            channel_id : channel_id,
-            email : email
+            channel_id: channel_id,
+            email: email,
+            name: name
         },
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
-                if(response.message == 'user is not registered.') {
-                    location.href = `/registration?email=${email}&channel=${channel}&channel_id=${channel_id}`
+                if (response.message == 'user is not registered.') {
+                    location.href = `/registration?email=${email}&name=${name}&channel=${channel}&channel_id=${channel_id}`
                 } else {
                     showErrorsByClassName(className, response, status, request);
                 }

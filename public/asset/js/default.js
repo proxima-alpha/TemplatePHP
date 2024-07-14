@@ -159,6 +159,7 @@ async function apiRequest(input) {
         processData: input.processData,
         contentType: input.contentType,
         cache: input.cache,
+        headers: input.headers,
         success: function (response, status, request) {
             clearTimeout(timeoutId);
             if (input.success && typeof input.success == 'function') {

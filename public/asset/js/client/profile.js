@@ -160,17 +160,13 @@ function clearErrors() {
 function updateAutoLogin(channel = 'kakao', channel_id) {
     clearErrors();
 
-    let data = {};
-    if(channel == 'kakao') {
-        data['kakao_id'] = channel_id
-    } else {
-        return;
-    }
-
     apiRequest({
         type: 'POST',
         url: `/api/user/update/profile`,
-        data: data,
+        data: {
+            channel : channel,
+            channel_id : channel_id
+        },
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {

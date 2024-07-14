@@ -146,7 +146,7 @@ function confirmVerificationCode(isAdmin = 0) {
  * (링크가 된 경우 로그인 되지만 안된경우 email 로 registration 진행시켜야 하는데, email 은 unique 를 유지하기 위해)
  * @param isAdmin
  */
-function replaceRegistration(isAdmin = 0) {
+function replaceRegistration(isAdmin = 0, name) {
     $(`#container .form-wrap .disappear-at-next-step`).remove();
     $('#container .form-wrap').append(`
     <div class="input-wrap" style="margin-top: 40px">
@@ -155,7 +155,7 @@ function replaceRegistration(isAdmin = 0) {
     </div>
     <div class="input-wrap">
         <p class="input-title">${lang('name')}</p>
-        <input type="text" name="name" class="under-line"/>
+        <input type="text" name="name" class="under-line" value="${name}"/>
     </div>
     <div class="input-wrap" style="margin-top: 40px">
         <p class="input-title">${lang('password')}</p>

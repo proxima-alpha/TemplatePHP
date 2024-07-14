@@ -2,8 +2,10 @@
 
 namespace API;
 
+use App\Helpers\GoogleAuthHelper;
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
+use Models\SettingModel;
 use Models\UserModel;
 use Models\VerificationCodeModel;
 
@@ -11,11 +13,13 @@ class UserController extends BaseApiController
 {
     protected UserModel $userModel;
     protected VerificationCodeModel $verificationCodeModel;
+    protected SettingModel $settingModel;
 
     public function __construct()
     {
         $this->userModel = model('Models\UserModel');
         $this->verificationCodeModel = model('Models\VerificationCodeModel');
+        $this->settingModel = model('Models\SettingModel');
     }
 
     /**
@@ -49,8 +53,23 @@ class UserController extends BaseApiController
             return $this->response->setJSON($response);
         } else {
             $data = $this->request->getPost();
-            if (isset($data['kakao_id'])) {
-                $user = $this->userModel->getLatest(['kakao_id' => $data['kakao_id']]);
+            $condition = [];
+            switch ($data['channel']) {
+                case 'kakao' :
+                    $data['kakao_id'] = $data['channel_id'];
+                    $condition = ['kakao_id' => $data['channel_id']];
+                    break;
+                case 'naver' :
+                    $data['naver_id'] = $data['channel_id'];
+                    $condition = ['naver_id' => $data['channel_id']];
+                    break;
+                case 'google' :
+                    $data['google_id'] = $data['channel_id'];
+                    $condition = ['google_id' => $data['channel_id']];
+                    break;
+            }
+            if (sizeof($condition) > 0) {
+                $user = $this->userModel->getLatest($condition);
                 if ($user) {
                     $response['message'] = 'This account is already in used.';
                     return $this->response->setJSON($response);
@@ -225,8 +244,16 @@ class UserController extends BaseApiController
                 }
                 $data['password'] = password_hash($data['password'], '2y', ["cost" => 5]);
                 if (isset($data['channel'])) {
-                    if ($data['channel'] == 'kakao') {
-                        $data['kakao_id'] = $data['channel_id'];
+                    switch ($data['channel']) {
+                        case 'kakao' :
+                            $data['kakao_id'] = $data['channel_id'];
+                            break;
+                        case 'naver' :
+                            $data['naver_id'] = $data['channel_id'];
+                            break;
+                        case 'google' :
+                            $data['google_id'] = $data['channel_id'];
+                            break;
                     }
                 }
                 $this->userModel->insert($data);
@@ -428,13 +455,23 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                if ($data['channel'] != 'kakao') {
-                    throw new Exception('This channel is not supported.');
+                $users = [];
+                switch ($data['channel']) {
+                    case 'kakao':
+                        $users = $this->userModel->get(['kakao_id' => $data['channel_id']]);
+                        break;
+                    case 'naver' :
+                        $users = $this->userModel->get(['naver_id' => $data['channel_id']]);
+                        break;
+                    case 'google' :
+                        $users = $this->userModel->get(['google_id' => $data['channel_id']]);
+                        break;
+                    default:
+                        throw new Exception('This channel is not supported.');
                 }
-                $users = $this->userModel->get(['kakao_id' => $data['channel_id']]);
                 if (sizeof($users) == 0) {
-                    $users = $this->userModel->get(['email' => $data['email']]);
-                    if (sizeof($users) > 0) {
+                    $compareUsers = $this->userModel->get(['email' => $data['email']]);
+                    if (sizeof($compareUsers) > 0) {
                         throw new Exception('This email is already in used.');
                     }
                     throw new Exception('user is not registered.');
@@ -530,6 +567,26 @@ class UserController extends BaseApiController
                     $response['message'] = $e->getMessage();
                 }
             }
+        }
+        return $this->response->setJSON($response);
+    }
+
+    public function getGoogleProfile()
+    {
+        $response = [
+            'success' => false,
+        ];
+
+        $data = $this->request->getPost();
+        if (!isset($data['code'])) throw new Exception('wrong parameter');
+        $accessToken = GoogleAuthHelper::getToken($data['code'], $data['redirect_uri']);
+        if (!$accessToken) throw new Exception('Google::Failed to issue access token.');
+        $result = GoogleAuthHelper::getProfile($accessToken);
+        if (!isset($result['error'])) {
+            $response['success'] = true;
+            $response['data'] = $result;
+        } else {
+            $result['message'] = 'Google::' . $response['error_description'];
         }
         return $this->response->setJSON($response);
     }

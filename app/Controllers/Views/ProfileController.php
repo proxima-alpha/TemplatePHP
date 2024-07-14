@@ -34,12 +34,18 @@ class ProfileController extends BaseClientController
         if (isset($queryParams['sub'])) {
             $data['sub'] = $queryParams['sub'];
         }
+        $queryParams = $this->request->getGet();
+        $data = array_merge($data, $queryParams);
         try {
             $data = array_merge($data, $this->userModel->find($this->session->user_id));
             if (!$data) throw new Exception('not exist');
             $kakaoAppKey = $this->settingModel->getInitialValue(['code' => 'kakao-appkey'], 'value');
+            $naverClientId = $this->settingModel->getInitialValue(['code' => 'naver-client-id'], 'value');
+            $googleClientId = $this->settingModel->getInitialValue(['code' => 'google-client-id'], 'value');
             $data = array_merge($data, [
                 'kakaoAppKey' => $kakaoAppKey,
+                'naverClientId' => $naverClientId,
+                'googleClientId' => $googleClientId,
             ]);
         } catch (Exception $e) {
             //todo(log)

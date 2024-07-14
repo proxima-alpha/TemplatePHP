@@ -50,6 +50,21 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "카카오 APPKEY",
         ]);
+        $this->createIfNotExist(['code' => 'naver-client-id'], [
+            "code" => "naver-client-id",
+            "type" => "text",
+            "name" => "네이버 CLIENT ID",
+        ]);
+        $this->createIfNotExist(['code' => 'google-client-id'], [
+            "code" => "google-client-id",
+            "type" => "text",
+            "name" => "구글 CLIENT ID",
+        ]);
+        $this->createIfNotExist(['code' => 'google-client-secret'], [
+            "code" => "google-client-secret",
+            "type" => "text",
+            "name" => "구글 CLIENT SECRET",
+        ]);
         $this->createIfNotExist(['code' => 'gmail-password-key'], [
             "code" => "gmail-password-key",
             "type" => "text",

@@ -129,6 +129,9 @@ return [
 
     "auto_login" => "자동로그인",
     "auto_login_kakao" => "카카오톡",
+    "auto_login_naver" => "네이버",
+    "auto_login_google" => "구글",
+    "auto_login_register" => "등록하기",
     "auto_login_message_linked" => "계정이 이미 연동되었습니다.",
 ];
 ?>

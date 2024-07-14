@@ -29,6 +29,8 @@ class UserModel extends BaseModel
         'email',
         'is_notification',
         'kakao_id',
+        'naver_id',
+        'google_id',
         'created_at',
         'updated_at',
     ];

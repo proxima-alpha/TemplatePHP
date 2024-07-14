@@ -145,6 +145,7 @@ $routes->post('/api/user/login', [\API\UserController::class, 'login']);
 $routes->post('/api/user/auto-login', [\API\UserController::class, 'autoLogin']);
 $routes->post('/api/user/logout', [\API\UserController::class, 'logout']);
 $routes->post('/api/user/password-change', [\API\UserController::class, 'changePassword']);
+$routes->post('/api/google/profile', [\API\UserController::class, 'getGoogleProfile']);
 
 $routes->get('/api/board/get/' . $ID_RULE, [\API\BoardController::class, 'getBoard']);
 $routes->post('/api/board/create', [\API\BoardController::class, 'createBoard']);
