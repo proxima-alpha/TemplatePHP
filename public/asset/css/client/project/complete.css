@@ -1,19 +1,27 @@
-#image {
-    height: 350px;
-    line-height: 350px;
+.container-inner {
+    width: 1440px;
+    margin: 0 auto;
 }
-
-#image .text-wrap p {
-    font-size: 50px;
-    font-weight: 600;
-    color: #fff;
-    letter-spacing: -2px;
+.container-wrap {
+    position: relative;
+}
+.container-wrap > img {
+    width: 100%;
 }
 
 .container-inner .message {
     font-size: 30px;
     font-weight: 600;
     color: #fff;
+}
+.container-inner .content-box {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 400px;
+}
+.content-box img {
+    max-width: 80%;
 }
 
 .container-inner .button-wrap {
@@ -22,16 +30,13 @@
 
 
 @media (max-width: 840px) {
-    #image .overlap-text-box .text-wrap {
-        max-width: calc(100% - 40px);
+    .container-inner {
+        width: 100%;
     }
 
-    .container-wrap .content-box,
-    .container-wrap .side-content-box {
-        width: 100%;
-        padding: 0 10px;
-        margin-right: 0;
-        box-sizing: border-box;
+    .container-inner .content-box {
+        top: auto;
+        bottom: 150px;
     }
 
 }

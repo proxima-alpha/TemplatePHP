@@ -54,19 +54,21 @@ class UserController extends BaseApiController
         } else {
             $data = $this->request->getPost();
             $condition = [];
-            switch ($data['channel']) {
-                case 'kakao' :
-                    $data['kakao_id'] = $data['channel_id'];
-                    $condition = ['kakao_id' => $data['channel_id']];
-                    break;
-                case 'naver' :
-                    $data['naver_id'] = $data['channel_id'];
-                    $condition = ['naver_id' => $data['channel_id']];
-                    break;
-                case 'google' :
-                    $data['google_id'] = $data['channel_id'];
-                    $condition = ['google_id' => $data['channel_id']];
-                    break;
+            if(isset($data['channel'])) {
+                switch ($data['channel']) {
+                    case 'kakao' :
+                        $data['kakao_id'] = $data['channel_id'];
+                        $condition = ['kakao_id' => $data['channel_id']];
+                        break;
+                    case 'naver' :
+                        $data['naver_id'] = $data['channel_id'];
+                        $condition = ['naver_id' => $data['channel_id']];
+                        break;
+                    case 'google' :
+                        $data['google_id'] = $data['channel_id'];
+                        $condition = ['google_id' => $data['channel_id']];
+                        break;
+                }
             }
             if (sizeof($condition) > 0) {
                 $user = $this->userModel->getLatest($condition);

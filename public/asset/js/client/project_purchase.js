@@ -69,8 +69,7 @@ function getPurchaseItemHtmlInShort(item) {
             </div>
             <div class="input-wrap inline">
                 <p class="input-title">${lang('reward_request')}</p>
-                <input type="text" name="inquirer_comment"
-                       value="${item['inquirer_comment']}" readonly/>
+                <textarea type="text" name="inquirer_comment" readonly>${item['inquirer_comment']}</textarea>
             </div>
         </form>
     `;
@@ -79,13 +78,18 @@ function getPurchaseItemHtmlInShort(item) {
 
 function getSelectedRewardHtml() {
     if (!selectedReward) return ``;
+    if(selectedReward['available_count']  == 0) {
+        $('.content-box > div.button-wrap .button.next').addClass('disabled')
+    } else {
+        $('.content-box > div.button-wrap .button.next').removeClass('disabled')
+    }
     return `
     <div class="select-payment-box">
         <div class="limited-count-wrap">
             <span class="title">${lang('available_count')}</span>
             <span class="content">${selectedReward['available_count']}</span>
         </div>
-        <input type="number" name="count" class="editable" value="1"
+        <input type="number" name="count" class="editable" value="${selectedReward['available_count'] > 0 ? 1 : 0}"
                onchange="onCountChange(this)"/>
         <div class="total-price">
             <input type="text" name="paid" value="${toFormatNumber(selectedReward['price'])}" readonly/>
@@ -124,7 +128,6 @@ function onRewardSelected(element, id) {
     $parent = $(element).parent();
     $parent.find('.selected').removeClass('selected')
     $(element).addClass('selected')
-    $('.content-box > div.button-wrap .button.next').removeClass('disabled')
 
     $('#page-1 .select-payment-box').remove();
     $('#page-1').append(getSelectedRewardHtml());
@@ -135,7 +138,7 @@ function onRewardSelected(element, id) {
     const $totalPrice = $('.total-price input');
     $totalPrice.val(toFormatNumber(`${rewardPrice}`))
     $('#page-3 .project-box .reward-wrap').remove()
-    $('#page-3 .project-box').append(getSelectedRewardItemHtml(selectedReward))
+    $('#page-3 .project-box').prepend(getSelectedRewardItemHtml(selectedReward))
 }
 
 function generatePurchaseItems(count) {
