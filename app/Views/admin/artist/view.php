@@ -65,11 +65,6 @@
                         <img src="/asset/images/icon/edit.png"/>
                         <span><?= lang('Service.edit') ?></span>
                     </a>
-                    <a href="javascript:openPopupDelete('/api/artist/delete/<?= $data['id'] ?>')"
-                       class="button under-line delete">
-                        <img src="/asset/images/icon/delete.png"/>
-                        <span><?= lang('Service.delete') ?></span>
-                    </a>
                 </div>
             <?php } ?>
         </div>

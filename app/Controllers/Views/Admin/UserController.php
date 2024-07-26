@@ -30,7 +30,7 @@ class UserController extends BaseAdminController
             $result = $this->userModel->getPaginated([
                 'per_page' => $this->per_page,
                 'page' => $page,
-            ]);
+            ], ['is_deleted' => 0]);
             $data = array_merge($data, $result);
             $data = array_merge($data, [
                 'pagination_link' => '/admin/user',

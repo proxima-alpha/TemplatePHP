@@ -191,15 +191,23 @@ class ProjectController extends CustomFileController
         } else {
             try {
                 // 날짜 체크
-                if (isset($data['end_date'])) {
-                    $startTimeRaw = strtotime($data['start_date']);
-                    $endTimeRaw = strtotime($data['end_date']);
-                    $endDateString = date("Y-m-d", $endTimeRaw);
-                    $data['end_date'] = $endDateString . " 23:59:59";
-                    $endTimeRaw = strtotime($data['end_date']);
-                    if ($startTimeRaw > $endTimeRaw)
-                        throw new Exception('End Date should be later than Start Date.');
+                $startTimeString = '00:00:00';
+                $endTimeString = '23:59:59';
+                if ($data['start_hour'] && $data['start_minute']) {
+                    $startTimeString = $data['start_hour'] . ":" . $data['start_minute'] . ":00";
                 }
+                if ($data['end_hour'] && $data['end_minute']) {
+                    $endTimeString = $data['end_hour'] . ":" . $data['end_minute'] . ":00";
+                }
+                $startTimeRaw = strtotime($data['start_date'] . " " . $startTimeString);
+                $endTimeRaw = strtotime($data['end_date'] . " " . $endTimeString);
+                $startDateString = date("Y-m-d H:i:s", $startTimeRaw);
+                $endDateString = date("Y-m-d H:i:s", $endTimeRaw);
+                $data['start_date'] = $startDateString;
+                $data['end_date'] = $endDateString;
+                $endTimeRaw = strtotime($data['end_date']);
+                if ($startTimeRaw > $endTimeRaw)
+                    throw new Exception('End Date should be later than Start Date.');
 
                 if (isset($data['id'])) unset($data['id']);
                 $data = $this->arrayToElement('image_id', $data);
@@ -300,10 +308,21 @@ class ProjectController extends CustomFileController
         } else {
             try {
                 // 날짜 체크
-                $endDateString = $data['end_date'] ?? $previousData['end_date'];
-                $startDateString = $data['start_date'] ?? $previousData['start_date'];
-                $startTimeRaw = strtotime($startDateString);
-                $endTimeRaw = strtotime($endDateString);
+                $startTimeString = '00:00:00';
+                $endTimeString = '23:59:59';
+                if ($data['start_hour'] && $data['start_minute']) {
+                    $startTimeString = $data['start_hour'] . ":" . $data['start_minute'] . ":00";
+                }
+                if ($data['end_hour'] && $data['end_minute']) {
+                    $endTimeString = $data['end_hour'] . ":" . $data['end_minute'] . ":00";
+                }
+                $startTimeRaw = strtotime($data['start_date'] . " " . $startTimeString);
+                $endTimeRaw = strtotime($data['end_date'] . " " . $endTimeString);
+                $startDateString = date("Y-m-d H:i:s", $startTimeRaw);
+                $endDateString = date("Y-m-d H:i:s", $endTimeRaw);
+                $data['start_date'] = $startDateString;
+                $data['end_date'] = $endDateString;
+                $endTimeRaw = strtotime($data['end_date']);
                 if ($startTimeRaw > $endTimeRaw)
                     throw new Exception('End Date should be later than Start Date.');
 

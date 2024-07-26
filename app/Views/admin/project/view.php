@@ -71,15 +71,35 @@
                     </div>
                 </div>
                 <div class="line"></div>
+                <p class="input-description"><?= lang('Service.start_date') ?></p>
                 <div class="input-wrap column calendar">
-                    <p class="input-title"><?= lang('Service.start_date') ?></p>
+                    <p class="input-title"><?= lang('Service.date') ?></p>
                     <input class="editable" name="start_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) ?>" readonly>
+                           value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
+                           readonly>
                 </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.hour') ?></p>
+                    <input class="editable" name="end_minute" readonly value="<?= $data['start_hour'] ?? '00' ?>"/>
+                </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.minute') ?></p>
+                    <input class="editable" name="end_minute" readonly value="<?= $data['start_minute'] ?? '00' ?>"/>
+                </div>
+                <p class="input-description"><?= lang('Service.end_date') ?></p>
                 <div class="input-wrap column calendar">
-                    <p class="input-title"><?= lang('Service.end_date') ?></p>
+                    <p class="input-title"><?= lang('Service.date') ?></p>
                     <input class="editable" name="end_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?>" readonly>
+                           value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>"
+                           readonly>
+                </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.hour') ?></p>
+                    <input class="editable" name="end_hour" readonly value="<?= $data['end_hour'] ?? '00' ?>"/>
+                </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.minute') ?></p>
+                    <input class="editable" name="end_minute" readonly value="<?= $data['end_minute'] ?? '00' ?>"/>
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap inline status">
@@ -135,11 +155,6 @@
                        class="button under-line edit">
                         <img src="/asset/images/icon/edit.png"/>
                         <span><?= lang('Service.edit') ?></span>
-                    </a>
-                    <a href="javascript:openPopupDelete('/api/project/delete/<?= $data['id'] ?>')"
-                       class="button under-line delete">
-                        <img src="/asset/images/icon/delete.png"/>
-                        <span><?= lang('Service.delete') ?></span>
                     </a>
                 </div>
             <?php } ?>

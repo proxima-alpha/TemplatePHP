@@ -136,7 +136,8 @@ $routes->delete('/api/file/delete/' . $ID_RULE, [\API\CustomFileController::clas
 $routes->get('/api/user/get/profile', [\API\UserController::class, 'getProfile']);
 $routes->get('/api/user/get/' . $ID_RULE, [\API\UserController::class, 'getUser']);
 $routes->post('/api/user/update/profile', [\API\UserController::class, 'updateProfile']);
-$routes->post('/api/user/update/' . $ID_RULE, [\API\UserController::class, 'updateUser']);
+$routes->post('/api/user/update/' . $ID_RULE, [\API\UserController::class, 'update']);
+$routes->delete('/api/user/delete/' . $ID_RULE, [\API\UserController::class, 'delete']);
 $routes->post('/api/user/registration/verify', [\API\UserController::class, 'verifyRegistration']);
 $routes->post('/api/user/registration/register', [\API\UserController::class, 'register']);
 $routes->post('/api/user/reset-password/verify', [\API\UserController::class, 'verifyResetPassword']);

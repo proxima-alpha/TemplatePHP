@@ -2,7 +2,7 @@
 
 namespace Views\Admin;
 
-use App\Helpers\ServerLogger;
+use App\Helpers\HtmlHelper;
 use App\Helpers\Utils;
 use Exception;
 use Models\ArtistGroupModel;
@@ -220,6 +220,14 @@ class ProjectController extends BaseAdminController
         $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
         $project['artists'] = $artists;
         $project['rewards'] = $rewards;
+        if (isset($project['start_date'])) {
+            $project['start_hour'] = HtmlHelper::toHourString($project['start_date']);
+            $project['start_minute'] = HtmlHelper::toMinuteString($project['start_date']);
+        }
+        if (isset($project['end_date'])) {
+            $project['end_hour'] = HtmlHelper::toHourString($project['end_date']);
+            $project['end_minute'] = HtmlHelper::toMinuteString($project['end_date']);
+        }
         $result['data'] = $project;
         return $result;
     }

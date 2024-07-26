@@ -102,21 +102,51 @@ $identifier = $shortid->generate();
                     </div>
                 </div>
                 <div class="line"></div>
+                <p class="input-description"><?= lang('Service.start_date') ?></p>
                 <div class="input-wrap column calendar">
-                    <p class="input-title"><?= lang('Service.start_date') ?></p>
+                    <p class="input-title"><?= lang('Service.date') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('start_date')">
                         <input class="editable" name="start_date"
                                value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
                                readonly>
                     </a>
                 </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.hour') ?></p>
+                    <select class="editable" name="start_hour"
+                            value="<?= $data['start_hour'] ?? '' ?>">
+                        <?= \App\Helpers\HtmlHelper::getHourOptions($data['start_hour'] ?? null) ?>
+                    </select>
+                </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.minute') ?></p>
+                    <select class="editable" name="start_minute"
+                            value="<?= $data['start_minute'] ?? '' ?>">
+                        <?= \App\Helpers\HtmlHelper::getMinuteOptions($data['start_minute'] ?? null) ?>
+                    </select>
+                </div>
+                <p class="input-description"><?= lang('Service.end_date') ?></p>
                 <div class="input-wrap column calendar">
-                    <p class="input-title"><?= lang('Service.end_date') ?></p>
+                    <p class="input-title"><?= lang('Service.date') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('end_date')">
                         <input class="editable" name="end_date"
                                value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>"
                                readonly>
                     </a>
+                </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.hour') ?></p>
+                    <select class="editable" name="end_hour"
+                            value="<?= $data['end_hour'] ?? '' ?>">
+                        <?= \App\Helpers\HtmlHelper::getHourOptions($data['end_hour'] ?? null) ?>
+                    </select>
+                </div>
+                <div class="input-wrap column calendar-time">
+                    <p class="input-title"><?= lang('Service.minute') ?></p>
+                    <select class="editable" name="end_minute"
+                            value="<?= $data['end_minute'] ?? '' ?>">
+                        <?= \App\Helpers\HtmlHelper::getMinuteOptions($data['end_minute'] ?? null) ?>
+                    </select>
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap inline status">
@@ -169,18 +199,18 @@ $identifier = $shortid->generate();
                         [{header: [1, 2, false]}],
                         ['bold', 'italic', 'underline'],
                         ['image'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'indent': '-1'}, { 'indent': '+1' }],
-                        [{'color':[]},{'background':[]},],
-                        [{ 'align': [] }],
+                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                        [{'indent': '-1'}, {'indent': '+1'}],
+                        [{'color': []}, {'background': []},],
+                        [{'align': []}],
                     ],
                 },
                 theme: 'snow', // or 'bubble'
 
             };
             quillKo = new Quill('#editor-ko', quillOption);
-            quillKo.setContents (quillKo.clipboard.convert( {html: `<?= $data['content']?>`}));
+            quillKo.setContents(quillKo.clipboard.convert({html: `<?= $data['content']?>`}));
             quillEn = new Quill('#editor-en', quillOption);
-            quillEn.setContents (quillKo.clipboard.convert( {html: `<?= $data['content_en']?>`}));
+            quillEn.setContents(quillKo.clipboard.convert({html: `<?= $data['content_en']?>`}));
         });
     </script>

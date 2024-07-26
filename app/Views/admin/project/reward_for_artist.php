@@ -98,7 +98,8 @@
                                                        id="purchase-<?= $item['id'] ?>-file"
                                                        onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
                                                        accept="video/mp4"/>
-                                                <p><?= lang('Service.reupload_file') ?></p>
+                                                <p><?= isset($item['reward_file_id']) ? lang('Service.reupload_file') :
+                                                        (lang('Service.reupload_file') . '</br>' . lang('Service.file_deleted')) ?></p>
                                             </div>
                                             <?php if (isset($item['reward_file_poster'])) { ?>
                                                 <span
@@ -118,7 +119,8 @@
                                         <div class="upload-item-add">
                                             <div
                                                 style="background: url('/asset/images/icon/check_circle.svg') rgba(255, 255, 255, 0.7) no-repeat center / 60%; font-size: 0; background-position-y: 25%;">
-                                                <p><?= lang('Service.downloaded') ?></p>
+                                                <p><?= isset($item['reward_file_id']) ? lang('Service.downloaded') :
+                                                        (lang('Service.downloaded') . '</br>' . lang('Service.file_deleted')) ?></p>
                                             </div>
                                             <?php if (isset($item['reward_file_poster'])) { ?>
                                                 <span
@@ -145,7 +147,8 @@
                                             <img src="/asset/images/icon/check.png"/>
                                             <span><?= lang('Service.reward_confirm') ?></span>
                                         </a>
-                                    <?php } else if ($item['status'] == 'received') { ?>
+                                    <?php }
+                                    if (isset($item['reward_file_id'])) { ?>
                                         <a href="javascript:openPopupDelete('/api/reward-file/delete/<?= $item['reward_file_id'] ?>')"
                                            class="button under-line delete">
                                             <img src="/asset/images/icon/delete.png"/>

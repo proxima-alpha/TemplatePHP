@@ -341,7 +341,7 @@ class EmailController extends BaseApiController
                 $email_title = $title;
                 switch ($type) {
                     case 'reset-password':
-                        $users = $this->userModel->get(['email' => $data['email']]);
+                        $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                         if (sizeof($users) == 0) {
                             throw new Exception('user does not exist');
                         }
@@ -353,7 +353,7 @@ class EmailController extends BaseApiController
                         $email_title .= ' - ' . lang('Service.password_reset');
                         break;
                     case 'registration':
-                        $users = $this->userModel->get(['email' => $data['email']]);
+                        $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                         if (sizeof($users) > 0) {
                             throw new Exception('This email is already in used.');
                         }

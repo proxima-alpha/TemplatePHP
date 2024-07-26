@@ -128,6 +128,28 @@ final class HtmlHelper
         }
     }
 
+    public static function toHourString($dateString)
+    {
+        if (!isset($dateString)) return '';
+        try {
+            $date = strtotime($dateString);
+            return date("H", $date);
+        } catch (Exception $e) {
+            return '';
+        }
+    }
+
+    public static function toMinuteString($dateString)
+    {
+        if (!isset($dateString)) return '';
+        try {
+            $date = strtotime($dateString);
+            return date("i", $date);
+        } catch (Exception $e) {
+            return '';
+        }
+    }
+
     public static function secToString($sec)
     {
         if (!$sec) return '0:00';
@@ -138,6 +160,29 @@ final class HtmlHelper
         } catch (Exception $e) {
             return '0:00';
         }
+    }
+
+    public static function getHourOptions($hour = '')
+    {
+        $html = '';
+        for ($i = 0; $i < 24; ++$i) {
+            $value = str_pad($i, 2, "0", STR_PAD_LEFT);
+            $option = '';
+            if($value == $hour) $option = 'selected';
+            $html .= "<option ".$option." value=\"".$value."\">".$value."</option>";
+        }
+        return $html;
+    }
+    public static function getMinuteOptions($minute = '')
+    {
+        $html = '';
+        for ($i = 0; $i <= 60; ++$i) {
+            $value = str_pad($i, 2, "0", STR_PAD_LEFT);
+            $option = '';
+            if($value == $minute) $option = 'selected';
+            $html .= "<option ".$option." value=\"".$value."\">".$value."</option>";
+        }
+        return $html;
     }
 
     public static function getPaginationLink($pagination_link, $number, $params = null, $pagination_key = null): string

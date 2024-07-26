@@ -53,20 +53,20 @@ class UserController extends BaseApiController
             return $this->response->setJSON($response);
         } else {
             $data = $this->request->getPost();
-            $condition = [];
-            if(isset($data['channel'])) {
+            $condition = ['is_deleted' => 0];
+            if (isset($data['channel'])) {
                 switch ($data['channel']) {
                     case 'kakao' :
                         $data['kakao_id'] = $data['channel_id'];
-                        $condition = ['kakao_id' => $data['channel_id']];
+                        $condition = array_merge($condition, ['kakao_id' => $data['channel_id']]);
                         break;
                     case 'naver' :
                         $data['naver_id'] = $data['channel_id'];
-                        $condition = ['naver_id' => $data['channel_id']];
+                        $condition = array_merge($condition, ['naver_id' => $data['channel_id']]);
                         break;
                     case 'google' :
                         $data['google_id'] = $data['channel_id'];
-                        $condition = ['google_id' => $data['channel_id']];
+                        $condition = array_merge($condition, ['google_id' => $data['channel_id']]);
                         break;
                 }
             }
@@ -78,7 +78,7 @@ class UserController extends BaseApiController
                 }
             }
             if ($this->session->is_admin && isset($data['email'])) {
-                $user = $this->userModel->getLatest(['email' => $data['email']]);
+                $user = $this->userModel->getLatest(['email' => $data['email'], 'is_deleted' => 0]);
                 if (isset($user) && $user['id'] != $this->session->user_id) {
                     $response['message'] = 'This email is already in used.';
                     return $this->response->setJSON($response);
@@ -104,7 +104,7 @@ class UserController extends BaseApiController
      * @param $id
      * @return ResponseInterface
      */
-    public function updateUser($id): ResponseInterface
+    public function update($id): ResponseInterface
     {
         $response = [
             'success' => false,
@@ -126,6 +126,20 @@ class UserController extends BaseApiController
             return $this->typicallyUpdate($this->userModel, $id, $data);
         }
         return $this->response->setJSON($response);
+    }
+
+    /**
+     * [delete] /api/user/delete/{id}
+     * @param $id
+     * @return ResponseInterface
+     */
+    public function delete($id): ResponseInterface
+    {
+        $this->checkAdmin();
+        $body = [
+            'is_deleted' => 1,
+        ];
+        return $this->typicallyUpdate($this->userModel, $id, $body);
     }
 
     /**
@@ -236,11 +250,11 @@ class UserController extends BaseApiController
                 if ($data['password'] != $data['confirm_password']) {
                     throw new Exception('please check two fields for \'password\' is same.');
                 }
-                $users = $this->userModel->get(['email' => $data['email']]);
+                $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                 if (sizeof($users) > 0) {
                     throw new Exception('This email is already in used.');
                 }
-                $users = $this->userModel->get(['username' => $data['username']]);
+                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
                 if (sizeof($users) > 0) {
                     throw new Exception('This username is already in used.');
                 }
@@ -294,7 +308,7 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $users = $this->userModel->get(['email' => $data['email']]);
+                $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                 if (sizeof($users) == 0) {
                     throw new Exception('user does not exist');
                 }
@@ -356,7 +370,7 @@ class UserController extends BaseApiController
                 if ($data['password'] != $data['confirm_password']) {
                     throw new Exception('please check two fields for \'password\' is same.');
                 }
-                $users = $this->userModel->get(['username' => $data['username']]);
+                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
                 if (sizeof($users) == 0) {
                     throw new Exception('user does not exist');
                 }
@@ -399,9 +413,9 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $users = $this->userModel->get(['username' => $data['username']]);
+                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
                 if (sizeof($users) == 0) {
-                    $users = $this->userModel->get(['email' => $data['username']]);
+                    $users = $this->userModel->get(['email' => $data['username'], 'is_deleted' => 0]);
                 }
                 if (sizeof($users) == 0) {
                     throw new Exception('user is not registered.');
@@ -460,19 +474,19 @@ class UserController extends BaseApiController
                 $users = [];
                 switch ($data['channel']) {
                     case 'kakao':
-                        $users = $this->userModel->get(['kakao_id' => $data['channel_id']]);
+                        $users = $this->userModel->get(['kakao_id' => $data['channel_id'], 'is_deleted' => 0]);
                         break;
                     case 'naver' :
-                        $users = $this->userModel->get(['naver_id' => $data['channel_id']]);
+                        $users = $this->userModel->get(['naver_id' => $data['channel_id'], 'is_deleted' => 0]);
                         break;
                     case 'google' :
-                        $users = $this->userModel->get(['google_id' => $data['channel_id']]);
+                        $users = $this->userModel->get(['google_id' => $data['channel_id'], 'is_deleted' => 0]);
                         break;
                     default:
                         throw new Exception('This channel is not supported.');
                 }
                 if (sizeof($users) == 0) {
-                    $compareUsers = $this->userModel->get(['email' => $data['email']]);
+                    $compareUsers = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                     if (sizeof($compareUsers) > 0) {
                         throw new Exception('This email is already in used.');
                     }

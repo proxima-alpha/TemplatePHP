@@ -155,7 +155,7 @@ function replaceRegistration(isAdmin = 0, name) {
     </div>
     <div class="input-wrap">
         <p class="input-title">${lang('name')}</p>
-        <input type="text" name="name" class="under-line" value="${name}"/>
+        <input type="text" name="name" class="under-line" value="${name ?? ''}"/>
     </div>
     <div class="input-wrap" style="margin-top: 40px">
         <p class="input-title">${lang('password')}</p>
@@ -219,7 +219,7 @@ function confirmRegistration(isAdmin = 0) {
                 showErrors(response, status, request);
                 return;
             }
-            if(!isAdmin) {
+            if (!isAdmin) {
                 window.location.assign('/');
             } else {
                 window.location.assign('/admin');
@@ -292,6 +292,7 @@ function startTimer() {
         time_string += s;
         return time_string;
     }
+
     let $timer = $('.form-box .timer')
     let time = 600;
     $timer.html(getTimeToString(time));
@@ -304,7 +305,7 @@ function startTimer() {
         }
     }, 1000);
     $timer.attr({
-        'timer_interval_id' : timer_interval_id,
+        'timer_interval_id': timer_interval_id,
     })
     let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');
     $buttonConfirm.removeClass('disabled');
@@ -322,7 +323,7 @@ function stopTimer() {
     // });
     clearInterval(timer_interval_id);
     $timer.attr({
-        'timer_interval_id' : -1,
+        'timer_interval_id': -1,
     })
 
     let $buttonConfirm = $('#container .form-box .button-wrap .button.confirm');

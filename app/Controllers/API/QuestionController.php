@@ -4,10 +4,9 @@ namespace API;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use Exception;
-use Models\BaseModel;
 use Models\QuestionBoardModel;
-use Models\ReservationDateFragmentModel;
 use Models\QuestionModel;
+use Models\ReservationDateFragmentModel;
 
 class QuestionController extends EmailController
 {
@@ -131,12 +130,12 @@ class QuestionController extends EmailController
                     $response['success'] = true;
                 }
 
-                $adminUsers = $this->userModel->get(['type' => 'admin']);
+                $adminUsers = $this->userModel->get(['type' => 'admin', 'is_deleted' => 0]);
                 $questions = $this->questionModel->get(['id' => $result]);
                 if (sizeof($questions) > 0 && sizeof($adminUsers) > 0) {
                     $question = $questions[0];
                     $adminUser = $adminUsers[0];
-                    $memberUsers = $this->userModel->get(['type' => 'member']);
+                    $memberUsers = $this->userModel->get(['type' => 'member', 'is_deleted' => 0]);
                     $copies = [];
                     foreach ($memberUsers as $memberUser) {
                         $copies[] = $memberUser['email'];
