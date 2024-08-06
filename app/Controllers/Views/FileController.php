@@ -67,6 +67,35 @@ class FileController extends BaseClientController
             $result = $this->rewardFileModel->find($id);
 
             if ($result) {
+//                if ($result['type'] != 'image') {
+//                    throw new Exception('bad request');
+//                }
+//                $data = file_get_contents($result['path'] . "/" . $result['file_name']);
+//                $this->response
+//                    ->setStatusCode(200)
+//                    ->setContentType($result['mime_type'])
+//                    ->setBody($data)
+//                    ->send();
+
+                return $this->response->download($result['path'] . "/" . $result['file_name'], null);
+            } else {
+                throw new Exception('not found');
+            }
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+    /**
+     * [get] /reward-file/{id}/download
+     * @param $id
+     * @return DownloadResponse|null
+     */
+    public function getRewardFileDownload($id): DownloadResponse|null
+    {
+        try {
+            $result = $this->rewardFileModel->find($id);
+
+            if ($result) {
                 if (isset($this->session->user_id)) {
                     $purchaseItems = $this->purchaseItemRewardModel->get(['id' => $result['purchase_item_reward_id'], 'reward_file.id' => $id]);
                     if (sizeof($purchaseItems) != 1) {

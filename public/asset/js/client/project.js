@@ -60,7 +60,7 @@ function setArtist(id) {
                 </div>`;
             }
             $container.append(html);
-            setPosterForVideo($(`.container-inner .artist-box video`))
+            setPosterForVideo($container.find(`video`));
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);

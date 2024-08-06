@@ -134,7 +134,7 @@ function confirmSettingEdit(target) {
     }
 }
 
-function generateOnSettingFileUploaded() {
+function generateOnSettingFileUploaded(element) {
     return (target, file_id, extra) => {
         uploadData.push(target, file_id, extra);
         let $parent = $(`.content-box.${target}`)
@@ -155,8 +155,8 @@ function generateOnSettingFileUploaded() {
         } else {
             $container.append(`
             <div class="upload-item">
-                <video preload="metadata" onloadeddata="onVideoLoaded(this, '${file_id}', ${extra.width}, ${extra.height})">
-                    <source src="${file_url}">
+                <video preload="metadata">
+                    <source>
                 </video>
                 <div class="upload-item-hover">
                     <a href="javascript:deleteSettingFile('${target}', '${file_id}')"
@@ -165,6 +165,18 @@ function generateOnSettingFileUploaded() {
                     </a>
                 </div>
             </div>`);
+            let $videos = $container.find('video');
+            for (let i = 0; i < $videos.length; ++i) {
+                const $video = $videos.eq(i);
+                $video[0].addEventListener('loadeddata', function () {
+                    const timeoutId = setTimeout(() => {
+                        onVideoLoaded(this, target, file_id, width, height)
+                        clearTimeout(timeoutId)
+                    }, 100);
+                });
+            }
+            let fileObject = window.URL.createObjectURL(element.files[0])
+            $container.find('video source').attr('src', fileObject)
         }
     }
 }
@@ -186,7 +198,7 @@ function deleteSettingFile(target, id) {
          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
         <label for="${target}-file" class="button"></label>
         <input type="file" name="file" id="${target}-file"
-               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
+               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded(this));"
                accept="${accept}"/>
     </div>`);
 }
@@ -196,7 +208,7 @@ function getMediaSlickItemHtml(target, isEditable = false) {
         let file_url = !extra ? `/file/${id}` : extra.relative_path;
         if (isEditable) {
             if (!extra || extra.type == 'image' || extra['poster']) {
-                if(extra && extra['poster']) {
+                if (extra && extra['poster']) {
                     file_url = extra['poster'];
                 }
                 return `
@@ -231,7 +243,7 @@ function getMediaSlickItemHtml(target, isEditable = false) {
         } else {
             if (!extra || extra.type == 'image' || extra['poster']) {
                 let option = "";
-                if(extra && extra['poster']) {
+                if (extra && extra['poster']) {
                     file_url = extra['poster'];
                 } else {
                     option = `onclick="${target == 'main_mobile' || target == 'main' ? `openInputPopup(${id})` : `openImagePopup(${id})`}"`;
@@ -335,7 +347,7 @@ function setEditing($parent, target) {
                          style="background: url('/asset/images/icon/plus_circle_big.png') no-repeat center; font-size: 0;">
                         <label for="${target}-file" class="button"></label>
                         <input type="file" name="file" id="${target}-file"
-                               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded());"
+                               onchange="onFileUpload(this, '${target}', generateOnSettingFileUploaded(this));"
                                accept="${accept}"/>
                     </div>`;
                 } else {
@@ -344,7 +356,7 @@ function setEditing($parent, target) {
                         let extra = uploadData.getExtra(target)[i];
                         let file_url = !extra ? `/file/${file_id}` : extra.relative_path;
                         if (!extra || extra.type == 'image' || extra['poster']) {
-                            if(extra && extra['poster']) {
+                            if (extra && extra['poster']) {
                                 file_url = extra['poster'];
                             }
                             html += `
@@ -445,7 +457,7 @@ function setView($parent, target) {
                         let extra = uploadData.getExtra(target)[i];
                         let file_url = !extra ? `/file/${file_id}` : extra.relative_path;
                         if (!extra || extra.type == 'image' || extra['poster']) {
-                            if(extra && extra['poster']) {
+                            if (extra && extra['poster']) {
                                 file_url = extra['poster'];
                             }
                             html += `

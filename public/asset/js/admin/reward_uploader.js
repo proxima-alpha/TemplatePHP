@@ -24,10 +24,23 @@ function onRewardFileUpload(
             const data = response.data;
             $(`#${id} .upload-item-add span`).remove()
             $(`#${id} .upload-item-add`).append(`
-            <video preload="metadata" onloadeddata="onVideoLoaded(this, '${data.id}', ${data.width}, ${data.height})">
-                <source src="${data.relative_path}">
+            <video preload="metadata">
+                <source>
             </video>
             `)
+            let $uploader = $(`#${id} .upload-item-add`);
+            let $videos = $uploader.find('video');
+            for (let i = 0; i < $videos.length; ++i) {
+                const $video = $videos.eq(i);
+                $video[0].addEventListener('loadeddata', function () {
+                    const timeoutId = setTimeout(() => {
+                        onVideoLoaded(this, data.id, data.width, data.height)
+                        clearTimeout(timeoutId)
+                    }, 100);
+                });
+            }
+            let fileObject = window.URL.createObjectURL(element.files[0])
+            $uploader.find('video source').attr('src', fileObject)
         },
         error: function (response, status, error) {
             openPopupErrors('popup-error', response, status, error);
@@ -36,6 +49,9 @@ function onRewardFileUpload(
 }
 
 function onVideoLoaded(element, file_id, width, height) {
+    $(`.loading-wrap`).css({
+        display: 'none'
+    })
     const data = createPoster(element, width, height)
     apiRequest({
         type: 'POST',
@@ -56,6 +72,7 @@ function onVideoLoaded(element, file_id, width, height) {
         },
     });
 }
+
 function confirmReward(id) {
     apiRequest({
         type: 'POST',

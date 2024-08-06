@@ -115,6 +115,7 @@ $routes->addRedirect('/admin/question-board/' . $CODE_RULE, '/admin/question-boa
 
 $routes->get('/file/(:any)/thumbnail', [\Views\FileController::class, 'getFileThumbnail']);
 $routes->get('/file/(:any)', [\Views\FileController::class, 'getFile']);
+$routes->get('/reward-file/(:any)/download', [\Views\FileController::class, 'getRewardFileDownload']);
 $routes->get('/reward-file/(:any)', [\Views\FileController::class, 'getRewardFile']);
 $routes->get('/purchase-item-file', [\Views\FileController::class, 'downloadPurchaseItem']);
 

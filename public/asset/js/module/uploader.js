@@ -172,8 +172,8 @@ function onFileUpload(
                         $uploader.addCustomSlickItem(index,
                             `<div class="slick-item draggable-item upload-item" draggable="true">
                                 <div class="size-text">${width}X${height}</div>
-                                <video preload="metadata" onloadeddata="onVideoLoaded(this, '${target}', '${file_id}', ${width}, ${height})">
-                                    <source src="${file_url}">
+                                <video preload="metadata">
+                                    <source>
                                 </video>
                             <input hidden type="text" name="id" value="${file_id}">
                             <div class="upload-item-hover">
@@ -183,6 +183,19 @@ function onFileUpload(
                                 </a>
                             </div>
                         </div>`);
+
+                        let $videos = $uploader.find('video');
+                        for (let i = 0; i < $videos.length; ++i) {
+                            const $video = $videos.eq(i);
+                            $video[0].addEventListener('loadeddata', function () {
+                                const timeoutId = setTimeout(() => {
+                                    onVideoLoaded(this, target, file_id, width, height)
+                                    clearTimeout(timeoutId)
+                                }, 100);
+                            });
+                        }
+                        let fileObject = window.URL.createObjectURL(element.files[0])
+                        $uploader.find('video source').attr('src', fileObject)
                     }
 
                     $uploader.initDraggable({
@@ -218,10 +231,10 @@ function onFileUpload(
 function onVideoLoaded(element, target, file_id, width, height) {
     const data = createPoster(element, width, height)
     const index = uploadData.get(target).indexOf(file_id);
-    if(index >= 0) {
+    if (index >= 0) {
         let extra = uploadData.getExtra(target)[index];
         extra = {
-            poster : data,
+            poster: data,
             ...extra,
         }
         uploadData.set(target, index, file_id, extra);

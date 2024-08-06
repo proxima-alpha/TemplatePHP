@@ -61,7 +61,7 @@
                         </div>
                         <?php if ($item['status'] == 'waiting' || ($item['reward_file_id'])) { ?>
                             <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"
-                               href="/reward-file/<?= $item['reward_file_id'] ?>"><?= lang('Client.status_' . $item['status']) ?>
+                               href="/reward-file/<?= $item['reward_file_id'] ?>/download"><?= lang('Client.status_' . $item['status']) ?>
                             </a>
                         <?php } else { ?>
                             <a class="button button-fill disabled"><?= lang('Client.status_expired') ?></a>
