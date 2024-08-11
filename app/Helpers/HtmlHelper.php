@@ -128,6 +128,17 @@ final class HtmlHelper
         }
     }
 
+    public static function toFullHourString($dateString)
+    {
+        if (!isset($dateString)) return '';
+        try {
+            $date = strtotime($dateString);
+            return date("H:i:s", $date);
+        } catch (Exception $e) {
+            return '';
+        }
+    }
+
     public static function toHourString($dateString)
     {
         if (!isset($dateString)) return '';
@@ -376,7 +387,11 @@ final class HtmlHelper
                 </div>
                 <div class="text-item-wrap">
                     <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
-                    <p class="item-date">' . (HtmlHelper::toDateString($item['start_date']) . ' ~ ' . HtmlHelper::toDateString($item['end_date'])) . '</p>
+                    <div class="item-date">
+                        <p>'.HtmlHelper::toDateString($item['start_date']).'<br/>'.HtmlHelper::toFullHourString($item['start_date']).'(KTS)</p>
+                        <p>~</p>
+                        <p>'.HtmlHelper::toDateString($item['end_date']).'<br/>'.HtmlHelper::toFullHourString($item['end_date']).'(KTS)</p>
+                    </div>
                 </div>
             </a>
         </div>';

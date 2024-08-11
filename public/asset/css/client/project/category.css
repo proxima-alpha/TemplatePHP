@@ -72,7 +72,9 @@
     font-weight: 500;
 }
 
-.content-item p.item-date {
+.content-item .item-date p {
+    display: inline-block;
+    vertical-align: top;
     font-weight: 200;
 }
 

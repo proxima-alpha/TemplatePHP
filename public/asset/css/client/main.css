@@ -179,8 +179,10 @@ slider 페이지
     scrollbar-width: none; /* Firefox */
 }
 
-#page-media .content-box.relation {
-    position: relative;
+
+#page-media .content-box {
+    width: 100%;
+    font-size: 0;
 }
 
 #page-media .content-box.relation .content-wrap::-webkit-scrollbar {
@@ -282,12 +284,25 @@ slider 페이지
     font-weight: 500;
 }
 
-.content-item p.item-date {
+.content-item .item-date p {
+    display: inline-block;
+    vertical-align: top;
     font-weight: 200;
+}
+
+#page-media .content-box.project .content-wrap-inner,
+#page-media .content-box.relation .content-wrap-inner {
+    width: max-content;
 }
 
 #page-media .content-box.artists .content-item {
     width: 218px;
+}
+
+#page-media .content-item a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
 }
 
 #page-media .content-item .image-item-wrap {
@@ -317,6 +332,7 @@ slider 페이지
 #page-intro {
     padding-bottom: 40px;
 }
+
 #page-intro .content-wrap .slick {
     width: 650px;
     margin: 0 auto;
@@ -488,12 +504,12 @@ slider 페이지
         width: 100%;
     }
 
-    #page-media .content-box.previous-project {
-        font-size: 0;
+    #page-media .content-box.project .content-item .image-item-wrap {
+        height: 37vw;
     }
 
-    #page-media .content-box.previous-project .content-item {
-        width: calc(33.3% - 22px);
+    #page-media .content-box.project .content-item {
+        width: calc(33vw - 30px);
         box-sizing: border-box;
         margin: 10px;
     }
@@ -501,9 +517,25 @@ slider 페이지
     #page-media .content-box.previous-project .content-item .image-item-wrap {
         height: 37vw;
     }
+
+    #page-media .content-box.previous-project .content-item {
+        width: calc(33.3% - 22px);
+        box-sizing: border-box;
+        margin: 10px;
+    }
 }
 
 @media (max-width: 600px) {
+    #page-media .content-box.project .content-item {
+        width: calc(50vw - 30px);
+        box-sizing: border-box;
+        margin: 10px;
+    }
+
+    #page-media .content-box.project .content-item .image-item-wrap {
+        height: 53vw;
+    }
+
     #page-media .content-box.previous-project .content-item {
         width: calc(50% - 22px);
         box-sizing: border-box;

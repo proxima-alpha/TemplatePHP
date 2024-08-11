@@ -66,7 +66,7 @@ use App\Helpers\HtmlHelper;
                     </a>
                 </div>
                 <div class="content-wrap scroll-horizontal-wrap">
-                    <div class="content-wrap-inner" style="width: <?= (sizeof($data['relation']) * 205) ?>px;">
+                    <div class="content-wrap-inner">
                         <?php foreach ($data['relation'] as $index => $file) { ?>
                             <div class="content-media-item">
                                 <video preload="metadata" muted controlsList="nodownload" poster="<?=$file['poster'] ?? ''?>">
@@ -80,7 +80,7 @@ use App\Helpers\HtmlHelper;
             <?php } ?>
         </div>
         <?php if ($data_settings['main-show-project'] == 1) { ?>
-            <div class="content-box project-popular">
+            <div class="content-box project project-popular">
                 <h4 class="page-sub-title">
                     <?= lang("Client.popular_project") ?>
                 </h4>
@@ -94,8 +94,7 @@ use App\Helpers\HtmlHelper;
                         </a>
                     </div>
                     <div class="content-wrap scroll-horizontal-wrap">
-                        <div class="content-wrap-inner"
-                             style="width: <?= (sizeof($data['project_popular']) * 240) ?>px;">
+                        <div class="content-wrap-inner">
                             <?php foreach ($data['project_popular'] as $index => $item) { ?>
                                 <?= HtmlHelper::getProjectItem($item, $lang) ?>
                             <?php } ?>
@@ -106,7 +105,7 @@ use App\Helpers\HtmlHelper;
         <?php }
         foreach ($data['project_by_code'] as $code => $codeItem) {
             if ($data_settings['main-show-' . $code] == 1) { ?>
-                <div class="content-box artists <?= $code ?>">
+                <div class="content-box project artists <?= $code ?>">
                     <h4 class="page-sub-title">
                         <?= $lang == 'ko' ? $codeItem['code']['name'] : $codeItem['code']['name_en'] ?>
                     </h4>
@@ -120,8 +119,7 @@ use App\Helpers\HtmlHelper;
                             </a>
                         </div>
                         <div class="content-wrap scroll-horizontal-wrap">
-                            <div class="content-wrap-inner"
-                                 style="width: <?= (sizeof($codeItem['array']) * 240) ?>px;">
+                            <div class="content-wrap-inner">
                                 <?php foreach ($codeItem['array'] as $index => $item) {
                                     $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                                     <div class="content-item">
@@ -133,11 +131,13 @@ use App\Helpers\HtmlHelper;
                                             <div class="text-item-wrap">
                                                 <p class="item-title"><?= $lang == 'ko' ? $item['title'] :
                                                         $item['title_en'] ?></p>
-                                                <p class="item-date"><?= (HtmlHelper::toDateString($item['start_date'])
-                                                        . ' ~'
-                                                        . HtmlHelper::toDateString($item['end_date'])) ?></p>
-                                                <p class="item-content"><?= $lang == 'ko' ? $item['content'] :
-                                                        $item['content_en'] ?></p>
+                                                <div class="item-date">
+                                                    <p><?= HtmlHelper::toDateString($item['start_date'])?><br/>
+                                                        <?= HtmlHelper::toFullHourString($item['start_date'])?>(KTS)</p>
+                                                    <p>~</p>
+                                                    <p><?= HtmlHelper::toDateString($item['end_date'])?><br/>
+                                                        <?= HtmlHelper::toFullHourString($item['end_date'])?>(KTS)</p>
+                                                </div>
                                             </div>
                                         </a>
                                     </div>

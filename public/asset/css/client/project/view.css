@@ -9,7 +9,7 @@
 .scroll-control-button-wrap {
     position: absolute;
     right: 10px;
-    top: 25px;
+    top: 10px;
     font-size: 0;
 }
 
@@ -80,6 +80,10 @@
     letter-spacing: -2px;
 }
 
+#artists .content-wrap.scroll-horizontal-wrap {
+    padding: 20px 10px;
+}
+
 #artists .content-box.relation .content-wrap::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
 }
@@ -90,6 +94,10 @@
 
 #artists {
     position: relative;
+}
+
+#artists .page-inner {
+    padding-top: 0;
 }
 
 #artists .content-item {
@@ -135,7 +143,6 @@
 }
 
 #artists .line {
-    margin-top: 40px;
     background: #232127;
 }
 
@@ -189,12 +196,13 @@
 }
 
 .artist-box .preview-wrap {
-    padding-top: 40px;
+    width: 100%;
     position: relative;
 }
 
 .artist-box .preview-wrap .scroll-control-button-wrap {
     top: 0;
+    right: 0;
 }
 
 .artist-box .content-item {
