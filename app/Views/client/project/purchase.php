@@ -8,6 +8,7 @@
     'reward_purchase_item_03_1',
     'reward_purchase_item_03_2',
     'reward_purchase_item_04',
+    'reward_purchase_item_04_1',
     'reward_purchase_item_05',
     'reward_reaction',
     'reward_request',

@@ -39,8 +39,8 @@ function getPurchaseItemHtml(index, item) {
                 <input class="editable" type="email" name="inquirer_email" placeholder="${lang('reward_purchase_item_03_2')}" value="${item['inquirer_email'] ?? ''}"/>
             </div>
             <div class="input-wrap comment">
-                <p class="input-title">${lang('reward_purchase_item_04')}</p>
-                <textarea class="editable" name="inquirer_comment">${item['inquirer_comment'] ?? ''}</textarea>
+                <p class="input-title">${lang('reward_purchase_item_04')} ${lang('reward_purchase_item_04_1')}</p>
+                <textarea class="editable" name="inquirer_comment" maxlength="300">${item['inquirer_comment'] ?? ''}</textarea>
             </div>
             <div class="input-wrap inline agree">
                 <input class="editable" type="checkbox" id="is-agree-${index}" name="is_agreed" ${item['is_agreed'] ?? null == '1' ? 'checked' : ''}/>
@@ -78,7 +78,7 @@ function getPurchaseItemHtmlInShort(item) {
 
 function getSelectedRewardHtml() {
     if (!selectedReward) return ``;
-    if(selectedReward['available_count']  == 0) {
+    if (selectedReward['available_count'] == 0) {
         $('.content-box > div.button-wrap .button.next').addClass('disabled')
     } else {
         $('.content-box > div.button-wrap .button.next').removeClass('disabled')

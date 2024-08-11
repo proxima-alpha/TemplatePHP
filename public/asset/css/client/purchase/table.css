@@ -64,7 +64,11 @@
 .container-inner .button-wrap {
     width: 100%;
     text-align: right;
-    margin-top: 10px;
+    margin-top: 50px;
+}
+
+.container-inner .button-wrap.go-back {
+    text-align: center;
 }
 
 .container-inner .button,

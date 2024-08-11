@@ -47,6 +47,7 @@ return [
     "reward_purchase_item_03_1" => "Recipient's name or nickname",
     "reward_purchase_item_03_2" => "Recipient's email",
     "reward_purchase_item_04" => "Please write your request message!",
+    "reward_purchase_item_04_1" => "(Maximum length is 300)",
     "reward_purchase_item_05" => "Video Private (not displayed on the detail page)",
 
     "reward_now_stock_string" => "Current inventory %s",
@@ -73,6 +74,7 @@ return [
     "purchaser_notice" => "Payment-related information will be provided based on the purchaser's details. Please ensure that the information entered is accurate.",
     "purchase_selected_item" => "Selected Item",
 
+    "purchase_no_item_message" => "No Purchase History.",
     "purchase_complete_message" => "Purchase Completed.",
     "purchase_complete_next" => "Check your purchase history",
     "project_blocked_message" => "This project is closed.",

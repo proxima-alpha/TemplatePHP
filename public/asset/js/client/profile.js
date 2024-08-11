@@ -173,7 +173,7 @@ function updateAutoLogin(channel = 'kakao', channel_id) {
                 showErrors(response, status, request);
                 return;
             }
-            window.location.reload();
+            window.location.replace(window.location.pathname)
         },
         error: function (response, status, error) {
             showErrors(response, status, error);

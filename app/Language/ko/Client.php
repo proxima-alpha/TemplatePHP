@@ -47,6 +47,7 @@ return [
     "reward_purchase_item_03_1" => "받는 사람의 이름 또는 별명",
     "reward_purchase_item_03_2" => "받는 사람의 이메일",
     "reward_purchase_item_04" => "요청메세지를 작성하세요!",
+    "reward_purchase_item_04_1" => "(최대 300자)",
     "reward_purchase_item_05" => "영상 비공개 (상세페이지에 노출 되지 않습니다)",
 
     "reward_type_all" => "멤버 전원",
@@ -74,6 +75,7 @@ return [
     "purchaser_notice" => "주문자 정보로 결제관련 정보가 제공됩니다. 정확한 정보로 입력되어 있는지 확인해 주세요.",
     "purchase_selected_item" => "선택한 상품",
 
+    "purchase_no_item_message" => "주문내역이 없습니다.",
     "purchase_complete_message" => "구매가 완료되었습니다.",
     "purchase_complete_next" => "구매 내역에서 확인하기",
     "project_blocked_message" => "해당 프로젝트는 비공개 처리 되었습니다.",

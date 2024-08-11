@@ -170,7 +170,7 @@ if (!isset($sub)) $sub = 'view'
             updateAutoLogin('naver', id)
         }
 
-        var naver_id_login = new naver_id_login('<?= $naverClientId ?? '' ?>', "<?=$_ENV['app.baseURL']?>" + "login");
+        var naver_id_login = new naver_id_login('<?= $naverClientId ?? '' ?>', "<?=$_ENV['app.baseURL']?>" + "profile");
         var state = naver_id_login.getUniqState();
         naver_id_login.setButton("white", 2, 40);
         naver_id_login.setDomain("<?=$_ENV['app.baseURL']?>");
