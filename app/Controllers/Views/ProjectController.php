@@ -129,6 +129,12 @@ class ProjectController extends BaseClientController
             $data = array_merge($data, [
                 'reward_requests' => $reward_requests
             ]);
+            $queryParams = $this->request->getGet();
+            if (isset($queryParams['artist_id'])) {
+                $data = array_merge($data, [
+                    'artist_id' => $queryParams['artist_id']
+                ]);
+            }
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);

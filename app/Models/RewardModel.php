@@ -91,6 +91,36 @@ class RewardModel extends BasePriorityModel
     }
 
     /**
+     * select 문을 호출하는 기능
+     * @return array
+     * @throws Exception
+     */
+    public function getFiltered($artist_id, $condition = null): array
+    {
+        $query = "SELECT reward.* FROM reward " .
+            " LEFT JOIN artist_group ON artist_group.reward_id = reward.id";
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
+            $query .= " AND ( artist_group.artist_id = '" . $artist_id . "' OR reward.type = 'all')";
+        } else {
+            $query .= " WHERE artist_group.artist_id = '" . $artist_id . "' OR reward.type = 'all'";
+        }
+        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        if (isset($limit)) {
+            $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
+        }
+        return BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
+        ]);
+    }
+
+    /**
      * user id 가 있는 경우 본인의 해당 reward 구매량, 아닌 경우 전체 reward 구매 량
      * @param $reward_id
      * @param $user_id

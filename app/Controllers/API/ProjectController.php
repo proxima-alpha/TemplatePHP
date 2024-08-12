@@ -78,12 +78,18 @@ class ProjectController extends CustomFileController
      */
     public function getReward($id): ResponseInterface
     {
+        $queryParams = $this->request->getGet();
         $response = [
             'success' => false,
         ];
 
         try {
-            $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
+            $rewards = [];
+            if (isset($queryParams['artist_id'])) {
+                $rewards = $this->rewardModel->getFiltered($queryParams['artist_id'], ['project_id' => $id, 'is_deleted' => 0]);
+            } else {
+                $rewards = $this->rewardModel->GET(['project_id' => $id, 'is_deleted' => 0]);
+            }
             if (!$rewards) throw new Exception('not exist');
 
             $rewardArtistResult = $this->artistGroupModel->getArtistsForReward($id);

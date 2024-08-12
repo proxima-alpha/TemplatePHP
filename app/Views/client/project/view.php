@@ -11,8 +11,8 @@
     'purchase',
 ], 'Client');
 if (isset($data['background_id'])) {
-    $hasMobile = isset($data['mobile_background_id']);?>
-    <div class="section background <?=$hasMobile ? 'pc-only' : ''?>"
+    $hasMobile = isset($data['mobile_background_id']); ?>
+    <div class="section background <?= $hasMobile ? 'pc-only' : '' ?>"
          style="background: url('/file/<?= $data['background_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
         <div class="overlap-text-box">
             <div class="overlap-text-wrap">
@@ -24,8 +24,8 @@ if (isset($data['background_id'])) {
     </div>
 <?php }
 if (isset($data['mobile_background_id'])) {
-    $hasPC = isset($data['background_id']);?>
-    <div class="section background <?=$hasPC ? 'mobile-only' : ''?>"
+    $hasPC = isset($data['background_id']); ?>
+    <div class="section background <?= $hasPC ? 'mobile-only' : '' ?>"
          style="background: url('/file/<?= $data['mobile_background_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
         <div class="overlap-text-box">
             <div class="overlap-text-wrap">
@@ -52,7 +52,7 @@ if (isset($data['artists'])) { ?>
                     <?php foreach ($data['artists'] as $index => $item) {
                         $url = isset($item['image_id']) ? '/file/' . $item['image_id'] : '/asset/images/custom/object.svg'; ?>
                         <div class="content-item button" id="artist-<?= $item['id'] ?>"
-                             onclick="setArtist(<?= $item['id'] ?>)">
+                             onclick="setArtist(<?= $data['id'] ?>,<?= $item['id'] ?>)">
                             <div class="image-item-wrap">
                                 <div class="image-item"
                                      style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
@@ -93,7 +93,7 @@ if (isset($data['artists'])) { ?>
                     <?= lang('Client.guide_title') ?>
                 </h4>
                 <div class="guide-wrap quill-html ql-container">
-                   <?= $guide ?>
+                    <?= $guide ?>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@ if (isset($data['artists'])) { ?>
 <script type="text/javascript">
     $(document).ready(function () {
         <?php if (isset($data['artists']) && sizeof($data['artists']) > 0) { ?>
-        setArtist(<?=$data['artists'][0]['id']?>)
+        setArtist(<?= $data['id'] ?>, <?=$data['artists'][0]['id']?>)
         <?php } ?>
         loadReward(<?=$data['id']?>, false)
     });

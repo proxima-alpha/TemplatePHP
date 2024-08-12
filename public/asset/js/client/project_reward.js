@@ -1,6 +1,7 @@
 
 let rewards = {};
 let selectedReward;
+let selectedArtistId;
 
 function onRewardSelected(element, id) {
     selectedReward = rewards[id];
@@ -35,10 +36,12 @@ function getRewardItemHtml(data, isSelectable = true) {
     return html
 }
 
-function loadReward(project_id, isSelectable = true) {
+function loadReward(project_id, isSelectable = true, artist_id = null) {
+    selectedArtistId = artist_id
+    const queryParams = artist_id? `?artist_id=${artist_id}` : ``;
     return apiRequest({
         type: 'GET',
-        url: `/api/project/reward/${project_id}`,
+        url: `/api/project/reward/${project_id}${queryParams}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) {
@@ -50,6 +53,7 @@ function loadReward(project_id, isSelectable = true) {
             for (const item of array) {
                 rewards[item.id] = item;
             }
+            $container.find(`.reward-wrap`).remove();
             for (let i in array) {
                 $container.append(getRewardItemHtml(array[i], isSelectable));
             }

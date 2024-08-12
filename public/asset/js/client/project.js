@@ -1,4 +1,5 @@
-function setArtist(id) {
+function setArtist(project_id, id) {
+    loadReward(project_id, false, id)
     apiRequest({
         type: 'GET',
         url: `/api/artist/get/${id}`,
@@ -90,7 +91,8 @@ function purchase(id, start_date, end_date) {
             return openPopupMessage(lang('message_error_expired'))
         }
     }
-    window.location.href = `/project/${id}/purchase`;
+    const queryParams = selectedArtistId? `?artist_id=${selectedArtistId}` : ``;
+    window.location.href = `/project/${id}/purchase${queryParams}`;
 }
 
 function onClickScrollLeft(element) {

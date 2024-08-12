@@ -94,17 +94,18 @@
                         <?= lang('Client.purchase_selected_item') ?>
                     </h4>
                     <div class="project-box">
-                    <?php if (isset($data)) { ?>
-                        <div class="project-wrap">
-                            <div class="image-wrap"
-                                 style="background: url('/file/<?= $data['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                        <?php if (isset($data)) { ?>
+                            <div class="project-wrap">
+                                <div class="image-wrap"
+                                     style="background: url('/file/<?= $data['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
+                                </div>
+                                <div class="content-wrap">
+                                    <p class="title"><?= $lang == 'ko' ? $data['title'] : $data['title_en'] ?></p>
+                                </div>
+                                <div
+                                    class="content ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
                             </div>
-                            <div class="content-wrap">
-                                <p class="title"><?= $lang == 'ko' ? $data['title'] : $data['title_en'] ?></p>
-                            </div>
-                            <div class="content ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
-                        </div>
-                    <?php } ?>
+                        <?php } ?>
                     </div>
                     <div class="purchase-item-wrap">
                         <div class="form-wrap">
@@ -148,9 +149,10 @@
                         <h4 class="page-sub-title"><?= lang('Client.payment_method_select') ?></h4>
                         <div class="input-wrap">
                             <p class="input-info"><?= lang('Client.payment_notice_01') ?></p>
-                            <select class="editable" name="pg">`
-<!--                                <option value="nice" selected>--><?php //= lang('Client.payment_method_nice') ?><!--</option>-->
-                                <option value="html5_inicis" selected><?= lang('Client.payment_method_inicis') ?></option>
+                            <select class="editable" name="pg">
+                                <!--                                <option value="nice" selected>--><?php //= lang('Client.payment_method_nice') ?><!--</option>-->
+                                <option value="html5_inicis"
+                                        selected><?= lang('Client.payment_method_inicis') ?></option>
                             </select>
                         </div>
                         <h4 class="page-sub-title"><?= lang('Client.payment_expected_price') ?></h4>
@@ -177,7 +179,8 @@
             <div class="button-wrap">
                 <a class="button prev button-line disabled"
                    href="javascript:onClickPrev();"><?= lang('Client.prev') ?></a>
-                <a class="button next button-fill disabled" href="javascript:onClickNext();"><?= lang('Client.next') ?></a>
+                <a class="button next button-fill disabled"
+                   href="javascript:onClickNext();"><?= lang('Client.next') ?></a>
             </div>
         </div>
     </div>
@@ -185,6 +188,10 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-         loadReward(<?=$data['id']?>)
+        <?php if(isset($artist_id)) { ?>
+        loadReward(<?=$data['id']?>, true, <?=$artist_id?>)
+        <?php } else { ?>
+        loadReward(<?=$data['id']?>)
+        <?php }?>
     });
 </script>
