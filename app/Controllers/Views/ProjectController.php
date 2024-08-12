@@ -73,7 +73,6 @@ class ProjectController extends BaseClientController
                 'js' => [
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
-                    '/client/project_reward',
                     '/client/project',
                 ],
             ])
