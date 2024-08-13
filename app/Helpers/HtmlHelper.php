@@ -179,19 +179,20 @@ final class HtmlHelper
         for ($i = 0; $i < 24; ++$i) {
             $value = str_pad($i, 2, "0", STR_PAD_LEFT);
             $option = '';
-            if($value == $hour) $option = 'selected';
-            $html .= "<option ".$option." value=\"".$value."\">".$value."</option>";
+            if ($value == $hour) $option = 'selected';
+            $html .= "<option " . $option . " value=\"" . $value . "\">" . $value . "</option>";
         }
         return $html;
     }
+
     public static function getMinuteOptions($minute = '')
     {
         $html = '';
         for ($i = 0; $i <= 60; ++$i) {
             $value = str_pad($i, 2, "0", STR_PAD_LEFT);
             $option = '';
-            if($value == $minute) $option = 'selected';
-            $html .= "<option ".$option." value=\"".$value."\">".$value."</option>";
+            if ($value == $minute) $option = 'selected';
+            $html .= "<option " . $option . " value=\"" . $value . "\">" . $value . "</option>";
         }
         return $html;
     }
@@ -388,9 +389,9 @@ final class HtmlHelper
                 <div class="text-item-wrap">
                     <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
                     <div class="item-date">
-                        <p>'.HtmlHelper::toDateString($item['start_date']).'<br/>'.HtmlHelper::toFullHourString($item['start_date']).'(KTS)</p>
-                        <p>~</p>
-                        <p>'.HtmlHelper::toDateString($item['end_date']).'<br/>'.HtmlHelper::toFullHourString($item['end_date']).'(KTS)</p>
+                        <p>' . HtmlHelper::toDateString($item['start_date']) . '<br/>' . HtmlHelper::toFullHourString($item['start_date']) . '(KTS)</p>
+                        <p class="wave">~</p>
+                        <p>' . HtmlHelper::toDateString($item['end_date']) . '<br/>' . HtmlHelper::toFullHourString($item['end_date']) . '(KTS)</p>
                     </div>
                 </div>
             </a>

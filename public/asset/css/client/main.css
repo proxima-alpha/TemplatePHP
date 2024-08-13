@@ -268,10 +268,6 @@ slider 페이지
     font-weight: 400;
     text-align: left;
     color: #fff;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 .content-item .text-item-wrap {
@@ -284,7 +280,16 @@ slider 페이지
     font-weight: 500;
 }
 
+.content-item .item-date {
+    font-size: 0;
+}
+
+.content-item .item-date p.wave {
+    width: 20px;
+}
+
 .content-item .item-date p {
+    max-width: calc(50% - 10px);
     display: inline-block;
     vertical-align: top;
     font-weight: 200;
@@ -527,7 +532,7 @@ slider 페이지
 
 @media (max-width: 600px) {
     #page-media .content-box.project .content-item {
-        width: calc(50vw - 30px);
+        width: calc(52vw - 30px);
         box-sizing: border-box;
         margin: 10px;
     }

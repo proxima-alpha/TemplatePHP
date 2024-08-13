@@ -133,10 +133,10 @@ use App\Helpers\HtmlHelper;
                                                         $item['title_en'] ?></p>
                                                 <div class="item-date">
                                                     <p><?= HtmlHelper::toDateString($item['start_date'])?><br/>
-                                                        <?= HtmlHelper::toFullHourString($item['start_date'])?>(KTS)</p>
-                                                    <p>~</p>
+                                                        <?= HtmlHelper::toFullHourString($item['start_date'])?> (KTS)</p>
+                                                    <p class="wave">~</p>
                                                     <p><?= HtmlHelper::toDateString($item['end_date'])?><br/>
-                                                        <?= HtmlHelper::toFullHourString($item['end_date'])?>(KTS)</p>
+                                                        <?= HtmlHelper::toFullHourString($item['end_date'])?> (KTS)</p>
                                                 </div>
                                             </div>
                                         </a>
