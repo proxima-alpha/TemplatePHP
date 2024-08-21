@@ -103,6 +103,7 @@ function confirmArtistSearch(className, target) {
                     id: data.id,
                     name: data.name,
                     name_en: data.name_en,
+                    name_jp: data.name_jp,
                 });
                 let $container = $(`.row-uploader.${target}`);
 
@@ -158,6 +159,9 @@ function confirmEditProject(id) {
     if(quillEn) {
         data['content_en'] = quillEn.getSemanticHTML();
     }
+    if(quillJp) {
+        data['content_jp'] = quillJp.getSemanticHTML();
+    }
 
     let rewards = [];
     let $rewards = $(`.project-wrap .form-wrap.extra .reward .row-uploader-item`);
@@ -206,6 +210,9 @@ function confirmCreateProject() {
     }
     if(quillEn) {
         data['content_en'] = quillEn.getSemanticHTML();
+    }
+    if(quillJp) {
+        data['content_jp'] = quillJp.getSemanticHTML();
     }
 
     let rewards = [];

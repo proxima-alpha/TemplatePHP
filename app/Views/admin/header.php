@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\HtmlHelper;
+
 if (!isset($links) && !isset($is_login)) return;
 $is_admin_navigation_closed = isset($is_admin_navigation_closed) && $is_admin_navigation_closed == 1;
 $is_not_login_page = !isset($is_login_page) || ($is_login_page == false || $is_login_page == 0);
@@ -31,7 +34,7 @@ $is_not_registration_page = !isset($is_registration_page) || ($is_registration_p
     if (isset($javascript)) echo $javascript;
     ?>
 </head>
-<?= \App\Helpers\HtmlHelper::setTranslationsAdmin() ?>
+<?= HtmlHelper::setTranslationsAdmin() ?>
 <body>
 <div class="loading-wrap">
     <span class="gadget"></span>

@@ -1,5 +1,8 @@
 <?php
-\App\Helpers\HtmlHelper::setTranslations([
+
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations([
     'message_error_exceed',
     'message_error_expired',
     'message_error_not_started',
@@ -17,7 +20,7 @@ if (isset($data['background_id'])) {
         <div class="overlap-text-box">
             <div class="overlap-text-wrap">
                 <div class="text-wrap">
-                    <p><?= ($lang == 'ko' ? $data['title'] : $data['title_en']) ?? '' ?></p>
+                    <p><?= HtmlHelper::getLangItem($data, 'title', $lang) ?></p>
                 </div>
             </div>
         </div>
@@ -30,7 +33,7 @@ if (isset($data['mobile_background_id'])) {
         <div class="overlap-text-box">
             <div class="overlap-text-wrap">
                 <div class="text-wrap">
-                    <p><?= ($lang == 'ko' ? $data['title'] : $data['title_en']) ?? '' ?></p>
+                    <p><?= HtmlHelper::getLangItem($data, 'title', $lang) ?></p>
                 </div>
             </div>
         </div>
@@ -58,10 +61,8 @@ if (isset($data['artists'])) { ?>
                                      style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
                             </div>
                             <div class="text-item-wrap">
-                                <p class="item-title"><?= $lang == 'ko' ? $item['name'] :
-                                        $item['name_en'] ?></p>
-                                <p class="item-content"><?= $lang == 'ko' ? $item['job'] :
-                                        $item['job_en'] ?></p>
+                                <p class="item-title"><?= HtmlHelper::getLangItem($item, 'name', $lang) ?></p>
+                                <p class="item-content"><?= HtmlHelper::getLangItem($item, 'job', $lang) ?></p>
                             </div>
                         </div>
                     <?php } ?>
@@ -88,7 +89,7 @@ if (isset($data['artists'])) { ?>
                     <?= lang('Client.project') ?>
                 </h4>
                 <div
-                    class="content quill-html ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
+                    class="content quill-html ql-container"><?= HtmlHelper::getLangItem($data, 'content', $lang) ?></div>
                 <h4 class="page-sub-title">
                     <?= lang('Client.guide_title') ?>
                 </h4>
@@ -102,7 +103,7 @@ if (isset($data['artists'])) { ?>
                 <h4 class="page-sub-title">
                     <?= lang('Client.datetime') ?>
                 </h4>
-                <p><?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?></p>
+                <p><?= HtmlHelper::toDateString($data['start_date']) . ' ~ ' . HtmlHelper::toDateString($data['end_date']) ?></p>
             </div>
             <div class="reward-box">
                 <h4 class="page-sub-title">

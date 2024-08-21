@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner code-reward-request code">
     <div class="container-wrap">
         <h4 class="page-sub-title">
@@ -14,12 +19,13 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::showDataEmpty($array ?? [])) { ?>
+                if (HtmlHelper::showDataEmpty($array ?? [])) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column code"><?= lang('Service.code') ?></span>
                             <span class="column name"><?= lang('Service.name') ?></span>
                             <span class="column name-en"><?= lang('Service.name_en') ?></span>
+                            <span class="column name-jp"><?= lang('Service.name_jp') ?></span>
                             <span class="column is_active"><?= lang('Service.is_active') ?></span>
                         </div>
                     </div>
@@ -31,6 +37,7 @@
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
                                     <span class="column name-en"><?= $item['name_en'] ?></span>
+                                    <span class="column name-jp"><?= $item['name_jp'] ?></span>
                                     <span class="column is_active">
                                     <img src="/asset/images/icon/<?= $item['is_active'] == 0 ? 'none.png' : 'check.png' ?>"/>
                                     </span>
@@ -42,7 +49,7 @@
             </div>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination ?? null, $pagination_link ?? null); ?>
+        <?= HtmlHelper::getPagination($pagination ?? null, $pagination_link ?? null); ?>
     </div>
 </div>
 <script type="text/javascript">
@@ -77,6 +84,10 @@
                 name_en: {
                     type: 'text',
                     name: `<?=lang('Service.name_en')?>`,
+                },
+                name_jp: {
+                    type: 'text',
+                    name: `<?=lang('Service.name_jp')?>`,
                 },
                 is_active: {
                     type: 'bool',

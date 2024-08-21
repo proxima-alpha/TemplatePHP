@@ -427,3 +427,13 @@ function createPoster(video, width = null, height = null) {
     canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
     return canvas.toDataURL("image/jpeg");
 }
+
+function getLangItem(item, name, lang) {
+    if (!item) return null;
+    if (lang == 'en') {
+        name += '_en';
+    } else if (lang == 'jp') {
+        name += '_jp';
+    }
+    return item[name] ?? "";
+}

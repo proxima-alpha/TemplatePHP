@@ -1,11 +1,12 @@
-\<?php
+<?php
 
+use App\Helpers\HtmlHelper;
 use Crisu83\ShortId\ShortId;
 
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
 
-\App\Helpers\HtmlHelper::setTranslations([
+HtmlHelper::setTranslations([
     'message_info_drag',
     'category',
     'title',

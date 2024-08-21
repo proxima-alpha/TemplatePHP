@@ -1,4 +1,9 @@
-<?= \App\Helpers\HtmlHelper::setTranslations(['select_date']) ?>
+<?php
+
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations(['select_date'])
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -9,7 +14,7 @@
                 <p class="input-title"><?= lang('Service.filter_start_date') ?></p>
                 <a class="button" href="javascript:openCalendarPopup('start_date')">
                     <input class="editable" name="start_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($start_date ?? null) ?>"
+                           value="<?= HtmlHelper::toDateString($start_date ?? null) ?>"
                            readonly>
                 </a>
             </div>
@@ -17,7 +22,7 @@
                 <p class="input-title"><?= lang('Service.filter_end_date') ?></p>
                 <a class="button" href="javascript:openCalendarPopup('end_date')">
                     <input class="editable" name="end_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($end_date ?? null) ?>"
+                           value="<?= HtmlHelper::toDateString($end_date ?? null) ?>"
                            readonly>
                 </a>
             </div>

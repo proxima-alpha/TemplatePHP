@@ -18,6 +18,8 @@ class ProjectModel extends BaseModel
         'content',
         'title_en',
         'content_en',
+        'title_jp',
+        'content_jp',
         'is_deleted',
         'is_authenticated',
         'is_posted',
@@ -37,7 +39,7 @@ class ProjectModel extends BaseModel
      */
     public function get($condition = null, $limit = null, $isPriority = false): array
     {
-        $query = "SELECT project.*, code_project.name AS code_project, code_project.name_en AS code_project_en, code_project.code AS code FROM project".
+        $query = "SELECT project.*, code_project.name AS code_project, code_project.name_en AS code_project_en, code_project.name_jp AS code_project_jp, code_project.code AS code FROM project".
             " LEFT JOIN code_project ON code_project.id = project.code_project_id";
         $values = [];
         if ($condition) {

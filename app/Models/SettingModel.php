@@ -85,25 +85,35 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "페이지 상단 이름",
         ]);
-        $this->createIfNotExist(['code' => 'guide-how-to-use-ko'], [
-            "code" => "guide-how-to-use-ko",
+        $this->createIfNotExist(['code' => 'guide-how-to-use_ko'], [
+            "code" => "guide-how-to-use_ko",
             "type" => "long-text",
             "name" => "이용방법 (한글)",
         ]);
-        $this->createIfNotExist(['code' => 'guide-how-to-use-en'], [
-            "code" => "guide-how-to-use-en",
+        $this->createIfNotExist(['code' => 'guide-how-to-use_en'], [
+            "code" => "guide-how-to-use_en",
             "type" => "long-text",
             "name" => "이용방법 (영어)",
         ]);
-        $this->createIfNotExist(['code' => 'main-link-guide-ko'], [
-            "code" => "main-link-guide-ko",
+        $this->createIfNotExist(['code' => 'guide-how-to-use_jp'], [
+            "code" => "guide-how-to-use_jp",
+            "type" => "long-text",
+            "name" => "이용방법 (일본어)",
+        ]);
+        $this->createIfNotExist(['code' => 'main-link-guide_ko'], [
+            "code" => "main-link-guide_ko",
             "type" => "text",
             "name" => "메인 이용가이드 링크 (한글)",
         ]);
-        $this->createIfNotExist(['code' => 'main-link-guide-en'], [
-            "code" => "main-link-guide-en",
+        $this->createIfNotExist(['code' => 'main-link-guide_en'], [
+            "code" => "main-link-guide_en",
             "type" => "text",
             "name" => "메인 이용가이드 링크 (영어)",
+        ]);
+        $this->createIfNotExist(['code' => 'main-link-guide_jp'], [
+            "code" => "main-link-guide_jp",
+            "type" => "text",
+            "name" => "메인 이용가이드 링크 (일본어)",
         ]);
         $codes = ['project', 'previous-project', 'artist', 'actor', 'creator'];
 

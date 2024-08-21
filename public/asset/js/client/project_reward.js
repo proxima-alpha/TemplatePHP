@@ -14,19 +14,19 @@ function getRewardItemHtml(data, isSelectable = true) {
     let language = getCookie('lang')
     let html = `
     <div class="reward-wrap" ${isSelectable? `onclick="javascript:onRewardSelected(this, '${data.id}')"` : ''}>
-        <p class="title">${language == 'ko' ? data['title'] : data['title_en']}</p>`
+        <p class="title">${getLangItem(data, 'title', language)}</p>`
     if (data['type'] === 'all') {
         html += `<p class="type">${lang('reward_type_all')}</p>`
     } else if (data['type'] === 'random' && (data['artists'] ?? null)) {
         let artistString = ''
         let prefix = ''
         for (const artist of data['artists']) {
-            artistString += `${prefix}${language == 'ko' ? artist['name'] : artist['name_en']}`
+            artistString += `${prefix}${getLangItem(artist, 'name', language)}`
             prefix = '/';
         }
         html += `<p class="type">${artistString}</p>`
     }
-    html += `<p class="content">${language == 'ko' ? data['content'] : data['content_en']}</p>
+    html += `<p class="content">${getLangItem(data, 'content', language)}</p>
         <p class="remaining-count">${sprintf(lang('reward_now_stock_string'), (data['total_count'] - data['purchased_count']))}</p>
         <p class="limited-count">${sprintf(lang('reward_limited_count_string'), data['limited_count'])}</p>
         <p class="available-count">${sprintf(lang('reward_available_count_string'), data['available_count'])}</p>

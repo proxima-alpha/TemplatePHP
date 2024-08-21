@@ -1,8 +1,9 @@
 <?php
 
+use App\Helpers\HtmlHelper;
 use Crisu83\ShortId\ShortId;
 
-\App\Helpers\HtmlHelper::setTranslations([
+HtmlHelper::setTranslations([
     'title',
     'content',
     'price',
@@ -50,7 +51,7 @@ $identifier = $shortid->generate();
                             foreach ($code_project as $item) { ?>
                                 <option value="<?= $item['id'] ?>"
                                     <?= isset($code_project_id) && $item['id'] == $code_project_id ? 'selected' : '' ?>>
-                                    <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
+                                    <?= HtmlHelper::getLangItem($item, 'name', $lang) ?>
                                 </option>
                             <?php }
                         } ?>
@@ -60,6 +61,7 @@ $identifier = $shortid->generate();
                     <div class="tab-button-wrap">
                         <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
                         <a class="button en" onclick="clickTab(this,'en')">English</a>
+                        <a class="button jp" onclick="clickTab(this,'jp')">日本語</a>
                     </div>
                     <div class="tab-wrap ko active">
                         <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
@@ -85,20 +87,32 @@ $identifier = $shortid->generate();
                             <div id="editor-en" class="quill-editor"></div>
                         </div>
                     </div>
+                    <div class="tab-wrap jp">
+                        <input hidden type="text" name="identifier" class="editable" value="<?= $identifier ?>"/>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.title') ?></p>
+                            <input type="text" name="title_jp" class="editable under-line"
+                                   value="<?= $data['title_jp'] ?>"/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.content') ?></p>
+                            <div id="editor-jp" class="quill-editor"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.project_image') ?> (268 X 318)</p>
-                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null) ?>
+                    <?= HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null) ?>
                 </div>
                 <div class="input-uploader-wrap">
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.project_background') ?> (1500 X 300)</p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null) ?>
+                        <?= HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null) ?>
                     </div>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.project_background') ?> (<?= lang('Service.mobile') ?>) (840 X 300)</p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null) ?>
+                        <?= HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null) ?>
                     </div>
                 </div>
                 <div class="line"></div>
@@ -107,7 +121,7 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('Service.date') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('start_date')">
                         <input class="editable" name="start_date"
-                               value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
+                               value="<?= HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
                                readonly>
                     </a>
                 </div>
@@ -115,14 +129,14 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('Service.hour') ?></p>
                     <select class="editable" name="start_hour"
                             value="<?= $data['start_hour'] ?? '' ?>">
-                        <?= \App\Helpers\HtmlHelper::getHourOptions($data['start_hour'] ?? null) ?>
+                        <?= HtmlHelper::getHourOptions($data['start_hour'] ?? null) ?>
                     </select>
                 </div>
                 <div class="input-wrap column calendar-time">
                     <p class="input-title"><?= lang('Service.minute') ?></p>
                     <select class="editable" name="start_minute"
                             value="<?= $data['start_minute'] ?? '' ?>">
-                        <?= \App\Helpers\HtmlHelper::getMinuteOptions($data['start_minute'] ?? null) ?>
+                        <?= HtmlHelper::getMinuteOptions($data['start_minute'] ?? null) ?>
                     </select>
                 </div>
                 <p class="input-description"><?= lang('Service.end_date') ?></p>
@@ -130,7 +144,7 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('Service.date') ?></p>
                     <a class="button" href="javascript:openCalendarPopup('end_date')">
                         <input class="editable" name="end_date"
-                               value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>"
+                               value="<?= HtmlHelper::toDateString($data['end_date'] ?? null) ?>"
                                readonly>
                     </a>
                 </div>
@@ -138,14 +152,14 @@ $identifier = $shortid->generate();
                     <p class="input-title"><?= lang('Service.hour') ?></p>
                     <select class="editable" name="end_hour"
                             value="<?= $data['end_hour'] ?? '' ?>">
-                        <?= \App\Helpers\HtmlHelper::getHourOptions($data['end_hour'] ?? null) ?>
+                        <?= HtmlHelper::getHourOptions($data['end_hour'] ?? null) ?>
                     </select>
                 </div>
                 <div class="input-wrap column calendar-time">
                     <p class="input-title"><?= lang('Service.minute') ?></p>
                     <select class="editable" name="end_minute"
                             value="<?= $data['end_minute'] ?? '' ?>">
-                        <?= \App\Helpers\HtmlHelper::getMinuteOptions($data['end_minute'] ?? null) ?>
+                        <?= HtmlHelper::getMinuteOptions($data['end_minute'] ?? null) ?>
                     </select>
                 </div>
                 <div class="line"></div>
@@ -187,7 +201,7 @@ $identifier = $shortid->generate();
         </div>
     </div>
     <script type="text/javascript">
-        let quillKo, quillEn
+        let quillKo, quillEn, quillJp
         $(document).ready(function () {
             <?php if($type != 'create') {?>
             loadArtist(<?=$data['id']?>)
@@ -212,5 +226,7 @@ $identifier = $shortid->generate();
             quillKo.setContents(quillKo.clipboard.convert({html: `<?= $data['content']?>`}));
             quillEn = new Quill('#editor-en', quillOption);
             quillEn.setContents(quillKo.clipboard.convert({html: `<?= $data['content_en']?>`}));
+            quillJp = new Quill('#editor-jp', quillOption);
+            quillJp.setContents(quillKo.clipboard.convert({html: `<?= $data['content_jp']?>`}));
         });
     </script>

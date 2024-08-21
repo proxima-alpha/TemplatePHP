@@ -276,7 +276,7 @@ function getProjectSlickItemHtml(target, isEditable = false) {
             <div class="slick-item draggable-item upload-item" draggable="true">
                     <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                     <div class="text-item-wrap">
-                        <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
+                        <p class="item-title">${getLangItem(extra, 'title', language)}</p>
                         <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
                     </div>
                 <input hidden type="text" name="id" value="${id}">
@@ -292,7 +292,7 @@ function getProjectSlickItemHtml(target, isEditable = false) {
             <div class="slick-item">
                 <div class="image-item-wrap"><div class="image-item" style="background: url('/file/${extra['image_id']}') no-repeat center; background-size: cover; font-size: 0;"></div></div>
                 <div class="text-item-wrap">
-                    <p class="item-title">${language == 'ko' ? extra['title'] : extra['title_en']}</p>
+                    <p class="item-title">${getLangItem(extra, 'title', language)}</p>
                     <p class="item-date">${toDateString(extra['start_date'])} ~ ${toDateString(extra['end_date'])}</p>
                 </div>
             </div>`;

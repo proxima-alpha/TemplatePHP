@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -13,7 +18,7 @@
                     </a>
                 </div>
             <?php }
-            if (\App\Helpers\HtmlHelper::showDataEmpty($array)) {
+            if (HtmlHelper::showDataEmpty($array)) {
                 $index = 0;
                 foreach ($array as $index => $item) { ?>
                     <div class="grid-item button" onclick="openTopicPopup(<?= $item['id'] ?>)">
@@ -31,6 +36,6 @@
             } ?>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>

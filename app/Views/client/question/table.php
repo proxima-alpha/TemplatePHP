@@ -1,5 +1,8 @@
 <?php
 
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations(['inquiry', 'request_comment']);
 $is_admin_page = isset($is_admin) && $is_admin;
 ?>
 <div class="container-inner">
@@ -18,7 +21,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                if (HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column questioner"><?= lang('Service.questioner') ?></span>
@@ -52,9 +55,7 @@ $is_admin_page = isset($is_admin) && $is_admin;
             </div>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
-<?= \App\Helpers\HtmlHelper::setTranslations([
-    'inquiry', 'request_comment']); ?>
 

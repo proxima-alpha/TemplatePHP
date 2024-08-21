@@ -23,9 +23,9 @@ class PurchaseItemRewardModel extends BaseModel
      */
     public function get($condition = null, $limit = null, $order = 'DESC'): array
     {
-        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en,
+        $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en, code_reward_request.name_jp AS reward_request_name_jp,
              purchase.user_id AS user_id, user.name AS user_name,
-             artist.name AS artist_name, artist.name_en AS artist_name_en,
+             artist.name AS artist_name, artist.name_en AS artist_name_en, artist.name_jp AS artist_name_jp,
              purchase_item_reward.status, purchase_item_reward.id, reward_file.id AS reward_file_id, reward_file.poster AS reward_file_poster FROM purchase_item_reward" .
             " LEFT JOIN artist ON artist.id = purchase_item_reward.artist_id" .
             " LEFT JOIN purchase_item ON purchase_item.id = purchase_item_reward.purchase_item_id" .

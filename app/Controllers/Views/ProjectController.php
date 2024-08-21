@@ -53,7 +53,7 @@ class ProjectController extends BaseClientController
                     . view('/client/project/blocked', $data)
                     . parent::loadFooter();
             }
-            $guide = $this->settingModel->findByCode(['guide-how-to-use-' . $data['lang']]);
+            $guide = $this->settingModel->findByCode(['guide-how-to-use_' . $data['lang']]);
             $data = array_merge($data, [
                 'guide' => $guide['value'] ?? '',
             ]);

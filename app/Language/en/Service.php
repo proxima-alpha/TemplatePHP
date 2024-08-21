@@ -41,6 +41,7 @@ return [
     "code" => "Code",
     "name" => "Name",
     "name_en" => "Name(English)",
+    "name_jp" => "Name(Japanese)",
     "title" => "Title",
     "type" => "Type",
     "alias" => "Alias",

@@ -230,7 +230,7 @@ slider 페이지
     border: 1px solid #E2E8F0;
     overflow: hidden;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 .content-item .image-item-wrap {
@@ -267,6 +267,7 @@ slider 페이지
     line-height: 20px;
     font-weight: 400;
     text-align: left;
+    white-space: nowrap;
     color: #fff;
 }
 

@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -18,7 +23,7 @@
                 <div class="content"><?= $data['content'] ?></div>
             </div>
             <div class="slider-box">
-                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('topic', $data['files'] ?? null) ?>
+                <?= HtmlHelper::getMultiMediaUploader('topic', $data['files'] ?? null) ?>
             </div>
             <?php if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>
                 <div class="control-button-wrap">
@@ -43,8 +48,8 @@
     </div>
     <?php
     if ($board['is_reply'] == 1) {
-        \App\Helpers\HtmlHelper::setTranslations(['send']);
-        echo \App\Helpers\HtmlHelper::getReply($data['id'], $reply);
+        HtmlHelper::setTranslations(['send']);
+        echo HtmlHelper::getReply($data['id'], $reply);
     }
     ?>
 </div>

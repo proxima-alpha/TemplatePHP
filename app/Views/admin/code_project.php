@@ -1,5 +1,7 @@
 <?php
 
+use App\Helpers\HtmlHelper;
+
 ?>
 <div class="container-inner code-artist code">
     <div class="container-wrap">
@@ -20,12 +22,13 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                if (HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column code"><?= lang('Service.code') ?></span>
                             <span class="column name"><?= lang('Service.name') ?></span>
                             <span class="column name-en"><?= lang('Service.name_en') ?></span>
+                            <span class="column name-jp"><?= lang('Service.name_jp') ?></span>
                         </div>
                     </div>
                     <ul class="code-artist">
@@ -36,6 +39,7 @@
                                     <span class="column code"><?= $item['code'] ?></span>
                                     <span class="column name"><?= $item['name'] ?></span>
                                     <span class="column name-en"><?= $item['name_en'] ?></span>
+                                    <span class="column name-jp"><?= $item['name_jp'] ?></span>
                                 </a>
                             </li>
                         <?php } ?>
@@ -76,6 +80,10 @@
                 name_en: {
                     type: 'text',
                     name: `<?=lang('Service.name_en')?>`,
+                },
+                name_jp: {
+                    type: 'text',
+                    name: `<?=lang('Service.name_jp')?>`,
                 },
             }
             let keys = Object.keys(typeSet);

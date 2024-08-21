@@ -1,6 +1,8 @@
 <?php
 
-\App\Helpers\HtmlHelper::setTranslations([
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations([
     'title',
     'content',
     'price',
@@ -22,7 +24,7 @@
                     <p class="input-title"><?= lang('Service.category') ?></p>
                     <select class="editable" name="code_project_id" value="1" disabled>`
                         <option value="1">
-                            <?= $lang == 'ko' ? $data['code_project'] : $data['code_project_en'] ?>
+                            <?= HtmlHelper::getLangItem($data, 'code_project', $lang) ?>
                         </option>
                     </select>
                 </div>
@@ -30,6 +32,7 @@
                     <div class="tab-button-wrap">
                         <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
                         <a class="button en" onclick="clickTab(this,'en')">English</a>
+                        <a class="button jp" onclick="clickTab(this,'jp')">日本語</a>
                     </div>
                     <div class="tab-wrap ko active">
                         <div class="input-wrap">
@@ -54,20 +57,32 @@
                             <div class="quill-html ql-container"><?= $data['content_en'] ?></div>
                         </div>
                     </div>
+                    <div class="tab-wrap jp">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.title') ?></p>
+                            <input type="text" name="title_jp" class="editable under-line"
+                                   value="<?= $data['title_jp'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.content') ?></p>
+                            <div class="quill-html ql-container"><?= $data['content_jp'] ?></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="line"></div>
                 <div class="input-wrap">
                     <p class="input-title"><?= lang('Service.project_image') ?> (268 X 318)</p>
-                    <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null, 'view') ?>
+                    <?= HtmlHelper::getSingleMediaUploader('image', $data['image_file'] ?? null, 'view') ?>
                 </div>
                 <div class="input-uploader-wrap">
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.project_background') ?> (1500 X 300)</p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null, 'view') ?>
+                        <?= HtmlHelper::getSingleMediaUploader('background', $data['background_file'] ?? null, 'view') ?>
                     </div>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.project_background') ?> (<?= lang('Service.mobile') ?>) (840 X 300)</p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null, 'view') ?>
+                        <?= HtmlHelper::getSingleMediaUploader('background_mobile', $data['background_mobile_file'] ?? null, 'view') ?>
                     </div>
                 </div>
                 <div class="line"></div>
@@ -75,7 +90,7 @@
                 <div class="input-wrap column calendar">
                     <p class="input-title"><?= lang('Service.date') ?></p>
                     <input class="editable" name="start_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
+                           value="<?= HtmlHelper::toDateString($data['start_date'] ?? null) ?>"
                            readonly>
                 </div>
                 <div class="input-wrap column calendar-time">
@@ -90,7 +105,7 @@
                 <div class="input-wrap column calendar">
                     <p class="input-title"><?= lang('Service.date') ?></p>
                     <input class="editable" name="end_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($data['end_date'] ?? null) ?>"
+                           value="<?= HtmlHelper::toDateString($data['end_date'] ?? null) ?>"
                            readonly>
                 </div>
                 <div class="input-wrap column calendar-time">
@@ -130,7 +145,7 @@
                         <div class="input-wrap artist">
                             <p class="input-title"><?= lang('Service.artist') ?></p>
                             <div class="row-uploader artist"></div>
-                            <!--                            --><?php //= \App\Helpers\HtmlHelper::getArtistRow('artist', $data['artists'], $lang, 'view') ?>
+                            <?php //= HtmlHelper::getArtistRow('artist', $data['artists'], $lang, 'view') ?>
                         </div>
                     <?php }
                     if (isset($data['rewards'])) { ?>

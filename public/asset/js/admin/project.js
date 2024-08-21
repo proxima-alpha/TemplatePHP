@@ -25,7 +25,7 @@ function getRewardRandomItemHtml(index, array, isEditable = true, data = null) {
         html += `
         <div class="input-wrap">
             <input class="editable" type="checkbox" id="${item.id}" name="artist" ${checked} ${option} onchange="onRewardRandomItemChanged(${index}, this)"/>
-            <p class="input-title">${language == 'ko' ? item['name'] : item['name_en']}</p>
+            <p class="input-title">${getLangItem(item, 'name', language)}</p>
         </div>`
     }
     return `
@@ -60,6 +60,7 @@ function getRewardItemHtml(target, index, isEditable = true, data = null) {
             <div class="tab-button-wrap">
                 <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
                 <a class="button en" onclick="clickTab(this,'en')">English</a>
+                <a class="button jp" onclick="clickTab(this,'jp')">日本語</a>
             </div>
             <div class="tab-wrap ko active">
                 <div class="input-wrap">
@@ -81,6 +82,17 @@ function getRewardItemHtml(target, index, isEditable = true, data = null) {
                    <p class="input-title">${lang('content')}</p>
                    <textarea class="editable" name="content_en" onkeydown="resizeInputPopupTextarea(this)"
                              onkeyup="resizeInputPopupTextarea(this)" ${option}>${data?.['content_en'] ?? ''}</textarea>
+               </div>
+            </div>
+            <div class="tab-wrap jp">
+                <div class="input-wrap">
+                    <p class="input-title">${lang('title')}</p>
+                    <input type="text" name="title_jp" class="editable under-line" value="${data?.['title_jp'] ?? ''}" ${option}/>
+                </div>
+               <div class="input-wrap">
+                   <p class="input-title">${lang('content')}</p>
+                   <textarea class="editable" name="content_jp" onkeydown="resizeInputPopupTextarea(this)"
+                             onkeyup="resizeInputPopupTextarea(this)" ${option}>${data?.['content_jp'] ?? ''}</textarea>
                </div>
             </div>
         </div>
@@ -151,15 +163,16 @@ function loadReward(project_id, isEditable = true) {
 }
 
 function getArtistItemHtml(target, index, isEditable = true, data = null) {
+    const language = getCookie('lang')
     let file_url = `/file/${data['image_id']}`
     return `
     <div class="draggable-item row-uploader-item index-${index}" ${isEditable ? 'draggable="true"' : ''}>
         <input hidden type="text" name="id" value="${data['id']}">
         <div class="profile" style=" background: url('${file_url}'); background-size: cover; font-size: 0;"></div>
         <div class="info-wrap">
-            <p class="name">${data['name']}</p>
-            <p>${data['job']}</p>
-            <p>${data['introduction']}</p>
+            <p class="name">${getLangItem(data, 'name', language)}</p>
+            <p>${getLangItem(data, 'job', language)}</p>
+            <p>${getLangItem(data, 'introduction', language)}</p>
         </div>
         ${isEditable ? `<div class="upload-item-hover">
             <a href="javascript:removeRowDraggableItem('${target}', '${index}', '${data['id']}')"
@@ -188,6 +201,7 @@ function loadArtist(project_id, isEditable = true) {
                     id: data.id,
                     name: data.name,
                     name_en: data.name_en,
+                    name_jp: data.name_jp,
                 });
                 $container.append(getArtistItemHtml(target, i, isEditable, array[i]));
             }

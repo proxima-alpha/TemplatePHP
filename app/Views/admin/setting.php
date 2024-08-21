@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner setting">
     <div class="container-wrap">
         <h4 class="page-sub-title">
@@ -5,7 +10,7 @@
         </h4>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array ?? [])) { ?>
+                <?php if (HtmlHelper::showDataEmpty($array ?? [])) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column code"><?= lang('Service.code') ?></span>
@@ -29,7 +34,7 @@
             </div>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination ?? null, $pagination_link ?? null); ?>
+        <?= HtmlHelper::getPagination($pagination ?? null, $pagination_link ?? null); ?>
     </div>
 </div>
 <script type="text/javascript">

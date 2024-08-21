@@ -73,6 +73,17 @@ final class HtmlHelper
             </div>';
     }
 
+    public static function getLangItem($item, $name, $lang)
+    {
+        if (!isset($item)) return null;
+        if ($lang == 'en') {
+            $name .= '_en';
+        } else if ($lang == 'jp') {
+            $name .= '_jp';
+        }
+        return $item[$name] ?? "";
+    }
+
     private static function getDefaultTranslationKeys(): array
     {
         return [
@@ -387,7 +398,7 @@ final class HtmlHelper
                          style="background: url(' . $url . ') no-repeat center; background-size: cover; font-size: 0;"></div>
                 </div>
                 <div class="text-item-wrap">
-                    <p class="item-title">' . ($lang == 'ko' ? $item['title'] : $item['title_en']) . '</p>
+                    <p class="item-title">' . HtmlHelper::getLangItem($item, 'title', $lang) . '</p>
                     <div class="item-date">
                         <p>' . HtmlHelper::toDateString($item['start_date']) . '<br/>' . HtmlHelper::toFullHourString($item['start_date']) . '(KTS)</p>
                         <p class="wave">~</p>

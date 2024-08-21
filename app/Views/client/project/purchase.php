@@ -1,5 +1,8 @@
 <?php
-\App\Helpers\HtmlHelper::setTranslations([
+
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations([
     'reward_purchase_item_01',
     'reward_purchase_item_02',
     'reward_purchase_item_02_1',
@@ -33,6 +36,7 @@
         'code': `<?=$item['code']?>`,
         'name': `<?=$item['name']?>`,
         'name_en': `<?=$item['name_en']?>`,
+        'name_jp': `<?=$item['name_jp']?>`,
     };
     <?php }
     }?>
@@ -44,7 +48,7 @@
                 <h4 class="page-sub-title">
                     <?= lang('Client.datetime') ?>
                 </h4>
-                <p><?= \App\Helpers\HtmlHelper::toDateString($data['start_date']) . ' ~ ' . \App\Helpers\HtmlHelper::toDateString($data['end_date']) ?></p>
+                <p><?= HtmlHelper::toDateString($data['start_date']) . ' ~ ' . HtmlHelper::toDateString($data['end_date']) ?></p>
             </div>
             <div class="stage-box">
                 <div class="step-wrap selected">
@@ -100,10 +104,10 @@
                                      style="background: url('/file/<?= $data['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                                 </div>
                                 <div class="content-wrap">
-                                    <p class="title"><?= $lang == 'ko' ? $data['title'] : $data['title_en'] ?></p>
+                                    <p class="title"><?= HtmlHelper::getLangItem($data, 'title', $lang) ?></p>
                                 </div>
                                 <div
-                                    class="content ql-container"><?= $lang == 'ko' ? $data['content'] : $data['content_en'] ?></div>
+                                    class="content ql-container"><?= HtmlHelper::getLangItem($data, 'content', $lang) ?></div>
                             </div>
                         <?php } ?>
                     </div>

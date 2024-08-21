@@ -4,8 +4,11 @@
 }
 
 .code .column.name {
-    width: 30%;
+    width: 20%;
 }
 .code .column.name-en {
-    width: 30%;
+    width: 20%;
+}
+.code .column.name-jp {
+    width: 20%;
 }

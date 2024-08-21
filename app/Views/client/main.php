@@ -69,7 +69,7 @@ use App\Helpers\HtmlHelper;
                     <div class="content-wrap-inner">
                         <?php foreach ($data['relation'] as $index => $file) { ?>
                             <div class="content-media-item">
-                                <video preload="metadata" muted controlsList="nodownload" poster="<?=$file['poster'] ?? ''?>">
+                                <video preload="metadata" muted controlsList="nodownload" poster="<?= $file['poster'] ?? '' ?>">
                                     <source src="<?= $file['relative_path'] ?>">
                                 </video>
                                 <p class="time-string"><?= HtmlHelper::secToString($file['time']) ?></p>
@@ -107,7 +107,7 @@ use App\Helpers\HtmlHelper;
             if ($data_settings['main-show-' . $code] == 1) { ?>
                 <div class="content-box project artists <?= $code ?>">
                     <h4 class="page-sub-title">
-                        <?= $lang == 'ko' ? $codeItem['code']['name'] : $codeItem['code']['name_en'] ?>
+                        <?= HtmlHelper::getLangItem($codeItem['code'], 'name', $lang) ?>
                     </h4>
                     <?php if (HtmlHelper::showDataEmpty($codeItem['array'] ?? null, 368)) { ?>
                         <div class="scroll-control-button-wrap">
@@ -129,14 +129,19 @@ use App\Helpers\HtmlHelper;
                                                      style="background: url(' <?= $url ?> ') no-repeat center; background-size: cover; font-size: 0;"></div>
                                             </div>
                                             <div class="text-item-wrap">
-                                                <p class="item-title"><?= $lang == 'ko' ? $item['title'] :
-                                                        $item['title_en'] ?></p>
+                                                <p class="item-title"><?= HtmlHelper::getLangItem($item, 'title', $lang) ?></p>
                                                 <div class="item-date">
-                                                    <p><?= HtmlHelper::toDateString($item['start_date'])?><br/>
-                                                        <?= HtmlHelper::toFullHourString($item['start_date'])?> (KTS)</p>
+                                                    <p>
+                                                        <?= HtmlHelper::toDateString($item['start_date']) ?>
+                                                        <br/><?= HtmlHelper::toFullHourString($item['start_date']) ?>
+                                                        (KTS)
+                                                    </p>
                                                     <p class="wave">~</p>
-                                                    <p><?= HtmlHelper::toDateString($item['end_date'])?><br/>
-                                                        <?= HtmlHelper::toFullHourString($item['end_date'])?> (KTS)</p>
+                                                    <p>
+                                                        <?= HtmlHelper::toDateString($item['end_date']) ?>
+                                                        <br/><?= HtmlHelper::toFullHourString($item['end_date']) ?>
+                                                        (KTS)
+                                                    </p>
                                                 </div>
                                             </div>
                                         </a>

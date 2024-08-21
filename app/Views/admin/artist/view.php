@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <div class="artist-wrap">
@@ -6,6 +11,7 @@
                     <div class="tab-button-wrap">
                         <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
                         <a class="button en" onclick="clickTab(this,'en')">English</a>
+                        <a class="button jp" onclick="clickTab(this,'jp')">日本語</a>
                     </div>
                     <div class="tab-wrap ko active">
                         <div class="input-wrap">
@@ -44,18 +50,37 @@
                                       readonly><?= $data['introduction_en'] ?></textarea>
                         </div>
                     </div>
+                    <div class="tab-wrap jp">
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.name') ?></p>
+                            <input type="text" name="name_jp" class="editable under-line"
+                                   value="<?= $data['name_jp'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.job') ?></p>
+                            <input type="text" name="job_jp" class="editable under-line" value="<?= $data['job_jp'] ?>"
+                                   readonly/>
+                        </div>
+                        <div class="input-wrap">
+                            <p class="input-title"><?= lang('Service.introduction') ?></p>
+                            <textarea name="introduction_jp" onkeydown="resizeInputPopupTextarea(this)"
+                                      onkeyup="resizeInputPopupTextarea(this)"
+                                      readonly><?= $data['introduction_jp'] ?></textarea>
+                        </div>
+                    </div>
                 </div>
                 <?php if (isset($data['image_file'])) { ?>
                     <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.profile_image') ?></p>
-                        <?= \App\Helpers\HtmlHelper::getSingleMediaUploader('artist_profile', $data['image_file'] ?? null, 'view') ?>
+                        <?= HtmlHelper::getSingleMediaUploader('artist_profile', $data['image_file'] ?? null, 'view') ?>
                     </div>
                 <?php } ?>
             </div>
             <?php if (isset($data['previews']) && sizeof($data['previews']) > 0) { ?>
                 <div class="slider-box">
                     <p class="title"><?= lang('Service.sample_video') ?> (340 X 610)</p>
-                    <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null) ?>
+                    <?= HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null) ?>
                 </div>
             <?php }
             if ($is_login && ($is_admin || $user_id == $data['user_id'])) { ?>

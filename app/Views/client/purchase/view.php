@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -9,8 +14,8 @@
                      style="background: url('/file/<?= $project['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                 </div>
                 <div class="content-wrap">
-                    <p class="project-title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
-                    <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?></p>
+                    <p class="project-title"><?= HtmlHelper::getLangItem($project, 'title', $lang) ?></p>
+                    <p class="title"><?= HtmlHelper::getLangItem($reward, 'title', $lang) ?></p>
                     <p class="price"><?= number_format($purchase_item['price']) ?> KRW</p>
                 </div>
             </div>
@@ -30,7 +35,7 @@
                 </div>
                 <div class="text-wrap comment">
                     <p class="title"><?= lang('Client.reward_request') ?></p>
-                    <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($purchase_item['inquirer_comment']) ?></p>
+                    <p class="content"><?= HtmlHelper::covertNewline($purchase_item['inquirer_comment']) ?></p>
                 </div>
             </div>
             <div class="line"></div>
@@ -57,7 +62,7 @@
                         <div class="image-item-wrap"
                              style="background: url('<?= $url ?>') no-repeat center; background-size: cover; font-size: 0;"></div>
                         <div class="text-wrap">
-                            <p><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></p>
+                            <p><?= HtmlHelper::getLangItem($item, 'name', $lang) ?></p>
                         </div>
                         <?php if ($item['status'] == 'waiting' || ($item['reward_file_id'])) { ?>
                             <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"

@@ -18,7 +18,7 @@ function getPurchaseItemHtml(index, item) {
     const language = getCookie('lang')
     for (const id in rewardRequests) {
         const code = rewardRequests[id];
-        html += `<option value="${code['id']}">${language == 'ko' ? code['name'] : code['name_en']}</option>`
+        html += `<option value="${code['id']}">${getLangItem(code, 'name', language)}</option>`
     }
     html += `</select>
             </div>
@@ -102,14 +102,14 @@ function getSelectedRewardItemHtml(data) {
     const language = getCookie('lang')
     let html = `
     <div class="reward-wrap">
-        <p class="title">${language == 'ko' ? data['title'] : data['title_en']}</p>`
+        <p class="title">${getLangItem(data, 'title', language)}</p>`
     if (data['type'] === 'all') {
         html += `<p class="type">${lang('reward_type_all')}</p>`
     } else if (data['type'] === 'random' && (data['artists'] ?? null)) {
         let artistString = ''
         let prefix = ''
         for (const artist of data['artists']) {
-            artistString += `${prefix}${language == 'ko' ? artist['name'] : artist['name_en']}`
+            artistString += `${prefix}${getLangItem(artist, 'name', language)}`
             prefix = '/';
         }
         artistString += `(${lang('reward_type_random')})`
@@ -292,7 +292,7 @@ function requestPayment() {
                 pg: data['pg'],
                 pay_method: "card",
                 merchant_uid: response.data['merchant_uid'], // 주문번호
-                name: (language == 'ko' ? selectedReward['title'] : selectedReward['title_en']),
+                name: getLangItem(selectedReward, 'title', language),
                 amount: data['paid'], // 숫자 타입
                 buyer_email: data['purchaser_email'],
                 buyer_name: data['purchaser_name'],

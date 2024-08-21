@@ -1,4 +1,9 @@
-<?= \App\Helpers\HtmlHelper::setTranslations(['refund', 'message_popup_refund', 'select_date']) ?>
+<?php
+
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations(['refund', 'message_popup_refund', 'select_date'])
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -16,7 +21,7 @@
                 <p class="input-title"><?= lang('Service.filter_start_date') ?></p>
                 <a class="button" href="javascript:openCalendarPopup('start_date')">
                     <input class="editable" name="start_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($start_date ?? null) ?>"
+                           value="<?= HtmlHelper::toDateString($start_date ?? null) ?>"
                            readonly>
                 </a>
             </div>
@@ -24,14 +29,14 @@
                 <p class="input-title"><?= lang('Service.filter_end_date') ?></p>
                 <a class="button" href="javascript:openCalendarPopup('end_date')">
                     <input class="editable" name="end_date"
-                           value="<?= \App\Helpers\HtmlHelper::toDateString($end_date ?? null) ?>"
+                           value="<?= HtmlHelper::toDateString($end_date ?? null) ?>"
                            readonly>
                 </a>
             </div>
         </div>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                <?php if (HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column purchase-number"><?= lang('Service.purchase_number') ?></span>
@@ -50,11 +55,11 @@
                                     <span class="column purchase-number"><?= $item['id'] ?></span>
                                     <span class="column name"><?= $item['user_name'] ?></span>
                                     <span
-                                        class="column reward"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></span>
+                                        class="column reward"><?= HtmlHelper::getLangItem($item, 'title', $lang) ?></span>
                                     <span class="column price"><?= number_format($item['price']) ?> KRW</span>
                                     <span class="column status"
                                           style="<?= $item['is_refunded'] == 1 ? 'color:red;' : 'color:green;' ?>"><?= $item['is_refunded'] == 1 ? lang('Service.refunded') : lang('Service.paid') ?></span>
-                                    <span class="column channel"><?= \App\Helpers\HtmlHelper::getPaymentChannel($item['channel']) ?></span>
+                                    <span class="column channel"><?= HtmlHelper::getPaymentChannel($item['channel']) ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>
@@ -63,7 +68,7 @@
                 <?php } ?>
             </div>
         </div>
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
 
@@ -120,7 +125,7 @@
             html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title"><?=lang('Client.reward_reaction')?></p>
-                <input type="text" name="link" class="under-line" readonly value="<?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?>">
+                <input type="text" name="link" class="under-line" readonly value="<?= HtmlHelper::getLangItem($item, 'reward_request_name', $lang) ?>">
             </div>`
             <?php } ?>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\HtmlHelper;
 use Crisu83\ShortId\ShortId;
 
 if ($type == 'create') {
@@ -40,7 +41,7 @@ $identifier = $shortid->generate();
                 <input hidden type="text" name="user_id" class="editable" value="<?= $user_id ?>">
             </div>
             <div class="slider-box">
-                <?= \App\Helpers\HtmlHelper::getMultiMediaUploader('topic', $data['files'] ?? null, 'input', 'image/png,image/jpg') ?>
+                <?= HtmlHelper::getMultiMediaUploader('topic', $data['files'] ?? null, 'input', 'image/png,image/jpg') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>

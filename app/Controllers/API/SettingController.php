@@ -153,12 +153,14 @@ class SettingController extends BaseApiController
 
         try {
             $data = [];
-            $guide_ko = $this->settingModel->findByCode(['guide-how-to-use-ko']);
-            $guide_en = $this->settingModel->findByCode(['guide-how-to-use-en']);
+            $guide_ko = $this->settingModel->findByCode(['guide-how-to-use_ko']);
+            $guide_en = $this->settingModel->findByCode(['guide-how-to-use_en']);
+            $guide_jp = $this->settingModel->findByCode(['guide-how-to-use_jp']);
             $data = array_merge($data, [
                 'how_to_use' => [
-                    'ko' => $guide_ko['value'],
-                    'en' => $guide_en['value'],
+                    'ko' => $guide_ko['value'] ?? '',
+                    'en' => $guide_en['value'] ?? '',
+                    'jp' => $guide_jp['value'] ?? '',
                 ]
             ]);
             $response['success'] = true;
@@ -184,10 +186,13 @@ class SettingController extends BaseApiController
         try {
             if (isset($data['how_to_use'])) {
                 if (isset($data['how_to_use']['ko'])) {
-                    $this->settingModel->put(['code' => 'guide-how-to-use-ko'], ['value' => $data['how_to_use']['ko']]);
+                    $this->settingModel->put(['code' => 'guide-how-to-use_ko'], ['value' => $data['how_to_use']['ko']]);
                 }
                 if (isset($data['how_to_use']['en'])) {
-                    $this->settingModel->put(['code' => 'guide-how-to-use-en'], ['value' => $data['how_to_use']['en']]);
+                    $this->settingModel->put(['code' => 'guide-how-to-use_en'], ['value' => $data['how_to_use']['en']]);
+                }
+                if (isset($data['how_to_use']['jp'])) {
+                    $this->settingModel->put(['code' => 'guide-how-to-use_jp'], ['value' => $data['how_to_use']['jp']]);
                 }
             }
             $response['success'] = true;

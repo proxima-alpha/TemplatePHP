@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -12,8 +17,8 @@
                                  style="background: url('/file/<?= $item['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                             </div>
                             <div class="content-wrap">
-                                <p class="project-title"><?= $lang == 'ko' ? $item['project_title'] : $item['project_title_en'] ?></p>
-                                <p class="title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></p>
+                                <p class="project-title"><?= HtmlHelper::getLangItem($item, 'project_title', $lang) ?></p>
+                                <p class="title"><?= HtmlHelper::getLangItem($item, 'title', $lang) ?></p>
                                 <p class="price"><?= number_format($item['price']) ?> KRW</p>
                             </div>
                             <div class="line"></div>
@@ -44,6 +49,6 @@
             <?php } ?>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>

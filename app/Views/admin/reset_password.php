@@ -1,4 +1,9 @@
-<?= \App\Helpers\HtmlHelper::setTranslations(['message_info_mail', 'username', 'password', 'password_new', 'password_confirm_new', 'verification_code', 'resend']) ?>
+<?php
+
+use App\Helpers\HtmlHelper;
+
+HtmlHelper::setTranslations(['message_info_mail', 'username', 'password', 'password_new', 'password_confirm_new', 'verification_code', 'resend'])
+?>
 <div class="container-inner form-container">
     <div class="container-wrap">
         <h3 class="page-title">

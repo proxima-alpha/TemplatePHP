@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -14,7 +19,7 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                if (HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column name"><?= lang('Service.name') ?></span>
@@ -26,8 +31,8 @@
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
                                 <a href="/admin/artist/<?= $item['id'] ?>/view" class="button row-button">
-                                    <span class="column name"><?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?></span>
-                                    <span class="column job"><?= $lang == 'ko' ? $item['job'] : $item['job_en'] ?></span>
+                                    <span class="column name"><?= HtmlHelper::getLangItem($item, 'name', $lang) ?></span>
+                                    <span class="column job"><?= HtmlHelper::getLangItem($item, 'job', $lang) ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>
@@ -37,6 +42,6 @@
             </div>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>

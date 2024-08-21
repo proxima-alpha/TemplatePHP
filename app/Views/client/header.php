@@ -1,4 +1,7 @@
 <?php
+
+use App\Helpers\HtmlHelper;
+
 $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/custom/logo.svg';
 $favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
 $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
@@ -14,8 +17,8 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
     <meta property="og:title" content="<?= $settings['web-title'] ?? '' ?>"/>
     <meta property="og:description" content="팬과 영상으로 연결되는 소통 플랫폼"/>
     <meta property="og:image" content="<?= $open_graph_url ?>"/>
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="600" />
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="600"/>
     <title><?= $settings['web-title'] ?? '' ?></title>
     <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
 
@@ -42,8 +45,8 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
     ?>
 </head>
 <?php
-\App\Helpers\HtmlHelper::setTranslationsClient();
-\App\Helpers\HtmlHelper::setTranslations([
+HtmlHelper::setTranslationsClient();
+HtmlHelper::setTranslations([
     'message_error_login',
 ], 'Client');
 ?>
@@ -69,6 +72,7 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
                 <select onchange="onLanguageChanged(this)">
                     <option value="ko" <?= $lang == 'ko' ? 'selected' : '' ?>>한국어</option>
                     <option value="en" <?= $lang == 'en' ? 'selected' : '' ?>>English</option>
+                    <option value="jp" <?= $lang == 'jp' ? 'selected' : '' ?>>日本語</option>
                 </select>
                 <ul class="cf">
                     <?php if ($is_login) {
@@ -97,14 +101,15 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
                                 <a <?= "onclick=\"clickClientNavigation(this, '/project/category/" . $item['code'] . "')\"" ?>
                                     href="/project/category/<?= $item['code'] ?>"
                                     class="button lnb-menu">
-                                    <?= $lang == 'ko' ? $item['name'] : $item['name_en'] ?>
+                                    <?= HtmlHelper::getLangItem($item, 'name', $lang) ?>
                                 </a>
                             </li>
                         <?php } ?>
                     </ul>
                 </li>
                 <li>
-                    <a href="<?=$lang == 'ko' ? $settings['main-link-guide-ko'] : $settings['main-link-guide-en']?>" target="_blank" class="button gnb-menu">
+                    <a href="<?= HtmlHelper::getLangItem($settings, 'main-link-guide', $lang) ?>" target="_blank"
+                       class="button gnb-menu">
                         <?= lang('Client.menu_user_guide') ?>
                     </a>
                 </li>

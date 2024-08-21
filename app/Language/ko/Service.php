@@ -41,6 +41,7 @@ return [
     "code" => "코드",
     "name" => "이름",
     "name_en" => "이름(영문)",
+    "name_jp" => "이름(일본어)",
     "title" => "제목",
     "type" => "유형",
     "alias" => "명칭",

@@ -103,7 +103,7 @@ async function openProjectSearchPopup(target, array, pagination, assignCheckFiel
                 <li class="row">
                     <a class="button row-button item-${item['id']} ${(assignCheckFieldName && item[assignCheckFieldName] == 1)? 'assigned' : ''}" href="javascript:onSearchProjectSelected('${className}', '${target}', ${item['id']});">
                         <span class="column status">${item['status']}</span>
-                        <span class="column title">${language == 'ko' ? item['title'] : item['title_en']}</span>
+                        <span class="column title">${getLangItem(item, 'title', language)}</span>
                         ${assignCheckFieldName ? `<span class="column assigned">${item[assignCheckFieldName] == 1 ? lang('assigned') : ''}</span>` : ''}
                     </a>
                 </li>`

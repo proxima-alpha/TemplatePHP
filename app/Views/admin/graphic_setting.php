@@ -1,11 +1,12 @@
 <?php
 
+use App\Helpers\HtmlHelper;
 use Crisu83\ShortId\ShortId;
 
 $shortid = ShortId::create();
 $identifier = $shortid->generate();
 
-\App\Helpers\HtmlHelper::setTranslations([
+HtmlHelper::setTranslations([
     'message_info_drag',
     'category',
     'title',
@@ -111,7 +112,7 @@ $identifier = $shortid->generate();
         <?php foreach ($data['project_code'] as $code) { ?>
             <div class="content-box item-selector <?= $code['code'] ?>">
                 <h4 class="page-sub-title">
-                    <?= $lang == 'ko' ? $code['name'] : $code['name_en'] ?>
+                    <?= HtmlHelper::getLangItem($code, 'name', $lang) ?>
                 </h4>
                 <div class="input-wrap inline">
                     <input type="checkbox"

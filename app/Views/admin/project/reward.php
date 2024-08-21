@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -9,10 +14,10 @@
                      style="background: url('/file/<?= $project['image_id'] ?> ?>') no-repeat center; background-size: cover; font-size: 0;">
                 </div>
                 <div class="content-wrap">
-                    <p class="title"><?= $lang == 'ko' ? $project['title'] : $project['title_en'] ?></p>
+                    <p class="title"><?= HtmlHelper::getLangItem($project, 'title', $lang) ?></p>
                     <div class="line"></div>
                     <div class="access-url-wrap">
-                        <p class="title"><?=lang('Service.access_url')?></p>
+                        <p class="title"><?= lang('Service.access_url') ?></p>
                         <p class="access-url"><?= $_ENV['app.baseURL'] . '/admin/project/' . $project['access_hash'] . '/reward/1' ?></p>
                     </div>
                 </div>
@@ -34,7 +39,7 @@
         </div>
         <div class="table-box">
             <div class="table-wrap">
-                <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                <?php if (HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column title"><?= lang('Service.title') ?></span>
@@ -52,7 +57,7 @@
                                 <a href="/admin/project/<?= $project['access_hash'] ?>/reward/get/<?= $item['id'] ?>"
                                    class="button row-button">
                                     <span
-                                        class="column title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></span>
+                                        class="column title"><?= HtmlHelper::getLangItem($item, 'title', $lang) ?></span>
                                     <span
                                         class="column remaining-count"><?= ($item['total_count'] - $item['purchased_count']) ?></span>
                                     <span class="column purchased-count"><?= $item['total_paid_count'] ?></span>
@@ -70,6 +75,6 @@
                 <?php } ?>
             </div>
         </div>
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>

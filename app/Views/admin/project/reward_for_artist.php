@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -5,10 +10,10 @@
         </h3>
         <div class="reward-box">
             <div class="reward-wrap">
-                <p class="title"><?= $lang == 'ko' ? $reward['title'] : $reward['title_en'] ?>
+                <p class="title"><?= HtmlHelper::getLangItem($reward, 'title', $lang) ?>
                     (<?= $reward['type'] == 'random' ? lang('Service.reward_type_random') : lang('Service.reward_type_all') ?>
                     )</p>
-                <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($lang == 'ko' ? $reward['content'] : $reward['content_en']) ?></p>
+                <p class="content"><?= HtmlHelper::covertNewline(HtmlHelper::getLangItem($reward, 'content', $lang)) ?></p>
             </div>
             <div class="count-wrap">
                 <div class="count-inner-wrap">
@@ -36,13 +41,13 @@
                     foreach ($artists as $artist) { ?>
                         <a class="button out-line <?= (isset($selected_artist_id) && $selected_artist_id == $artist['id']) ? 'selected' : '' ?>"
                            href="javascript:selectFilterArtist(<?= $artist['id'] ?>)">
-                            <?= $lang == 'ko' ? $artist['name'] : $artist['name_en'] ?>
+                            <?= HtmlHelper::getLangItem($artist, 'name', $lang) ?>
                         </a>
                     <?php }
                 } ?>
             </div>
         </div>
-        <?php if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+        <?php if (HtmlHelper::showDataEmpty($array)) { ?>
             <div class="purchase-item-box">
                 <ul>
                     <?php foreach ($array as $index => $item) { ?>
@@ -51,11 +56,11 @@
                                 <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
                                     <div class="text-wrap">
                                         <p class="title"><?= lang('Service.artist') ?></p>
-                                        <p class="content"><?= $lang == 'ko' ? $item['artist_name'] : $item['artist_name_en'] ?></p>
+                                        <p class="content"><?= HtmlHelper::getLangItem($item, 'artist_name', $lang) ?></p>
                                     </div>
                                     <div class="text-wrap">
                                         <p class="title"><?= lang('Client.reward_reaction') ?></p>
-                                        <p class="content"><?= $lang == 'ko' ? $item['reward_request_name'] : $item['reward_request_name_en'] ?></p>
+                                        <p class="content"><?= HtmlHelper::getLangItem($item, 'reward_request_name', $lang) ?></p>
                                     </div>
                                     <div class="text-wrap">
                                         <p class="title"><?= lang('Service.is_agreed') ?></p>
@@ -71,7 +76,7 @@
                                     </div>
                                     <div class="text-wrap comment">
                                         <p class="title"><?= lang('Client.reward_request') ?></p>
-                                        <p class="content"><?= \App\Helpers\HtmlHelper::covertNewline($item['inquirer_comment']) ?></p>
+                                        <p class="content"><?= HtmlHelper::covertNewline($item['inquirer_comment']) ?></p>
                                     </div>
                                 </a>
                                 <?php if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
@@ -162,7 +167,7 @@
                 </ul>
             </div>
         <?php } ?>
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
 
@@ -216,12 +221,12 @@
             html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title"><?=lang('Service.artist')?></p>
-                <input type="text" name="artist" class="under-line" readonly value="${(language == 'ko' ? data['artist_name'] : data['artist_name_en']) ?? ""}">
+                <input type="text" name="artist" class="under-line" readonly value="${getLangItem(data, 'artist_name', language) ?? ""}">
             </div>`
             html += `
             <div class="input-wrap inline" style="position: relative;">
                 <p class="input-title"><?=lang('Service.artist')?></p>
-                <input type="text" name="reward_request" class="under-line" readonly value="${language == 'ko' ? data['reward_request_name'] : data['reward_request_name_en']}">
+                <input type="text" name="reward_request" class="under-line" readonly value="${getLangItem(data, 'reward_request_name', language)}">
             </div>`
 
             for (let i in keys) {

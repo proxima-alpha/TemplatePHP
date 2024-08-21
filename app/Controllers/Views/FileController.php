@@ -2,6 +2,7 @@
 
 namespace Views;
 
+use App\Helpers\HtmlHelper;
 use CodeIgniter\HTTP\DownloadResponse;
 use Config\Services;
 use Exception;
@@ -180,7 +181,13 @@ class FileController extends BaseClientController
             }
         }
         $lang = $this->session->lang;
-        $file_name = ($lang == 'ko' ? "결제내역_" : "payment_") . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
+        $file_lang_name = "payment";
+        if($lang == 'ko') {
+            $file_lang_name = "결제내역";
+        } else if($lang =='jp') {
+            $file_lang_name = "決済履歴";
+        }
+        $file_name = $file_lang_name ."_" . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
         $result = $this->purchaseItemModel->get([
             'start_date' => $startDateString,
             'end_date' => $endDateString,
@@ -202,10 +209,10 @@ class FileController extends BaseClientController
             $row = array($i + 1,
                 $item['inquirer_name'],
                 $item['inquirer_email'],
-                $lang == 'ko' ? $item['title'] : $item['title_en'],
+                HtmlHelper::getLangItem($item, 'title', $lang),
                 $item['price'],
                 'KRW',
-                \App\Helpers\HtmlHelper::getPaymentChannel($item['channel']),
+                HtmlHelper::getPaymentChannel($item['channel']),
                 $item['created_at'],
             );
             fputcsv($output, $row);

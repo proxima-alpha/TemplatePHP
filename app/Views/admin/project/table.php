@@ -1,3 +1,8 @@
+<?php
+
+use App\Helpers\HtmlHelper;
+
+?>
 <div class="container-inner">
     <div class="container-wrap">
         <h3 class="page-title">
@@ -14,7 +19,7 @@
                         </a>
                     </div>
                 <?php }
-                if (\App\Helpers\HtmlHelper::showDataEmpty($array)) { ?>
+                if (HtmlHelper::showDataEmpty($array)) { ?>
                     <div class="row-title">
                         <div class="row">
                             <span class="column category"><?= lang('Service.category') ?></span>
@@ -29,11 +34,11 @@
                         <?php foreach ($array as $index => $item) { ?>
                             <li class="row">
                                 <a href="/admin/project/<?= $item['id'] ?>/view" class="button row-button">
-                                    <span class="column category"><?= $lang == 'ko' ? $item['code_project'] : $item['code_project_en'] ?></span>
+                                    <span class="column category"><?= HtmlHelper::getLangItem($item, 'code_project', $lang) ?></span>
                                     <span class="column status"><?= $item['status'] ?></span>
-                                    <span class="column title"><?= $lang == 'ko' ? $item['title'] : $item['title_en'] ?></span>
-                                    <span class="column start-date"><?= \App\Helpers\HtmlHelper::toDateString($item['start_date']) ?></span>
-                                    <span class="column end-date"><?= \App\Helpers\HtmlHelper::toDateString($item['end_date']) ?></span>
+                                    <span class="column title"><?= HtmlHelper::getLangItem($item, 'title', $lang) ?></span>
+                                    <span class="column start-date"><?= HtmlHelper::toDateString($item['start_date']) ?></span>
+                                    <span class="column end-date"><?= HtmlHelper::toDateString($item['end_date']) ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>
@@ -43,6 +48,6 @@
             </div>
         </div>
 
-        <?= \App\Helpers\HtmlHelper::getPagination($pagination, $pagination_link); ?>
+        <?= HtmlHelper::getPagination($pagination, $pagination_link); ?>
     </div>
 </div>
