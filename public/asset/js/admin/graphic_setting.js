@@ -26,7 +26,7 @@ function getAcceptFromTarget(target) {
             accept = 'image/png,image/jpg';
             break;
         case 'relation':
-            accept = 'video/*';
+            accept = 'video/mp4,video/mov';
             break;
     }
     return accept;

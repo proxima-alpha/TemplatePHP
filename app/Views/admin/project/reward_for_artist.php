@@ -88,7 +88,7 @@ use App\Helpers\HtmlHelper;
                                                 <input hidden type="file" name="file"
                                                        id="purchase-<?= $item['id'] ?>-file"
                                                        onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
-                                                       accept="video/mp4"/>
+                                                       accept="video/mp4,video/mov"/>
                                                 <p><?= lang('Service.upload_file') ?></p>
                                             </div>
                                         </div>
@@ -102,7 +102,7 @@ use App\Helpers\HtmlHelper;
                                                 <input hidden type="file" name="file"
                                                        id="purchase-<?= $item['id'] ?>-file"
                                                        onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
-                                                       accept="video/mp4"/>
+                                                       accept="video/mp4,video/mov"/>
                                                 <p><?= isset($item['reward_file_id']) ? lang('Service.reupload_file') :
                                                         (lang('Service.reupload_file') . '</br>' . lang('Service.file_deleted')) ?></p>
                                             </div>

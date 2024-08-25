@@ -176,19 +176,19 @@ class ProjectController extends CustomFileController
                 'rules' => 'required|min_length[1]',
             ],
             'title_en' => [
-                'label' => 'Title',
+                'label' => 'Title(English)',
                 'rules' => 'required|min_length[1]',
             ],
             'content_en' => [
-                'label' => 'Content',
+                'label' => 'Content(English)',
                 'rules' => 'required|min_length[1]',
             ],
             'title_jp' => [
-                'label' => 'Title',
+                'label' => 'Title(Japanese)',
                 'rules' => 'required|min_length[1]',
             ],
             'content_jp' => [
-                'label' => 'Content',
+                'label' => 'Content(Japanese)',
                 'rules' => 'required|min_length[1]',
             ],
             'start_date' => [

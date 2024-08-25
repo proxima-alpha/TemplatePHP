@@ -96,7 +96,7 @@ $identifier = $shortid->generate();
             </div>
             <div class="slider-box">
                 <p class="title"><?= lang('Service.sample_video') ?> (340 X 610)</p>
-                <?= HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4') ?>
+                <?= HtmlHelper::getMultiMediaUploader('artist_preview', $data['previews'] ?? null, 'input', 'video/mp4,video/mov') ?>
                 <div class="info-text-wrap">
                     <?= lang('Service.message_info_drag') ?>
                 </div>

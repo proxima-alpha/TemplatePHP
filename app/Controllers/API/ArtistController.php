@@ -98,7 +98,11 @@ class ArtistController extends CustomFileController
                 'rules' => 'required|min_length[1]',
             ],
             'name_en' => [
-                'label' => 'Name',
+                'label' => 'Name(English)',
+                'rules' => 'required|min_length[1]',
+            ],
+            'name_jp' => [
+                'label' => 'Name(Japanese)',
                 'rules' => 'required|min_length[1]',
             ],
             'introduction' => [
@@ -106,7 +110,11 @@ class ArtistController extends CustomFileController
                 'rules' => 'required|min_length[1]',
             ],
             'introduction_en' => [
-                'label' => 'Introduction',
+                'label' => 'Introduction(English)',
+                'rules' => 'required|min_length[1]',
+            ],
+            'introduction_jp' => [
+                'label' => 'Introduction(Japanese)',
                 'rules' => 'required|min_length[1]',
             ],
             'job' => [
@@ -114,7 +122,11 @@ class ArtistController extends CustomFileController
                 'rules' => 'required|min_length[1]',
             ],
             'job_en' => [
-                'label' => 'Job',
+                'label' => 'Job(English)',
+                'rules' => 'required|min_length[1]',
+            ],
+            'job_jp' => [
+                'label' => 'Job(Japanese)',
                 'rules' => 'required|min_length[1]',
             ],
         ];
