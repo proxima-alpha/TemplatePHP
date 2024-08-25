@@ -6,10 +6,13 @@ use Crisu83\ShortId\ShortId;
 if ($type == 'create') {
     $data['name'] = '';
     $data['name_en'] = '';
+    $data['name_jp'] = '';
     $data['job'] = '';
     $data['job_en'] = '';
+    $data['job_jp'] = '';
     $data['introduction'] = '';
     $data['introduction_en'] = '';
+    $data['introduction_jp'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();

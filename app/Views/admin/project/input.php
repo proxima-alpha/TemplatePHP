@@ -20,8 +20,10 @@ HtmlHelper::setTranslations([
 if ($type == 'create') {
     $data['title'] = '';
     $data['title_en'] = '';
+    $data['title_jp'] = '';
     $data['content'] = '';
     $data['content_en'] = '';
+    $data['content_jp'] = '';
 }
 $shortid = ShortId::create();
 $identifier = $shortid->generate();

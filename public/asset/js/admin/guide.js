@@ -50,6 +50,9 @@ function confirmSettingEdit(target) {
         if (guideData[target]['quill']['en']) {
             data[target]['en'] = guideData[target]['quill']['en'].getSemanticHTML();
         }
+        if (guideData[target]['quill']['jp']) {
+            data[target]['jp'] = guideData[target]['quill']['jp'].getSemanticHTML();
+        }
     }
     apiRequest({
         type: 'POST',
@@ -76,6 +79,7 @@ function setEditing($parent, target) {
         <div class="tab-button-wrap">
             <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
             <a class="button en" onclick="clickTab(this,'en')">English</a>
+            <a class="button jp" onclick="clickTab(this,'jp')">日本語</a>
         </div>
         <div class="tab-wrap ko active">
             <div class="input-wrap">
@@ -85,6 +89,11 @@ function setEditing($parent, target) {
         <div class="tab-wrap en">
             <div class="input-wrap">
                 <div id="editor-en" class="quill-editor"></div>
+            </div>
+        </div>
+        <div class="tab-wrap jp">
+            <div class="input-wrap">
+                <div id="editor-jp" class="quill-editor"></div>
             </div>
         </div>
     </div>`);
@@ -102,7 +111,7 @@ function setEditing($parent, target) {
         <img src="/asset/images/icon/check.png"/>
         <span>${lang('confirm')}</span>
     </a>`)
-    let quillKo, quillEn
+    let quillKo, quillEn, quillJp
     const quillOption = {
         modules: {
             toolbar: [
@@ -121,10 +130,13 @@ function setEditing($parent, target) {
     quillKo = new Quill('#editor-ko', quillOption);
     quillKo.setContents(quillKo.clipboard.convert({html: guideData['how_to_use']['ko']}));
     quillEn = new Quill('#editor-en', quillOption);
-    quillEn.setContents(quillKo.clipboard.convert({html: guideData['how_to_use']['en']}));
+    quillEn.setContents(quillEn.clipboard.convert({html: guideData['how_to_use']['en']}));
+    quillJp = new Quill('#editor-jp', quillOption);
+    quillJp.setContents(quillJp.clipboard.convert({html: guideData['how_to_use']['jp']}));
     guideData['how_to_use']['quill'] = {
         ko: quillKo,
         en: quillEn,
+        jp: quillJp,
     }
 }
 
@@ -135,6 +147,7 @@ function setView($parent, target) {
         <div class="tab-button-wrap">
             <a class="button ko active" onclick="clickTab(this,'ko')">한국어</a>
             <a class="button en" onclick="clickTab(this,'en')">English</a>
+            <a class="button jp" onclick="clickTab(this,'jp')">日本語</a>
         </div>
         <div class="tab-wrap ko active">
             <div class="input-wrap">
@@ -144,6 +157,11 @@ function setView($parent, target) {
         <div class="tab-wrap en">
             <div class="input-wrap">
                 <div class="quill-html ql-container">${guideData['how_to_use']['en']}</div>
+            </div>
+        </div>
+        <div class="tab-wrap jp">
+            <div class="input-wrap">
+                <div class="quill-html ql-container">${guideData['how_to_use']['jp']}</div>
             </div>
         </div>
     </div>`);
