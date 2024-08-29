@@ -78,6 +78,7 @@
     flex: 1;
     margin: 0 20px;
 }
+
 .container-inner .artist-box .text-wrap p {
     font-size: 20px;
     font-weight: 600;
@@ -118,6 +119,7 @@
     font-weight: 400;
     font-size: 16px;
     text-align: left;
+    vertical-align: top;
 }
 
 .container-inner .text-wrap .content {
@@ -127,7 +129,11 @@
     text-align: right;
 }
 
-.container-inner .text-wrap.comment .content {
+#container p.content {
+    word-break: normal;
+}
+
+#container .container-inner .text-wrap.comment .content {
     min-height: 100px;
 }
 
