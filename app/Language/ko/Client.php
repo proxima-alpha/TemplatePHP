@@ -114,7 +114,7 @@ return [
 
     "company_info_name" => '(주)쿠즈',
     "company_info_ceo_name" => '송은혁',
-    "company_info_cs_center" => '010-3304-5446(평일 10:00~19:00)',
+    "company_info_cs_center" => '070-8065-0214(평일 10:00~19:00)',
     "company_info_company_number" => '208-86-02907',
     "company_info_certification_number" => '제 2024-서울서대문-0699호',
     "company_info_address" => '서울 서대문구 연세로2다길 11-3,1동 3층 301호',

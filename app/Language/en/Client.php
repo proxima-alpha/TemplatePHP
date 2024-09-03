@@ -113,7 +113,7 @@ return [
 
     "company_info_name" => 'Koods Co., Ltd.',
     "company_info_ceo_name" => 'Song Eunhyuk',
-    "company_info_cs_center" => '010-3304-5446(in weekday 10:00~19:00)',
+    "company_info_cs_center" => '070-8065-0214(in weekday 10:00~19:00)',
     "company_info_company_number" => '208-86-02907',
     "company_info_certification_number" => '제 2024-서울서대문-0699호',
     "company_info_address" => '11-3, Yonsei-ro 2da-gil, Seodaemun-gu, Seoul, Building 1, FL 3, RM 301',
