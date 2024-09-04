@@ -381,6 +381,10 @@ input[type=checkbox] {
     text-align: left;
 }
 
+#container .quill-html p, #container .quill-html span{
+    word-break: normal;
+}
+
 .ql-container * {
     min-height: 20px;
     margin: 5px 0;

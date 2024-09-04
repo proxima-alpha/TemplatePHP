@@ -213,12 +213,14 @@ $identifier = $shortid->generate();
                 modules: {
                     toolbar: [
                         [{header: [1, 2, false]}],
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
                         ['bold', 'italic', 'underline'],
                         ['image'],
                         [{'list': 'ordered'}, {'list': 'bullet'}],
                         [{'indent': '-1'}, {'indent': '+1'}],
-                        [{'color': []}, {'background': []},],
+                        [{'color': []}, {'background': []}],
                         [{'align': []}],
+                        ['clean'],
                     ],
                 },
                 theme: 'snow', // or 'bubble'
