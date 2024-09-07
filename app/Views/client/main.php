@@ -134,13 +134,13 @@ use App\Helpers\HtmlHelper;
                                                     <p>
                                                         <?= HtmlHelper::toDateString($item['start_date']) ?>
                                                         <br/><?= HtmlHelper::toFullHourString($item['start_date']) ?>
-                                                        (KTS)
+                                                        (KST)
                                                     </p>
                                                     <p class="wave">~</p>
                                                     <p>
                                                         <?= HtmlHelper::toDateString($item['end_date']) ?>
                                                         <br/><?= HtmlHelper::toFullHourString($item['end_date']) ?>
-                                                        (KTS)
+                                                        (KST)
                                                     </p>
                                                 </div>
                                             </div>

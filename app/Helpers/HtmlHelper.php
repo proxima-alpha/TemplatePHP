@@ -400,9 +400,9 @@ final class HtmlHelper
                 <div class="text-item-wrap">
                     <p class="item-title">' . HtmlHelper::getLangItem($item, 'title', $lang) . '</p>
                     <div class="item-date">
-                        <p>' . HtmlHelper::toDateString($item['start_date']) . '<br/>' . HtmlHelper::toFullHourString($item['start_date']) . '(KTS)</p>
+                        <p>' . HtmlHelper::toDateString($item['start_date']) . '<br/>' . HtmlHelper::toFullHourString($item['start_date']) . '(KST)</p>
                         <p class="wave">~</p>
-                        <p>' . HtmlHelper::toDateString($item['end_date']) . '<br/>' . HtmlHelper::toFullHourString($item['end_date']) . '(KTS)</p>
+                        <p>' . HtmlHelper::toDateString($item['end_date']) . '<br/>' . HtmlHelper::toFullHourString($item['end_date']) . '(KST)</p>
                     </div>
                 </div>
             </a>
