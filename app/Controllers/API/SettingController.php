@@ -98,6 +98,44 @@ class SettingController extends BaseApiController
         return $this->typicallyDelete($this->settingModel, $id);
     }
 
+    /**
+     * [get] /api/setting/graphic-setting/{target}
+     * @return ResponseInterface
+     */
+    public function getGraphicSettingByTarget(string $target): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $data = [];
+            // priority 때문에 따로조회
+            switch ($target) {
+                case 'main':
+                    $data = $this->customFileModel->get(['target' => 'main']);
+                    break;
+                case 'main_mobile':
+                    $data = $this->customFileModel->get(['target' => 'main_mobile']);
+                    break;
+                case 'relation':
+                    $data = $this->customFileModel->get(['target' => 'relation']);
+                    break;
+                case 'project_popular':
+                    $data = $this->projectModel->get(['is_posted_popular' => 1, 'status' => 'open'], null, true);
+                    break;
+                default:
+                    $data = $this->projectModel->get(['is_posted' => 1, 'code_project.code'=> $target], null, true);
+
+            }
+            $response['success'] = true;
+            $response['data'] = $data;
+        } catch (Exception $e) {
+            //todo(log)
+            $response['message'] = $e->getMessage();
+        }
+        return $this->response->setJSON($response);
+    }
 
     /**
      * [get] /api/setting/graphic-setting

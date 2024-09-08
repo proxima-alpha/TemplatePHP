@@ -172,6 +172,7 @@ $routes->post('/api/setting/update/' . $ID_RULE, [\API\SettingController::class,
 $routes->post('/api/setting/update', [\API\SettingController::class, 'updateWithCode']);
 $routes->delete('/api/setting/delete/' . $ID_RULE, [\API\SettingController::class, 'deleteSetting']);
 $routes->get('/api/setting/graphic-setting', [\API\SettingController::class, 'getGraphicSettings']);
+$routes->get('/api/setting/graphic-setting/'.$CODE_RULE, [\API\SettingController::class, 'getGraphicSettingByTarget']);
 $routes->get('/api/setting/guide', [\API\SettingController::class, 'getGuide']);
 $routes->post('/api/setting/guide', [\API\SettingController::class, 'setGuide']);
 

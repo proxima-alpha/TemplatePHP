@@ -49,11 +49,17 @@ let uploadData = {
         this.extras = {};
         this.identifiers = {};
     },
-    clearItems() {
-        for (const key in this.ids) {
+    clearItems(key) {
+        if(key) {
             this.ids[key] = [];
             this.extras[key] = [];
             this.identifiers[key] = [];
+        } else {
+            for (const key in this.ids) {
+                this.ids[key] = [];
+                this.extras[key] = [];
+                this.identifiers[key] = [];
+            }
         }
     },
     getIdentifier(key) {

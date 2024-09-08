@@ -1,6 +1,11 @@
 $(document).ready(function () {
     refresh(() => {
-        refreshSetting()
+        let targets = uploadData.getKeys();
+        for (let i in targets) {
+            setSettingView(targets[i])
+        }
+
+        setPosterForVideo($('video'));
     });
     $('body').setOnResolutionChanged((event) => {
         try {
@@ -40,21 +45,20 @@ function editSetting(target) {
 
     $parent.addClass('editing')
 
-    refreshSetting();
+    setSettingView(target);
 }
 
-function refresh(callback) {
+function refresh(callback, target) {
     apiRequest({
         type: 'GET',
-        url: `/api/setting/graphic-setting`,
+        url: `/api/setting/graphic-setting${target ? `/${target}` : ''}`,
         dataType: 'json',
         success: function (response, status, request) {
             if (!response.success) return;
             let data = response.data;
 
-            uploadData.clearItems();
-            for (let key in data) {
-                let array = data[key]
+            function refreshData(data, key) {
+                let array = data
                 uploadData.checkEmpty(key)
                 for (let i in array) {
                     const item = array[i];
@@ -80,6 +84,16 @@ function refresh(callback) {
                     }
                 }
             }
+
+            if (!target) {
+                uploadData.clearItems();
+                for (let key in data) {
+                    refreshData(data[key], key);
+                }
+            } else {
+                uploadData.clearItems(target);
+                refreshData(data, target);
+            }
             if (callback && typeof callback == 'function') callback();
         },
         error: function (response, status, error) {
@@ -91,8 +105,9 @@ function refreshViews(target) {
     refresh(() => {
         let $parent = $(`.content-box.${target}`)
         $parent.removeClass('editing')
-        refreshSetting()
-    })
+        setSettingView(target)
+        setPosterForVideo($parent.find('video'));
+    }, target)
 }
 
 function cancelSettingEdit(target) {
@@ -498,28 +513,20 @@ function setView($parent, target) {
     </a>`)
 }
 
-function refreshSetting() {
-    let refresh = (target) => {
-        if (isEmpty(target)) return;
-        let $parent = $(`.content-box.${target}`)
-        if ($parent.length == 0) return;
-        let $container = $parent.find(`.content-wrap`);
-        $container.empty()
+function setSettingView(target) {
+    if (isEmpty(target)) return;
+    let $parent = $(`.content-box.${target}`)
+    if ($parent.length == 0) return;
+    let $container = $parent.find(`.content-wrap`);
+    $container.empty()
 
-        if ($parent.hasClass('editing')) {
-            setEditing($parent, target)
-        } else {
-            setView($parent, target)
-        }
+    if ($parent.hasClass('editing')) {
+        setEditing($parent, target)
+    } else {
+        setView($parent, target)
     }
-
-    let targets = uploadData.getKeys();
-    for (let i in targets) {
-        refresh(targets[i])
-    }
-
-    setPosterForVideo($('video'));
 }
+
 
 // override
 

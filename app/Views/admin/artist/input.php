@@ -134,7 +134,7 @@ $identifier = $shortid->generate();
 
     function confirmCreateArtist() {
         let data = parseInputToData($(`.artist-wrap .form-wrap .editable`))
-        data['artist_preview'] = uploadData.get('artist_preview');
+        data['previews'] = uploadData.get('artist_preview');
         data['image_id'] = uploadData.get('image');
 
         apiRequest({
