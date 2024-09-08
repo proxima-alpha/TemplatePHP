@@ -30,10 +30,12 @@ class LoginController extends BaseClientController
         $data = array_merge($data, $queryParams);
         try {
             $kakaoAppKey = $this->settingModel->getInitialValue(['code' => 'kakao-appkey'], 'value');
+            $kakaoRestApiKey = $this->settingModel->getInitialValue(['code' => 'kakao-restapikey'], 'value');
             $naverClientId = $this->settingModel->getInitialValue(['code' => 'naver-client-id'], 'value');
             $googleClientId = $this->settingModel->getInitialValue(['code' => 'google-client-id'], 'value');
             $data = array_merge($data, [
                 'kakaoAppKey' => $kakaoAppKey,
+                'kakaoRestApiKey' => $kakaoRestApiKey,
                 'naverClientId' => $naverClientId,
                 'googleClientId' => $googleClientId,
             ]);

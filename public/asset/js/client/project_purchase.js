@@ -174,6 +174,7 @@ function onCountChange(element) {
     }
     if (count > availableCount) {
         $(element).val(availableCount);
+        openPopupMessage(lang("message_error_exceed"))
         return;
     }
     purchaseItemsCount = count;

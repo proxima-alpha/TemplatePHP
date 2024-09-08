@@ -22,6 +22,7 @@ HtmlHelper::setTranslations([
     'reward_now_stock_string',
     'reward_limited_count_string',
     'reward_available_count_string',
+    'message_error_exceed',
     'purchase',
     'available_count'
 ], 'Client');

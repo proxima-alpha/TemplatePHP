@@ -133,7 +133,7 @@ function autoLogin(className, channel = 'kakao', channel_id, email, name) {
         success: function (response, status, request) {
             if (!response.success) {
                 if (response.message == 'user is not registered.') {
-                    location.href = `/registration?email=${email}&name=${name}&channel=${channel}&channel_id=${channel_id}`
+                    location.href = `/registration?email=${email}&name=${name??''}&channel=${channel}&channel_id=${channel_id}`
                 } else {
                     showErrorsByClassName(className, response, status, request);
                 }

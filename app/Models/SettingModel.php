@@ -50,6 +50,11 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "카카오 APPKEY",
         ]);
+        $this->createIfNotExist(['code' => 'kakao-restapikey'], [
+            "code" => "kakao-restapikey",
+            "type" => "text",
+            "name" => "카카오 REST API KEY",
+        ]);
         $this->createIfNotExist(['code' => 'naver-client-id'], [
             "code" => "naver-client-id",
             "type" => "text",

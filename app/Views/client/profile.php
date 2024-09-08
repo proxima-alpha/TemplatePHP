@@ -116,52 +116,73 @@ if (!isset($sub)) $sub = 'view'
 
 <?php if (!isset($kakao_id) && !isset($naver_id) && !isset($google_id)) { ?>
     <script>
-        Kakao.init('<?= $kakaoAppkey ?? '' ?>'); // 사용하려는 앱의 JavaScript 키 입력
+        const redirectUri = "<?=$_ENV['app.baseURL']?>" + "profile";
+        const clientId = '<?= $kakaoRestApiKey ?? '' ?>';
+        Kakao.init(clientId); // 사용하려는 앱의 JavaScript 키 입력
     </script>
 
     <script>
         function loginWithKakao() {
             Kakao.Auth.authorize({
-                redirectUri: 'https://developers.kakao.com/tool/demo/oauth',
+                redirectUri: "<?=$_ENV['app.baseURL']?>" + "profile",
                 scope: 'account_email',
             });
         }
 
-        // 아래는 데모를 위한 UI 코드입니다.
-        displayToken()
+        <?php if(isset($code) && !isset($scope)) {?>
 
         function displayToken() {
-            var token = getCookie('authorize-access-token');
-
-            if (token) {
-                Kakao.Auth.setAccessToken(token);
-                Kakao.Auth.getStatusInfo()
-                    .then(function (res) {
-                        if (res.status === 'connected') {
-                            return Kakao.API.request({
-                                url: '/v2/user/me',
-                                data: {
-                                    property_keys: ['kakao_account.email'],
-                                },
-                            })
+            var code = `<?=$code?>`;
+            if (code && code.length > 0) {
+                let body = {
+                    grant_type: 'authorization_code',
+                    client_id: clientId,
+                    redirect_uri: redirectUri,
+                    code: code
+                }
+                apiRequest({
+                    type: 'POST',
+                    url: `https://kauth.kakao.com/oauth/token`,
+                    headers: {
+                        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                    },
+                    data: body,
+                    dataType: 'json',
+                    success: function (response, status, request) {
+                        if (!response.access_token) {
+                            openPopupErrors('popup-error', response, status, request);
+                            return;
                         }
-                    })
-                    .then(function (response) {
-                        const id = response.id;
-                        updateAutoLogin('kakao', id)
-                    })
-                    .catch(function (err) {
-                        Kakao.Auth.setAccessToken(null);
-                    });
+                        Kakao.Auth.setAccessToken(response.access_token);
+                        Kakao.Auth.getStatusInfo()
+                            .then(function (res) {
+                                if (res.status === 'connected') {
+                                    return Kakao.API.request({
+                                        url: '/v2/user/me',
+                                        data: {
+                                            property_keys: ['kakao_account.email'],
+                                        },
+                                    })
+                                }
+                            })
+                            .then(function (response) {
+                                const id = response.id;
+                                updateAutoLogin('kakao', id)
+                            })
+                            .catch(function (err) {
+                                Kakao.Auth.setAccessToken(null);
+                                return null;
+                            });
+                    },
+                    error: function (response, status, error) {
+                        openPopupErrors('popup-error', response, status, error);
+                    },
+                });
             }
         }
 
-        function getCookie(name) {
-            var parts = document.cookie.split(name + '=');
-            if (parts.length === 2) {
-                return parts[1].split(';')[0];
-            }
-        }
+        displayToken()
+        <?php }?>
     </script>
 
     <script type="text/javascript">
@@ -227,7 +248,7 @@ if (!isset($sub)) $sub = 'view'
             document.body.appendChild(form);
             form.submit();
         }
-        <?php if(isset($code)) {?>
+        <?php if(isset($code) && isset($scope)) {?>
         function getProfile() {
             apiRequest({
                 type: 'POST',
@@ -238,7 +259,6 @@ if (!isset($sub)) $sub = 'view'
                 },
                 dataType: 'json',
                 success: function (response, status, request) {
-                    console.log(response)
                     if (!response.success) {
                         openPopupErrors('popup-error', response, status, request);
                         return;

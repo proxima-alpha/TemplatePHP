@@ -413,10 +413,11 @@ class UserController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             try {
-                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
-                if (sizeof($users) == 0) {
-                    $users = $this->userModel->get(['email' => $data['username'], 'is_deleted' => 0]);
-                }
+                //TODO 원래는 username 기반이어야 함, 추후 롤백 필요
+//                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
+//                if (sizeof($users) == 0) {
+                $users = $this->userModel->get(['email' => $data['username'], 'is_deleted' => 0]);
+//                }
                 if (sizeof($users) == 0) {
                     throw new Exception('user is not registered.');
                 }
