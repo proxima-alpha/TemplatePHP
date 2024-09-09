@@ -80,6 +80,11 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "메일 송신용 지메일 메일주소",
         ]);
+        $this->createIfNotExist(['code' => 'koreaexim-auth-key'], [
+            "code" => "koreaexim-auth-key",
+            "type" => "text",
+            "name" => "한국수출입은행 인증 키",
+        ]);
         $this->createIfNotExist(['code' => 'main-content-text'], [
             "code" => "main-content-text",
             "type" => "long-text",

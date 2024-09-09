@@ -143,6 +143,10 @@
     background: #666;
 }
 
+.container-inner .button-wrap.go-back {
+    text-align: center;
+}
+
 @media (max-width: 840px) {
     .container-inner .container-wrap {
         padding-left: 10px;

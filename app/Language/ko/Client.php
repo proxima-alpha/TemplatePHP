@@ -86,6 +86,7 @@ return [
     "payment_method_select"  => "결제수단 선택",
     "payment_method_nice"  => "나이스페이",
     "payment_method_inicis"  => "KG이니시스",
+    "payment_method_eximbay"  => "엑심베이",
     "payment_expected_price"  => "결제 예정 금액",
     "payment_agreement_string"  => "%s에 동의합니다",
     "payment_agreement"  => "주문정보 및 서비스 이용약관",

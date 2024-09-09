@@ -75,5 +75,9 @@ use App\Helpers\HtmlHelper;
                 <?php }
             } ?>
         </div>
+        <div class="button-wrap go-back">
+            <a class="button button-fill"
+               href="/"><?= lang('Client.project_blocked_next') ?></a>
+        </div>
     </div>
 </div>

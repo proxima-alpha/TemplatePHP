@@ -29,7 +29,6 @@ class GoogleAuthHelper
         $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
         $json = json_decode($json_response, true);
-        ServerLogger::log($json_response);
         if (isset($json['error'])) {
             return false;
         }
