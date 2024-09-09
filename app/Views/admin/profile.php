@@ -10,10 +10,6 @@ if (!isset($sub)) $sub = 'view'
             <div class="form-box">
                 <div class="form-wrap profile">
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.username') ?></p>
-                        <input type="text" name="username" class="under-line" readonly value="<?= $username ?>"/>
-                    </div>
-                    <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.email') ?></p>
                         <input type="text" name="email"
                                class="under-line<?= $user_type == 'admin' ? ' editable' : '' ?>" readonly

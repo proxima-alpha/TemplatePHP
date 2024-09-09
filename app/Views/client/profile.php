@@ -16,10 +16,6 @@ if (!isset($sub)) $sub = 'view'
             <div class="form-box">
                 <div class="form-wrap profile">
                     <div class="input-wrap">
-                        <p class="input-title"><?= lang('Service.username') ?></p>
-                        <input type="text" name="username" class="under-line" readonly value="<?= $username ?>"/>
-                    </div>
-                    <div class="input-wrap">
                         <p class="input-title"><?= lang('Service.email') ?></p>
                         <input type="text" name="email"
                                class="under-line<?= $user_type == 'admin' ? ' editable' : '' ?>" readonly
@@ -34,39 +30,41 @@ if (!isset($sub)) $sub = 'view'
                         <input type="checkbox" name="is_notification" class="editable"
                                disabled <?= $is_notification == 1 ? 'checked' : '' ?>/>
                     </div>
-                    <div class="auto-login-box">
-                        <p class="title"><?= lang('Client.auto_login') ?></p>
-                        <div class="auto-login-wrap">
-                            <?php if (isset($kakao_id)) { ?>
-                                <div>
-                                    <p class="title"><?= lang('Client.auto_login_kakao') ?></p>
+                    <?php if ($sub == 'view') { ?>
+                        <div class="auto-login-box">
+                            <p class="title"><?= lang('Client.auto_login') ?></p>
+                            <div class="auto-login-wrap">
+                                <?php if (isset($kakao_id)) { ?>
+                                    <div>
+                                        <p class="title"><?= lang('Client.auto_login_kakao') ?></p>
+                                        <p><?= lang('Client.auto_login_message_linked') ?></p>
+                                    </div>
+                                <?php } else if (isset($naver_id)) { ?>
+                                    <div>
+                                        <p class="title"><?= lang('Client.auto_login_naver') ?></p>
+                                        <p><?= lang('Client.auto_login_message_linked') ?></p>
+                                    </div>
+                                <?php } else if (isset($google_id)) { ?>
+                                    <p class="title"><?= lang('Client.auto_login_google') ?></p>
                                     <p><?= lang('Client.auto_login_message_linked') ?></p>
-                                </div>
-                            <?php } else if (isset($naver_id)) { ?>
-                                <div>
-                                    <p class="title"><?= lang('Client.auto_login_naver') ?></p>
-                                    <p><?= lang('Client.auto_login_message_linked') ?></p>
-                                </div>
-                            <?php } else if (isset($google_id)) { ?>
-                                <p class="title"><?= lang('Client.auto_login_google') ?></p>
-                                <p><?= lang('Client.auto_login_message_linked') ?></p>
-                            <?php } else { ?>
-                                <p class="title"><?= lang('Client.auto_login_register') ?></p>
-                                <div id="naver_id_login" class="auto-login-button"></div>
-                                <a id="kakao-login-btn" class="auto-login-button"
-                                   href="javascript:loginWithKakao()">
-                                    <img src="/asset/images/custom/login_kakao.png"
-                                         alt="카카오 로그인 버튼"/>
-                                </a>
-                                <a id="google-login-btn" class="auto-login-button" href="javascript:oauthSignIn()">
-                                    <img src="/asset/images/custom/login_google.png"
-                                         alt="구글 로그인 버튼"/>
-                                </a>
-                            <?php } ?>
+                                <?php } else { ?>
+                                    <p class="title"><?= lang('Client.auto_login_register') ?></p>
+                                    <div id="naver_id_login" class="auto-login-button"></div>
+                                    <a id="kakao-login-btn" class="auto-login-button"
+                                       href="javascript:loginWithKakao()">
+                                        <img src="/asset/images/custom/login_kakao.png"
+                                             alt="카카오 로그인 버튼"/>
+                                    </a>
+                                    <a id="google-login-btn" class="auto-login-button" href="javascript:oauthSignIn()">
+                                        <img src="/asset/images/custom/login_google.png"
+                                             alt="구글 로그인 버튼"/>
+                                    </a>
+                                <?php } ?>
+                            </div>
                         </div>
-                    </div>
-                    <div class="error-message-wrap">
-                    </div>
+                        <div class="error-message-wrap">
+                        </div>
+                    <?php } ?>
                     <div class="button-wrap" style="margin-top: 40px">
                         <a href="<?= $is_admin_page ? '/admin/profile?sub=password' : '/profile?sub=password' ?>"
                            class="button change-password button-line"><?= lang('Service.password_reset') ?></a>
@@ -114,7 +112,7 @@ if (!isset($sub)) $sub = 'view'
     </div>
 </div>
 
-<?php if (!isset($kakao_id) && !isset($naver_id) && !isset($google_id)) { ?>
+<?php if ($sub == 'view' && !isset($kakao_id) && !isset($naver_id) && !isset($google_id)) { ?>
     <script>
         const redirectUri = "<?=$_ENV['app.baseURL']?>" + "profile";
         const clientId = '<?= $kakaoRestApiKey ?? '' ?>';

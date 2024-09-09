@@ -35,8 +35,8 @@ async function openPopupLogin() {
             </h3>
             <div class="form-wrap">
                 <div class="input-wrap">
-                    <p class="input-title">${lang('username')}</p>
-                    <input type="text" name="username" class="under-line"/>
+                    <p class="input-title">${lang('email')}</p>
+                    <input type="text" name="email" class="under-line"/>
                 </div>
                 <div class="input-wrap">
                     <p class="input-title">${lang('password')}</p>

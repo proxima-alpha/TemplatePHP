@@ -134,10 +134,6 @@ function confirmVerificationCode(isAdmin = 0) {
 
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').append(`
-            <div class="input-wrap" style="margin-top: 40px">
-                <p class="input-title">${lang('username')}</p>
-                <input type="text" name="username" class="under-line"/>
-            </div>
             <div class="input-wrap">
                 <p class="input-title">${lang('name')}</p>
                 <input type="text" name="name" class="under-line"/>

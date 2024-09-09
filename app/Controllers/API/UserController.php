@@ -226,10 +226,6 @@ class UserController extends BaseApiController
                     'regex_match' => '{field} format is not valid'
                 ],
             ],
-            'username' => [
-                'label' => 'Username',
-                'rules' => 'required|min_length[5]|max_length[50]',
-            ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required|min_length[8]',
@@ -253,10 +249,6 @@ class UserController extends BaseApiController
                 $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                 if (sizeof($users) > 0) {
                     throw new Exception('This email is already in used.');
-                }
-                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
-                if (sizeof($users) > 0) {
-                    throw new Exception('This username is already in used.');
                 }
                 $data['password'] = password_hash($data['password'], '2y', ["cost" => 5]);
                 if (isset($data['channel'])) {
@@ -342,14 +334,10 @@ class UserController extends BaseApiController
         //TODO need to check user is already exist
         $data = $this->request->getPost();
         $validationRules = [
-            'username' => [
-                'label' => 'Username',
-                'rules' => 'required|min_length[1]',
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required',
             ],
-//            'code' => [
-//                'label' => 'Code',
-//                'rules' => 'required',
-//            ],
             'password' => [
                 'label' => 'Password',
                 'rules' => 'required|min_length[8]',
@@ -370,7 +358,7 @@ class UserController extends BaseApiController
                 if ($data['password'] != $data['confirm_password']) {
                     throw new Exception('please check two fields for \'password\' is same.');
                 }
-                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
+                $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
                 if (sizeof($users) == 0) {
                     throw new Exception('user does not exist');
                 }
@@ -396,8 +384,8 @@ class UserController extends BaseApiController
     {
         $data = $this->request->getPost();
         $validationRules = [
-            'username' => [
-                'label' => 'Username',
+            'email' => [
+                'label' => 'Email',
                 'rules' => 'required|min_length[5]|max_length[50]',
             ],
             'password' => [
@@ -416,7 +404,7 @@ class UserController extends BaseApiController
                 //TODO 원래는 username 기반이어야 함, 추후 롤백 필요
 //                $users = $this->userModel->get(['username' => $data['username'], 'is_deleted' => 0]);
 //                if (sizeof($users) == 0) {
-                $users = $this->userModel->get(['email' => $data['username'], 'is_deleted' => 0]);
+                $users = $this->userModel->get(['email' => $data['email'], 'is_deleted' => 0]);
 //                }
                 if (sizeof($users) == 0) {
                     throw new Exception('user is not registered.');
