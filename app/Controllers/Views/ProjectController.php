@@ -2,6 +2,7 @@
 
 namespace Views;
 
+use App\Helpers\ExchangeRateHelper;
 use App\Helpers\IMPHelper;
 use App\Helpers\QueryHelper;
 use App\Helpers\Utils;
@@ -55,7 +56,7 @@ class ProjectController extends BaseClientController
             }
             $guide = $this->settingModel->findByCode(['guide-how-to-use_' . $data['lang']]);
             $data = array_merge($data, [
-                'guide' => $guide['value'] ?? '',
+                'guide' => $guide['value'] ?? ''
             ]);
         } catch (Exception $e) {
             //todo(log)

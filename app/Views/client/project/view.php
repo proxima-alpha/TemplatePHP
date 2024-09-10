@@ -12,8 +12,8 @@ HtmlHelper::setTranslations([
     'reward_limited_count_string',
     'reward_available_count_string',
     'purchase',
-], 'Client');
-if (isset($data['background_id'])) {
+], 'Client'); ?>
+<?php if (isset($data['background_id'])) {
     $hasMobile = isset($data['mobile_background_id']); ?>
     <div class="section background <?= $hasMobile ? 'pc-only' : '' ?>"
          style="background: url('/file/<?= $data['background_id'] ?>') no-repeat center;font-size: 0;background-size: cover;">
@@ -118,7 +118,18 @@ if (isset($data['artists'])) { ?>
     </div>
 </div>
 <script type="text/javascript">
+    let exchangeRate;
     $(document).ready(function () {
+        apiRequest({
+            type: 'GET',
+            url: `/api/exchange-rate`,
+            dataType: 'json',
+            success: function (response, status, request) {
+                exchangeRate = response;
+            },
+            error: function (response, status, error) {
+            },
+        });
         <?php if (isset($data['artists']) && sizeof($data['artists']) > 0) { ?>
         setArtist(<?= $data['id'] ?>, <?=$data['artists'][0]['id']?>)
         <?php } ?>

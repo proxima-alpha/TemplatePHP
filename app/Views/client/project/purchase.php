@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ExchangeRateHelper;
 use App\Helpers\HtmlHelper;
 
 HtmlHelper::setTranslations([
@@ -41,6 +42,7 @@ HtmlHelper::setTranslations([
     };
     <?php }
     }?>
+    const exchangeRate =`<?= json_encode(ExchangeRateHelper::getExchangeRate()) ?>`
 </script>
 <div class="container-inner">
     <div class="container-wrap">

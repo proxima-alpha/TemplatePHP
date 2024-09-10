@@ -172,7 +172,7 @@ $routes->post('/api/setting/update/' . $ID_RULE, [\API\SettingController::class,
 $routes->post('/api/setting/update', [\API\SettingController::class, 'updateWithCode']);
 $routes->delete('/api/setting/delete/' . $ID_RULE, [\API\SettingController::class, 'deleteSetting']);
 $routes->get('/api/setting/graphic-setting', [\API\SettingController::class, 'getGraphicSettings']);
-$routes->get('/api/setting/graphic-setting/'.$CODE_RULE, [\API\SettingController::class, 'getGraphicSettingByTarget']);
+$routes->get('/api/setting/graphic-setting/' . $CODE_RULE, [\API\SettingController::class, 'getGraphicSettingByTarget']);
 $routes->get('/api/setting/guide', [\API\SettingController::class, 'getGuide']);
 $routes->post('/api/setting/guide', [\API\SettingController::class, 'setGuide']);
 
@@ -207,6 +207,8 @@ $routes->get('/api/project/' . $CODE_RULE, [\API\ProjectController::class, 'inde
 $routes->post('/api/purchase', [\API\PurchaseController::class, 'create']);
 $routes->post('/api/purchase/' . $ID_RULE . '/complete', [\API\PurchaseController::class, 'complete']);
 $routes->post('/api/purchase/webhook', [\API\PurchaseController::class, 'webhook']);
+
+$routes->get('/api/exchange-rate', [\API\ExchangeRateController::class, 'index']);
 
 $routes->get('/api/purchase-item/get/' . $ID_RULE, [\API\PurchaseItemController::class, 'get']);
 $routes->post('/api/purchase-item/update/' . $ID_RULE, [\API\PurchaseItemController::class, 'update']);

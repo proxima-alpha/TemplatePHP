@@ -10,7 +10,7 @@ class ExchangeRateModel extends BaseModel
         'exchange_rate_id',
         'date',
         'data',
-        'is_empty',
+        'need_refresh',
         'created_at',
     ];
 
