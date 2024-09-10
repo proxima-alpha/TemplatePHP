@@ -16,6 +16,7 @@ class PurchaseItemModel extends BaseModel
         'inquirer_email',
         'inquirer_comment',
         'memo',
+        'lang',
         'is_mine',
         'is_refunded',
         'is_agreed',

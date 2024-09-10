@@ -45,6 +45,7 @@ HtmlHelper::setTranslations(['refund', 'message_popup_refund', 'select_date'])
                             <span class="column price"><?= lang('Service.price') ?></span>
                             <span class="column status"><?= lang('Service.status') ?></span>
                             <span class="column channel"><?= lang('Service.channel') ?></span>
+                            <span class="column language"><?= lang('Service.lang') ?></span>
                             <span class="column created-at"><?= lang('Service.created_at') ?></span>
                         </div>
                     </div>
@@ -60,6 +61,7 @@ HtmlHelper::setTranslations(['refund', 'message_popup_refund', 'select_date'])
                                     <span class="column status"
                                           style="<?= $item['is_refunded'] == 1 ? 'color:red;' : 'color:green;' ?>"><?= $item['is_refunded'] == 1 ? lang('Service.refunded') : lang('Service.paid') ?></span>
                                     <span class="column channel"><?= HtmlHelper::getPaymentChannel($item['channel']) ?></span>
+                                    <span class="column language"><?= $item['lang'] ?></span>
                                     <span class="column created-at"><?= $item['created_at'] ?></span>
                                 </a>
                             </li>
@@ -107,6 +109,10 @@ HtmlHelper::setTranslations(['refund', 'message_popup_refund', 'select_date'])
                     type: 'text',
                     name: `<?=lang('Service.email')?>`,
                     editable: false,
+                },
+                lang: {
+                    type: 'text',
+                    name: `<?=lang('Service.lang')?>`,
                 },
                 inquirer_comment: {
                     type: 'long-text',

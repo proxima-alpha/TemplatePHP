@@ -38,3 +38,14 @@
 .filter-wrap .input-wrap.column a input {
     cursor: pointer;
 }
+
+@media (max-width: 840px) {
+    .filter-wrap .input-wrap .input-title{
+        text-align: left;
+        width: 100%;
+    }
+    .filter-wrap .input-wrap.column a {
+        width: calc(100% - 20px);
+        padding: 0 10px;
+    }
+}

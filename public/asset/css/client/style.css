@@ -518,7 +518,7 @@ input[readonly] {
     border: 1px solid #bbb;
 }
 
-#container .quill-html p, #container .quill-html span{
+#container .quill-html p, #container .quill-html span, #container .ql-container p{
     word-break: normal;
 }
 

@@ -175,6 +175,7 @@ return [
     "mobile" => "모바일",
 
     "respond" => "응답하기",
+    "lang" => "언어",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

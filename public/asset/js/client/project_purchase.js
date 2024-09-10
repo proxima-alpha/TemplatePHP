@@ -277,6 +277,7 @@ function requestPayment() {
     for (let i in data['purchase_items']) {
         const isAgree = data['purchase_items'][i]['is_agreed'];
         data['purchase_items'][i]['is_agreed'] = isAgree == 0 ? 1 : 0;
+        data['purchase_items'][i]['lang'] = language;
     }
     apiRequest({
         type: 'POST',

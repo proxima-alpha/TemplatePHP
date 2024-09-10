@@ -178,6 +178,7 @@ return [
     "mobile" => "モバイル",
 
     "respond" => "応答する",
+    "lang" => "言語",
 
     //messages
     "message_membership_agreement" => "個人情報取扱方針に同意",

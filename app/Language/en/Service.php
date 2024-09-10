@@ -178,6 +178,7 @@ return [
     "mobile" => "Mobile",
 
     "respond" => "Respond",
+    "lang" => "Language",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",
