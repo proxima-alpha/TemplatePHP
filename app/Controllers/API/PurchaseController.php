@@ -206,6 +206,10 @@ class PurchaseController extends BaseApiController
         $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
         $purchase = $this->purchaseModel->getLatest(['id' => $id]);
 
+        if($purchase['status'] == 'paid') {
+            return;
+        }
+
         $reward_id = $purchase['reward_id'];
         $reward = $this->rewardModel->getLatest(['id' => $reward_id]);
         $project_id = $reward['project_id'];

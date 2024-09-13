@@ -6,7 +6,7 @@
     text-overflow: unset;
     white-space: normal;
     vertical-align: top;
-    word-break: normal;
+    word-break: break-all;
 }
 
 .table-wrap .column.title {

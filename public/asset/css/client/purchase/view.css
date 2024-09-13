@@ -130,7 +130,7 @@
 }
 
 #container p.content {
-    word-break: normal;
+    word-break: break-all;
 }
 
 #container .container-inner .text-wrap.comment .content {

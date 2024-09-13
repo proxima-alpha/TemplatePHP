@@ -144,7 +144,7 @@ final class HtmlHelper
         if (!isset($dateString)) return '';
         try {
             $date = strtotime($dateString);
-            return date("H:i:s", $date);
+            return date("H:i", $date);
         } catch (Exception $e) {
             return '';
         }

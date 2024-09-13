@@ -382,7 +382,7 @@ input[type=checkbox] {
 }
 
 #container .quill-html p, #container .quill-html span{
-    word-break: normal;
+    word-break: break-all;
 }
 
 .ql-container * {

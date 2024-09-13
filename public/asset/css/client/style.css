@@ -519,7 +519,7 @@ input[readonly] {
 }
 
 #container .quill-html p, #container .quill-html span, #container .ql-container p{
-    word-break: normal;
+    word-break: break-all;
 }
 
 .ql-container * {
