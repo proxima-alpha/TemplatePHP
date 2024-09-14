@@ -10,6 +10,8 @@ use Models\CustomFileModel;
 use Models\PurchaseItemModel;
 use Models\PurchaseItemRewardModel;
 use Models\RewardFileModel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class FileController extends BaseClientController
 {
@@ -86,6 +88,7 @@ class FileController extends BaseClientController
             $this->handleException($e);
         }
     }
+
     /**
      * [get] /reward-file/{id}/download
      * @param $id
@@ -182,40 +185,98 @@ class FileController extends BaseClientController
         }
         $lang = $this->session->lang;
         $file_lang_name = "payment";
-        if($lang == 'ko') {
+        if ($lang == 'ko') {
             $file_lang_name = "결제내역";
-        } else if($lang =='jp') {
+        } else if ($lang == 'jp') {
             $file_lang_name = "決済履歴";
         }
-        $file_name = $file_lang_name ."_" . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
+        $file_name = $file_lang_name . "_" . $startDate . "_" . $endDate . "_at_" . time() . ".xls";
         $result = $this->purchaseItemModel->get([
             'start_date' => $startDateString,
             'end_date' => $endDateString,
         ], null, "ASC");
-        ob_get_clean();
-        header("Content-type: application/octet-stream; charset=utf-8");
-        header('Content-Disposition: attachment; filename=' . $file_name);
-        $output = fopen('php://output', 'w');
-        fputcsv($output, array('번호',
-            lang('Service.name'),
-            lang('Service.email'),
-            lang('Client.reward'),
-            lang('Service.price'),
-            lang('Service.currency'),
-            lang('Service.channel'),
-            lang('Service.paid_at'),
-        ));
+//        ob_get_clean();
+//        header("Content-type: application/vnd.ms-excel; charset=utf-8");
+//        header("Content-Disposition: attachment; filename=" . $file_name);
+//        header("Content-Description: PHP Generated Data");
+//        $output = fopen('php://output', 'w');
+//        fputcsv($output, array('',
+//            lang('Service.name'),
+//            lang('Service.email'),
+//            lang('Client.reward'),
+//            lang('Service.price'),
+//            lang('Service.currency'),
+//            lang('Service.channel'),
+//            lang('Service.paid_at'),
+//        ));
+//        foreach ($result as $i => $item) {
+//            $row = array($i + 1,
+//                $item['inquirer_name'],
+//                $item['inquirer_email'],
+//                HtmlHelper::getLangItem($item, 'title', $lang),
+//                $item['price'],
+//                'KRW',
+//                HtmlHelper::getPaymentChannel($item['channel']),
+//                $item['created_at'],
+//            );
+//            fputcsv($output, $row);
+//        }
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+        $activeWorksheet->getCell('B1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('C1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('D1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('E1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('F1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('G1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('H1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->getCell('I1')->getStyle()->getFont()->setBold(true);
+        $activeWorksheet->setCellValue('B1', lang('Service.name'));
+        $activeWorksheet->setCellValue('C1', lang('Service.email'));
+        $activeWorksheet->setCellValue('D1', lang('Client.reward'));
+        $activeWorksheet->setCellValue('E1', lang('Service.price'));
+        $activeWorksheet->setCellValue('F1', lang('Service.currency'));
+        $activeWorksheet->setCellValue('G1', lang('Service.lang'));
+        $activeWorksheet->setCellValue('H1', lang('Service.channel'));
+        $activeWorksheet->setCellValue('I1', lang('Service.paid_at'));
+
         foreach ($result as $i => $item) {
-            $row = array($i + 1,
-                $item['inquirer_name'],
-                $item['inquirer_email'],
-                HtmlHelper::getLangItem($item, 'title', $lang),
-                $item['price'],
-                'KRW',
-                HtmlHelper::getPaymentChannel($item['channel']),
-                $item['created_at'],
-            );
-            fputcsv($output, $row);
+            $activeWorksheet->setCellValue('A' . ($i + 2), $i + 1);
+            $activeWorksheet->setCellValue('B' . ($i + 2), $item['inquirer_name']);
+            $activeWorksheet->setCellValue('C' . ($i + 2), $item['inquirer_email']);
+            $activeWorksheet->setCellValue('D' . ($i + 2), HtmlHelper::getLangItem($item, 'title', $lang));
+            $activeWorksheet->setCellValue('E' . ($i + 2), $item['price']);
+            $activeWorksheet->setCellValue('F' . ($i + 2), 'KRW');
+            $activeWorksheet->setCellValue('G' . ($i + 2), $item['lang']);
+            $activeWorksheet->setCellValue('H' . ($i + 2), HtmlHelper::getPaymentChannel($item['channel']));
+            $activeWorksheet->setCellValue('I' . ($i + 2), $item['created_at']);
         }
+
+        $writer = new Xlsx($spreadsheet);
+        self::refreshDirectory('downloads');
+        $writer->save("downloads/" . $file_name);
+        return $this->response->download("downloads/" . $file_name, null);
+    }
+
+    private function refreshDirectory(string $path): void
+    {
+        if (!is_dir($path)) {
+            mkdir($path);
+            return;
+        }
+        if (!str_ends_with($path, '/')) {
+            $path .= '/';
+        }
+        $files = glob($path . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (is_dir($file)) {
+                self::removeDirectory($file);
+            } else {
+                unlink($file);
+            }
+        }
+        rmdir($path);
+        mkdir($path);
     }
 }

@@ -37,9 +37,6 @@ function sendVerificationCode(isAdmin = 0) {
                 return;
             }
 
-            $inputEmail.attr({
-                'readonly': true,
-            })
             $(`#container .form-wrap .disappear-at-next-step`).remove();
             $('#container .form-wrap').prepend(`
                 <div class="info-text-wrap disappear-at-next-step">

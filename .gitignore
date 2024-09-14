@@ -128,4 +128,6 @@ nb-configuration.xml
 /public/uploads/*
 /public/rewards/*
 
+/public/downloads/*
+
 public/.well-known/*
