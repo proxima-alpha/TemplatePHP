@@ -6,7 +6,7 @@
     position: relative;
 }
 .container-wrap > img {
-    width: 100%;
+    width: 1071px;
 }
 
 .container-inner .message {
@@ -18,10 +18,10 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 400px;
+    bottom: 220px;
 }
 .content-box img {
-    max-width: 80%;
+    max-width: 90%;
 }
 
 .container-inner .button-wrap {

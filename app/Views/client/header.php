@@ -3,7 +3,7 @@
 use App\Helpers\HtmlHelper;
 
 $logo_url = isset($logos['logo']) ? "/file/{$logos['logo']['id']}" : '/asset/images/custom/logo.svg';
-$favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/favicon.ico';
+$favicon_url = isset($logos['favicon']) ? "/file/{$logos['favicon']['id']}" : '/asset/images/custom/favicon.ico';
 $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
 ?>
 <!doctype html>

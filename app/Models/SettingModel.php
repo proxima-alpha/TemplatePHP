@@ -90,8 +90,8 @@ class SettingModel extends BaseModel
             "type" => "text",
             "name" => "페이지 상단 이름",
         ]);
-        $this->createIfNotExist(['code' => 'guide-how-to-use_ko'], [
-            "code" => "guide-how-to-use_ko",
+        $this->createIfNotExist(['code' => 'guide-how-to-use'], [
+            "code" => "guide-how-to-use",
             "type" => "long-text",
             "name" => "이용방법 (한글)",
         ]);
@@ -105,8 +105,8 @@ class SettingModel extends BaseModel
             "type" => "long-text",
             "name" => "이용방법 (일본어)",
         ]);
-        $this->createIfNotExist(['code' => 'main-link-guide_ko'], [
-            "code" => "main-link-guide_ko",
+        $this->createIfNotExist(['code' => 'main-link-guide'], [
+            "code" => "main-link-guide",
             "type" => "text",
             "name" => "메인 이용가이드 링크 (한글)",
         ]);

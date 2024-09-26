@@ -191,7 +191,7 @@ class SettingController extends BaseApiController
 
         try {
             $data = [];
-            $guide_ko = $this->settingModel->findByCode(['guide-how-to-use_ko']);
+            $guide_ko = $this->settingModel->findByCode(['guide-how-to-use']);
             $guide_en = $this->settingModel->findByCode(['guide-how-to-use_en']);
             $guide_jp = $this->settingModel->findByCode(['guide-how-to-use_jp']);
             $data = array_merge($data, [
@@ -224,7 +224,7 @@ class SettingController extends BaseApiController
         try {
             if (isset($data['how_to_use'])) {
                 if (isset($data['how_to_use']['ko'])) {
-                    $this->settingModel->put(['code' => 'guide-how-to-use_ko'], ['value' => $data['how_to_use']['ko']]);
+                    $this->settingModel->put(['code' => 'guide-how-to-use'], ['value' => $data['how_to_use']['ko']]);
                 }
                 if (isset($data['how_to_use']['en'])) {
                     $this->settingModel->put(['code' => 'guide-how-to-use_en'], ['value' => $data['how_to_use']['en']]);
