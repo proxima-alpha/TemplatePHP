@@ -92,7 +92,11 @@ class ProjectController extends BaseClientController
         try {
             $code = $this->codeProjectModel->findByCode($code);
             $data['code'] = $code;
-            $data['array'] = $this->projectModel->get(['code_project_id' => $code['id'], 'is_deleted' => 0]);
+            $data['array'] = $this->projectModel->get([
+                'code_project_id' => $code['id'],
+                'is_deleted' => 0,
+                'status' => 'open'
+            ]);
         } catch (Exception $e) {
             //todo(log)
             $this->handleException($e);
