@@ -84,6 +84,7 @@ class BaseClientController extends BaseViewController
     protected function loadHeader(array $data, array $initData = []): string
     {
         $codeArtistResult = $this->codeProjectModel->get([]);
+        $initData = array_merge(['is_main' => false], $initData);
         $initData = array_merge($initData, [
             'code_project' => $codeArtistResult,
             'settings' => $this->settings,

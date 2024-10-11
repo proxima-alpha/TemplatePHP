@@ -19,6 +19,10 @@ $open_graph_url = $_ENV['app.baseURL'] . '/asset/images/include/open_graph.png';
     <meta property="og:image" content="<?= $open_graph_url ?>"/>
     <meta property="og:image:width" content="1200"/>
     <meta property="og:image:height" content="600"/>
+    <?=\App\Helpers\ServerLogger::log($is_main)?>
+    <?php if(isset($is_main) && $is_main) { ?>
+        <meta name="naver-site-verification" content="734017e45c894e83bdcc1a3b7aca58f0ddb46b2e" />
+    <?php } ?>
     <title><?= $settings['web-title'] ?? '' ?></title>
     <link rel="icon" type="image/x-icon" href="<?= $favicon_url ?>">
 

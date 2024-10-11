@@ -426,7 +426,7 @@
     font-size: 18px;
     font-weight: 400;
     color: #888;
-    word-break: keep-all;
+    word-break: break-word;
 }
 
 .stage-box .step-wrap.selected .text-wrap {

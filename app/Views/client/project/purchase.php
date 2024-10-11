@@ -156,8 +156,11 @@ HtmlHelper::setTranslations([
                             <p class="input-info"><?= lang('Client.payment_notice_01') ?></p>
                             <select class="editable" name="pg">
                                 <!--                                <option value="nice" selected>--><?php //= lang('Client.payment_method_nice') ?><!--</option>-->
-                                <option value="html5_inicis"
-                                        selected><?= lang('Client.payment_method_inicis') ?></option>
+                                <?php if($lang != 'ko') { ?>
+                                    <option value="eximbay" selected><?= lang('Client.payment_method_eximbay') ?></option>
+                                <?php } else { ?>
+                                    <option value="html5_inicis" selected><?= lang('Client.payment_method_inicis') ?></option>
+                                <?php }?>
                             </select>
                         </div>
                         <h4 class="page-sub-title"><?= lang('Client.payment_expected_price') ?></h4>

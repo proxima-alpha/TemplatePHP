@@ -85,6 +85,7 @@ return [
     "payment_method_select"  => "Select payment method",
     "payment_method_nice"  => "NicePay",
     "payment_method_inicis"  => "KGinicis",
+    "payment_method_eximbay"  => "Eximbay",
     "payment_expected_price"  => "Expected payment amount",
     "payment_agreement_string"  => "I agree to %s.",
     "payment_agreement"  => "Order information and service terms",

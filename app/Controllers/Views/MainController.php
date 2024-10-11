@@ -54,7 +54,7 @@ class MainController extends BaseClientController
             }
             $projectParsed = [];
             foreach ($codes as $index => $code) {
-                $projectParsed[$code['code']] = [ 'code' => $code,
+                $projectParsed[$code['code']] = ['code' => $code,
                     'array' => []];
             }
             foreach ($postedProjects as $index => $project) {
@@ -82,6 +82,8 @@ class MainController extends BaseClientController
                     '/library/slick/slick.min.js',
                     '/module/slick_custom',
                     '/client/main'],
+            ], [
+                'is_main' => true
             ])
             . view('/client/main', $data)
             . parent::loadFooter();

@@ -85,6 +85,7 @@ return [
     "payment_method_select"  => "決済手段の選択",
     "payment_method_nice"  => "NICE PAY",
     "payment_method_inicis"  => "KG inicis",
+    "payment_method_eximbay"  => "Eximbay",
     "payment_expected_price"  => "決済予定金額",
     "payment_agreement_string"  => "%sに同意します",
     "payment_agreement"  => "注文情報およびサービス利用約款",
