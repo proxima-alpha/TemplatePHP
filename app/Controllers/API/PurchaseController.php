@@ -244,8 +244,8 @@ class PurchaseController extends BaseApiController
             }
         }
 
-        $queries[] = "UPDATE reward SET purchased_count = purchased_count + " . sizeof($items) . " WHERE id = '" . $purchase['reward_id'] . "';";
         BaseModel::transaction($this->db, $queries);
         $this->db->transCommit();
+        $this->rewardModel->updatePurchasedCount($purchase['reward_id']);
     }
 }

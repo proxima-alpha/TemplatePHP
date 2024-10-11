@@ -210,9 +210,9 @@ class ProjectController extends BaseClientController
                     }
                 }
 
-                $queries[] = "UPDATE reward SET purchased_count = purchased_count + " . sizeof($items) . " WHERE id = '" . $purchase['reward_id'] . "';";
                 BaseModel::transaction($this->db, $queries);
                 $this->db->transCommit();
+                $this->rewardModel->updatePurchasedCount($id);
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();

@@ -143,4 +143,17 @@ class RewardModel extends BasePriorityModel
         ]);
         return $result[0]['cnt'];
     }
+
+    public function updatePurchasedCount($id)
+    {
+        $query = "UPDATE reward SET purchased_count = (
+                SELECT COUNT(*) AS cnt FROM purchase LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id
+                WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND purchase.status != 'created') WHERE reward.id = " . $id . ";";
+        BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => [],
+            ],
+        ]);
+    }
 }
