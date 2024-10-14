@@ -46,6 +46,9 @@ class ProjectController extends BaseClientController
         try {
             $data = array_merge($data, $this->getProjectData($id));
             if ($data['data']['status'] != 'open') {
+                $data = array_merge($data, [
+                    'message' => lang('Client.project_blocked_message')
+                ]);
                 return parent::loadHeader([
                         'css' => ['/client/project/complete'],
                         'js' => [],
@@ -173,6 +176,8 @@ class ProjectController extends BaseClientController
                 $paidData = IMPHelper::getPaymentData($data['imp_uid']);
                 if (!isset($paidData['success']) || !$paidData['success']) {
                     throw new Exception('IMP::' . ($paidData['message'] ?? 'Payment failed'));
+                } else if (!isset($data) || isset($data['fail_reason']) && strlen($data['fail_reason']) > 0) {
+                    throw new Exception('IMP::' . $data['fail_reason']);
                 }
                 $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
                 $purchase = $this->purchaseModel->getLatest(['id' => $id]);
@@ -216,7 +221,16 @@ class ProjectController extends BaseClientController
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();
-                $this->handleException($e);
+                $data = array_merge($this->getViewData(), [
+                    'message' => lang('Client.payment_failed'),
+                    'error' => $e->getMessage()
+                ]);
+                return parent::loadHeader([
+                        'css' => ['/client/project/complete'],
+                        'js' => [],
+                    ])
+                    . view('/client/project/blocked', $data)
+                    . parent::loadFooter();
             }
         }
         $data = $this->getViewData();

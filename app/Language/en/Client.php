@@ -92,6 +92,7 @@ return [
     "payment_notice_01"  => "If you close the payment window or browser during the payment process, the payment may not be completed successfully.<br/>For payments with internationally issued cards, please change the language setting to a foreign language before proceeding with the payment.",
     "payment_notice_02"  => "All amounts are charged in Korean Won (KRW), and there may be a difference between the order amount and the payment amount due to exchange rates.",
     "payment_proceed"  => "Proceed to Payment",
+    "payment_failed"  => "There is an error with your payment method.",
 
     "email"  => "Email",
     "project"  => "Project",

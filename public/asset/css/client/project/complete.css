@@ -2,9 +2,11 @@
     width: 1440px;
     margin: 0 auto;
 }
+
 .container-wrap {
     position: relative;
 }
+
 .container-wrap > img {
     width: 1071px;
 }
@@ -14,12 +16,24 @@
     font-weight: 600;
     color: #fff;
 }
+
+.container-inner .error-message-wrap {
+    font-weight: normal;
+}
+
+.container-inner .error {
+    font-size: 15px;
+    font-weight: normal;
+    color: #fff;
+}
+
 .container-inner .content-box {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 220px;
 }
+
 .content-box img {
     max-width: 90%;
 }
