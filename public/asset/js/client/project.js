@@ -52,7 +52,11 @@ function loadReward(project_id, isSelectable = true, artist_id = null) {
             for (const item of array) {
                 rewards[item.id] = item;
             }
-            $container.find(`.reward-wrap`).remove();
+            let $rewards = $container.find(`.reward-wrap`);
+            if(!artist_id && $rewards.length() > 0) {
+                return;
+            }
+            $rewards.remove();
             for (let i in array) {
                 $container.append(getRewardItemHtml(array[i], isSelectable));
             }

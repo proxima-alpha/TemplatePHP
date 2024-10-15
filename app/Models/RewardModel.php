@@ -50,7 +50,7 @@ class RewardModel extends BasePriorityModel
             $values = array_merge($values, $set['values']);
             $query .= " " . $set['query'];
         }
-        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        $query .= " ORDER BY reward.priority ASC, " . $this->table . ".created_at DESC";
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
@@ -110,7 +110,7 @@ class RewardModel extends BasePriorityModel
         } else {
             $query .= " WHERE artist_group.artist_id = '" . $artist_id . "' OR reward.type = 'all'";
         }
-        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        $query .= " ORDER BY reward.priority ASC, " . $this->table . ".created_at DESC";
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
