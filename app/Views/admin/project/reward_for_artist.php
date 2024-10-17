@@ -23,7 +23,7 @@ use App\Helpers\HtmlHelper;
                     </div>
                     <div class="text-wrap">
                         <p class="title"><?= lang('Service.purchased_count') ?></p>
-                        <p class="content"><?= ($reward['total_paid_count']) ?></p>
+                        <p class="content"><?= ($reward['purchased_count']) ?></p>
                     </div>
                     <div class="text-wrap">
                         <p class="title"><?= lang('Service.uploaded_count') ?></p>

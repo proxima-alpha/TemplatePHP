@@ -60,7 +60,7 @@ use App\Helpers\HtmlHelper;
                                         class="column title"><?= HtmlHelper::getLangItem($item, 'title', $lang) ?></span>
                                     <span
                                         class="column remaining-count"><?= ($item['total_count'] - $item['purchased_count']) ?></span>
-                                    <span class="column purchased-count"><?= $item['total_paid_count'] ?></span>
+                                    <span class="column purchased-count"><?= $item['purchased_count'] ?></span>
                                     <span class="column uploaded-count"><?= $item['uploaded_count'] ?></span>
                                     <span class="column price"><?= number_format($item['price']) ?> KRW</span>
                                     <span class="column is-deleted">

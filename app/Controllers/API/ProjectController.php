@@ -89,7 +89,7 @@ class ProjectController extends CustomFileController
             if (isset($queryParams['artist_id'])) {
                 $rewards = $this->rewardModel->getFiltered($queryParams['artist_id'], ['project_id' => $id, 'is_deleted' => 0]);
             } else {
-                $rewards = $this->rewardModel->GET(['project_id' => $id, 'is_deleted' => 0]);
+                $rewards = $this->rewardModel->get(['project_id' => $id, 'is_deleted' => 0]);
             }
             if (!$rewards) throw new Exception('not exist');
 

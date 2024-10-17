@@ -2,6 +2,8 @@
 
 namespace Models;
 
+use App\Helpers\ServerLogger;
+
 class PurchaseItemRewardModel extends BaseModel
 {
     protected $table = 'purchase_item_reward';
@@ -59,11 +61,12 @@ class PurchaseItemRewardModel extends BaseModel
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
-        $query .= " GROUP BY purchase_item.id ";
+        $query .= " GROUP BY purchase_item.id";
         $query .= " ORDER BY " . $this->table . ".created_at " . $order;
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
+        ServerLogger::log($query);
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,

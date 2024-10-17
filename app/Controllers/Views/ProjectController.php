@@ -217,7 +217,6 @@ class ProjectController extends BaseClientController
 
                 BaseModel::transaction($this->db, $queries);
                 $this->db->transCommit();
-                $this->rewardModel->updatePurchasedCount($id);
             } catch (Exception $e) {
                 //todo(log)
                 $this->db->transRollback();

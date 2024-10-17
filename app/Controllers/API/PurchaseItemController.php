@@ -9,14 +9,12 @@ use Models\BaseModel;
 use Models\PurchaseItemModel;
 use Models\PurchaseItemRewardModel;
 use Models\PurchaseModel;
-use Models\RewardModel;
 
 class PurchaseItemController extends BaseApiController
 {
     protected PurchaseItemModel $purchaseItemModel;
     protected PurchaseItemRewardModel $purchaseItemRewardModel;
     protected PurchaseModel $purchaseModel;
-    protected RewardModel $rewardModel;
 
     public function __construct()
     {
@@ -24,7 +22,6 @@ class PurchaseItemController extends BaseApiController
         $this->purchaseItemModel = model('Models\PurchaseItemModel');
         $this->purchaseItemRewardModel = model('Models\PurchaseItemRewardModel');
         $this->purchaseModel = model('Models\PurchaseModel');
-        $this->rewardModel = model('Models\RewardModel');
     }
 
     /**
@@ -88,7 +85,6 @@ class PurchaseItemController extends BaseApiController
                 $queries[] = "UPDATE purchase SET status = 'refunded'  WHERE id = '" . $purchase['id'] . "';";
             }
             BaseModel::transaction($this->db, $queries);
-            $this->rewardModel->updatePurchasedCount($purchase['reward_id']);
             $response['success'] = true;
         } catch (Exception $e) {
             //todo(log)

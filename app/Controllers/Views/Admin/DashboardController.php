@@ -48,14 +48,14 @@ class DashboardController extends BaseAdminController
                 "end_date" => $endDateString,
             ]);
             $queries = [];
-            $queries[] = "SELECT (" .
-                " SELECT SUM(purchase_item.price) FROM purchase_item LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
-                " WHERE purchase_item.is_refunded = 0 AND purchase.status != 'created' AND purchase.created_at >= '" . $startDateString . "' AND purchase.created_at <= '" . $endDateString . "') AS total_amount";
+            $queries[] =
+                " SELECT SUM(purchase_item.price) AS total_amount, COUNT(purchase_item.id) AS purchased_count FROM purchase_item LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
+                " WHERE purchase_item.is_refunded = 0 AND purchase.status != 'created' AND purchase.created_at >= '" . $startDateString . "' AND purchase.created_at <= '" . $endDateString . "'";
             $result = BaseModel::transaction($this->db, $queries);
             if (sizeof($result) == 0) throw new Exception('deleted');
             $data = array_merge($data, $result[0]);
             $queries = [];
-            $queries[] = "SELECT SUM(purchased_count) AS purchased_count, SUM(total_count) AS stock_count, COUNT(reward.id) AS total_reward_count" .
+            $queries[] = "SELECT SUM(total_count) AS stock_count, COUNT(reward.id) AS total_reward_count" .
                 " FROM reward LEFT JOIN project ON project.id = reward.project_id" .
                 " WHERE reward.is_deleted = 0 AND" .
                 " (project.start_date <= '" . $endDateString . "' AND project.start_date >= '" . $startDateString . "' OR" .

@@ -18,13 +18,37 @@ class RewardModel extends BasePriorityModel
         'total_count',
         'price',
         'limited_count',
-        'purchased_count',
         'is_deleted',
         'priority',
         'created_at',
         'updated_at',
     ];
 
+    public function get($condition = null, $limit = null): array
+    {
+        $query = "SELECT reward.*, (" .
+            "SELECT COUNT(*) AS cnt FROM purchase" .
+            " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
+            " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND purchase.status != 'created'" .
+            " ) AS purchased_count" .
+            " FROM reward";
+        $values = [];
+        if ($condition) {
+            $set = $this->getConditionSet($condition);
+            $values = array_merge($values, $set['values']);
+            $query .= " " . $set['query'];
+        }
+        $query .= " ORDER BY " . $this->table . ".created_at DESC";
+        if (isset($limit)) {
+            $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
+        }
+        return BaseModel::transaction($this->db, [
+            [
+                "query" => $query,
+                "values" => $values,
+            ],
+        ]);
+    }
     /**
      * select 문을 호출하는 기능
      * @return array
@@ -36,7 +60,7 @@ class RewardModel extends BasePriorityModel
             "SELECT COUNT(*) AS cnt FROM purchase" .
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
             " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND purchase.status != 'created'" .
-            " ) AS total_paid_count, (" .
+            " ) AS purchased_count, (" .
             "SELECT COUNT(*) AS cnt FROM purchase" .
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
             " LEFT JOIN purchase_item_reward ON purchase_item_reward.purchase_item_id = purchase_item.id" .
@@ -92,6 +116,13 @@ class RewardModel extends BasePriorityModel
         ];
     }
 
+    public function getLatest($condition = null): null|array
+    {
+        $result = $this->get($condition);
+        if (sizeof($result) == 0) return null;
+        else return $result[0];
+    }
+
     /**
      * select 문을 호출하는 기능
      * @return array
@@ -99,7 +130,11 @@ class RewardModel extends BasePriorityModel
      */
     public function getFiltered($artist_id, $condition = null): array
     {
-        $query = "SELECT reward.* FROM reward " .
+        $query = "SELECT reward.*, (" .
+            "SELECT COUNT(*) AS cnt FROM purchase" .
+            " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
+            " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND purchase.status != 'created'" .
+            " ) AS purchased_count FROM reward " .
             " LEFT JOIN artist_group ON artist_group.reward_id = reward.id";
         $values = [];
         if ($condition) {
@@ -144,16 +179,4 @@ class RewardModel extends BasePriorityModel
         return $result[0]['cnt'];
     }
 
-    public function updatePurchasedCount($id)
-    {
-        $query = "UPDATE reward SET purchased_count = (
-                SELECT COUNT(*) AS cnt FROM purchase LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id
-                WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND purchase.status != 'created') WHERE reward.id = " . $id . ";";
-        BaseModel::transaction($this->db, [
-            [
-                "query" => $query,
-                "values" => [],
-            ],
-        ]);
-    }
 }

@@ -248,6 +248,5 @@ class PurchaseController extends BaseApiController
 
         BaseModel::transaction($this->db, $queries);
         $this->db->transCommit();
-        $this->rewardModel->updatePurchasedCount($purchase['reward_id']);
     }
 }
