@@ -121,7 +121,9 @@ if (isset($data['artists'])) { ?>
     $(document).ready(function () {
         <?php if (isset($data['artists']) && sizeof($data['artists']) > 0) { ?>
         setArtist(<?= $data['id'] ?>, <?=$data['artists'][0]['id']?>)
-        <?php } ?>
+        loadReward(<?=$data['id']?>, false, <?=$data['artists'][0]['id']?>)
+        <?php } else {?>
         loadReward(<?=$data['id']?>, false)
+        <?php } ?>
     });
 </script>
