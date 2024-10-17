@@ -96,10 +96,10 @@ $routes->get('/admin/project/' . $ID_RULE . '/view', [\Views\Admin\ProjectContro
 $routes->get('/admin/project/create', [\Views\Admin\ProjectController::class, 'create']);
 $routes->get('/admin/project/' . $ID_RULE . '/edit', [\Views\Admin\ProjectController::class, 'edit']);
 
-$routes->get('/admin/project/' . $CODE_RULE . '/reward/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'index']);
-$routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward', '/admin/project/$1/reward/1');
-$routes->get('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE . '/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'getPurchaseItemReward']);
-$routes->addRedirect('/admin/project/' . $CODE_RULE . '/reward/get/' . $ID_RULE, '/admin/project/$1/reward/get/$2/1');
+$routes->get('/admin/project/' . $HASH_RULE . '/reward/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'index']);
+$routes->addRedirect('/admin/project/' . $HASH_RULE . '/reward', '/admin/project/$1/reward/1');
+$routes->get('/admin/project/' . $HASH_RULE . '/reward/get/' . $ID_RULE . '/' . $PAGE_RULE, [\Views\Admin\ProjectRewardController::class, 'getPurchaseItemReward']);
+$routes->addRedirect('/admin/project/' . $HASH_RULE . '/reward/get/' . $ID_RULE, '/admin/project/$1/reward/get/$2/1');
 
 $routes->get('/admin/guide', [\Views\Admin\GuideController::class, 'index']);
 
