@@ -152,15 +152,20 @@ class PurchaseController extends BaseApiController
         if ($validationRules != null && !$this->validate($validationRules)) {
             $response['messages'] = $this->validator->getErrors();
         } else {
-            try {
-                $this->completePurchase($id, $data);
-                $response['success'] = true;
-            } catch (Exception $e) {
-                //todo(log)
-                $this->db->transRollback();
-                if (!isset($response['message'])) {
-                    $response['message'] = $e->getMessage();
+            $purchase = $this->purchaseModel->getLatest(['id' => $id]);
+            if ($purchase['status'] == 'created') {
+                try {
+                    $this->completePurchase($id, $data);
+                    $response['success'] = true;
+                } catch (Exception $e) {
+                    //todo(log)
+                    $this->db->transRollback();
+                    if (!isset($response['message'])) {
+                        $response['message'] = $e->getMessage();
+                    }
                 }
+            } else if ($purchase['status'] == 'paid') {
+                $response['success'] = true;
             }
         }
 
@@ -178,7 +183,7 @@ class PurchaseController extends BaseApiController
             'success' => false,
         ];
         $purchase = $this->purchaseModel->getLatest(['merchant_uid' => $data['merchant_uid']]);
-        if ($purchase['status'] == 'created' && $data['status'] == 'paid') {
+        if ($purchase['status'] == 'created') {
             try {
                 $this->completePurchase($purchase['id'], $data);
                 $response['success'] = true;

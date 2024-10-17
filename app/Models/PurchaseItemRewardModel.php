@@ -61,7 +61,6 @@ class PurchaseItemRewardModel extends BaseModel
         } else {
             $query .= " WHERE purchase.status != 'created'";
         }
-        $query .= " GROUP BY purchase_item.id";
         $query .= " ORDER BY " . $this->table . ".created_at " . $order;
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
