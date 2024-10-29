@@ -76,9 +76,9 @@ abstract class BaseController extends Controller
         $language = \Config\Services::language();
         $lang = $this->session->lang;
         if (!isset($lang)) {
-            if(Utils::startsWith($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ko-KR')) {
+            if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && Utils::startsWith($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ko-KR')) {
                 $lang =  'ko';
-            } else if(Utils::startsWith($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ja-JP')) {
+            } else if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && Utils::startsWith($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'ja-JP')) {
                 $lang =  'jp';
             } else {
                 $lang =  'en';

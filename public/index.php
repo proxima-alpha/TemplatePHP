@@ -76,3 +76,13 @@ model('Models\SettingModel')->initialize();
 model('Models\CodeRewardRequestModel')->initialize();
 model('Models\CodeProjectModel')->initialize();
 model('Models\QuestionBoardModel')->initialize();
+
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    log_message('error', "Error [$errno] $errstr on line $errline in file $errfile");
+});
+
+set_exception_handler(function($exception) {
+    log_message('error', 'Exception: ' . $exception->getMessage());
+    log_message('error', 'User Agent: ' . $_SERVER['HTTP_USER_AGENT']);
+    log_message('error', 'Request URI: ' . $_SERVER['REQUEST_URI']);
+});

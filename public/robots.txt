@@ -1,2 +1,6 @@
+User-agent: Googlebot
+Allow: /
 User-agent: *
-Disallow: 
+Allow: /
+Sitemap: https://becle.co.kr/sitemap.xml
+
