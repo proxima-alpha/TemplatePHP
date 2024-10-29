@@ -216,9 +216,9 @@ class PurchaseController extends BaseApiController
                 'success' => false,
                 'message' => lang('Client.payment_failed')
             ];
-        } else if (isset($paidData['data'])) {
+        } else if (isset($paidData['data']) && isset($paidData['data']['status'])) {
             $paidResponseData = $paidData['data'];
-            if (isset($paidResponseData['status']) && $paidResponseData['status'] != 'paid') {
+            if ($paidResponseData['status'] != 'paid') {
                 $failedReason = "";
                 if (isset($paidResponseData['fail_reason']) && strlen($paidResponseData['fail_reason']) > 0) {
                     $failedReason = $paidResponseData['fail_reason'];
@@ -231,46 +231,51 @@ class PurchaseController extends BaseApiController
                     'success' => false,
                     'message' => strlen($failedReason) > 0 ? $failedReason : lang('Client.payment_failed')
                 ];
-            }
-        }
-        $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
-        $reward_id = $purchase['reward_id'];
-        $reward = $this->rewardModel->getLatest(['id' => $reward_id]);
-        $project_id = $reward['project_id'];
-
-        $this->db->transBegin();
-        $inserted_result = $this->purchaseModel->update($id, [
-            'imp_uid' => $data['imp_uid'],
-            'merchant_uid' => $data['merchant_uid'],
-            'status' => 'paid',
-        ]);
-        if (!$inserted_result) {
-            throw new \Exception($this->purchaseModel->errors());
-        }
-        $queries = [];
-
-        if ($reward['type'] == 'all') {
-            $artists = $this->artistGroupModel->getArtists($project_id);
-            if (sizeof($artists) > 0 && sizeof($items) > 0) {
-                $queries[] = QueryHelper::getPurchaseItemRewardAllCreate($artists, $items);
             } else {
-                throw new Exception('Internal Server Error');
-            }
-        } else if ($reward['type'] == 'random') {
-            $paidCount = $this->rewardModel->getPaidCount($reward_id);
-            $artists = $this->artistGroupModel->getArtistsForReward($project_id, $reward_id);
-            $startIndex = $paidCount % sizeof($artists);
-            if (sizeof($artists) > 0 && sizeof($items) > 0) {
-                $queries[] = QueryHelper::getPurchaseItemRewardRandomCreate($items, $artists, $startIndex);
-            } else {
-                throw new Exception('Internal Server Error');
+                $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
+                $reward_id = $purchase['reward_id'];
+                $reward = $this->rewardModel->getLatest(['id' => $reward_id]);
+                $project_id = $reward['project_id'];
+
+                $this->db->transBegin();
+                $inserted_result = $this->purchaseModel->update($id, [
+                    'imp_uid' => $data['imp_uid'],
+                    'merchant_uid' => $data['merchant_uid'],
+                    'status' => 'paid',
+                ]);
+                if (!$inserted_result) {
+                    throw new \Exception(implode($this->purchaseModel->errors()));
+                }
+                $queries = [];
+
+                if ($reward['type'] == 'all') {
+                    $artists = $this->artistGroupModel->getArtists($project_id);
+                    if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                        $queries[] = QueryHelper::getPurchaseItemRewardAllCreate($artists, $items);
+                    } else {
+                        throw new Exception('Internal Server Error');
+                    }
+                } else if ($reward['type'] == 'random') {
+                    $paidCount = $this->rewardModel->getPaidCount($reward_id);
+                    $artists = $this->artistGroupModel->getArtistsForReward($project_id, $reward_id);
+                    $startIndex = $paidCount % sizeof($artists);
+                    if (sizeof($artists) > 0 && sizeof($items) > 0) {
+                        $queries[] = QueryHelper::getPurchaseItemRewardRandomCreate($items, $artists, $startIndex);
+                    } else {
+                        throw new Exception('Internal Server Error');
+                    }
+                }
+
+                BaseModel::transaction($this->db, $queries);
+                $this->db->transCommit();
+                return [
+                    'success' => true,
+                ];
             }
         }
-
-        BaseModel::transaction($this->db, $queries);
-        $this->db->transCommit();
         return [
-            'success' => true,
+            'success' => false,
+            'message' => lang('Client.payment_error')
         ];
     }
 
@@ -283,9 +288,9 @@ class PurchaseController extends BaseApiController
                 'success' => false,
                 'message' => lang('Client.payment_failed')
             ];
-        } else if (isset($paidData['data'])) {
+        } else if (isset($paidData['data']) && isset($paidData['data']['status'])) {
             $paidResponseData = $paidData['data'];
-            if (isset($paidResponseData['status']) && $paidResponseData['status'] != 'paid') {
+            if ($paidResponseData['status'] != 'paid') {
                 $failedReason = "";
                 if (isset($paidResponseData['fail_reason']) && strlen($paidResponseData['fail_reason']) > 0) {
                     $failedReason = $paidResponseData['fail_reason'];

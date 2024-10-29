@@ -94,6 +94,7 @@ return [
     "payment_proceed"  => "決済する",
     "payment_failed"  => "お支払い方法に誤りがあります。",
     "payment_already_paid"  => "この支払いはすでに処理されています。",
+    "payment_error"  => "支払いシステムに問題が発生しています。お問い合わせを送信してください。",
 
     "email"  => "E-mail",
     "project"  => "プロジェクト",

@@ -94,6 +94,7 @@ return [
     "payment_proceed"  => "Proceed to Payment",
     "payment_failed"  => "There is an error with your payment method.",
     "payment_already_paid"  => "This payment has already been processed.",
+    "payment_error"  => "There is a problem with the payment system. Please send your inquiry.",
 
     "email"  => "Email",
     "project"  => "Project",

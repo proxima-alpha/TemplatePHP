@@ -95,6 +95,7 @@ return [
     "payment_proceed"  => "결제하기",
     "payment_failed"  => "결제 수단에 오류가 있습니다.",
     "payment_already_paid"  => "이 결제는 이미 처리되었습니다.",
+    "payment_error"  => "결제 시스템에 문제가있습니다. 문의사항을 남겨주세요.",
 
     "email"  => "이메일",
     "project"  => "프로젝트",
