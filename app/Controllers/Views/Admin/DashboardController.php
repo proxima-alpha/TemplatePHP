@@ -50,7 +50,7 @@ class DashboardController extends BaseAdminController
             $queries = [];
             $queries[] =
                 " SELECT SUM(purchase_item.price) AS total_amount, COUNT(purchase_item.id) AS purchased_count FROM purchase_item LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
-                " WHERE purchase_item.is_refunded = 0 AND purchase.status != 'created' AND purchase.created_at >= '" . $startDateString . "' AND purchase.created_at <= '" . $endDateString . "'";
+                " WHERE purchase_item.is_refunded = 0 AND purchase.status != 'created' AND purchase.status != 'canceled' AND purchase.created_at >= '" . $startDateString . "' AND purchase.created_at <= '" . $endDateString . "'";
             $result = BaseModel::transaction($this->db, $queries);
             if (sizeof($result) == 0) throw new Exception('deleted');
             $data = array_merge($data, $result[0]);

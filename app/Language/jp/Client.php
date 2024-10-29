@@ -93,6 +93,7 @@ return [
     "payment_notice_02"  => "すべての金額はウォンで決済され、為替レートによって注文金額と決済金額に差が生じることがあります。",
     "payment_proceed"  => "決済する",
     "payment_failed"  => "お支払い方法に誤りがあります。",
+    "payment_already_paid"  => "この支払いはすでに処理されています。",
 
     "email"  => "E-mail",
     "project"  => "プロジェクト",

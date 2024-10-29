@@ -93,6 +93,7 @@ return [
     "payment_notice_02"  => "All amounts are charged in Korean Won (KRW), and there may be a difference between the order amount and the payment amount due to exchange rates.",
     "payment_proceed"  => "Proceed to Payment",
     "payment_failed"  => "There is an error with your payment method.",
+    "payment_already_paid"  => "This payment has already been processed.",
 
     "email"  => "Email",
     "project"  => "Project",

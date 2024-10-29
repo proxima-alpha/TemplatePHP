@@ -153,19 +153,14 @@ class PurchaseController extends BaseApiController
             $response['messages'] = $this->validator->getErrors();
         } else {
             $purchase = $this->purchaseModel->getLatest(['id' => $id]);
-            if ($purchase['status'] == 'created') {
-                try {
-                    $this->completePurchase($id, $data);
-                    $response['success'] = true;
-                } catch (Exception $e) {
-                    //todo(log)
-                    $this->db->transRollback();
-                    if (!isset($response['message'])) {
-                        $response['message'] = $e->getMessage();
-                    }
+            try {
+                $response = $this->completePurchase($purchase, $data);
+            } catch (Exception $e) {
+                log_message('error', $e->getMessage());
+                $this->db->transRollback();
+                if (!isset($response['message'])) {
+                    $response['message'] = $e->getMessage();
                 }
-            } else if ($purchase['status'] == 'paid') {
-                $response['success'] = true;
             }
         }
 
@@ -183,16 +178,20 @@ class PurchaseController extends BaseApiController
             'success' => false,
         ];
         $purchase = $this->purchaseModel->getLatest(['merchant_uid' => $data['merchant_uid']]);
-        if ($purchase['status'] == 'created') {
-            try {
-                $this->completePurchase($purchase['id'], $data);
-                $response['success'] = true;
-            } catch (Exception $e) {
-                //todo(log)
-                $this->db->transRollback();
-                if (!isset($response['message'])) {
-                    $response['message'] = $e->getMessage();
+        try {
+            $status = $data['status'];
+            if (isset($status)) {
+                if ($status == 'paid') {
+                    $response = $this->completePurchase($purchase, $data);
+                } else if ($status == 'cancelled' || $status == 'failed') {
+                    $response = $this->cancelPurchase($purchase, $data);
                 }
+            }
+        } catch (Exception $e) {
+            log_message('error', $e->getMessage());
+            $this->db->transRollback();
+            if (!isset($response['message'])) {
+                $response['message'] = $e->getMessage();
             }
         }
 
@@ -202,21 +201,39 @@ class PurchaseController extends BaseApiController
     /**
      * @throws Exception
      */
-    private function completePurchase($id, $data): void
+    private function completePurchase($purchase, $data): array
     {
+        $id = $purchase['id'];
+        if ($purchase['status'] == 'paid') {
+            return [
+                'success' => false,
+                'message' => lang('Client.payment_already_paid')
+            ];
+        }
         $paidData = IMPHelper::getPaymentData($data['imp_uid']);
         if (!isset($paidData['success']) || !$paidData['success']) {
-            throw new Exception('IMP::' . ($paidData['message'] ?? 'Payment failed'));
-        } else if (!isset($data) || isset($data['fail_reason']) && strlen($data['fail_reason']) > 0) {
-            throw new Exception('IMP::' . $data['fail_reason']);
+            return [
+                'success' => false,
+                'message' => lang('Client.payment_failed')
+            ];
+        } else if (isset($paidData['data'])) {
+            $paidResponseData = $paidData['data'];
+            if (isset($paidResponseData['status']) && $paidResponseData['status'] != 'paid') {
+                $failedReason = "";
+                if (isset($paidResponseData['fail_reason']) && strlen($paidResponseData['fail_reason']) > 0) {
+                    $failedReason = $paidResponseData['fail_reason'];
+                }
+                $this->purchaseModel->update($id, [
+                    'status' => 'canceled',
+                    'fail_reason' => $failedReason,
+                ]);
+                return [
+                    'success' => false,
+                    'message' => strlen($failedReason) > 0 ? $failedReason : lang('Client.payment_failed')
+                ];
+            }
         }
         $items = $this->purchaseItemModel->findByCondition(['purchase_id' => $id]);
-        $purchase = $this->purchaseModel->getLatest(['id' => $id]);
-
-        if ($purchase['status'] == 'paid') {
-            return;
-        }
-
         $reward_id = $purchase['reward_id'];
         $reward = $this->rewardModel->getLatest(['id' => $reward_id]);
         $project_id = $reward['project_id'];
@@ -228,8 +245,7 @@ class PurchaseController extends BaseApiController
             'status' => 'paid',
         ]);
         if (!$inserted_result) {
-            $response['messages'] = $this->purchaseModel->errors();
-            throw new \Exception();
+            throw new \Exception($this->purchaseModel->errors());
         }
         $queries = [];
 
@@ -253,5 +269,40 @@ class PurchaseController extends BaseApiController
 
         BaseModel::transaction($this->db, $queries);
         $this->db->transCommit();
+        return [
+            'success' => true,
+        ];
     }
+
+    private function cancelPurchase($purchase, $data): array
+    {
+        $id = $purchase['id'];
+        $paidData = IMPHelper::getPaymentData($data['imp_uid']);
+        if (!isset($paidData['success']) || !$paidData['success']) {
+            return [
+                'success' => false,
+                'message' => lang('Client.payment_failed')
+            ];
+        } else if (isset($paidData['data'])) {
+            $paidResponseData = $paidData['data'];
+            if (isset($paidResponseData['status']) && $paidResponseData['status'] != 'paid') {
+                $failedReason = "";
+                if (isset($paidResponseData['fail_reason']) && strlen($paidResponseData['fail_reason']) > 0) {
+                    $failedReason = $paidResponseData['fail_reason'];
+                }
+                $this->purchaseModel->update($id, [
+                    'status' => 'canceled',
+                    'fail_reason' => $failedReason,
+                ]);
+                return [
+                    'success' => false,
+                    'message' => strlen($failedReason) > 0 ? $failedReason : lang('Client.payment_failed')
+                ];
+            }
+        }
+        return [
+            'success' => true
+        ];
+    }
+
 }

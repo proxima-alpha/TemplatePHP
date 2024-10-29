@@ -94,6 +94,7 @@ return [
     "payment_notice_02"  => "모든 금액은 원화로 결제되며, 환율에 따라 주문 금액과 결제 금액의 차이가 발생할 수 있습니다.",
     "payment_proceed"  => "결제하기",
     "payment_failed"  => "결제 수단에 오류가 있습니다.",
+    "payment_already_paid"  => "이 결제는 이미 처리되었습니다.",
 
     "email"  => "이메일",
     "project"  => "프로젝트",

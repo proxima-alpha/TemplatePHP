@@ -57,9 +57,9 @@ class PurchaseItemRewardModel extends BaseModel
             } else {
                 $query .= " WHERE " . join(' AND ', $dateQueries);
             }
-            $query .= " AND purchase.status != 'created'";
+            $query .= " AND purchase.status != 'created' AND purchase.status != 'canceled'";
         } else {
-            $query .= " WHERE purchase.status != 'created'";
+            $query .= " WHERE purchase.status != 'created' AND purchase.status != 'canceled'";
         }
         $query .= " ORDER BY " . $this->table . ".created_at " . $order;
         if (isset($limit)) {
@@ -103,9 +103,9 @@ class PurchaseItemRewardModel extends BaseModel
             } else {
                 $query .= " WHERE " . join(' AND ', $dateQueries);
             }
-            $query .= " AND purchase.status != 'created'";
+            $query .= " AND purchase.status != 'created' AND purchase.status != 'canceled'";
         } else {
-            $query .= " WHERE purchase.status != 'created'";
+            $query .= " WHERE purchase.status != 'created' AND purchase.status != 'canceled'";
         }
         $result = BaseModel::transaction($this->db, [
             [
