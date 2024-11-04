@@ -174,6 +174,17 @@ class ProjectController extends BaseClientController
             $data = $this->request->getGet();
             try {
                 $purchase = $this->purchaseModel->getLatest(['id' => $id]);
+                if ($purchase['status'] == 'paid') {
+                    $data = $this->getViewData();
+                    return parent::loadHeader([
+                            'css' => [
+                                '/client/project/complete'
+                            ],
+                            'js' => [],
+                        ])
+                        . view('/client/project/complete', $data)
+                        . parent::loadFooter();
+                }
                 $paidData = IMPHelper::getPaymentData($data['imp_uid']);
                 if (!isset($paidData['success']) || !$paidData['success']) {
                     throw new Exception(lang('Client.payment_failed'));
