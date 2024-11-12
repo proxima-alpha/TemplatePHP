@@ -199,6 +199,7 @@ return [
     "message_error_differ_password" => "両方のパスワード入力値が同じか確認してください.",
     "message_item_already_selected" => "既に選択された項目です.",
     "message_item_select" => "項目を選択してください.",
+    "message_file_too_big" => "ファイルサイズが大きすぎます。 100MB未満のファイルをアップロードできます。",
 
     //email
     "email_click_link" => "もしくは{link}をクリックしてください.",

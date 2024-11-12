@@ -215,6 +215,7 @@ $routes->post('/api/purchase-item-reward/confirm/' . $ID_RULE, [\API\PurchaseIte
 $routes->get('/api/purchase-item-reward/get/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'get']);
 $routes->post('/api/purchase-item-reward/update/' . $ID_RULE, [\API\PurchaseItemRewardController::class, 'update']);
 $routes->post('/api/reward-file/update/' . $ID_RULE, [\API\RewardFileController::class, 'update']);
+$routes->post('/api/reward-file/chunk-upload/' . $ID_RULE, [\API\RewardFileController::class, 'handleChunkUpload']);
 $routes->post('/api/reward-file/upload/' . $ID_RULE, [\API\RewardFileController::class, 'uploadFile']);
 $routes->delete('/api/reward-file/delete/' . $ID_RULE, [\API\RewardFileController::class, 'deleteFile']);
 

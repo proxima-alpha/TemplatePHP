@@ -112,6 +112,10 @@
     pointer-events: none;
 }
 
+.purchase-item-wrap .uploader .upload-item-add p.progress {
+    bottom: 32px;
+}
+
 .purchase-item-wrap .uploader .button-wrap {
     margin-top: 10px;
     text-align: center;

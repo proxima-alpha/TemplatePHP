@@ -150,6 +150,173 @@ class RewardFileController extends BaseApiController
         return $this->response->setJSON($response);
     }
 
+    public function handleChunkUpload($purchaseItemId): ResponseInterface
+    {
+        $response = [
+            'success' => false,
+        ];
+
+        try {
+            $validationRules = $this->validate([
+                'file' => [
+                    'uploaded[file]',
+                    'max_size[file,102400]',
+                ],
+            ]);
+
+            if ($validationRules) {
+                $file = $this->request->getFile('file');
+                $chunkIndex = $this->request->getPost('chunkIndex');
+                $totalChunks = $this->request->getPost('totalChunks');
+                $fileName = $this->request->getPost('fileName');
+                // 파일별로 고유한 임시 디렉토리 생성 (첫 청크에서만)
+                $temp_id = $this->request->getPost('temp_id');
+                if (empty($temp_id)) {
+                    $temp_id = ShortId::create()->generate();
+                }
+
+                // 모든 청크가 같은 디렉토리에 저장되도록 함
+                $symbolic_path = 'rewards/temp/' . date("Y-m-d") . '/' . $temp_id;
+                $temp_path = ROOTPATH . 'public/' . $symbolic_path;
+
+                if (!is_dir($temp_path)) {
+                    mkdir($temp_path, 0777, true);
+                }
+
+                // 청크 파일 저장
+                $chunk_file = $temp_path . '/' . $fileName . '.part' . $chunkIndex;
+                $file->move(dirname($chunk_file), basename($chunk_file));
+
+                // 모든 청크가 업로드되었는지 확인
+                $allChunksUploaded = true;
+                for ($i = 0; $i < $totalChunks; $i++) {
+                    if (!file_exists($temp_path . '/' . $fileName . '.part' . $i)) {
+                        $allChunksUploaded = false;
+                        break;
+                    }
+                }
+
+                $response['success'] = true;
+                $response['temp_id'] = $temp_id;  // 클라이언트에 temp_id 반환
+                $response['chunksReceived'] = $chunkIndex + 1;
+                $response['totalChunks'] = $totalChunks;
+
+                // 모든 청크가 업로드된 경우
+                if ($allChunksUploaded) {
+                    // 최종 파일 경로 설정
+                    $final_symbolic_path = 'rewards/' . date("Y-m-d") . '/' . ShortId::create()->generate();
+                    $final_path = ROOTPATH . 'public/' . $final_symbolic_path;
+                    mkdir($final_path, 0777, true);
+
+                    // 청크 파일들을 하나로 합치기
+                    $final_file = $final_path . '/' . $fileName;
+                    $out = fopen($final_file, 'wb');
+
+                    for ($i = 0; $i < $totalChunks; $i++) {
+                        $in = fopen($temp_path . '/' . $fileName . '.part' . $i, 'rb');
+                        stream_copy_to_stream($in, $out);
+                        fclose($in);
+                        unlink($temp_path . '/' . $fileName . '.part' . $i);
+                    }
+                    fclose($out);
+
+                    // 임시 디렉토리 삭제
+                    $this->removeDirectory($temp_path);
+
+                    // MIME 타입 확인
+                    $mime_type = mime_content_type($final_file);
+                    $uploadedType = null;
+
+                    if (str_starts_with($mime_type, 'image')) {
+                        $uploadedType = 'image';
+                    } else if (str_starts_with($mime_type, 'video')) {
+                        $uploadedType = 'video';
+                    } else {
+                        throw new Exception("not allowed mime type");
+                    }
+
+                    // 파일 정보 처리
+                    $width = 0;
+                    $height = 0;
+                    $time = 0;
+
+                    switch ($uploadedType) {
+                        case 'image':
+                            $size = getimagesize($final_file);
+                            $width = $size[0];
+                            $height = $size[1];
+                            break;
+                        case 'video':
+                            $getID3 = new getID3;
+                            $ThisFileInfo = $getID3->analyze($final_file);
+                            $getID3->CopyTagsToComments($ThisFileInfo);
+                            $width = $ThisFileInfo['video']['resolution_x'];
+                            $height = $ThisFileInfo['video']['resolution_y'];
+                            $time = $ThisFileInfo['playtime_seconds'] ?? 0;
+                            break;
+                    }
+
+                    $previousFile = $this->rewardFileModel->getLatest(['purchase_item_reward_id' => $purchaseItemId]);
+
+                    // DB 처리
+                    $this->db->transBegin();
+
+                    $data = [
+                        'purchase_item_reward_id' => $purchaseItemId,
+                        'type' => $uploadedType,
+                        'file_name' => $fileName,
+                        'relative_path' => '/' . $final_symbolic_path . '/' . $fileName,
+                        'width' => $width,
+                        'height' => $height,
+                        'mime_type' => $mime_type,
+                        'time' => $time,
+                        'path' => $final_path,
+                        'symbolic_path' => $final_symbolic_path,
+                    ];
+
+                    $this->purchaseItemRewardModel->update($purchaseItemId, ['status' => 'waiting']);
+                    $inserted_row_id = $this->rewardFileModel->insert($data);
+
+                    if (!$inserted_row_id) {
+                        $response['messages'] = $this->rewardFileModel->errors();
+                        throw new Exception();
+                    }
+
+                    if (isset($previousFile)) {
+                        $this->handleFileDelete("id = '" . $previousFile['id'] . "'");
+                    }
+
+                    $this->db->transCommit();
+
+                    $response['fileCompleted'] = true;
+                    $response['data'] = [
+                        'id' => $inserted_row_id,
+                        'mime_type' => $mime_type,
+                        'type' => $uploadedType,
+                        'relative_path' => '/' . $final_symbolic_path . '/' . $fileName,
+                        'width' => $width,
+                        'height' => $height,
+                    ];
+                }
+            } else {
+                $response['messages'] = $this->validator->getErrors();
+            }
+        } catch (Exception $e) {
+            $this->db->transRollback();
+            if (!isset($response['message'])) {
+                $response['message'] = $e->getMessage();
+            }
+            if (isset($temp_path)) {
+                $this->removeDirectory($temp_path);
+            }
+            if (isset($final_path)) {
+                $this->removeDirectory($final_path);
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
+
     /**
      * @param $id
      * @return ResponseInterface

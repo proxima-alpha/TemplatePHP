@@ -3,7 +3,6 @@
 namespace API;
 
 use App\Helpers\QueryHelper;
-use App\Helpers\ServerLogger;
 use App\Helpers\Utils;
 use CodeIgniter\HTTP\ResponseInterface;
 use Crisu83\ShortId\ShortId;
@@ -409,8 +408,7 @@ class ProjectController extends CustomFileController
                 if (isset($data['mobile_background_id'])) {
                     $queries[] = "UPDATE custom_file SET identifier = NULL WHERE id = '" . $data['mobile_background_id'] . "';";
                 }
-                ServerLogger::log($queries);
-                ServerLogger::log(BaseModel::transaction($this->db, $queries));
+                BaseModel::transaction($this->db, $queries);
                 $conditionQuery = "identifier = '" . $data['identifier'] . "'";
                 $conditionQuery .= $this->getQueryCondition('image_id', $previousData, $data);
                 $conditionQuery .= $this->getQueryCondition('background_id', $previousData, $data);

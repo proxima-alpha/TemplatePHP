@@ -196,6 +196,7 @@ return [
     "message_error_differ_password" => "두 비밀번호 입력 값이 같은지 확인해주세요.",
     "message_item_already_selected" => "이미 선택된 항목 입니다.",
     "message_item_select" => "항목을 선택해주세요.",
+    "message_file_too_big" => "파일 크기가 너무 큽니다. 100MB 이하의 파일만 업로드 가능합니다.",
 
     //email
     "email_click_link" => "혹은 {link} 를 클릭하세요.",

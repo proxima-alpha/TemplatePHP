@@ -199,6 +199,7 @@ return [
     "message_error_differ_password" => "please check two fields for password is same.",
     "message_item_already_selected" => "This item is already selected.",
     "message_item_select" => "Please select item.",
+    "message_file_too_big" => "The file size is too big. You can upload a file that is less than 100MB.",
 
     //email
     "email_click_link" => "Or click {link} to verify.",

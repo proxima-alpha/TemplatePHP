@@ -65,7 +65,6 @@ class PurchaseItemRewardModel extends BaseModel
         if (isset($limit)) {
             $query .= " LIMIT " . $limit['offset'] . ", " . $limit['value'];
         }
-        ServerLogger::log($query);
         return BaseModel::transaction($this->db, [
             [
                 "query" => $query,

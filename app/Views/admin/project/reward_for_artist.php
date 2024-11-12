@@ -2,6 +2,9 @@
 
 use App\Helpers\HtmlHelper;
 
+HtmlHelper::setTranslations([
+    'message_file_too_big',
+]);
 ?>
 <div class="container-inner">
     <div class="container-wrap">
@@ -87,8 +90,9 @@ use App\Helpers\HtmlHelper;
                                                 <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
                                                 <input hidden type="file" name="file"
                                                        id="purchase-<?= $item['id'] ?>-file"
-                                                       onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                                       onchange="onChunkRewardFileUpload(this,<?= $item['id'] ?>);"
                                                        accept="video/mp4,video/mov"/>
+                                                <p class="progress"></p>
                                                 <p><?= lang('Service.upload_file') ?></p>
                                             </div>
                                         </div>
@@ -101,8 +105,9 @@ use App\Helpers\HtmlHelper;
                                                 <label for="purchase-<?= $item['id'] ?>-file" class="button"></label>
                                                 <input hidden type="file" name="file"
                                                        id="purchase-<?= $item['id'] ?>-file"
-                                                       onchange="onRewardFileUpload(this,<?= $item['id'] ?>);"
+                                                       onchange="onChunkRewardFileUpload(this,<?= $item['id'] ?>);"
                                                        accept="video/mp4,video/mov"/>
+                                                <p class="progress"></p>
                                                 <p><?= isset($item['reward_file_id']) ? lang('Service.reupload_file') :
                                                         (lang('Service.reupload_file') . '</br>' . lang('Service.file_deleted')) ?></p>
                                             </div>
