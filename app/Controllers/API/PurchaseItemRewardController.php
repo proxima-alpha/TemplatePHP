@@ -59,9 +59,9 @@ class PurchaseItemRewardController extends BaseApiController
             try {
                 if (isset($data['id'])) unset($data['id']);
                 if (isset($data['link']) && !preg_match('/^\s*$/', $data['link'])) {
-                    $additionalQuery = " , purchase_item_reward.link = '" . $data['link'] . "', purchase_item_reward.status='confirmed'";
+                    $additionalQuery = " , purchase_item_reward.link = '" . $data['link'] . "'";
                 } else {
-                    $additionalQuery = " , purchase_item_reward.status= IF(purchase_item_reward.link IS NOT NULL AND purchase_item_reward.status='confirmed', 'waiting', purchase_item_reward.status), purchase_item_reward.link = NULL";
+                    $additionalQuery = " , purchase_item_reward.link = NULL";
                 }
                 $queries = [];
                 $queries[] =

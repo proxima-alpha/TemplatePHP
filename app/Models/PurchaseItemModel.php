@@ -159,7 +159,7 @@ class PurchaseItemModel extends BaseModel
         $query = "SELECT reward.*, project.title AS project_title, project.title_en AS project_title_en, project.title_jp AS project_title_jp, project.image_id AS image_id,
             purchase_item.id AS id, purchase_item.price, purchase_item.is_refunded,
             COUNT(purchase_item_reward.id) AS total_reward_count,
-            COUNT(CASE WHEN purchase_item_reward.status = 'confirmed' OR purchase_item_reward.status = 'received' THEN 1 ELSE NULL END) AS confirmed_reward_count FROM purchase_item" .
+            COUNT(CASE WHEN purchase_item_reward.status = 'confirmed' OR purchase_item_reward.status = 'received' OR (purchase_item_reward.link IS NOT NULL AND LENGTH(purchase_item_reward.link) > 0) THEN 1 ELSE NULL END) AS confirmed_reward_count FROM purchase_item" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
             " LEFT JOIN reward ON reward.id = purchase.reward_id" .
             " LEFT JOIN project ON project.id = reward.project_id" .

@@ -65,7 +65,7 @@ class RewardModel extends BasePriorityModel
             " LEFT JOIN purchase_item ON purchase_item.purchase_id = purchase.id" .
             " LEFT JOIN purchase_item_reward ON purchase_item_reward.purchase_item_id = purchase_item.id" .
             " LEFT JOIN reward_file ON reward_file.purchase_item_reward_id = purchase_item_reward.id" .
-            " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND (reward_file.id IS NOT NULL) AND purchase.status != 'created' AND purchase.status != 'canceled'" .
+            " WHERE purchase.reward_id = reward.id AND purchase_item.is_refunded = 0 AND (reward_file.id IS NOT NULL OR (purchase_item_reward.link IS NOT NULL AND LENGTH(purchase_item_reward.link) > 0)) AND purchase.status != 'created' AND purchase.status != 'canceled'" .
             " ) AS uploaded_count" .
             " FROM reward";
         $values = [];
