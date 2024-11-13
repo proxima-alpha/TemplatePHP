@@ -58,6 +58,10 @@ HtmlHelper::setTranslations([
                             <div class="purchase-item-wrap">
                                 <a class="button info" href="javascript:openInputPopup('<?= $item['id'] ?>')">
                                     <div class="text-wrap">
+                                        <p class="title">ID</p>
+                                        <p class="content"><?= $item['id'] ?></p>
+                                    </div>
+                                    <div class="text-wrap">
                                         <p class="title"><?= lang('Service.artist') ?></p>
                                         <p class="content"><?= HtmlHelper::getLangItem($item, 'artist_name', $lang) ?></p>
                                     </div>
@@ -82,7 +86,27 @@ HtmlHelper::setTranslations([
                                         <p class="content"><?= HtmlHelper::covertNewline($item['inquirer_comment']) ?></p>
                                     </div>
                                 </a>
-                                <?php if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
+                                <?php if (isset($item['link']) && !preg_match('/^\s*$/', $item['link'])) {
+                                    $isFullLink = str_starts_with($item['link'], 'http'); ?>
+                                    <div class="uploader uploaded">
+                                        <div class="upload-item-add">
+                                            <div
+                                                style="background: url('/asset/images/custom/google_drive.svg') rgba(255, 255, 255, 0.7) no-repeat center / 60%; font-size: 0; background-position-y: 25%;">
+                                                <p class="progress"></p>
+                                                <p><?= lang('Service.replaced_as_link') ?></p>
+                                            </div>
+                                        </div>
+
+                                        <div class="button-wrap">
+                                            <a href="<?= $isFullLink ? $item['link'] : 'https://drive.usercontent.google.com/u/0/uc?id=' . $item['link'] . '&export=download' ?>"
+                                                <?= $isFullLink ? 'target="_blank"' : '' ?>
+                                               class="button under-line download">
+                                                <img src="/asset/images/icon/download.png"/>
+                                                <span><?= lang('Service.download_file') ?></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <?php } else if ($item['status'] == 'waiting' && !isset($item['reward_file_id'])) { ?>
                                     <div class="uploader">
                                         <div class="upload-item-add button">
                                             <div
@@ -189,6 +213,11 @@ HtmlHelper::setTranslations([
         },
         getHtml: function (data) {
             let typeSet = {
+                id: {
+                    type: 'text',
+                    name: `ID`,
+                    editable: false,
+                },
                 is_mine: {
                     type: 'bool',
                     name: `<?=lang('Service.is_mine')?>`,
@@ -214,6 +243,11 @@ HtmlHelper::setTranslations([
                     name: `<?=lang('Client.reward_request')?>`,
                     editable: false,
                 },
+                link: {
+                    type: 'text',
+                    name: `<?=lang('Service.video_link')?>`,
+                    editable: true,
+                },
                 memo: {
                     type: 'long-text',
                     name: `<?=lang('Service.memo')?>`,
@@ -230,7 +264,7 @@ HtmlHelper::setTranslations([
             </div>`
             html += `
             <div class="input-wrap inline" style="position: relative;">
-                <p class="input-title"><?=lang('Service.artist')?></p>
+                <p class="input-title"><?=lang('Service.category')?></p>
                 <input type="text" name="reward_request" class="under-line" readonly value="${getLangItem(data, 'reward_request_name', language)}">
             </div>`
 

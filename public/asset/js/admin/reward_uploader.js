@@ -60,7 +60,7 @@ function onChunkRewardFileUpload(element, id) {
         return;
     }
 
-    const chunkSize = 1024 * 1024 * 4; // 4MB 청크
+    const chunkSize = 1024 * 1024 * 2; // 4MB 청크
     const totalChunks = Math.ceil(file.size / chunkSize);
     let currentChunk = 0;
     let fileObject = window.URL.createObjectURL(file);

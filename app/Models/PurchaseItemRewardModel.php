@@ -2,8 +2,6 @@
 
 namespace Models;
 
-use App\Helpers\ServerLogger;
-
 class PurchaseItemRewardModel extends BaseModel
 {
     protected $table = 'purchase_item_reward';
@@ -11,6 +9,7 @@ class PurchaseItemRewardModel extends BaseModel
         'id',
         'purchase_item_id',
         'artist_id',
+        'link',
         'status',
         'created_at',
     ];
@@ -28,7 +27,7 @@ class PurchaseItemRewardModel extends BaseModel
         $query = "SELECT purchase_item.*, code_reward_request.name AS reward_request_name, code_reward_request.name_en AS reward_request_name_en, code_reward_request.name_jp AS reward_request_name_jp,
              purchase.user_id AS user_id, user.name AS user_name,
              artist.name AS artist_name, artist.name_en AS artist_name_en, artist.name_jp AS artist_name_jp,
-             purchase_item_reward.status, purchase_item_reward.id, reward_file.id AS reward_file_id, reward_file.poster AS reward_file_poster FROM purchase_item_reward" .
+             purchase_item_reward.status, purchase_item_reward.id, purchase_item_reward.link, reward_file.id AS reward_file_id, reward_file.poster AS reward_file_poster FROM purchase_item_reward" .
             " LEFT JOIN artist ON artist.id = purchase_item_reward.artist_id" .
             " LEFT JOIN purchase_item ON purchase_item.id = purchase_item_reward.purchase_item_id" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .
@@ -118,7 +117,7 @@ class PurchaseItemRewardModel extends BaseModel
     public function getRewards($condition = null, $limit = null, $order = 'DESC'): array
     {
         $query = "SELECT artist.*, purchase_item_reward.status AS status, reward_file.id AS reward_file_id,
-            purchase.user_id AS user_id, purchase_item_reward.id AS id
+            purchase.user_id AS user_id, purchase_item_reward.id AS id, purchase_item_reward.link AS link
             FROM purchase_item_reward" .
             " LEFT JOIN purchase_item ON purchase_item.id = purchase_item_reward.purchase_item_id" .
             " LEFT JOIN purchase ON purchase.id = purchase_item.purchase_id" .

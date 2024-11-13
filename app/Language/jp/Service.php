@@ -145,9 +145,9 @@ return [
     "is_mine" => "本人のための映像",
     "is_agreed" => "映像公開同意",
     "memo" => "メモ",
-    "upload_file" => "ファイルアップロード",
-    "reupload_file" => "ファイル再アップロード",
-    "download_file" => "ファイル·ダウンロード",
+    "upload_file" => "アップロード",
+    "reupload_file" => "再アップロード",
+    "download_file" => "ダウンロード",
     "file_deleted" => "(削除されました)",
     "delete_file" => "ファイル削除",
     "reward_confirm" => "リワード確定",
@@ -179,6 +179,8 @@ return [
 
     "respond" => "応答する",
     "lang" => "言語",
+    "video_link" => "ビデオリンク",
+    "replaced_as_link" => "リンク",
 
     //messages
     "message_membership_agreement" => "個人情報取扱方針に同意",

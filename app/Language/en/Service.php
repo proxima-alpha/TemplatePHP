@@ -179,6 +179,8 @@ return [
 
     "respond" => "Respond",
     "lang" => "Language",
+    "video_link" => "Video Link",
+    "replaced_as_link" => "Replaced as Link",
 
     //messages
     "message_membership_agreement" => "Agree to the privacy policy",

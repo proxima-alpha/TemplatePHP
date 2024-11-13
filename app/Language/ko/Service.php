@@ -176,6 +176,8 @@ return [
 
     "respond" => "응답하기",
     "lang" => "언어",
+    "video_link" => "비디오 링크",
+    "replaced_as_link" => "링크로 대체됨",
 
     //messages
     "message_membership_agreement" => "개인 정보 취급 방침에 동의",

@@ -64,7 +64,14 @@ use App\Helpers\HtmlHelper;
                         <div class="text-wrap">
                             <p><?= HtmlHelper::getLangItem($item, 'name', $lang) ?></p>
                         </div>
-                        <?php if ($item['status'] == 'waiting' || ($item['reward_file_id'])) { ?>
+                        <?php if ($item['status'] == 'confirmed' && isset($item['link']) && !preg_match('/^\s*$/', $item['link'])) {
+                            $isFullLink = str_starts_with($item['link'], 'http'); ?>
+                            <a class="button button-fill"
+                               href="<?= $isFullLink ? $item['link'] : 'https://drive.usercontent.google.com/u/0/uc?id=' . $item['link'] . '&export=download' ?>"
+                                <?= $isFullLink ? 'target="_blank"' : '' ?> >
+                                <?= lang('Client.status_confirmed') ?>
+                            </a>
+                        <?php } else if ($item['status'] == 'waiting' || ($item['reward_file_id'])) { ?>
                             <a class="button button-fill <?= $item['status'] == 'waiting' ? 'disabled' : '' ?>"
                                href="/reward-file/<?= $item['reward_file_id'] ?>/download"><?= lang('Client.status_' . $item['status']) ?>
                             </a>

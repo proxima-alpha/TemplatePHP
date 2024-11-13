@@ -58,11 +58,17 @@ class PurchaseItemRewardController extends BaseApiController
         } else {
             try {
                 if (isset($data['id'])) unset($data['id']);
+                if (isset($data['link']) && !preg_match('/^\s*$/', $data['link'])) {
+                    $additionalQuery = " , purchase_item_reward.link = '" . $data['link'] . "', purchase_item_reward.status='confirmed'";
+                } else {
+                    $additionalQuery = " , purchase_item_reward.status= IF(purchase_item_reward.link IS NOT NULL AND purchase_item_reward.status='confirmed', 'waiting', purchase_item_reward.status), purchase_item_reward.link = NULL";
+                }
                 $queries = [];
                 $queries[] =
                     "UPDATE purchase_item
                         LEFT JOIN purchase_item_reward ON purchase_item_reward.purchase_item_id = purchase_item.id
-                        SET purchase_item.memo = '" . $data['memo'] . "'  WHERE purchase_item_reward.id = '" . $id . "';";
+                        SET purchase_item.memo = '" . $data['memo'] . "'" .
+                    $additionalQuery . " WHERE purchase_item_reward.id = '" . $id . "';";
                 BaseModel::transaction($this->db, $queries);
                 $response['success'] = true;
             } catch (Exception $e) {
